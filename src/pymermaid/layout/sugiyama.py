@@ -440,6 +440,76 @@ def _offset_back_edge_dummies(
 
 
 # ---------------------------------------------------------------------------
+# Step 4c: Align parent-child chains
+# ---------------------------------------------------------------------------
+
+
+def _align_parent_child_chains(
+    positions: dict[str, tuple[float, float]],
+    node_sizes: dict[str, tuple[float, float]],
+    layer_lists: list[list[str]],
+    edges: list[tuple[str, str, int]],
+    dummy_info: dict[str, tuple[str, str, int]],
+) -> dict[str, tuple[float, float]]:
+    """Align nodes that are in a direct parent-child chain to share center-x.
+
+    When a node has exactly one real (non-dummy) parent in the previous layer
+    AND that parent has exactly one real child in this layer, align the child's
+    center-x to the parent's center-x.
+
+    This prevents unnecessary horizontal shifts for nodes in a linear chain.
+    """
+    positions = dict(positions)
+
+    # Build real node sets (excluding dummies)
+    real_nodes = {n for n in positions if n not in dummy_info}
+
+    # Build adjacency among real nodes (using original edges, ignoring dummies)
+    real_succ: dict[str, list[str]] = defaultdict(list)
+    real_pred: dict[str, list[str]] = defaultdict(list)
+    for s, t, _ in edges:
+        if s in real_nodes and t in real_nodes:
+            real_succ[s].append(t)
+            real_pred[t].append(s)
+
+    # Build layer index for each real node
+    node_layer: dict[str, int] = {}
+    for li, layer_nodes in enumerate(layer_lists):
+        for n in layer_nodes:
+            if n in real_nodes:
+                node_layer[n] = li
+
+    # For each layer (top to bottom), check each real node: if it has
+    # exactly one real parent in the previous layer and that parent has
+    # exactly one real child in this layer, align them.
+    for li in range(1, len(layer_lists)):
+        for node in layer_lists[li]:
+            if node not in real_nodes:
+                continue
+
+            # Get real predecessors from the previous layer
+            preds = [p for p in real_pred.get(node, [])
+                     if node_layer.get(p) == li - 1]
+            if len(preds) != 1:
+                continue
+
+            parent = preds[0]
+            # Check that parent has exactly one real child in this layer
+            children_in_layer = [c for c in real_succ.get(parent, [])
+                                 if node_layer.get(c) == li]
+            if len(children_in_layer) != 1:
+                continue
+
+            # Align: set child's center-x to parent's center-x
+            parent_cx = positions[parent][0]
+            child_cx, child_cy = positions[node]
+            if abs(parent_cx - child_cx) > 1.0:
+                positions[node] = (parent_cx, child_cy)
+
+    return positions
+
+
+# ---------------------------------------------------------------------------
 # Step 5: Edge routing
 # ---------------------------------------------------------------------------
 
@@ -663,6 +733,25 @@ def _route_edges(
 
     results: list[EdgeLayout] = []
 
+    # Pre-compute back-edge fan-out offsets: when multiple back-edges
+    # target the same node, spread their attachment x-coordinates.
+    _BACK_EDGE_FAN_SPACING = 12.0  # px between adjacent attachment points
+    back_edge_target_groups: dict[str, list[int]] = defaultdict(list)
+    for idx in edge_chains:
+        if idx in reversed_indices:
+            orig_s, orig_t = ir_edges[idx]
+            back_edge_target_groups[orig_t].append(idx)
+    # Sort each group for deterministic ordering
+    back_edge_fan_offset: dict[int, float] = {}
+    for tgt, indices in back_edge_target_groups.items():
+        indices.sort()
+        n = len(indices)
+        if n <= 1:
+            continue
+        for rank, idx in enumerate(indices):
+            # Center the fan around 0: offsets are -span/2 ... +span/2
+            back_edge_fan_offset[idx] = (rank - (n - 1) / 2.0) * _BACK_EDGE_FAN_SPACING
+
     # Route normal edges
     processed: set[int] = set()
     for idx, chain in edge_chains.items():
@@ -717,6 +806,15 @@ def _route_edges(
         if idx in reversed_indices:
             # The edge was reversed for acyclicity; reverse the points back
             points = list(reversed(points))
+
+        # Apply back-edge fan-out: shift the target attachment point's
+        # x-coordinate so multiple back-edges to the same node don't
+        # all land at the same spot.
+        if idx in back_edge_fan_offset:
+            dx = back_edge_fan_offset[idx]
+            if points:
+                last = points[-1]
+                points[-1] = Point(last.x + dx, last.y)
 
         results.append(EdgeLayout(points=points, source=orig_s, target=orig_t))
 
@@ -1222,15 +1320,15 @@ def layout_diagram(
             h = th + _NODE_PADDING_V
             node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
         elif shape in (NodeShape.parallelogram, NodeShape.parallelogram_alt):
-            # Parallelogram: 15% skew on each side eats 30% of width.
-            # Effective text width = w * 0.7, so w = tw / 0.7 + padding.
-            w = tw / 0.7 + _NODE_PADDING_H
+            # Parallelogram: 10% skew on each side eats 20% of width.
+            # Effective text width = w * 0.8, so w = tw / 0.8 + padding.
+            w = tw / 0.8 + _NODE_PADDING_H
             h = th + _NODE_PADDING_V
             node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
         elif shape in (NodeShape.trapezoid, NodeShape.trapezoid_alt):
-            # Trapezoid: 15% inset on the narrow side eats 30% of width.
-            # Effective text width = w * 0.7, so w = tw / 0.7 + padding.
-            w = tw / 0.7 + _NODE_PADDING_H
+            # Trapezoid: 10% inset on the narrow side eats 20% of width.
+            # Effective text width = w * 0.8, so w = tw / 0.8 + padding.
+            w = tw / 0.8 + _NODE_PADDING_H
             h = th + _NODE_PADDING_V
             node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
         elif shape == NodeShape.asymmetric:
@@ -1334,6 +1432,13 @@ def layout_diagram(
                 positions, all_node_sizes, layer_lists,
                 dummy_info, reversed_indices,
             )
+
+        # Step 4c: Align parent-child chains so direct parent-child
+        # nodes share center-x (prevents unnecessary horizontal shifts).
+        positions = _align_parent_child_chains(
+            positions, all_node_sizes, layer_lists,
+            acyclic_edges, dummy_info,
+        )
 
         # Compute component bounding box
         min_x = float("inf")

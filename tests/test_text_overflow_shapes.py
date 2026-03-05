@@ -154,20 +154,20 @@ class TestCircleSizing:
 # ---------------------------------------------------------------------------
 
 class TestParallelogramTextContainment:
-    """Parallelogram: 15% skew reduces usable width to 70%."""
+    """Parallelogram: 10% skew reduces usable width to 80%."""
 
     def test_text_fits(self):
         label = "Input user credentials"
         w, h = _layout_single_node(label, NodeShape.parallelogram)
         tw = _line_width(label, _DEFAULT_FONT_SIZE)
-        # Usable width is w * 0.7 (after skew)
-        assert w * 0.7 > tw, f"Parallelogram too narrow: usable {w*0.7} < text {tw}"
+        # Usable width is w * 0.8 (after 10% skew on each side)
+        assert w * 0.8 > tw, f"Parallelogram too narrow: usable {w*0.8} < text {tw}"
 
     def test_parallelogram_alt(self):
         label = "Output results"
         w, h = _layout_single_node(label, NodeShape.parallelogram_alt)
         tw = _line_width(label, _DEFAULT_FONT_SIZE)
-        assert w * 0.7 > tw
+        assert w * 0.8 > tw
 
     def test_wider_than_rect(self):
         label = "Test label"
@@ -181,19 +181,19 @@ class TestParallelogramTextContainment:
 # ---------------------------------------------------------------------------
 
 class TestTrapezoidTextContainment:
-    """Trapezoid: 15% inset on narrow side reduces usable width to 70%."""
+    """Trapezoid: 10% inset on narrow side reduces usable width to 80%."""
 
     def test_text_fits(self):
         label = "Manual step"
         w, h = _layout_single_node(label, NodeShape.trapezoid)
         tw = _line_width(label, _DEFAULT_FONT_SIZE)
-        assert w * 0.7 > tw, f"Trapezoid too narrow: usable {w*0.7} < text {tw}"
+        assert w * 0.8 > tw, f"Trapezoid too narrow: usable {w*0.8} < text {tw}"
 
     def test_trapezoid_alt(self):
         label = "Review output"
         w, h = _layout_single_node(label, NodeShape.trapezoid_alt)
         tw = _line_width(label, _DEFAULT_FONT_SIZE)
-        assert w * 0.7 > tw
+        assert w * 0.8 > tw
 
     def test_wider_than_rect(self):
         label = "Test label"

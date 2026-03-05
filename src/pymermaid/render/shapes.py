@@ -321,7 +321,7 @@ class HexagonRenderer:
 class ParallelogramRenderer:
     """Parallelogram -- skewed right."""
 
-    _SKEW = 0.15  # fraction of width
+    _SKEW = 0.10  # fraction of width
 
     def _vertices(self, x: float, y: float, w: float, h: float) -> list[Point]:
         s = w * self._SKEW
@@ -348,7 +348,7 @@ class ParallelogramRenderer:
 class ParallelogramAltRenderer:
     """Parallelogram alt -- skewed opposite direction."""
 
-    _SKEW = 0.15
+    _SKEW = 0.10
 
     def _vertices(self, x: float, y: float, w: float, h: float) -> list[Point]:
         s = w * self._SKEW
@@ -375,7 +375,7 @@ class ParallelogramAltRenderer:
 class TrapezoidRenderer:
     """Trapezoid -- wider at the bottom."""
 
-    _INSET = 0.15
+    _INSET = 0.10
 
     def _vertices(self, x: float, y: float, w: float, h: float) -> list[Point]:
         s = w * self._INSET
@@ -402,7 +402,7 @@ class TrapezoidRenderer:
 class TrapezoidAltRenderer:
     """Trapezoid alt -- wider at the top."""
 
-    _INSET = 0.15
+    _INSET = 0.10
 
     def _vertices(self, x: float, y: float, w: float, h: float) -> list[Point]:
         s = w * self._INSET

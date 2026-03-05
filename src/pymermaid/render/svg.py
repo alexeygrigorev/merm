@@ -472,13 +472,22 @@ def render_svg(
     for sg in diagram.subgraphs:
         _render_subgraph_recursive(svg, sg, sg_layouts, layout.nodes, theme)
 
-    # Resolve label positions to avoid overlapping labels.
+    # Resolve label positions to avoid overlapping labels and back-edge paths.
     labeled_edges: list[tuple[EdgeLayout, Edge]] = []
+    # Identify back-edges as obstacle paths for label positioning.
+    # Back-edges go "upward" in TB layout (last point y < first point y)
+    # and have intermediate waypoints.
+    obstacle_edges: list[EdgeLayout] = []
     for el in layout.edges:
         ir_edge = edge_lookup.get((el.source, el.target))
         if ir_edge is not None and ir_edge.label:
             labeled_edges.append((el, ir_edge))
-    label_positions = resolve_label_positions(labeled_edges)
+        # Detect back-edges: they go upward (or have > 4 points indicating
+        # they route through dummies) and their last point y < first point y.
+        if len(el.points) >= 3:
+            if el.points[-1].y < el.points[0].y:
+                obstacle_edges.append(el)
+    label_positions = resolve_label_positions(labeled_edges, obstacle_edges)
 
     # Render edges
     for el in layout.edges:

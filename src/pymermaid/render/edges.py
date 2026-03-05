@@ -263,14 +263,30 @@ def _rects_overlap(
     )
 
 
+def _edge_path_bbox(el: EdgeLayout) -> tuple[float, float, float, float]:
+    """Compute an axis-aligned bounding box (x, y, w, h) for an edge's path."""
+    if not el.points:
+        return (0.0, 0.0, 0.0, 0.0)
+    xs = [p.x for p in el.points]
+    ys = [p.y for p in el.points]
+    min_x, max_x = min(xs), max(xs)
+    min_y, max_y = min(ys), max(ys)
+    return (min_x, min_y, max_x - min_x, max_y - min_y)
+
+
 def resolve_label_positions(
     labeled_edges: list[tuple[EdgeLayout, Edge]],
+    obstacle_edges: list[EdgeLayout] | None = None,
 ) -> dict[tuple[str, str], tuple[float, float]]:
     """Compute adjusted label positions so no two label bounding boxes overlap.
+
+    Also avoids overlapping with obstacle edge paths (e.g. back-edges).
 
     Args:
         labeled_edges: List of ``(edge_layout, ir_edge)`` pairs for edges
             that have labels.
+        obstacle_edges: Optional list of edge layouts whose paths should be
+            avoided by labels (e.g. back-edges).
 
     Returns:
         A dict mapping ``(source, target)`` to the adjusted ``(cx, cy)``
@@ -293,12 +309,33 @@ def resolve_label_positions(
     positions: list[list[float]] = [[e[2], e[3]] for e in entries]
     labels = [e[1] for e in entries]
 
+    # Pre-compute obstacle bounding boxes.
+    obstacle_bboxes: list[tuple[float, float, float, float]] = []
+    if obstacle_edges:
+        for oel in obstacle_edges:
+            bbox = _edge_path_bbox(oel)
+            if bbox[2] > 0 or bbox[3] > 0:
+                obstacle_bboxes.append(bbox)
+
     # Iterative nudging -- run up to 20 passes to resolve overlaps.
     gap = 6.0
     for _ in range(20):
         changed = False
         for i in range(len(entries)):
             bbox_i = _label_bbox(labels[i], positions[i][0], positions[i][1])
+
+            # Check against obstacle edges (back-edge paths).
+            for obs_bb in obstacle_bboxes:
+                if _rects_overlap(bbox_i, obs_bb):
+                    # Push label left so it clears the obstacle.
+                    label_right = bbox_i[0] + bbox_i[2]
+                    shift = label_right - obs_bb[0] + gap
+                    positions[i][0] -= shift
+                    changed = True
+                    bbox_i = _label_bbox(
+                        labels[i], positions[i][0], positions[i][1],
+                    )
+
             for j in range(i + 1, len(entries)):
                 bbox_j = _label_bbox(
                     labels[j], positions[j][0], positions[j][1],

@@ -87,28 +87,51 @@ For any task that changes rendering or SVG output:
 - Empty nodes (text missing)
 - Overlapping text lines
 
-## Task Panel Workflow
+## Task List (Claude Code Task Panel)
 
-Tasks are tracked both as files in `tasks/` and in the Claude Code task panel:
+The orchestrator MUST use the Claude Code **task list** (task panel) to track every step of the pipeline. This provides visibility into what's happening and what's next.
 
-| Panel Tag | Agent | When | What happens |
-|-----------|-------|------|-------------|
-| `[PM groom]` | Product Manager | BEFORE implementation | Adds acceptance criteria, PNG verification checklist, test scenarios. Renames .todo → .groomed |
-| `[SWE]` | Software Engineer | After grooming | Implements code + tests. Renames .groomed → .in-progress |
-| `[QA]` | Tester | After implementation | Verifies acceptance criteria, renders to PNG and visually inspects. Pass/Fail |
-| `[PM accept]` | Product Manager | AFTER QA passes | Final review. Renders PNGs independently. Accept → .done + commit. Reject → back to SWE to finish |
+### Setting Up a Batch
 
-Pipeline per feature:
+When starting work on a batch of tasks, create task list items for the full pipeline:
+
+1. `PM groom tasks N+M` — grooming step
+2. `SWE implement tasks N+M (TDD)` — engineering step
+3. `QA verify tasks N+M` — testing step
+4. `PM accept tasks N+M → commit` — acceptance + commit step
+5. `Pull next 2 tasks from backlog` — pick up more work
+
+Set up **blockedBy** dependencies so each step waits for the previous one. Mark each item `in_progress` when starting it and `completed` when done.
+
+### Pipeline Per Batch
 
 ```
-[PM groom] → [SWE] Implement → [QA] Test → [PM accept] → Commit
+[PM groom] → [SWE] Implement → [QA] Test → [PM accept] → Commit → [Pull next 2]
                   ↑                              |
                   └──── Reject (back to SWE) ────┘
 ```
 
+### Task Panel Tags
+
+| Panel Tag | Agent | When | What happens |
+|-----------|-------|------|-------------|
+| `[PM groom]` | Product Manager | BEFORE implementation | Adds acceptance criteria, PNG verification checklist, test scenarios. Renames .todo → .groomed |
+| `[SWE]` | Software Engineer | After grooming | Implements code + tests (TDD: failing test first). Renames .groomed → .in-progress |
+| `[QA]` | Tester | After implementation | Verifies acceptance criteria, renders to PNG and visually inspects. Pass/Fail |
+| `[PM accept]` | Product Manager | AFTER QA passes | Final review. Renders PNGs independently. Accept → .done + commit. Reject → back to SWE to finish |
+| `[Pull next]` | Orchestrator | AFTER commit | Check tasks/ for remaining .todo/.groomed files. Pick 2 lowest-numbered, create new batch in task list, repeat |
+
 **PM has two distinct roles:**
 1. **Before** engineering: groom the task (define what "done" looks like)
 2. **After** QA: accept or reject (verify it actually looks right). Reject sends it back to engineer for finishing, NOT back to grooming.
+
+### Pull Next Work
+
+The last item in every batch is always **"Pull next 2 tasks from backlog"**. This ensures work continues automatically:
+1. Check `tasks/` for `.todo.md` or `.groomed.md` files
+2. Pick the 2 lowest-numbered groomed tasks (groom first if only .todo.md)
+3. Create a new batch of task list items with dependencies
+4. Start the pipeline again
 
 ## Conventions
 
