@@ -1,7 +1,5 @@
 """Tests for the text measurement engine."""
 
-from __future__ import annotations
-
 import time
 
 import pytest
@@ -9,7 +7,6 @@ import pytest
 from pymermaid.measure import TextMeasurer, measure_text
 
 # ---------- Heuristic single-line measurement ----------
-
 
 class TestHeuristicSingleLine:
     def test_normal_ascii_letters(self):
@@ -57,9 +54,7 @@ class TestHeuristicSingleLine:
         w, _ = m.measure(" ")
         assert w == pytest.approx(10 * 0.6)
 
-
 # ---------- Multi-line measurement ----------
-
 
 class TestMultiLine:
     def test_newline_split(self):
@@ -91,9 +86,7 @@ class TestMultiLine:
         w, _ = m.measure("abcd\nab")
         assert w == pytest.approx(10 * 0.6 * 4)
 
-
 # ---------- Markdown stripping ----------
-
 
 class TestMarkdownStripping:
     def test_bold_double_star(self):
@@ -138,9 +131,7 @@ class TestMarkdownStripping:
         w_md, _ = m.measure("hello **world**")
         assert w_md == pytest.approx(w_plain)
 
-
 # ---------- CJK text ----------
-
 
 class TestCJK:
     def test_single_cjk_char(self):
@@ -153,9 +144,7 @@ class TestCJK:
         w, _ = m.measure("\u4e2d\u6587\u5b57")
         assert w == pytest.approx(42.0)
 
-
 # ---------- Edge cases ----------
-
 
 class TestEdgeCases:
     def test_empty_string(self):
@@ -182,9 +171,7 @@ class TestEdgeCases:
         w, _ = m.measure("****")
         assert w == pytest.approx(0.0)
 
-
 # ---------- Node text measurement with padding ----------
-
 
 class TestNodeTextMeasurement:
     def test_default_padding(self):
@@ -201,9 +188,7 @@ class TestNodeTextMeasurement:
         assert w_node == pytest.approx(w_text + 40)
         assert h_node == pytest.approx(h_text + 20)
 
-
 # ---------- Convenience function ----------
-
 
 class TestConvenienceFunction:
     def test_same_as_measurer(self):
@@ -212,9 +197,7 @@ class TestConvenienceFunction:
         assert result_fn[0] == pytest.approx(result_cls[0])
         assert result_fn[1] == pytest.approx(result_cls[1])
 
-
 # ---------- Font-based mode (conditional) ----------
-
 
 class TestFontMode:
     def test_font_mode_import(self):
@@ -230,9 +213,7 @@ class TestFontMode:
             with pytest.raises(ImportError, match="fonttools"):
                 TextMeasurer(mode="font")
 
-
 # ---------- Performance ----------
-
 
 class TestPerformance:
     def test_heuristic_performance(self):

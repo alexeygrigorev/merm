@@ -12,8 +12,6 @@ To regenerate reference SVGs from fixtures, run:
     done
 """
 
-from __future__ import annotations
-
 import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
@@ -25,7 +23,6 @@ NS = {
     "svg": SVG_NS,
     "xhtml": XHTML_NS,
 }
-
 
 @dataclass
 class BBox:
@@ -52,7 +49,7 @@ class BBox:
     def center_y(self) -> float:
         return self.y + self.height / 2
 
-    def overlaps(self, other: BBox, tolerance: float = 1.0) -> bool:
+    def overlaps(self, other: "BBox", tolerance: float = 1.0) -> bool:
         """Check if this bbox overlaps another, with tolerance for shared edges."""
         return (
             self.x < other.right - tolerance
@@ -61,7 +58,7 @@ class BBox:
             and self.bottom > other.y + tolerance
         )
 
-    def contains(self, other: BBox, tolerance: float = 1.0) -> bool:
+    def contains(self, other: "BBox", tolerance: float = 1.0) -> bool:
         """Check if this bbox fully contains another."""
         return (
             self.x <= other.x + tolerance
@@ -70,14 +67,12 @@ class BBox:
             and self.bottom >= other.bottom - tolerance
         )
 
-
 @dataclass
 class NodeInfo:
     """Extracted information about a node in the SVG."""
 
     node_id: str
     labels: list[str] = field(default_factory=list)
-
 
 @dataclass
 class EdgeInfo:
@@ -86,7 +81,6 @@ class EdgeInfo:
     edge_id: str
     labels: list[str] = field(default_factory=list)
 
-
 @dataclass
 class SVGStructure:
     """Parsed structural data from an SVG."""
@@ -94,7 +88,6 @@ class SVGStructure:
     nodes: list[NodeInfo] = field(default_factory=list)
     edges: list[EdgeInfo] = field(default_factory=list)
     labels: list[str] = field(default_factory=list)
-
 
 @dataclass
 class SVGDiff:
@@ -129,7 +122,6 @@ class SVGDiff:
             return "Identical"
         return "; ".join(parts)
 
-
 def _parse_svg_tree(svg_text: str) -> ET.Element:
     """Parse SVG text into an ElementTree element, handling namespaces."""
     # Register namespaces to avoid ns0/ns1 prefixes in output
@@ -137,7 +129,6 @@ def _parse_svg_tree(svg_text: str) -> ET.Element:
     ET.register_namespace("xlink", "http://www.w3.org/1999/xlink")
     ET.register_namespace("xhtml", XHTML_NS)
     return ET.fromstring(svg_text)
-
 
 def _extract_text_content(element: ET.Element) -> str:
     """Recursively extract all text content from an element."""
@@ -150,7 +141,6 @@ def _extract_text_content(element: ET.Element) -> str:
         texts.append(element.tail.strip())
     return " ".join(t for t in texts if t)
 
-
 def _find_all_recursive(root: ET.Element, match_fn) -> list[ET.Element]:
     """Find all elements matching a predicate, recursively."""
     results = []
@@ -160,12 +150,10 @@ def _find_all_recursive(root: ET.Element, match_fn) -> list[ET.Element]:
         results.extend(_find_all_recursive(child, match_fn))
     return results
 
-
 def _has_class(element: ET.Element, class_name: str) -> bool:
     """Check if an element has a specific CSS class."""
     classes = element.get("class", "").split()
     return class_name in classes
-
 
 def parse_svg_nodes(svg_text: str) -> list[NodeInfo]:
     """Extract node information from an SVG.
@@ -219,7 +207,6 @@ def parse_svg_nodes(svg_text: str) -> list[NodeInfo]:
 
     return nodes
 
-
 def parse_svg_edges(svg_text: str) -> list[EdgeInfo]:
     """Extract edge information from an SVG.
 
@@ -271,7 +258,6 @@ def parse_svg_edges(svg_text: str) -> list[EdgeInfo]:
 
     return edges
 
-
 def parse_svg_labels(svg_text: str) -> list[str]:
     """Extract all label text from an SVG.
 
@@ -298,7 +284,6 @@ def parse_svg_labels(svg_text: str) -> list[str]:
 
     return labels
 
-
 def parse_svg_structure(svg_text: str) -> SVGStructure:
     """Parse full structural information from an SVG.
 
@@ -313,7 +298,6 @@ def parse_svg_structure(svg_text: str) -> SVGStructure:
         edges=parse_svg_edges(svg_text),
         labels=parse_svg_labels(svg_text),
     )
-
 
 def structural_compare(our_svg: str, reference_svg: str) -> SVGDiff:
     """Compare structural elements of two SVGs.
@@ -354,11 +338,9 @@ def structural_compare(our_svg: str, reference_svg: str) -> SVGDiff:
         identical=identical,
     )
 
-
 # ---------------------------------------------------------------------------
 # pymermaid-native SVG parsing
 # ---------------------------------------------------------------------------
-
 
 @dataclass
 class PymermaidNodeInfo:
@@ -368,7 +350,6 @@ class PymermaidNodeInfo:
     labels: list[str] = field(default_factory=list)
     bbox: BBox | None = None
 
-
 @dataclass
 class PymermaidEdgeInfo:
     """Edge extracted from pymermaid SVG using data-edge-source/target."""
@@ -377,7 +358,6 @@ class PymermaidEdgeInfo:
     target: str
     labels: list[str] = field(default_factory=list)
 
-
 @dataclass
 class PymermaidSubgraphInfo:
     """Subgraph extracted from pymermaid SVG using data-subgraph-id."""
@@ -385,7 +365,6 @@ class PymermaidSubgraphInfo:
     subgraph_id: str
     title: str | None = None
     bbox: BBox | None = None
-
 
 def _parse_bbox_from_rect(group: ET.Element) -> BBox | None:
     """Extract bounding box from the first rect element in a group."""
@@ -405,7 +384,6 @@ def _parse_bbox_from_rect(group: ET.Element) -> BBox | None:
     except (ValueError, TypeError):
         return None
 
-
 def _parse_bbox_from_circle(group: ET.Element) -> BBox | None:
     """Extract bounding box from the first circle element in a group."""
     circles = _find_all_recursive(
@@ -422,7 +400,6 @@ def _parse_bbox_from_circle(group: ET.Element) -> BBox | None:
         return BBox(cx - r, cy - r, 2 * r, 2 * r)
     except (ValueError, TypeError):
         return None
-
 
 def _parse_bbox_from_polygon(group: ET.Element) -> BBox | None:
     """Extract bounding box from the first polygon element in a group."""
@@ -452,7 +429,6 @@ def _parse_bbox_from_polygon(group: ET.Element) -> BBox | None:
     except (ValueError, TypeError):
         return None
 
-
 def _parse_node_bbox(group: ET.Element) -> BBox | None:
     """Extract bounding box from a node group (rect, circle, or polygon)."""
     bbox = _parse_bbox_from_rect(group)
@@ -462,7 +438,6 @@ def _parse_node_bbox(group: ET.Element) -> BBox | None:
     if bbox is not None:
         return bbox
     return _parse_bbox_from_polygon(group)
-
 
 def parse_pymermaid_svg_nodes(svg_text: str) -> list[PymermaidNodeInfo]:
     """Parse nodes from pymermaid SVG format.
@@ -500,7 +475,6 @@ def parse_pymermaid_svg_nodes(svg_text: str) -> list[PymermaidNodeInfo]:
 
     return nodes
 
-
 def parse_pymermaid_svg_edges(svg_text: str) -> list[PymermaidEdgeInfo]:
     """Parse edges from pymermaid SVG format.
 
@@ -535,7 +509,6 @@ def parse_pymermaid_svg_edges(svg_text: str) -> list[PymermaidEdgeInfo]:
         edges.append(PymermaidEdgeInfo(source=source, target=target, labels=labels))
 
     return edges
-
 
 def parse_pymermaid_svg_subgraphs(svg_text: str) -> list[PymermaidSubgraphInfo]:
     """Parse subgraphs from pymermaid SVG format.
@@ -575,11 +548,9 @@ def parse_pymermaid_svg_subgraphs(svg_text: str) -> list[PymermaidSubgraphInfo]:
 
     return subgraphs
 
-
 # ---------------------------------------------------------------------------
 # Layout quality checks
 # ---------------------------------------------------------------------------
-
 
 def check_no_overlaps(svg_text: str) -> list[tuple[str, str]]:
     """Check that no two node bounding boxes overlap.
@@ -595,7 +566,6 @@ def check_no_overlaps(svg_text: str) -> list[tuple[str, str]]:
             if nodes[i].bbox.overlaps(nodes[j].bbox):
                 overlaps.append((nodes[i].node_id, nodes[j].node_id))
     return overlaps
-
 
 def check_directionality(svg_text: str, direction: str) -> list[str]:
     """Check that edges flow in the expected direction.
@@ -656,7 +626,6 @@ def check_directionality(svg_text: str, direction: str) -> list[str]:
 
     return violations
 
-
 def check_subgraph_containment(svg_text: str) -> list[str]:
     """Check that subgraph rects contain their child nodes.
 
@@ -690,7 +659,6 @@ def check_subgraph_containment(svg_text: str) -> list[str]:
                     )
 
     return violations
-
 
 def _extract_direction_from_mmd(mmd_text: str) -> str | None:
     """Extract the graph direction from mermaid source text."""

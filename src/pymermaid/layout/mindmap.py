@@ -1,7 +1,5 @@
 """Radial tree layout for mindmap diagrams."""
 
-from __future__ import annotations
-
 import math
 from dataclasses import dataclass
 
@@ -18,7 +16,6 @@ class MindmapNodeLayout:
     width: float
     height: float
 
-
 @dataclass(frozen=True)
 class MindmapLayoutResult:
     """Complete layout output for a mindmap."""
@@ -27,13 +24,11 @@ class MindmapLayoutResult:
     width: float
     height: float
 
-
 def _subtree_weight(node: MindmapNode) -> int:
     """Count total nodes in a subtree (including the node itself)."""
     if not node.children:
         return 1
     return 1 + sum(_subtree_weight(c) for c in node.children)
-
 
 def _measure_node(node: MindmapNode, measure_fn: MeasureFn) -> tuple[float, float]:
     """Measure a node's dimensions based on its label and shape."""
@@ -46,7 +41,6 @@ def _measure_node(node: MindmapNode, measure_fn: MeasureFn) -> tuple[float, floa
     w = max(w, 60.0)
     h = max(h, 36.0)
     return w, h
-
 
 def layout_mindmap(
     diagram: MindmapDiagram,
@@ -159,6 +153,5 @@ def layout_mindmap(
 
     # Fallback for empty
     return MindmapLayoutResult(nodes=positions, width=200, height=200)
-
 
 __all__ = ["MindmapLayoutResult", "MindmapNodeLayout", "layout_mindmap"]

@@ -9,8 +9,6 @@ Renders ERDiagram IR into SVG, including:
 - Relationship labels centered on lines
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir.erdiag import (
@@ -42,7 +40,6 @@ _SMALL_FONT_SIZE = 12.0
 _MIN_BOX_WIDTH = 100.0
 _MIN_BOX_HEIGHT = 50.0
 
-
 # ---------------------------------------------------------------------------
 # Entity box size measurement
 # ---------------------------------------------------------------------------
@@ -73,14 +70,12 @@ def measure_er_entity_box(entity: EREntity) -> tuple[float, float]:
 
     return total_w, total_h
 
-
 def _attr_display(attr: ERAttribute) -> str:
     """Build display string for an attribute."""
     base = f"{attr.type_str} {attr.name}"
     if attr.key != ERAttributeKey.NONE:
         base += f" {attr.key.value}"
     return base
-
 
 # ---------------------------------------------------------------------------
 # Marker definitions for cardinality notation
@@ -99,7 +94,6 @@ def _make_er_defs(
     _marker_one_or_more(defs, "er-one-or-more", edge_stroke)
     # Zero or more: crow's foot + circle
     _marker_zero_or_more(defs, "er-zero-or-more", edge_stroke)
-
 
 def _marker_exactly_one(
     parent: ET.Element, marker_id: str, stroke: str,
@@ -122,7 +116,6 @@ def _marker_exactly_one(
     line.set("y2", "10")
     line.set("stroke", stroke)
     line.set("stroke-width", "1.5")
-
 
 def _marker_zero_or_one(
     parent: ET.Element, marker_id: str, stroke: str,
@@ -154,7 +147,6 @@ def _marker_zero_or_one(
     line.set("stroke", stroke)
     line.set("stroke-width", "1.5")
 
-
 def _marker_one_or_more(
     parent: ET.Element, marker_id: str, stroke: str,
 ) -> None:
@@ -182,7 +174,6 @@ def _marker_one_or_more(
     line.set("y2", "10")
     line.set("stroke", stroke)
     line.set("stroke-width", "1.5")
-
 
 def _marker_zero_or_more(
     parent: ET.Element, marker_id: str, stroke: str,
@@ -212,7 +203,6 @@ def _marker_zero_or_more(
     circle.set("stroke", stroke)
     circle.set("stroke-width", "1.5")
 
-
 # ---------------------------------------------------------------------------
 # Cardinality marker mapping
 # ---------------------------------------------------------------------------
@@ -223,7 +213,6 @@ _CARD_MARKER_MAP: dict[ERCardinality, str] = {
     ERCardinality.ONE_OR_MORE: "url(#er-one-or-more)",
     ERCardinality.ZERO_OR_MORE: "url(#er-zero-or-more)",
 }
-
 
 # ---------------------------------------------------------------------------
 # Rendering
@@ -302,7 +291,6 @@ def _render_er_entity(
             key_el.set("fill", theme.node_text_color)
             key_el.text = attr.key.value
 
-
 def _render_er_relationship(
     parent: ET.Element,
     rel: ERRelationship,
@@ -348,7 +336,6 @@ def _render_er_relationship(
         label_el.set("fill", theme.text_color)
         label_el.text = rel.label
 
-
 def _midpoint(points: list[Point]) -> Point:
     """Get the midpoint of a polyline."""
     if len(points) < 2:
@@ -358,14 +345,12 @@ def _midpoint(points: list[Point]) -> Point:
     p2 = points[mid]
     return Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
 
-
 def _round_coord(val: float) -> str:
     """Format a float coordinate."""
     rounded = round(val, 2)
     if rounded == int(rounded):
         return str(int(rounded))
     return f"{rounded:.2f}".rstrip("0").rstrip(".")
-
 
 # ---------------------------------------------------------------------------
 # CSS
@@ -386,7 +371,6 @@ def _build_er_diagram_css(theme: Theme) -> str:
         f".er-relationship text {{ fill: {theme.text_color}; "
         f"font-family: {theme.font_family}; }}\n"
     )
-
 
 # ---------------------------------------------------------------------------
 # Public API
@@ -465,7 +449,6 @@ def render_er_diagram(
 
     ET.indent(svg)
     return ET.tostring(svg, encoding="unicode", xml_declaration=False)
-
 
 __all__ = [
     "measure_er_entity_box",

@@ -1,7 +1,5 @@
 """Tests for emoji rendering support (task 31)."""
 
-from __future__ import annotations
-
 import pytest
 
 from pymermaid.measure.text import (
@@ -64,7 +62,6 @@ class TestIsEmoji:
         # U+2614 UMBRELLA WITH RAIN DROPS
         assert _is_emoji("\u2614") is True
 
-
 # ---------------------------------------------------------------------------
 # Unit: _char_width for emoji and zero-width characters
 # ---------------------------------------------------------------------------
@@ -97,7 +94,6 @@ class TestCharWidthEmoji:
     def test_narrow_unchanged(self) -> None:
         assert _char_width("i", 16.0) == pytest.approx(5.6)
 
-
 # ---------------------------------------------------------------------------
 # Unit: TextMeasurer with emoji
 # ---------------------------------------------------------------------------
@@ -126,7 +122,6 @@ class TestTextMeasurerEmoji:
         w_line, _ = m.measure("Deploy \U0001F680")
         assert w >= w_line
 
-
 # ---------------------------------------------------------------------------
 # Integration: Theme font-family includes emoji fonts
 # ---------------------------------------------------------------------------
@@ -147,7 +142,6 @@ class TestThemeEmojiFonts:
         """Emoji fonts are appended, not replacing the original stack."""
         assert "trebuchet ms" in DEFAULT_THEME.font_family
         assert "verdana" in DEFAULT_THEME.font_family
-
 
 # ---------------------------------------------------------------------------
 # Integration: SVG rendering with emoji

@@ -1,7 +1,5 @@
 """Integration tests: full pipeline from mermaid text to SVG output."""
 
-from __future__ import annotations
-
 import re
 from pathlib import Path
 
@@ -18,7 +16,6 @@ from pymermaid.render import render_svg
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
-
 def _render(source: str) -> str:
     """Parse mermaid text, lay out, and render to SVG string."""
     diagram = parse_flowchart(source)
@@ -26,18 +23,15 @@ def _render(source: str) -> str:
     layout = layout_diagram(diagram, measure_fn=measurer.measure)
     return render_svg(diagram, layout)
 
-
 def _assert_valid_svg(svg: str) -> None:
     """Assert the string looks like a valid SVG document."""
     assert "<svg" in svg
     assert "</svg>" in svg
 
-
 def _assert_node_ids(svg: str, *node_ids: str) -> None:
     """Assert all given node IDs appear as data-node-id attributes."""
     for nid in node_ids:
         assert f'data-node-id="{nid}"' in svg, f"Missing node {nid!r}"
-
 
 def _parse_viewbox(svg: str) -> tuple[float, float, float, float]:
     """Extract viewBox as (x, y, width, height)."""
@@ -46,11 +40,9 @@ def _parse_viewbox(svg: str) -> tuple[float, float, float, float]:
     parts = m.group(1).split()
     return tuple(float(p) for p in parts)  # type: ignore[return-value]
 
-
 # ---------------------------------------------------------------------------
 # Fixture file tests
 # ---------------------------------------------------------------------------
-
 
 class TestFixtureRendering:
     """Render each .mmd fixture file through the full pipeline."""
@@ -82,11 +74,9 @@ class TestFixtureRendering:
         _assert_valid_svg(svg)
         _assert_node_ids(svg, "A", "B", "C", "D", "E")
 
-
 # ---------------------------------------------------------------------------
 # Direction tests
 # ---------------------------------------------------------------------------
-
 
 class TestDirections:
     """Test all four graph directions."""
@@ -110,11 +100,9 @@ class TestDirections:
             f"TD ratio={ratio_td}, LR ratio={ratio_lr} should differ"
         )
 
-
 # ---------------------------------------------------------------------------
 # Node shape coverage
 # ---------------------------------------------------------------------------
-
 
 class TestNodeShapes:
     """All 14 node shapes render correctly."""
@@ -147,11 +135,9 @@ graph TD
         _assert_node_ids(svg, *expected)
         assert len(expected) == 14
 
-
 # ---------------------------------------------------------------------------
 # Edge type coverage
 # ---------------------------------------------------------------------------
-
 
 class TestEdgeTypes:
     """All edge types render without error."""
@@ -174,11 +160,9 @@ graph TD
         _assert_valid_svg(svg)
         _assert_node_ids(svg, "A", "B", "C", "D", "E", "F", "G", "H", "I", "J")
 
-
 # ---------------------------------------------------------------------------
 # Edge cases
 # ---------------------------------------------------------------------------
-
 
 class TestEdgeCases:
     """Various edge-case diagrams."""
@@ -237,11 +221,9 @@ graph TD
         assert "Middle" in svg
         assert "Inner" in svg
 
-
 # ---------------------------------------------------------------------------
 # Styling integration
 # ---------------------------------------------------------------------------
-
 
 class TestStyling:
     """Styling features render without error."""
@@ -268,11 +250,9 @@ graph TD
         _assert_valid_svg(svg)
         _assert_node_ids(svg, "A", "B")
 
-
 # ---------------------------------------------------------------------------
 # Additional coverage
 # ---------------------------------------------------------------------------
-
 
 class TestAdditional:
     """Additional integration tests for broader coverage."""

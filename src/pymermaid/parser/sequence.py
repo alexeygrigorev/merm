@@ -4,8 +4,6 @@ Converts sequence diagram text into a SequenceDiagram IR.
 Line-oriented parser: one statement per line.
 """
 
-from __future__ import annotations
-
 import re
 
 from pymermaid.ir.sequence import (
@@ -83,7 +81,6 @@ _ARROW_MAP: dict[str, MessageType] = {
     arrow: mt for arrow, mt in _ARROW_PATTERNS
 }
 
-
 def _detect_sequence(text: str) -> bool:
     """Return True if text declares a sequenceDiagram."""
     for line in text.split("\n"):
@@ -92,7 +89,6 @@ def _detect_sequence(text: str) -> bool:
             continue
         return stripped.lower().startswith("sequencediagram")
     return False
-
 
 def parse_sequence(text: str) -> SequenceDiagram:
     """Parse Mermaid sequence diagram text into a SequenceDiagram IR.

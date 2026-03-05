@@ -1,7 +1,5 @@
 """Tests for self-loop shape, stroke width, and arrowhead placement (Task 38)."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid import render_diagram
@@ -11,10 +9,8 @@ from pymermaid.parser.flowchart import parse_flowchart
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 
-
 def _parse_svg(svg_str: str) -> ET.Element:
     return ET.fromstring(svg_str)
-
 
 def _find_edge_groups(root: ET.Element) -> list[ET.Element]:
     """Find all <g class='edge'> elements."""
@@ -29,14 +25,12 @@ def _find_edge_groups(root: ET.Element) -> list[ET.Element]:
                 groups.append(g)
     return groups
 
-
 def _find_self_loop_group(root: ET.Element) -> ET.Element | None:
     """Find the edge group where source == target."""
     for g in _find_edge_groups(root):
         if g.get("data-edge-source") == g.get("data-edge-target"):
             return g
     return None
-
 
 def _find_self_loop_path(root: ET.Element) -> ET.Element | None:
     """Find the <path> element for the self-loop edge."""
@@ -49,11 +43,9 @@ def _find_self_loop_path(root: ET.Element) -> ET.Element | None:
         return path
     return None
 
-
 # ---------------------------------------------------------------------------
 # Unit: Loop geometry (layout points)
 # ---------------------------------------------------------------------------
-
 
 class TestSelfLoopGeometry:
     """Test that the self-loop layout points satisfy acceptance criteria."""
@@ -142,11 +134,9 @@ class TestSelfLoopGeometry:
         edge = [e for e in layout.edges if e.source == e.target][0]
         assert len(edge.points) == 13
 
-
 # ---------------------------------------------------------------------------
 # Unit: Stroke width in SVG
 # ---------------------------------------------------------------------------
-
 
 class TestSelfLoopStrokeWidth:
     """Test that self-loop stroke-width is correct."""
@@ -184,11 +174,9 @@ class TestSelfLoopStrokeWidth:
         )
         assert "2" in stroke_widths
 
-
 # ---------------------------------------------------------------------------
 # Unit: Arrowhead marker on self-loop
 # ---------------------------------------------------------------------------
-
 
 class TestSelfLoopArrowhead:
     """Test that the self-loop path has a marker-end (arrowhead)."""
@@ -202,11 +190,9 @@ class TestSelfLoopArrowhead:
         assert marker is not None, "Self-loop path should have marker-end"
         assert "arrow" in marker
 
-
 # ---------------------------------------------------------------------------
 # Unit: Self-loop with label
 # ---------------------------------------------------------------------------
-
 
 class TestSelfLoopLabel:
     """Test self-loop edge label rendering."""
@@ -262,11 +248,9 @@ class TestSelfLoopLabel:
             f"Label y={text_y} should be below node bottom={node_bottom}"
         )
 
-
 # ---------------------------------------------------------------------------
 # Unit: LR direction
 # ---------------------------------------------------------------------------
-
 
 class TestSelfLoopLRDirection:
     """Test that LR direction produces a horizontally-extending loop."""
@@ -299,11 +283,9 @@ class TestSelfLoopLRDirection:
             f"x_spread={x_spread:.2f}, y_spread={y_spread:.2f}"
         )
 
-
 # ---------------------------------------------------------------------------
 # Regression tests
 # ---------------------------------------------------------------------------
-
 
 class TestSelfLoopRegression:
     """Ensure normal edges still work alongside self-loops."""

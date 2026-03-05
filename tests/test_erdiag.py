@@ -3,8 +3,6 @@
 Covers: IR dataclasses, parser, layout, renderer, and integration.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -28,11 +26,9 @@ from pymermaid.render.erdiag import measure_er_entity_box, render_er_diagram
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures" / "corpus" / "er"
 
-
 # ============================================================================
 # IR dataclass tests
 # ============================================================================
-
 
 class TestIRDataclasses:
     """Test that IR dataclasses are correctly defined and frozen."""
@@ -99,11 +95,9 @@ class TestIRDataclasses:
         assert ERAttributeKey.FK.value == "FK"
         assert ERAttributeKey.UK.value == "UK"
 
-
 # ============================================================================
 # Parser tests - entity blocks
 # ============================================================================
-
 
 class TestParserEntityBlocks:
     """Test entity definition parsing."""
@@ -175,11 +169,9 @@ class TestParserEntityBlocks:
         ids = {e.id for e in d.entities}
         assert ids == {"CUSTOMER", "ORDER", "PRODUCT"}
 
-
 # ============================================================================
 # Parser tests - relationships
 # ============================================================================
-
 
 class TestParserRelationships:
     """Test relationship parsing."""
@@ -247,11 +239,9 @@ class TestParserRelationships:
         assert len(d.entities) == 2
         assert len(d.relationships) == 1
 
-
 # ============================================================================
 # Parser tests - edge cases
 # ============================================================================
-
 
 class TestParserEdgeCases:
     """Test parser edge cases."""
@@ -303,11 +293,9 @@ class TestParserEdgeCases:
         assert attr.name == "name"
         assert attr.key == ERAttributeKey.PK
 
-
 # ============================================================================
 # Layout tests
 # ============================================================================
-
 
 class TestERLayout:
     """Test ER diagram layout."""
@@ -373,11 +361,9 @@ class TestERLayout:
         _, h_full = measure_er_entity_box(entity_full)
         assert h_full > h_empty
 
-
 # ============================================================================
 # Renderer tests
 # ============================================================================
-
 
 class TestRenderer:
     """Test SVG rendering of ER diagrams."""
@@ -483,11 +469,9 @@ class TestRenderer:
         svg = self._render("erDiagram\n    A ||--o{ B : test")
         assert "er-relationship" in svg
 
-
 # ============================================================================
 # Integration tests
 # ============================================================================
-
 
 class TestIntegration:
     """End-to-end integration tests using render_diagram()."""

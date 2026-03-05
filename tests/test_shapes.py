@@ -1,7 +1,5 @@
 """Tests for node shape renderers."""
 
-from __future__ import annotations
-
 import math
 import re
 import xml.etree.ElementTree as ET
@@ -17,7 +15,6 @@ from pymermaid.render.shapes import (
 
 # Common test dimensions
 X, Y, W, H = 10.0, 20.0, 100.0, 50.0
-
 
 # ---------------------------------------------------------------------------
 # Registry and protocol tests
@@ -48,7 +45,6 @@ class TestRegistry:
         for shape, renderer in SHAPE_REGISTRY.items():
             msg = f"{shape} renderer doesn't implement protocol"
             assert isinstance(renderer, ShapeRenderer), msg
-
 
 # ---------------------------------------------------------------------------
 # Rectangle
@@ -104,7 +100,6 @@ class TestRectRenderer:
             on_bottom = pytest.approx(py, abs=0.1) == Y + H
             assert on_left or on_right or on_top or on_bottom
 
-
 # ---------------------------------------------------------------------------
 # Rounded Rectangle
 # ---------------------------------------------------------------------------
@@ -122,7 +117,6 @@ class TestRoundedRectRenderer:
         m = re.search(r'rx="(\d+)"', elem)
         assert m is not None
         assert int(m.group(1)) > 0
-
 
 # ---------------------------------------------------------------------------
 # Stadium
@@ -142,7 +136,6 @@ class TestStadiumRenderer:
         s_elem = stadium.render(X, Y, W, 80, "Hi", None)[0]
         r_elem = rounded.render(X, Y, W, 80, "Hi", None)[0]
         assert s_elem != r_elem
-
 
 # ---------------------------------------------------------------------------
 # Subroutine
@@ -165,7 +158,6 @@ class TestSubroutineRenderer:
         assert f'x1="{X + 8.0}"' in left_line
         assert f'x1="{X + W - 8.0}"' in right_line
 
-
 # ---------------------------------------------------------------------------
 # Cylinder
 # ---------------------------------------------------------------------------
@@ -181,7 +173,6 @@ class TestCylinderRenderer:
         elems = r.render(X, Y, W, H, "Hi", None)
         path_elem = [e for e in elems if "<path" in e][0]
         assert " A " in path_elem or " A" in path_elem
-
 
 # ---------------------------------------------------------------------------
 # Circle
@@ -236,7 +227,6 @@ class TestCircleRenderer:
             dist = math.sqrt((px - cx) ** 2 + (py - cy) ** 2)
             assert pytest.approx(dist, abs=0.01) == radius
 
-
 # ---------------------------------------------------------------------------
 # Diamond
 # ---------------------------------------------------------------------------
@@ -271,7 +261,6 @@ class TestDiamondRenderer:
         assert px > cx
         assert py < cy
 
-
 # ---------------------------------------------------------------------------
 # Hexagon
 # ---------------------------------------------------------------------------
@@ -289,7 +278,6 @@ class TestHexagonRenderer:
         assert m is not None
         points = m.group(1).strip().split()
         assert len(points) == 6
-
 
 # ---------------------------------------------------------------------------
 # Double Circle
@@ -311,7 +299,6 @@ class TestDoubleCircleRenderer:
             assert m is not None
             radii.append(float(m.group(1)))
         assert radii[0] > radii[1]  # outer > inner
-
 
 # ---------------------------------------------------------------------------
 # Polygon shapes
@@ -358,7 +345,6 @@ class TestPolygonShapes:
         e2 = t2.render(0, 0, 100, 50, "Hi", None)[0]
         assert e1 != e2
 
-
 # ---------------------------------------------------------------------------
 # Connection point boundary validation
 # ---------------------------------------------------------------------------
@@ -395,7 +381,6 @@ class TestConnectionPointBoundary:
             # Check point is not at center
             dist = math.sqrt((px - cx) ** 2 + (py - cy) ** 2)
             assert dist > 0.1, "Connection point should not be at center"
-
 
 # ---------------------------------------------------------------------------
 # Integration: all shapes render valid XML fragments

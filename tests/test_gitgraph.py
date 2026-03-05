@@ -1,7 +1,5 @@
 """Tests for gitGraph IR, parser, layout, renderer, and integration."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 from dataclasses import FrozenInstanceError
 from pathlib import Path
@@ -17,11 +15,9 @@ from pymermaid.render.gitgraph import render_gitgraph_svg
 
 FIXTURES = Path(__file__).parent / "fixtures" / "corpus" / "gitgraph"
 
-
 # ---------------------------------------------------------------------------
 # IR unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestIRDataclasses:
     def test_create_git_commit_all_fields(self):
@@ -91,11 +87,9 @@ class TestIRDataclasses:
         assert CommitType.REVERSE.value == "REVERSE"
         assert CommitType.HIGHLIGHT.value == "HIGHLIGHT"
 
-
 # ---------------------------------------------------------------------------
 # Parser unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestParser:
     def test_minimal_single_commit(self):
@@ -227,11 +221,9 @@ class TestParser:
         ids = [c.id for c in graph.commits]
         assert len(ids) == len(set(ids))
 
-
 # ---------------------------------------------------------------------------
 # Layout unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestLayout:
     def test_single_branch_same_y(self):
@@ -295,11 +287,9 @@ class TestLayout:
         cp_cl = layout.commits[-1]
         assert cp_cl.y == layout.branch_lane_y["main"]
 
-
 # ---------------------------------------------------------------------------
 # Renderer unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestRenderer:
     def _render(self, source: str) -> str:
@@ -386,11 +376,9 @@ class TestRenderer:
         svg = self._render("gitGraph\n   commit\n   commit\n")
         ET.fromstring(svg)  # Should not raise
 
-
 # ---------------------------------------------------------------------------
 # Integration tests
 # ---------------------------------------------------------------------------
-
 
 class TestIntegration:
     def test_dispatch_simple(self):
@@ -417,11 +405,9 @@ class TestIntegration:
         svg = render_diagram("gitGraph\n   commit\n   commit\n   commit\n")
         ET.fromstring(svg)
 
-
 # ---------------------------------------------------------------------------
 # Corpus fixture tests
 # ---------------------------------------------------------------------------
-
 
 class TestCorpusFixtures:
     @pytest.fixture(

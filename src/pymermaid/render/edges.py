@@ -1,7 +1,5 @@
 """Edge rendering: markers, line styles, path generation, and labels."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir import ArrowType, Edge, EdgeType
@@ -9,7 +7,6 @@ from pymermaid.layout import EdgeLayout, Point
 
 # Default edge stroke colour (used as fallback).
 _DEFAULT_EDGE_STROKE = "#333333"
-
 
 # ---------------------------------------------------------------------------
 # Marker definitions
@@ -39,7 +36,6 @@ def make_edge_defs(
         orient="auto-start-reverse", fill=edge_stroke,
     )
 
-
 def _marker_arrow(
     parent: ET.Element, marker_id: str, orient: str, fill: str,
 ) -> None:
@@ -55,7 +51,6 @@ def _marker_arrow(
     path = ET.SubElement(marker, "path")
     path.set("d", "M 0 0 L 10 5 L 0 10 z")
     path.set("fill", fill)
-
 
 def _marker_circle(parent: ET.Element, fill: str) -> None:
     marker = ET.SubElement(parent, "marker")
@@ -73,7 +68,6 @@ def _marker_circle(parent: ET.Element, fill: str) -> None:
     circle.set("r", "5")
     circle.set("fill", fill)
 
-
 def _marker_cross(parent: ET.Element, stroke: str) -> None:
     marker = ET.SubElement(parent, "marker")
     marker.set("id", "cross-end")
@@ -88,7 +82,6 @@ def _marker_cross(parent: ET.Element, stroke: str) -> None:
     path.set("d", "M 1,1 l 9,9 M 10,1 l -9,9")
     path.set("stroke", stroke)
     path.set("stroke-width", "2")
-
 
 # ---------------------------------------------------------------------------
 # Path generation
@@ -117,7 +110,6 @@ def points_to_path_d(points: list[Point], smooth: bool = True) -> str:
     # 3+ points, smooth: Catmull-Rom to cubic Bezier
     return _catmull_rom_to_bezier(points)
 
-
 def _catmull_rom_to_bezier(points: list[Point]) -> str:
     """Convert a sequence of points to a smooth cubic Bezier path.
 
@@ -143,7 +135,6 @@ def _catmull_rom_to_bezier(points: list[Point]) -> str:
         parts.append(f"C{cp1x},{cp1y} {cp2x},{cp2y} {p2.x},{p2.y}")
 
     return " ".join(parts)
-
 
 def _self_loop_path_d(points: list[Point]) -> str:
     """Generate an SVG path for a self-loop edge.
@@ -172,7 +163,6 @@ def _self_loop_path_d(points: list[Point]) -> str:
         f"C{p[10].x},{p[10].y} {p[11].x},{p[11].y} {p[12].x},{p[12].y}"
     )
 
-
 # ---------------------------------------------------------------------------
 # Edge style mapping
 # ---------------------------------------------------------------------------
@@ -190,7 +180,6 @@ _STYLE_MAP: dict[EdgeType, dict[str, str]] = {
 # Edge types that receive a target arrow marker (when ArrowType is not none).
 _ARROW_TYPES = {EdgeType.arrow, EdgeType.dotted_arrow, EdgeType.thick_arrow}
 
-
 # ---------------------------------------------------------------------------
 # Marker assignment
 # ---------------------------------------------------------------------------
@@ -206,14 +195,12 @@ def _marker_end_url(arrow: ArrowType) -> str | None:
         case ArrowType.none:
             return None
 
-
 def _marker_start_url(arrow: ArrowType) -> str | None:
     match arrow:
         case ArrowType.arrow:
             return "url(#arrow-reverse)"
         case _:
             return None
-
 
 # ---------------------------------------------------------------------------
 # Edge midpoint (for label positioning)
@@ -229,7 +216,6 @@ def _edge_midpoint(points: list[Point]) -> tuple[float, float]:
     p1 = points[mid_idx - 1]
     p2 = points[mid_idx]
     return ((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0)
-
 
 def _label_bbox(
     label: str, cx: float, cy: float,
@@ -247,7 +233,6 @@ def _label_bbox(
     h = len(parts) * line_h + padding * 2
     return (cx - w / 2, cy - h / 2, w, h)
 
-
 def _rects_overlap(
     a: tuple[float, float, float, float],
     b: tuple[float, float, float, float],
@@ -262,7 +247,6 @@ def _rects_overlap(
         and ay + ah > by
     )
 
-
 def _edge_path_bbox(el: EdgeLayout) -> tuple[float, float, float, float]:
     """Compute an axis-aligned bounding box (x, y, w, h) for an edge's path."""
     if not el.points:
@@ -272,7 +256,6 @@ def _edge_path_bbox(el: EdgeLayout) -> tuple[float, float, float, float]:
     min_x, max_x = min(xs), max(xs)
     min_y, max_y = min(ys), max(ys)
     return (min_x, min_y, max_x - min_x, max_y - min_y)
-
 
 def resolve_label_positions(
     labeled_edges: list[tuple[EdgeLayout, Edge]],
@@ -373,7 +356,6 @@ def resolve_label_positions(
         result[entry[0]] = (positions[idx][0], positions[idx][1])
     return result
 
-
 # ---------------------------------------------------------------------------
 # Render a single edge
 # ---------------------------------------------------------------------------
@@ -449,7 +431,6 @@ def render_edge(
             mx, my = _edge_midpoint(edge_layout.points)
         _render_edge_label(g, label, mx, my, edge_label_bg)
 
-
 def _render_edge_label(
     parent: ET.Element,
     label: str,
@@ -499,7 +480,6 @@ def _render_edge_label(
             else:
                 tspan.set("dy", f"{line_height}em")
             tspan.text = part
-
 
 __all__ = [
     "make_edge_defs",

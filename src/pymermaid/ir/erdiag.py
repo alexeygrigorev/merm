@@ -5,8 +5,6 @@ ERRelationship, and ERDiagram dataclasses used by the ER diagram parser,
 layout, and renderer.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from enum import Enum
 
@@ -19,7 +17,6 @@ class ERAttributeKey(Enum):
     FK = "FK"
     UK = "UK"
 
-
 @dataclass(frozen=True)
 class ERAttribute:
     """An attribute belonging to an entity."""
@@ -28,14 +25,12 @@ class ERAttribute:
     name: str
     key: ERAttributeKey = ERAttributeKey.NONE
 
-
 @dataclass(frozen=True)
 class EREntity:
     """An entity in the ER diagram."""
 
     id: str
     attributes: tuple[ERAttribute, ...]
-
 
 class ERCardinality(Enum):
     """Relationship cardinality markers."""
@@ -45,13 +40,11 @@ class ERCardinality(Enum):
     ONE_OR_MORE = "ONE_OR_MORE"
     ZERO_OR_MORE = "ZERO_OR_MORE"
 
-
 class ERLineStyle(Enum):
     """Relationship line style."""
 
     SOLID = "SOLID"
     DASHED = "DASHED"
-
 
 @dataclass(frozen=True)
 class ERRelationship:
@@ -64,14 +57,12 @@ class ERRelationship:
     line_style: ERLineStyle
     label: str
 
-
 @dataclass(frozen=True)
 class ERDiagram:
     """Top-level ER diagram representation."""
 
     entities: tuple[EREntity, ...]
     relationships: tuple[ERRelationship, ...]
-
 
 __all__ = [
     "ERAttribute",

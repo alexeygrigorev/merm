@@ -1,7 +1,5 @@
 """Intermediate representation for gitGraph diagrams."""
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from enum import Enum
 
@@ -12,7 +10,6 @@ class CommitType(Enum):
     NORMAL = "NORMAL"
     REVERSE = "REVERSE"
     HIGHLIGHT = "HIGHLIGHT"
-
 
 @dataclass(frozen=True)
 class GitCommit:
@@ -26,14 +23,12 @@ class GitCommit:
     is_merge: bool
     cherry_picked_from: str  # empty string if not a cherry-pick
 
-
 @dataclass(frozen=True)
 class GitBranch:
     """A branch in the git graph."""
 
     name: str
     start_commit: str  # commit ID where the branch was created
-
 
 @dataclass(frozen=True)
 class GitGraph:
@@ -42,6 +37,5 @@ class GitGraph:
     commits: tuple[GitCommit, ...]  # in chronological order
     branches: tuple[GitBranch, ...]  # in creation order
     branch_order: tuple[str, ...]  # branch names in lane order (top to bottom)
-
 
 __all__ = ["CommitType", "GitBranch", "GitCommit", "GitGraph"]

@@ -4,8 +4,6 @@ Verifies that multiple back-edges sharing layers are given distinct
 horizontal channels so they don't overlap into one thick line.
 """
 
-from __future__ import annotations
-
 from pymermaid import render_diagram
 from pymermaid.ir import Diagram, DiagramType, Direction, Edge, Node
 from pymermaid.layout import EdgeLayout, Point, layout_diagram
@@ -17,7 +15,6 @@ from pymermaid.layout import EdgeLayout, Point, layout_diagram
 def _measure(text: str, font_size: float) -> tuple[float, float]:
     """Simple measure function for testing."""
     return (len(text) * font_size * 0.6, font_size * 1.2)
-
 
 def _make_diagram(
     node_ids: list[str],
@@ -33,7 +30,6 @@ def _make_diagram(
         edges=ir_edges,
     )
 
-
 def _get_edge_layout(
     result, source: str, target: str,
 ) -> EdgeLayout | None:
@@ -43,18 +39,15 @@ def _get_edge_layout(
             return el
     return None
 
-
 def _intermediate_points(el: EdgeLayout) -> list[Point]:
     """Return the waypoints between source and target endpoints."""
     if len(el.points) <= 2:
         return []
     return el.points[1:-1]
 
-
 # ---------------------------------------------------------------------------
 # Unit: Back-edge dummy node separation
 # ---------------------------------------------------------------------------
-
 
 class TestBackEdgeDummySeparation:
     """Back-edge dummy nodes for different back-edges must differ."""
@@ -181,11 +174,9 @@ class TestBackEdgeDummySeparation:
         assert len(el1.points) >= 2
         assert len(el2.points) >= 2
 
-
 # ---------------------------------------------------------------------------
 # Unit: Back-edge polyline geometry
 # ---------------------------------------------------------------------------
-
 
 class TestBackEdgePolylineGeometry:
     """Verify that back-edge polylines are geometrically separated."""
@@ -313,11 +304,9 @@ class TestBackEdgePolylineGeometry:
                 f"got {abs(avg_x1 - avg_x2):.1f}px"
             )
 
-
 # ---------------------------------------------------------------------------
 # Unit: Regression -- forward edges unaffected
 # ---------------------------------------------------------------------------
-
 
 class TestForwardEdgeRegression:
     """Verify that graphs without cycles produce identical layouts."""
@@ -367,11 +356,9 @@ class TestForwardEdgeRegression:
         assert el is not None
         assert len(el.points) >= 2
 
-
 # ---------------------------------------------------------------------------
 # Integration: Full render of fixture files
 # ---------------------------------------------------------------------------
-
 
 class TestRegistrationRendering:
     """Render the registration.mmd fixture and verify back-edge separation."""
@@ -423,7 +410,6 @@ class TestRegistrationRendering:
                     f"Back-edges {keys[i]} and {keys[j]} too close: "
                     f"{diff:.1f}px apart"
                 )
-
 
 class TestDebugLoopRendering:
     """Render the debug_loop.mmd fixture."""

@@ -12,8 +12,6 @@ Handles:
 - Auto-creation of classes from relationship references
 """
 
-from __future__ import annotations
-
 import re
 from dataclasses import dataclass, field
 
@@ -65,7 +63,6 @@ _REL_COMBINED = "|".join(
 )
 _REL_RE = re.compile(_REL_COMBINED)
 
-
 def _match_relationship(text: str) -> tuple[RelationType, bool, int, int] | None:
     """Try to find a relationship operator in *text*.
 
@@ -79,7 +76,6 @@ def _match_relationship(text: str) -> tuple[RelationType, bool, int, int] | None
             return rel_type, is_reversed, m.start(), m.end()
     return None
 
-
 # ---------------------------------------------------------------------------
 # Member parsing
 # ---------------------------------------------------------------------------
@@ -90,7 +86,6 @@ _VISIBILITY_MAP = {
     "#": Visibility.PROTECTED,
     "~": Visibility.PACKAGE,
 }
-
 
 def _parse_member(text: str) -> ClassMember:
     """Parse a single member string like ``+name: string`` or ``-makeSound() void``."""
@@ -136,7 +131,6 @@ def _parse_member(text: str) -> ClassMember:
         is_method=is_method,
     )
 
-
 # ---------------------------------------------------------------------------
 # Preprocessing
 # ---------------------------------------------------------------------------
@@ -147,7 +141,6 @@ def _strip_comment(line: str) -> str:
     if idx >= 0:
         return line[:idx].rstrip()
     return line
-
 
 def _preprocess(text: str) -> list[tuple[int, str]]:
     """Return list of (line_number, stripped_line), handling block class defs."""
@@ -185,7 +178,6 @@ def _preprocess(text: str) -> list[tuple[int, str]]:
 
     return result
 
-
 # ---------------------------------------------------------------------------
 # Parser state
 # ---------------------------------------------------------------------------
@@ -207,7 +199,6 @@ class _ClassBuilder:
             members=tuple(self.members),
         )
 
-
 @dataclass
 class _ParserState:
     """Mutable state during parsing."""
@@ -220,7 +211,6 @@ class _ParserState:
         if name not in self.classes:
             self.classes[name] = _ClassBuilder(id=name, label=name)
         return self.classes[name]
-
 
 # ---------------------------------------------------------------------------
 # Line parsers
@@ -258,7 +248,6 @@ def _parse_class_block(line: str, lineno: int, state: _ParserState) -> bool:
 
     return True
 
-
 def _split_members(body: str) -> list[str]:
     """Split block body into individual member strings.
 
@@ -292,7 +281,6 @@ def _split_members(body: str) -> list[str]:
 
     return parts
 
-
 def _parse_class_shorthand(line: str, lineno: int, state: _ParserState) -> bool:
     """Try to parse ``class Name`` (without braces)."""
     m = re.match(r"^class\s+(\w+)\s*$", line)
@@ -301,7 +289,6 @@ def _parse_class_shorthand(line: str, lineno: int, state: _ParserState) -> bool:
     class_name = m.group(1)
     state.ensure_class(class_name)
     return True
-
 
 def _parse_annotation_line(line: str, lineno: int, state: _ParserState) -> bool:
     """Try to parse ``<<interface>> ClassName``."""
@@ -313,7 +300,6 @@ def _parse_annotation_line(line: str, lineno: int, state: _ParserState) -> bool:
     builder = state.ensure_class(class_name)
     builder.annotation = annotation
     return True
-
 
 def _parse_member_shorthand(line: str, lineno: int, state: _ParserState) -> bool:
     """Try to parse ``ClassName : +memberDef``."""
@@ -329,7 +315,6 @@ def _parse_member_shorthand(line: str, lineno: int, state: _ParserState) -> bool
     builder = state.ensure_class(class_name)
     builder.members.append(_parse_member(member_text))
     return True
-
 
 def _parse_relationship(line: str, lineno: int, state: _ParserState) -> bool:
     """Try to parse a relationship line like ``A <|-- B : label``."""
@@ -417,7 +402,6 @@ def _parse_relationship(line: str, lineno: int, state: _ParserState) -> bool:
     ))
     return True
 
-
 # ---------------------------------------------------------------------------
 # Main parser
 # ---------------------------------------------------------------------------
@@ -481,6 +465,5 @@ def parse_class_diagram(text: str) -> ClassDiagram:
         classes=tuple(class_list),
         relations=tuple(state.relations),
     )
-
 
 __all__ = ["parse_class_diagram"]

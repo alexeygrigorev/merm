@@ -8,8 +8,6 @@ Renders ClassDiagram IR into SVG, including:
 - Cardinality labels near endpoints
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir.classdiag import (
@@ -40,7 +38,6 @@ _FONT_SIZE = 14.0
 _SMALL_FONT_SIZE = 12.0
 _MIN_BOX_WIDTH = 100.0
 
-
 # ---------------------------------------------------------------------------
 # Visibility display
 # ---------------------------------------------------------------------------
@@ -52,7 +49,6 @@ _VISIBILITY_SYMBOL = {
     Visibility.PACKAGE: "~",
 }
 
-
 def _member_display(member: ClassMember) -> str:
     """Build display string for a class member."""
     vis = _VISIBILITY_SYMBOL.get(member.visibility, "+")
@@ -62,7 +58,6 @@ def _member_display(member: ClassMember) -> str:
     else:
         suffix = f": {member.type_str}" if member.type_str else ""
         return f"{vis}{member.name}{suffix}"
-
 
 # ---------------------------------------------------------------------------
 # Class box size measurement
@@ -101,7 +96,6 @@ def measure_class_box(node: ClassNode) -> tuple[float, float]:
 
     return total_w, total_h
 
-
 # ---------------------------------------------------------------------------
 # Marker definitions for class diagram relationships
 # ---------------------------------------------------------------------------
@@ -129,7 +123,6 @@ def _make_class_defs(
     # Realization: hollow triangle (same as inheritance, used with dashed line)
     _marker_triangle_hollow(defs, "realization-arrow", edge_stroke)
 
-
 def _marker_triangle_hollow(
     parent: ET.Element, marker_id: str, stroke: str,
 ) -> None:
@@ -148,7 +141,6 @@ def _marker_triangle_hollow(
     path.set("fill", "white")
     path.set("stroke", stroke)
     path.set("stroke-width", "1")
-
 
 def _marker_diamond(
     parent: ET.Element, marker_id: str, stroke: str, fill: str,
@@ -169,7 +161,6 @@ def _marker_diamond(
     path.set("stroke", stroke)
     path.set("stroke-width", "1")
 
-
 def _marker_open_arrow(
     parent: ET.Element, marker_id: str, stroke: str,
 ) -> None:
@@ -189,7 +180,6 @@ def _marker_open_arrow(
     path.set("stroke", stroke)
     path.set("stroke-width", "1.5")
 
-
 # ---------------------------------------------------------------------------
 # Relationship marker mapping
 # ---------------------------------------------------------------------------
@@ -204,7 +194,6 @@ _REL_MARKER_MAP: dict[RelationType, str] = {
 }
 
 _DASHED_RELS = {RelationType.DEPENDENCY, RelationType.REALIZATION}
-
 
 # ---------------------------------------------------------------------------
 # Rendering
@@ -310,7 +299,6 @@ def _render_class_node(
         m_el.set("fill", theme.node_text_color)
         m_el.text = _member_display(m)
 
-
 def _render_class_edge(
     parent: ET.Element,
     relation: ClassRelation,
@@ -368,7 +356,6 @@ def _render_class_edge(
         label_el.set("fill", theme.text_color)
         label_el.text = relation.label
 
-
 def _render_cardinality(
     parent: ET.Element,
     text: str,
@@ -398,7 +385,6 @@ def _render_cardinality(
     el.set("fill", theme.text_color)
     el.text = text
 
-
 def _midpoint(points: list[Point]) -> Point:
     """Get the midpoint of a polyline."""
     if len(points) < 2:
@@ -408,14 +394,12 @@ def _midpoint(points: list[Point]) -> Point:
     p2 = points[mid]
     return Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
 
-
 def _round_coord(val: float) -> str:
     """Format a float coordinate."""
     rounded = round(val, 2)
     if rounded == int(rounded):
         return str(int(rounded))
     return f"{rounded:.2f}".rstrip("0").rstrip(".")
-
 
 # ---------------------------------------------------------------------------
 # CSS
@@ -436,7 +420,6 @@ def _build_class_diagram_css(theme: Theme) -> str:
         f".class-edge text {{ fill: {theme.text_color}; "
         f"font-family: {theme.font_family}; }}\n"
     )
-
 
 # ---------------------------------------------------------------------------
 # Public API
@@ -524,7 +507,6 @@ def render_class_diagram(
 
     ET.indent(svg)
     return ET.tostring(svg, encoding="unicode", xml_declaration=False)
-
 
 __all__ = [
     "measure_class_box",

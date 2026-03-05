@@ -6,8 +6,6 @@ Covers three related issues:
 3. Text clipped outside viewBox for top-of-diagram nodes
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid import render_diagram
@@ -19,18 +17,15 @@ def _parse_svg(svg_str: str) -> ET.Element:
     svg_str = svg_str.replace(' xmlns="http://www.w3.org/2000/svg"', "")
     return ET.fromstring(svg_str)
 
-
 def _get_viewbox(root: ET.Element) -> tuple[float, float, float, float]:
     """Extract viewBox as (x, y, width, height)."""
     vb = root.get("viewBox", "0 0 0 0")
     parts = vb.split()
     return tuple(float(p) for p in parts)
 
-
 def _get_node_groups(root: ET.Element) -> list[ET.Element]:
     """Find all node <g> elements."""
     return [g for g in root.iter("g") if "node" in (g.get("class") or "")]
-
 
 def _get_text_bounds(g: ET.Element) -> tuple[float, float] | None:
     """Get the approximate y-center of text content in a node group.
@@ -50,7 +45,6 @@ def _get_text_bounds(g: ET.Element) -> tuple[float, float] | None:
         return None
     return (min(ys), max(ys))
 
-
 def _get_node_rect_bounds(
     g: ET.Element,
 ) -> tuple[float, float, float, float] | None:
@@ -62,7 +56,6 @@ def _get_node_rect_bounds(
         h = float(rect.get("height", 0))
         return (x, y, w, h)
     return None
-
 
 class TestMultilineTextPositioning:
     """Verify that multi-line text is positioned inside its node, not at (0,0)."""
@@ -133,7 +126,6 @@ flowchart TD
                             "missing absolute y attribute"
                         )
 
-
 class TestTextWrappingNoOverlap:
     """Verify that wrapped text lines don't overlap."""
 
@@ -187,7 +179,6 @@ class TestTextWrappingNoOverlap:
             assert text_bounds is not None, (
                 f"Node {node_id} has no visible text"
             )
-
 
 class TestViewBoxContainsAllText:
     """Verify that the SVG viewBox encompasses all text content."""
@@ -249,7 +240,6 @@ flowchart TD
                         f"Line {i} y={y_vals[i]:.1f} not below "
                         f"line {i - 1} y={y_vals[i - 1]:.1f}"
                     )
-
 
 class TestLineHeightConsistency:
     """Verify that text measurement and rendering use consistent line heights."""

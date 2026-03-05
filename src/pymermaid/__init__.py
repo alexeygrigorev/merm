@@ -1,7 +1,5 @@
 """PyMermaid - Pure Python Mermaid diagram renderer."""
 
-from __future__ import annotations
-
 import re
 
 from pymermaid.render import render_svg
@@ -92,6 +90,5 @@ def render_diagram(source: str) -> str:
     diagram = parse_flowchart(source)
     layout = layout_diagram(diagram, measure_fn=measurer.measure)
     return render_svg(diagram, layout)
-
 
 __all__ = ["render_diagram", "render_svg"]

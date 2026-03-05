@@ -1,7 +1,5 @@
 """Parser for Mermaid mindmap syntax."""
 
-from __future__ import annotations
-
 import re
 
 from pymermaid.ir.mindmap import MindmapDiagram, MindmapNode, MindmapShape
@@ -15,7 +13,6 @@ _CLOUD_RE = re.compile(r"^(.*?)\)\)(.+)\(\($")
 
 # For nodes that are just bare label (possibly with id prefix)
 _BARE_LABEL_RE = re.compile(r"^(.+)$")
-
 
 def _parse_node_text(raw: str) -> tuple[str, str, MindmapShape]:
     """Parse raw node text into (id, label, shape).
@@ -55,7 +52,6 @@ def _parse_node_text(raw: str) -> tuple[str, str, MindmapShape]:
     # Default: bare text
     node_id = raw.replace(" ", "_")
     return node_id, raw, MindmapShape.DEFAULT
-
 
 def parse_mindmap(text: str) -> MindmapDiagram:
     """Parse Mermaid mindmap syntax into a MindmapDiagram IR.
@@ -139,6 +135,5 @@ def parse_mindmap(text: str) -> MindmapDiagram:
 
     root, _ = _build_tree(parsed_nodes, 0)
     return MindmapDiagram(root=root)
-
 
 __all__ = ["parse_mindmap"]

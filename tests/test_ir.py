@@ -19,7 +19,6 @@ from pymermaid.ir import (
 
 # ---------- Enum completeness ----------
 
-
 class TestEnumCompleteness:
     def test_diagram_type_has_at_least_9_members(self):
         assert len(DiagramType) >= 9
@@ -93,9 +92,7 @@ class TestEnumCompleteness:
         assert NodeShape.diamond == NodeShape["diamond"]
         assert EdgeType.dotted_arrow == EdgeType["dotted_arrow"]
 
-
 # ---------- Node ----------
-
 
 class TestNode:
     def test_node_is_frozen(self):
@@ -115,9 +112,7 @@ class TestNode:
         assert len(s) == 2
         assert a in s
 
-
 # ---------- Edge ----------
-
 
 class TestEdge:
     def test_edge_is_frozen(self):
@@ -136,9 +131,7 @@ class TestEdge:
         s = {a, b}
         assert len(s) == 2
 
-
 # ---------- Subgraph ----------
-
 
 class TestSubgraph:
     def test_subgraph_nested(self):
@@ -161,9 +154,7 @@ class TestSubgraph:
         s = {sg}
         assert sg in s
 
-
 # ---------- StyleDef ----------
-
 
 class TestStyleDef:
     def test_styledef_is_frozen(self):
@@ -171,9 +162,7 @@ class TestStyleDef:
         with pytest.raises(dataclasses.FrozenInstanceError):
             sd.target_id = "B"  # type: ignore[misc]
 
-
 # ---------- Diagram ----------
-
 
 class TestDiagram:
     def test_diagram_is_frozen(self):

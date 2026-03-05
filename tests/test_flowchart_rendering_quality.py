@@ -10,8 +10,6 @@ Covers:
 7. Consistent vertical spacing
 """
 
-from __future__ import annotations
-
 import re
 import xml.etree.ElementTree as ET
 
@@ -27,11 +25,9 @@ NS = {"svg": "http://www.w3.org/2000/svg"}
 # Helpers (reused from test_back_edge_routing.py patterns)
 # ---------------------------------------------------------------------------
 
-
 def _measure(text: str, font_size: float) -> tuple[float, float]:
     """Simple measure function for testing."""
     return (len(text) * font_size * 0.6, font_size * 1.2)
-
 
 def _make_diagram(
     node_ids: list[str],
@@ -58,7 +54,6 @@ def _make_diagram(
         edges=ir_edges,
     )
 
-
 def _get_edge_layout(
     result: LayoutResult, source: str, target: str,
 ) -> EdgeLayout | None:
@@ -68,13 +63,11 @@ def _get_edge_layout(
             return el
     return None
 
-
 def _intermediate_points(el: EdgeLayout) -> list[Point]:
     """Return the waypoints between source and target endpoints."""
     if len(el.points) <= 2:
         return []
     return el.points[1:-1]
-
 
 def _parse_path_x_coords(d_attr: str) -> list[float]:
     """Extract all x-coordinates from an SVG path d attribute."""
@@ -83,25 +76,20 @@ def _parse_path_x_coords(d_attr: str) -> list[float]:
     coords = re.findall(r"(-?[\d.]+),(-?[\d.]+)", d_attr)
     return [float(x) for x, _ in coords]
 
-
 def _parse_path_coords(d_attr: str) -> list[tuple[float, float]]:
     """Extract all (x,y) coordinate pairs from an SVG path d attribute."""
     coords = re.findall(r"(-?[\d.]+),(-?[\d.]+)", d_attr)
     return [(float(x), float(y)) for x, y in coords]
 
-
 def _load_registration_mmd() -> str:
     with open("tests/fixtures/corpus/flowchart/registration.mmd") as f:
         return f.read()
 
-
 def _render_registration_svg() -> str:
     return render_diagram(_load_registration_mmd())
 
-
 def _parse_svg(svg: str) -> ET.Element:
     return ET.fromstring(svg)
-
 
 def _find_edge_elements(
     root: ET.Element, source: str, target: str,
@@ -124,7 +112,6 @@ def _find_edge_elements(
                     results.append(g)
     return results
 
-
 def _find_node_element(root: ET.Element, node_id: str) -> ET.Element | None:
     """Find node <g> element by data-node-id."""
     for g in root.iter("{http://www.w3.org/2000/svg}g"):
@@ -134,7 +121,6 @@ def _find_node_element(root: ET.Element, node_id: str) -> ET.Element | None:
         if g.get("class") == "node" and g.get("data-node-id") == node_id:
             return g
     return None
-
 
 def _get_edge_path_d(edge_g: ET.Element) -> str:
     """Get the d attribute from the path element of an edge group."""
@@ -148,11 +134,9 @@ def _get_edge_path_d(edge_g: ET.Element) -> str:
             return d
     return ""
 
-
 # ---------------------------------------------------------------------------
 # Issue 1: Back-edge channel separation
 # ---------------------------------------------------------------------------
-
 
 class TestBackEdgeChannelSeparation:
     """Back-edges to the same target must have distinct horizontal channels."""
@@ -234,11 +218,9 @@ class TestBackEdgeChannelSeparation:
                     f"too close: {diff:.1f}px apart (need >= 15)"
                 )
 
-
 # ---------------------------------------------------------------------------
 # Issue 2: Back-edge anchor point fan-out
 # ---------------------------------------------------------------------------
-
 
 class TestBackEdgeAnchorFanOut:
     """Back-edges targeting the same node must land at different x-coordinates."""
@@ -335,11 +317,9 @@ class TestBackEdgeAnchorFanOut:
                     f"too close: {diff:.1f}px apart (need >= 8)"
                 )
 
-
 # ---------------------------------------------------------------------------
 # Issue 3: Parent-child horizontal alignment
 # ---------------------------------------------------------------------------
-
 
 class TestParentChildAlignment:
     """Nodes in a direct parent-child chain should be center-aligned."""
@@ -402,11 +382,9 @@ class TestParentChildAlignment:
         for nid in ["A", "B", "C", "D"]:
             assert nid in result.nodes, f"Node {nid} missing from layout"
 
-
 # ---------------------------------------------------------------------------
 # Issue 4: Edge labels avoid crossing back-edge paths
 # ---------------------------------------------------------------------------
-
 
 class TestEdgeLabelsAvoidBackEdgePaths:
     """Edge labels must not overlap with back-edge paths."""
@@ -482,11 +460,9 @@ class TestEdgeLabelsAvoidBackEdgePaths:
                     f"Label bbox {label_bb} overlaps back-edge path bbox {be_bb}"
                 )
 
-
 # ---------------------------------------------------------------------------
 # Issue 5: Edge crossing gaps (deferred)
 # ---------------------------------------------------------------------------
-
 
 class TestEdgeCrossingGaps:
     """Edge crossing gaps -- visual polish feature."""
@@ -508,11 +484,9 @@ class TestEdgeCrossingGaps:
         # with 4-8px gap width. For now, this test is skipped.
         assert "<svg" in svg
 
-
 # ---------------------------------------------------------------------------
 # Issue 6: Parallelogram/trapezoid width
 # ---------------------------------------------------------------------------
-
 
 class TestParallelogramTrapezoidWidth:
     """Parallelogram and trapezoid nodes should not be excessively wide."""
@@ -583,11 +557,9 @@ class TestParallelogramTrapezoidWidth:
             f"(width={nl.width:.1f}, text_width={text_width:.1f})"
         )
 
-
 # ---------------------------------------------------------------------------
 # Issue 7: Consistent vertical spacing
 # ---------------------------------------------------------------------------
-
 
 class TestConsistentVerticalSpacing:
     """Vertical gaps between consecutive nodes should be consistent."""
@@ -639,11 +611,9 @@ class TestConsistentVerticalSpacing:
             f"Form->Submit={gap2:.1f}, diff={diff:.1f}px (need < 5.0)"
         )
 
-
 # ---------------------------------------------------------------------------
 # Integration: Full regression
 # ---------------------------------------------------------------------------
-
 
 class TestIntegrationRegression:
     """Full render of registration.mmd produces valid SVG."""

@@ -1,7 +1,5 @@
 """Command-line interface for pymermaid."""
 
-from __future__ import annotations
-
 import argparse
 import re
 import sys
@@ -32,7 +30,6 @@ def _get_version() -> str:
     except Exception:
         return "pymermaid 0.1.0"
 
-
 def _build_parser() -> argparse.ArgumentParser:
     """Build and return the argument parser."""
     parser = argparse.ArgumentParser(
@@ -57,7 +54,6 @@ def _build_parser() -> argparse.ArgumentParser:
         version=_get_version(),
     )
     return parser
-
 
 def main() -> None:
     """Entry point for the pymermaid CLI."""
@@ -147,7 +143,6 @@ def main() -> None:
             sys.exit(2)
     else:
         print(svg_output)
-
 
 if __name__ == "__main__":
     main()

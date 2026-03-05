@@ -1,7 +1,5 @@
 """Unit tests for SVG parsing utilities in tests/comparison.py."""
 
-from __future__ import annotations
-
 from pathlib import Path
 
 from tests.comparison import (
@@ -13,7 +11,6 @@ from tests.comparison import (
 )
 
 REFERENCE_DIR = Path(__file__).parent / "reference"
-
 
 class TestParseSVGNodes:
     """Tests for parse_svg_nodes."""
@@ -63,7 +60,6 @@ class TestParseSVGNodes:
         nodes = parse_svg_nodes("")
         assert nodes == []
 
-
 class TestParseSVGEdges:
     """Tests for parse_svg_edges."""
 
@@ -96,7 +92,6 @@ class TestParseSVGEdges:
         for edge in edges:
             assert edge.edge_id, "Edge should have a non-empty ID"
 
-
 class TestParseSVGLabels:
     """Tests for parse_svg_labels."""
 
@@ -127,7 +122,6 @@ class TestParseSVGLabels:
         """Empty SVG returns no labels."""
         labels = parse_svg_labels('<svg xmlns="http://www.w3.org/2000/svg"></svg>')
         assert labels == []
-
 
 class TestStructuralCompare:
     """Tests for structural_compare."""

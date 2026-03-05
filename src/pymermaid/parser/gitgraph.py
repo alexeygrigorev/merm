@@ -1,7 +1,5 @@
 """Parser for Mermaid gitGraph syntax."""
 
-from __future__ import annotations
-
 import re
 
 from pymermaid.ir.gitgraph import CommitType, GitBranch, GitCommit, GitGraph
@@ -11,7 +9,6 @@ from pymermaid.parser.flowchart import ParseError
 _ID_RE = re.compile(r'id:\s*"([^"]+)"')
 _TAG_RE = re.compile(r'tag:\s*"([^"]+)"')
 _TYPE_RE = re.compile(r"type:\s*(NORMAL|REVERSE|HIGHLIGHT)")
-
 
 def parse_gitgraph(text: str) -> GitGraph:
     """Parse Mermaid gitGraph syntax into a GitGraph IR.
@@ -214,6 +211,5 @@ def parse_gitgraph(text: str) -> GitGraph:
         branches=tuple(branches),
         branch_order=tuple(branch_order),
     )
-
 
 __all__ = ["parse_gitgraph"]

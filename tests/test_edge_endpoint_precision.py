@@ -6,8 +6,6 @@ edges (arrowhead tip on boundary via marker refX) and open-link edges
 (path endpoint on boundary, no marker).
 """
 
-from __future__ import annotations
-
 import math
 import re
 import xml.etree.ElementTree as ET
@@ -19,7 +17,6 @@ from pymermaid.layout.types import Point
 
 FIXTURES = Path(__file__).parent / "fixtures"
 NS = "{http://www.w3.org/2000/svg}"
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -46,7 +43,6 @@ def _assert_on_rect_boundary(
         f"center=({cx}, {cy}), size={size}"
     )
 
-
 def _parse_svg_nodes(root: ET.Element) -> dict[str, dict]:
     """Extract node rects from rendered SVG."""
     nodes: dict[str, dict] = {}
@@ -61,7 +57,6 @@ def _parse_svg_nodes(root: ET.Element) -> dict[str, dict]:
                 h = float(rect.get("height", "0"))
                 nodes[nid] = {"x": x, "y": y, "w": w, "h": h}
     return nodes
-
 
 def _parse_svg_edges(root: ET.Element) -> list[dict]:
     """Extract edge info (source, target, path d-string) from rendered SVG."""
@@ -82,13 +77,11 @@ def _parse_svg_edges(root: ET.Element) -> list[dict]:
                     })
     return edges
 
-
 def _parse_path_start(d: str) -> tuple[float, float]:
     """Extract the first M coordinate from a path d-string."""
     m = re.match(r"M\s*([-\d.]+)[,\s]+([-\d.]+)", d)
     assert m, f"Could not parse M from path: {d[:60]}"
     return float(m.group(1)), float(m.group(2))
-
 
 def _parse_path_end(d: str) -> tuple[float, float]:
     """Extract the last coordinate from a path d-string."""
@@ -96,7 +89,6 @@ def _parse_path_end(d: str) -> tuple[float, float]:
     coords = re.findall(r"([-\d.]+)[,\s]+([-\d.]+)", d)
     assert coords, f"Could not parse end from path: {d[:60]}"
     return float(coords[-1][0]), float(coords[-1][1])
-
 
 def _point_on_rect(
     px: float, py: float,
@@ -119,7 +111,6 @@ def _point_on_rect(
         and left - tolerance <= px <= right + tolerance
     )
     return on_left_or_right or on_top_or_bottom
-
 
 # ---------------------------------------------------------------------------
 # Unit: _boundary_point precision
@@ -161,7 +152,6 @@ class TestBoundaryPoint:
         """Near-vertical edge (small dx) should hit top/bottom, not side."""
         pt = _boundary_point(100, 100, 80, 54, 0.01, 1)
         assert abs(pt.y - 127.0) < 0.5  # hits bottom edge
-
 
 # ---------------------------------------------------------------------------
 # Unit: _route_edge_on_boundary gap behavior
@@ -288,7 +278,6 @@ class TestRouteEdgeOnBoundary:
         # Source point should be above target point for TD layout
         assert src_pt.y <= tgt_pt.y, "Source should not overshoot past target"
 
-
 # ---------------------------------------------------------------------------
 # Integration: SVG edge endpoint validation
 # ---------------------------------------------------------------------------
@@ -298,7 +287,6 @@ def _render_and_parse(source: str) -> tuple[dict, list[dict]]:
     svg_str = render_diagram(source)
     root = ET.fromstring(svg_str)
     return _parse_svg_nodes(root), _parse_svg_edges(root)
-
 
 class TestSVGEdgeEndpoints:
     """Parse SVG output and verify edge endpoints lie on node boundaries."""
@@ -462,7 +450,6 @@ class TestSVGEdgeEndpoints:
                 f"BT {edge['source']}->{edge['target']}: "
                 f"start ({px:.1f},{py:.1f}) not on source rect"
             )
-
 
 # ---------------------------------------------------------------------------
 # Integration: marker alignment

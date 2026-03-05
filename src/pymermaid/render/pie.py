@@ -1,7 +1,5 @@
 """SVG renderer for pie charts."""
 
-from __future__ import annotations
-
 import math
 from xml.sax.saxutils import escape
 
@@ -20,7 +18,6 @@ PIE_COLORS = [
     "#B5CA92",  # sage green
     "#5C6BC0",  # indigo
 ]
-
 
 def render_pie_svg(chart: PieChart, theme: Theme | None = None) -> str:
     """Render a PieChart IR to an SVG string."""
@@ -146,6 +143,5 @@ def render_pie_svg(chart: PieChart, theme: Theme | None = None) -> str:
 
     parts.append("</svg>")
     return "\n".join(parts)
-
 
 __all__ = ["render_pie_svg"]

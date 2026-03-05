@@ -3,8 +3,6 @@
 Covers IR dataclasses, parser, layout conversion, renderer, and CLI integration.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -78,7 +76,6 @@ class TestIRDataclasses:
         assert StateType.CHOICE.value == "choice"
         assert StateType.FORK.value == "fork"
         assert StateType.JOIN.value == "join"
-
 
 # -----------------------------------------------------------------------
 # Parser tests
@@ -247,7 +244,6 @@ class TestParser:
         assert len(starts) == 1
         assert len(ends) == 1
 
-
 # -----------------------------------------------------------------------
 # Layout conversion tests
 # -----------------------------------------------------------------------
@@ -317,7 +313,6 @@ class TestLayoutConversion:
         # Start state should be small (20x20)
         assert start_nl.width == 20.0
         assert start_nl.height == 20.0
-
 
 # -----------------------------------------------------------------------
 # Renderer tests
@@ -467,7 +462,6 @@ class TestRenderer:
         svg = self._make_svg("stateDiagram-v2\n  s1")
         assert "<style>" in svg or "<style" in svg
 
-
 # -----------------------------------------------------------------------
 # Integration / end-to-end tests
 # -----------------------------------------------------------------------
@@ -561,7 +555,6 @@ class TestIntegration:
                 assert not (x_overlap and y_overlap), (
                     f"Nodes overlap: {a} and {b}"
                 )
-
 
 # -----------------------------------------------------------------------
 # CLI routing test

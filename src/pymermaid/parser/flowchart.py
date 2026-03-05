@@ -1,7 +1,5 @@
 """Flowchart parser: Mermaid flowchart syntax -> IR Diagram."""
 
-from __future__ import annotations
-
 import html
 import re
 from dataclasses import dataclass, field
@@ -29,13 +27,11 @@ class ParseError(Exception):
             message = f"Line {line}: {message}"
         super().__init__(message)
 
-
 # ---------------------------------------------------------------------------
 # Entity code decoding
 # ---------------------------------------------------------------------------
 
 _ENTITY_RE = re.compile(r"#(\d+);")
-
 
 def _decode_entities(text: str) -> str:
     """Decode Mermaid entity codes and standard HTML entities."""
@@ -47,11 +43,9 @@ def _decode_entities(text: str) -> str:
     text = _ENTITY_RE.sub(lambda m: chr(int(m.group(1))), text)
     return text
 
-
 # ---------------------------------------------------------------------------
 # Pre-processing: strip comments, split on semicolons
 # ---------------------------------------------------------------------------
-
 
 def _preprocess(text: str) -> list[tuple[int, str]]:
     """Return list of (original_line_number, stripped_line)."""
@@ -67,7 +61,6 @@ def _preprocess(text: str) -> list[tuple[int, str]]:
             if p:
                 result.append((lineno_0, p))
     return result
-
 
 def _strip_comment(line: str) -> str:
     """Remove ``%%`` comments from a line, respecting quoted strings."""
@@ -86,7 +79,6 @@ def _strip_comment(line: str) -> str:
                 return line[:i].rstrip()
         i += 1
     return line
-
 
 def _split_semicolons(line: str) -> list[str]:
     """Split *line* on semicolons that are not inside quoted strings or brackets."""
@@ -116,7 +108,6 @@ def _split_semicolons(line: str) -> list[str]:
     parts.append("".join(current))
     return parts
 
-
 # ---------------------------------------------------------------------------
 # Node shape parsing
 # ---------------------------------------------------------------------------
@@ -138,14 +129,12 @@ _SHAPE_PATTERNS: list[tuple[str, str, NodeShape]] = [
     ("{",    "}",    NodeShape.diamond),
 ]
 
-
 @dataclass
 class _NodeDef:
     id: str
     label: str
     shape: NodeShape
     css_classes: list[str] = field(default_factory=list)
-
 
 def _parse_node_def(token: str) -> _NodeDef:
     """Parse a node definition token like ``A[text]`` or ``A:::cls``.
@@ -203,7 +192,6 @@ def _parse_node_def(token: str) -> _NodeDef:
 
     raise ValueError(f"Cannot parse node definition: {token!r}")
 
-
 def _find_delimiter(text: str, delim: str) -> int | None:
     """Find position of *delim* in *text*, skipping id characters."""
     # The delimiter starts after the id.
@@ -215,17 +203,14 @@ def _find_delimiter(text: str, delim: str) -> int | None:
         return i
     return None
 
-
 def _valid_id(s: str) -> bool:
     return bool(s) and bool(re.match(r"^[A-Za-z_\d][A-Za-z_\d]*$", s))
-
 
 def _unquote(s: str) -> str:
     """Remove surrounding double quotes if present."""
     if len(s) >= 2 and s[0] == '"' and s[-1] == '"':
         return s[1:-1]
     return s
-
 
 # ---------------------------------------------------------------------------
 # Edge parsing
@@ -256,7 +241,6 @@ _EDGE_RE = re.compile(
     re.VERBOSE,
 )
 
-
 @dataclass
 class _EdgeInfo:
     edge_type: EdgeType
@@ -264,7 +248,6 @@ class _EdgeInfo:
     target_arrow: ArrowType
     extra_length: int
     label: str | None
-
 
 def _parse_edge_operator(op: str) -> _EdgeInfo:
     """Parse an edge operator string like ``-->``, ``-.->`` etc."""
@@ -335,7 +318,6 @@ def _parse_edge_operator(op: str) -> _EdgeInfo:
 
     raise ValueError(f"Invalid edge operator: {op!r}")
 
-
 # ---------------------------------------------------------------------------
 # Statement-level line parser
 # ---------------------------------------------------------------------------
@@ -375,7 +357,6 @@ _EDGE_OP_PATTERN = re.compile(
     """,
     re.VERBOSE,
 )
-
 
 def _tokenize_statement(line: str) -> list[str]:
     """Split a node-edge statement into alternating node-group and edge-operator tokens.
@@ -428,14 +409,12 @@ def _tokenize_statement(line: str) -> list[str]:
 
     return tokens
 
-
 def _try_match_edge(line: str, pos: int) -> tuple[str, int] | None:
     """Try to match an edge operator at position *pos* in *line*."""
     m = _EDGE_OP_PATTERN.match(line, pos)
     if m:
         return m.group(0), m.end()
     return None
-
 
 def _try_match_inline_label_edge(line: str, pos: int) -> tuple[str, int] | None:
     """Match inline label edge syntax like ``-- label -->``."""
@@ -453,7 +432,6 @@ def _try_match_inline_label_edge(line: str, pos: int) -> tuple[str, int] | None:
         if m:
             return m.group(0), m.end()
     return None
-
 
 def _consume_node_group(line: str, pos: int) -> tuple[str, int]:
     """Consume characters forming a node group (possibly with & separator).
@@ -517,11 +495,9 @@ def _consume_node_group(line: str, pos: int) -> tuple[str, int]:
 
     return line[start:pos], pos
 
-
 # ---------------------------------------------------------------------------
 # Main parser
 # ---------------------------------------------------------------------------
-
 
 @dataclass
 class _ParserState:
@@ -533,9 +509,8 @@ class _ParserState:
     styles: list[StyleDef] = field(default_factory=list)
     classes: dict[str, dict[str, str]] = field(default_factory=dict)
     # Subgraph stack for nesting
-    subgraph_stack: list[_SubgraphBuilder] = field(default_factory=list)
+    subgraph_stack: list["_SubgraphBuilder"] = field(default_factory=list)
     top_level_subgraphs: list[Subgraph] = field(default_factory=list)
-
 
 @dataclass
 class _SubgraphBuilder:
@@ -553,7 +528,6 @@ class _SubgraphBuilder:
             node_ids=tuple(self.node_ids),
             subgraphs=tuple(self.child_subgraphs),
         )
-
 
 def parse_flowchart(text: str) -> Diagram:
     """Parse Mermaid flowchart syntax into a :class:`Diagram`.
@@ -616,7 +590,6 @@ def parse_flowchart(text: str) -> Diagram:
         classes=dict(state.classes),
     )
 
-
 def _parse_declaration(line: str, lineno: int, state: _ParserState) -> None:
     """Parse the ``graph TD`` or ``flowchart LR`` declaration."""
     m = re.match(r"^(graph|flowchart)\s*(\w*)$", line, re.IGNORECASE)
@@ -643,7 +616,6 @@ def _parse_declaration(line: str, lineno: int, state: _ParserState) -> None:
         state.direction = Direction[dir_str]
     except KeyError:
         raise ParseError(f"Unknown direction: {dir_str!r}", lineno) from None
-
 
 def _parse_line(line: str, lineno: int, state: _ParserState) -> None:
     """Parse a single logical line (after preprocessing)."""
@@ -704,7 +676,6 @@ def _parse_line(line: str, lineno: int, state: _ParserState) -> None:
     # Node-edge statement
     _parse_node_edge_statement(line, lineno, state)
 
-
 def _handle_subgraph_start(rest: str, lineno: int, state: _ParserState) -> None:
     """Handle ``subgraph id[Title]`` or ``subgraph id``."""
     # Parse: id[Title] or just id
@@ -725,7 +696,6 @@ def _handle_subgraph_start(rest: str, lineno: int, state: _ParserState) -> None:
     builder = _SubgraphBuilder(id=sg_id, title=title)
     state.subgraph_stack.append(builder)
 
-
 def _handle_subgraph_end(lineno: int, state: _ParserState) -> None:
     """Handle ``end`` keyword -- close current subgraph."""
     if not state.subgraph_stack:
@@ -740,7 +710,6 @@ def _handle_subgraph_end(lineno: int, state: _ParserState) -> None:
     else:
         state.top_level_subgraphs.append(sg)
 
-
 def _parse_style_props(text: str) -> dict[str, str]:
     """Parse ``fill:#f9f,stroke:#333`` into a dict."""
     props: dict[str, str] = {}
@@ -750,7 +719,6 @@ def _parse_style_props(text: str) -> dict[str, str]:
             k, v = part.split(":", 1)
             props[k.strip()] = v.strip()
     return props
-
 
 def _register_node(ndef: _NodeDef, state: _ParserState) -> None:
     """Register a node definition, updating if it already exists."""
@@ -770,7 +738,6 @@ def _register_node(ndef: _NodeDef, state: _ParserState) -> None:
         sg = state.subgraph_stack[-1]
         if ndef.id not in sg.node_ids:
             sg.node_ids.append(ndef.id)
-
 
 def _parse_node_edge_statement(line: str, lineno: int, state: _ParserState) -> None:
     """Parse a statement with nodes and edges."""
@@ -839,7 +806,6 @@ def _parse_node_edge_statement(line: str, lineno: int, state: _ParserState) -> N
                     )
                 )
 
-
 def _parse_edge_token(token: str, lineno: int) -> _EdgeInfo:
     """Parse an edge token which may include a pipe label or inline label."""
     # Check for pipe label: -->|label|
@@ -900,7 +866,6 @@ def _parse_edge_token(token: str, lineno: int) -> _EdgeInfo:
     except ValueError:
         raise ParseError(f"Cannot parse edge operator: {token!r}", lineno) from None
 
-
 def _split_ampersand(group: str) -> list[str]:
     """Split a node group by ``&`` separator."""
     # Don't split & inside brackets/parens
@@ -931,6 +896,5 @@ def _split_ampersand(group: str) -> list[str]:
     if rest:
         parts.append(rest)
     return parts
-
 
 __all__ = ["ParseError", "parse_flowchart"]

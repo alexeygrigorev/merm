@@ -4,8 +4,6 @@ Verifies that node dimensions, padding, and spacing constants have been
 calibrated to match mermaid.js reference values.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid import render_diagram
@@ -20,11 +18,9 @@ from pymermaid.theme import DEFAULT_THEME, Theme
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 
-
 def _render_and_parse(source: str) -> ET.Element:
     svg = render_diagram(source)
     return ET.fromstring(svg)
-
 
 def _find_rects(root: ET.Element) -> list[ET.Element]:
     """Find all <rect> elements in the SVG (excluding background)."""
@@ -37,7 +33,6 @@ def _find_rects(root: ET.Element) -> list[ET.Element]:
         rects.append(r)
     return rects
 
-
 def _find_node_groups(root: ET.Element) -> list[ET.Element]:
     """Find <g> elements with class containing 'node'."""
     groups = []
@@ -47,24 +42,19 @@ def _find_node_groups(root: ET.Element) -> list[ET.Element]:
             groups.append(g)
     return groups
 
-
 def _get_rect_dims(rect: ET.Element) -> tuple[float, float]:
     """Extract width and height from a rect element."""
     w = float(rect.get("width", "0"))
     h = float(rect.get("height", "0"))
     return w, h
 
-
 # ---------------------------------------------------------------------------
 # Unit: Constants are calibrated
 # ---------------------------------------------------------------------------
 
-
-
 # ---------------------------------------------------------------------------
 # Unit: Node dimension calculation
 # ---------------------------------------------------------------------------
-
 
 class TestNodeDimensions:
     def test_single_char_node_dimensions(self):
@@ -110,11 +100,9 @@ class TestNodeDimensions:
             f"'Hello' width {w_hello}"
         )
 
-
 # ---------------------------------------------------------------------------
 # Unit: Layout spacing
 # ---------------------------------------------------------------------------
-
 
 class TestLayoutSpacing:
     def test_vertical_distance_between_nodes(self):
@@ -173,11 +161,9 @@ class TestLayoutSpacing:
                         f"Horizontal gap {gap} not in range"
                     )
 
-
 # ---------------------------------------------------------------------------
 # Unit: Theme constants are used
 # ---------------------------------------------------------------------------
-
 
 class TestThemeUsage:
     def test_custom_theme_narrower_nodes(self):
@@ -193,11 +179,9 @@ class TestThemeUsage:
         assert cfg.rank_sep == t.rank_sep
         assert cfg.node_sep == t.node_sep
 
-
 # ---------------------------------------------------------------------------
 # Integration: Compact layout
 # ---------------------------------------------------------------------------
-
 
 class TestCompactLayout:
     def test_medium_diagram_height(self):
@@ -238,11 +222,9 @@ class TestCompactLayout:
         node_groups = _find_node_groups(root)
         assert len(node_groups) >= 4, "Expected at least 4 node groups"
 
-
 # ---------------------------------------------------------------------------
 # Integration: No text clipping after resize
 # ---------------------------------------------------------------------------
-
 
 class TestNoTextClipping:
     def test_long_text_renders(self):

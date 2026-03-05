@@ -1,7 +1,5 @@
 """Tests for task 53: edge label overlap fix and edge style visibility."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir import Edge, EdgeType
@@ -19,7 +17,6 @@ from pymermaid.render.edges import (
 
 _NS = "http://www.w3.org/2000/svg"
 
-
 def _make_edge_layout(
     source: str, target: str, points: list[tuple[float, float]],
 ) -> EdgeLayout:
@@ -29,13 +26,11 @@ def _make_edge_layout(
         points=[Point(x=x, y=y) for x, y in points],
     )
 
-
 def _make_ir_edge(
     source: str, target: str, label: str,
     edge_type: EdgeType = EdgeType.arrow,
 ) -> Edge:
     return Edge(source=source, target=target, label=label, edge_type=edge_type)
-
 
 def _iter_edge_groups(root: ET.Element) -> list[ET.Element]:
     """Find all <g class="edge"> elements, handling SVG namespace."""
@@ -48,20 +43,17 @@ def _iter_edge_groups(root: ET.Element) -> list[ET.Element]:
             results.append(g)
     return results
 
-
 def _find_child(parent: ET.Element, tag: str) -> ET.Element | None:
     el = parent.find(f"{{{_NS}}}{tag}")
     if el is None:
         el = parent.find(tag)
     return el
 
-
 def _find_children(parent: ET.Element, tag: str) -> list[ET.Element]:
     results = parent.findall(f"{{{_NS}}}{tag}")
     if not results:
         results = parent.findall(tag)
     return results
-
 
 # ===========================================================================
 # Unit: resolve_label_positions x-axis overlap fix
@@ -111,7 +103,6 @@ class TestResolveLabelPositionsXAxisOverlap:
             f"Bounding boxes overlap after resolution: {bb1} vs {bb2}"
         )
 
-
 # ===========================================================================
 # Unit: _STYLE_MAP dash pattern values
 # ===========================================================================
@@ -151,7 +142,6 @@ class TestStyleMapValues:
         """thick_arrow edges must have stroke-width >= 3.5."""
         sw = float(_STYLE_MAP[EdgeType.thick_arrow]["stroke-width"])
         assert sw >= 3.5, f"Thick arrow stroke-width {sw} < 3.5"
-
 
 # ===========================================================================
 # Integration: labeled_edges.mmd full render -- no label overlap
@@ -236,7 +226,6 @@ class TestLabeledEdgesIntegrationNoOverlap:
                     f"{rects[i]} vs {rects[j]}"
                 )
 
-
 # ===========================================================================
 # Integration: dotted edge has visible dash pattern
 # ===========================================================================
@@ -273,7 +262,6 @@ class TestDottedEdgeVisibleDash:
                 break
 
         assert found, "Could not find edge group with source=C, target=D"
-
 
 # ===========================================================================
 # Integration: thick edge has visible stroke

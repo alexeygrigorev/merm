@@ -8,8 +8,6 @@ Handles:
 - Auto-creation of entities referenced in relationships
 """
 
-from __future__ import annotations
-
 import re
 from dataclasses import dataclass, field
 
@@ -76,7 +74,6 @@ _KEY_MAP = {
     "UK": ERAttributeKey.UK,
 }
 
-
 # ---------------------------------------------------------------------------
 # Preprocessing
 # ---------------------------------------------------------------------------
@@ -87,7 +84,6 @@ def _strip_comment(line: str) -> str:
     if idx >= 0:
         return line[:idx].rstrip()
     return line
-
 
 # ---------------------------------------------------------------------------
 # Parser state
@@ -106,7 +102,6 @@ class _EntityBuilder:
             attributes=tuple(self.attributes),
         )
 
-
 @dataclass
 class _ParserState:
     """Mutable state during parsing."""
@@ -119,7 +114,6 @@ class _ParserState:
         if name not in self.entities:
             self.entities[name] = _EntityBuilder(id=name)
         return self.entities[name]
-
 
 # ---------------------------------------------------------------------------
 # Attribute parsing
@@ -139,7 +133,6 @@ def _parse_attribute(line: str) -> ERAttribute:
         key = _KEY_MAP[parts[2]]
 
     return ERAttribute(type_str=type_str, name=name, key=key)
-
 
 # ---------------------------------------------------------------------------
 # Main parser
@@ -264,6 +257,5 @@ def parse_er_diagram(text: str) -> ERDiagram:
         entities=tuple(entity_list),
         relationships=tuple(state.relationships),
     )
-
 
 __all__ = ["parse_er_diagram"]

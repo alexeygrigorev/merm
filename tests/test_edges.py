@@ -1,7 +1,5 @@
 """Tests for the edge rendering module."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir import (
@@ -19,7 +17,6 @@ from pymermaid.render.edges import make_edge_defs, points_to_path_d, render_edge
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -30,10 +27,8 @@ def _defs_element() -> ET.Element:
     make_edge_defs(defs)
     return defs
 
-
 def _find_markers(parent: ET.Element) -> list[ET.Element]:
     return [el for el in parent.iter() if el.tag in ("marker", f"{{{_SVG_NS}}}marker")]
-
 
 def _make_edge_layout(
     source: str = "A",
@@ -48,7 +43,6 @@ def _make_edge_layout(
         points=[Point(x=x, y=y) for x, y in points],
     )
 
-
 def _render_edge_to_group(
     ir_edge: Edge | None = None,
     edge_layout: EdgeLayout | None = None,
@@ -61,21 +55,17 @@ def _render_edge_to_group(
     render_edge(parent, edge_layout, ir_edge, smooth=smooth)
     return parent
 
-
 def _find_path(parent: ET.Element) -> ET.Element | None:
     for el in parent.iter():
         if el.tag in ("path", f"{{{_SVG_NS}}}path"):
             return el
     return None
 
-
 def _find_texts(parent: ET.Element) -> list[ET.Element]:
     return [el for el in parent.iter() if el.tag in ("text", f"{{{_SVG_NS}}}text")]
 
-
 def _find_rects(parent: ET.Element) -> list[ET.Element]:
     return [el for el in parent.iter() if el.tag in ("rect", f"{{{_SVG_NS}}}rect")]
-
 
 def _simple_layout(
     edge_source: str = "A",
@@ -96,7 +86,6 @@ def _simple_layout(
         width=200.0,
         height=150.0,
     )
-
 
 def _simple_diagram(
     edge_type: EdgeType = EdgeType.arrow,
@@ -120,15 +109,12 @@ def _simple_diagram(
         ),
     )
 
-
 def _parse(svg_str: str) -> ET.Element:
     return ET.fromstring(svg_str)
-
 
 # =========================================================================
 # Unit: Marker definitions
 # =========================================================================
-
 
 class TestMarkerDefinitions:
     def test_creates_four_markers(self):
@@ -175,11 +161,9 @@ class TestMarkerDefinitions:
                 paths = [c for c in m if c.tag in ("path", f"{{{_SVG_NS}}}path")]
                 assert len(paths) == 1
 
-
 # =========================================================================
 # Unit: Edge line styles
 # =========================================================================
-
 
 class TestEdgeLineStyles:
     def test_arrow_no_dasharray(self):
@@ -255,11 +239,9 @@ class TestEdgeLineStyles:
         hidden = path.get("visibility") == "hidden" or path.get("stroke") == "none"
         assert hidden
 
-
 # =========================================================================
 # Unit: Marker assignment
 # =========================================================================
-
 
 class TestMarkerAssignment:
     def test_target_arrow_arrow(self):
@@ -317,11 +299,9 @@ class TestMarkerAssignment:
         path = _find_path(g)
         assert path.get("marker-start") is None
 
-
 # =========================================================================
 # Unit: Path generation
 # =========================================================================
-
 
 class TestPathGeneration:
     def test_empty_list(self):
@@ -362,11 +342,9 @@ class TestPathGeneration:
             if ch.isalpha():
                 assert ch in allowed_commands, f"Unexpected command: {ch}"
 
-
 # =========================================================================
 # Unit: Edge labels
 # =========================================================================
-
 
 class TestEdgeLabels:
     def test_label_renders_text(self):
@@ -428,11 +406,9 @@ class TestEdgeLabels:
         assert tspans[0].text == "Line1"
         assert tspans[1].text == "Line2"
 
-
 # =========================================================================
 # Unit: Edge label positioning
 # =========================================================================
-
 
 class TestEdgeLabelPositioning:
     def test_label_at_midpoint_2_points(self):
@@ -458,11 +434,9 @@ class TestEdgeLabelPositioning:
         assert abs(tx - 75.0) < 1.0
         assert abs(ty - 50.0) < 1.0
 
-
 # =========================================================================
 # Integration: Full render_svg with edges
 # =========================================================================
-
 
 class TestIntegrationRenderSvg:
     def test_arrow_edge_has_marker_end(self):
@@ -521,11 +495,9 @@ class TestIntegrationRenderSvg:
         assert "arrowhead" not in marker_ids
         assert "arrow" in marker_ids
 
-
 # =========================================================================
 # Integration: All edge types produce valid SVG
 # =========================================================================
-
 
 class TestAllEdgeTypesValidSvg:
     def test_all_edge_types_well_formed(self):
@@ -543,5 +515,4 @@ class TestAllEdgeTypesValidSvg:
             assert root.tag in ("svg", f"{{{_SVG_NS}}}svg"), (
                 f"EdgeType.{et.name} produced invalid SVG root"
             )
-
 

@@ -14,8 +14,6 @@ with the main layout_diagram function (subgraph membership affects layer
 grouping and the final bounding-box computation).
 """
 
-from __future__ import annotations
-
 import math
 from collections import defaultdict
 
@@ -35,7 +33,6 @@ _NODE_PADDING_V = 16.0  # 8px each side
 # Minimum node dimensions (matching mermaid.js defaults)
 _NODE_MIN_HEIGHT = 42.0
 _NODE_MIN_WIDTH = 70.0
-
 
 # ---------------------------------------------------------------------------
 # Internal helpers
@@ -60,7 +57,6 @@ def _build_adjacency(
         succ.setdefault(n, [])
         pred.setdefault(n, [])
     return dict(succ), dict(pred)
-
 
 # ---------------------------------------------------------------------------
 # Step 0: Preprocessing -- merge multi-edges, separate self-loops
@@ -87,7 +83,6 @@ def _preprocess_edges(
             seen.add(key)
             normal.append((s, t, idx))
     return normal, self_loops
-
 
 # ---------------------------------------------------------------------------
 # Step 1: Cycle removal via DFS
@@ -130,7 +125,6 @@ def _remove_cycles(
         else:
             result.append((s, t, idx))
     return result, reversed_indices
-
 
 # ---------------------------------------------------------------------------
 # Step 2: Layer assignment -- longest path
@@ -175,7 +169,6 @@ def _longest_path_layering(
 
     return layer
 
-
 # ---------------------------------------------------------------------------
 # Step 2b: Insert dummy nodes for long edges
 # ---------------------------------------------------------------------------
@@ -214,7 +207,6 @@ def _insert_dummy_nodes(
 
     return new_layers, new_edges, dummy_info
 
-
 # ---------------------------------------------------------------------------
 # Step 3: Crossing minimization -- barycenter heuristic
 # ---------------------------------------------------------------------------
@@ -228,7 +220,6 @@ def _build_layer_lists(
     for node, layer in layers.items():
         result[layer].append(node)
     return result
-
 
 def _crossing_minimization(
     layer_lists: list[list[str]],
@@ -282,7 +273,6 @@ def _crossing_minimization(
             layer_lists[li] = sorted(free, key=lambda n: bary[n])
 
     return layer_lists
-
 
 # ---------------------------------------------------------------------------
 # Step 4: Coordinate assignment
@@ -338,13 +328,11 @@ def _assign_coordinates(
 
     return positions
 
-
 # ---------------------------------------------------------------------------
 # Step 4b: Offset back-edge dummy nodes to separate overlapping back-edges
 # ---------------------------------------------------------------------------
 
 _BACK_EDGE_CHANNEL_OFFSET = 30.0  # horizontal gap between back-edge channels
-
 
 def _offset_back_edge_dummies(
     positions: dict[str, tuple[float, float]],
@@ -438,11 +426,9 @@ def _offset_back_edge_dummies(
 
     return positions
 
-
 # ---------------------------------------------------------------------------
 # Step 4c: Align parent-child chains
 # ---------------------------------------------------------------------------
-
 
 def _align_parent_child_chains(
     positions: dict[str, tuple[float, float]],
@@ -508,7 +494,6 @@ def _align_parent_child_chains(
 
     return positions
 
-
 # ---------------------------------------------------------------------------
 # Step 5: Edge routing
 # ---------------------------------------------------------------------------
@@ -573,7 +558,6 @@ def _route_edge_on_boundary(
 
     return src_point, tgt_point
 
-
 def _boundary_point(
     cx: float, cy: float, w: float, h: float, dx: float, dy: float,
 ) -> Point:
@@ -594,7 +578,6 @@ def _boundary_point(
 
     t = min(tx_time, ty_time)
     return Point(cx + dx * t, cy + dy * t)
-
 
 def _self_loop_points(
     cx: float, cy: float, w: float, h: float, direction: Direction,
@@ -674,7 +657,6 @@ def _self_loop_points(
     p11 = Point(cx + bulge * 0.9, bot + loop_drop * 0.1)
     p12 = Point(cx + side_offset, bot)
     return [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12]
-
 
 def _route_edges(
     original_edges: list[tuple[str, str, int]],
@@ -835,7 +817,6 @@ def _route_edges(
 
     return results
 
-
 # ---------------------------------------------------------------------------
 # Step 6: Direction transform
 # ---------------------------------------------------------------------------
@@ -885,7 +866,6 @@ def _apply_direction(
 
     return new_positions, new_sizes
 
-
 def _transform_point(
     p: Point, direction: Direction, max_y: float, max_x: float,
 ) -> Point:
@@ -906,13 +886,11 @@ def _transform_point(
         return Point(max_y - p.y, p.x)
     return p
 
-
 # ---------------------------------------------------------------------------
 # Subgraph helpers
 # ---------------------------------------------------------------------------
 
 _SUBGRAPH_PADDING = 20.0
-
 
 def _collect_all_subgraph_node_ids(sg: Subgraph) -> set[str]:
     """Recursively collect all node IDs belonging to a subgraph and its children."""
@@ -920,7 +898,6 @@ def _collect_all_subgraph_node_ids(sg: Subgraph) -> set[str]:
     for child in sg.subgraphs:
         result |= _collect_all_subgraph_node_ids(child)
     return result
-
 
 def _build_node_to_subgraph_map(
     subgraphs: tuple[Subgraph, ...],
@@ -943,7 +920,6 @@ def _build_node_to_subgraph_map(
         _walk(sg)
     return mapping
 
-
 def _build_node_to_toplevel_subgraph_map(
     subgraphs: tuple[Subgraph, ...],
 ) -> dict[str, str]:
@@ -959,7 +935,6 @@ def _build_node_to_toplevel_subgraph_map(
             mapping[nid] = sg.id
 
     return mapping
-
 
 def _group_subgraph_nodes_in_layers(
     layer_lists: list[list[str]],
@@ -984,7 +959,6 @@ def _group_subgraph_nodes_in_layers(
             new_layer.extend(groups[sg_id])
         result.append(new_layer)
     return result
-
 
 def _separate_subgraphs(
     positions: dict[str, tuple[float, float]],
@@ -1235,7 +1209,6 @@ def _separate_subgraphs(
 
     return positions
 
-
 def _compute_subgraph_layouts(
     subgraphs: tuple[Subgraph, ...],
     node_layouts: dict[str, NodeLayout],
@@ -1314,7 +1287,6 @@ def _compute_subgraph_layouts(
 
     return result
 
-
 # ---------------------------------------------------------------------------
 # Disconnected components
 # ---------------------------------------------------------------------------
@@ -1345,7 +1317,6 @@ def _find_components(
         groups[find(n)].append(n)
 
     return list(groups.values())
-
 
 # ---------------------------------------------------------------------------
 # Public API

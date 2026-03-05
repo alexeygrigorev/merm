@@ -5,8 +5,6 @@ with particular focus on LR/RL where the X-axis separation
 is critical.
 """
 
-from __future__ import annotations
-
 import pytest
 
 from pymermaid.ir import (
@@ -32,7 +30,6 @@ from pymermaid.parser.flowchart import parse_flowchart
 def _measure(text: str, font_size: float) -> tuple[float, float]:
     return (len(text) * font_size * 0.6, font_size * 1.2)
 
-
 def _make_diagram(
     node_ids: list[str],
     edges: list[tuple[str, str]],
@@ -49,7 +46,6 @@ def _make_diagram(
         subgraphs=subgraphs,
     )
 
-
 def _bboxes_overlap(
     a: SubgraphLayout, b: SubgraphLayout, tolerance: float = 0.0,
 ) -> bool:
@@ -63,7 +59,6 @@ def _bboxes_overlap(
     y_overlap = a.y < b_bottom - tolerance and b.y < a_bottom - tolerance
     return x_overlap and y_overlap
 
-
 def _node_inside_subgraph(
     nl: NodeLayout, sg: SubgraphLayout, tolerance: float = 1.0,
 ) -> bool:
@@ -75,7 +70,6 @@ def _node_inside_subgraph(
         and nl.y + nl.height <= sg.y + sg.height + tolerance
     )
 
-
 def _no_pair_overlaps(
     layouts: list[SubgraphLayout], tolerance: float = 0.0,
 ) -> bool:
@@ -85,7 +79,6 @@ def _no_pair_overlaps(
             if _bboxes_overlap(layouts[i], layouts[j], tolerance):
                 return False
     return True
-
 
 # ---------------------------------------------------------------------------
 # Test: LR subgraph bounding box separation (2 siblings)
@@ -146,7 +139,6 @@ class TestLRSubgraphOverlap2Siblings:
         assert len(sg_layouts) == 2
         assert not _bboxes_overlap(sg_layouts[0], sg_layouts[1])
 
-
 # ---------------------------------------------------------------------------
 # Test: LR subgraph bounding box separation (3 siblings - CI pipeline)
 # ---------------------------------------------------------------------------
@@ -203,7 +195,6 @@ class TestLRSubgraphOverlap3Siblings:
                     f"Node {nid} not inside subgraph {sg_id}"
                 )
 
-
 # ---------------------------------------------------------------------------
 # Test: CI pipeline from fixture file
 # ---------------------------------------------------------------------------
@@ -219,7 +210,6 @@ class TestCIPipelineFixture:
         sg_layouts = list(result.subgraphs.values())
         assert len(sg_layouts) >= 3
         assert _no_pair_overlaps(sg_layouts)
-
 
 # ---------------------------------------------------------------------------
 # Test: RL subgraph bounding box separation
@@ -246,7 +236,6 @@ class TestRLSubgraphOverlap:
         sg_layouts = list(result.subgraphs.values())
         assert len(sg_layouts) == 3
         assert _no_pair_overlaps(sg_layouts)
-
 
 # ---------------------------------------------------------------------------
 # Test: TB/BT regression check
@@ -294,7 +283,6 @@ class TestTBBTRegression:
         sg_layouts = list(result.subgraphs.values())
         assert len(sg_layouts) >= 2
         assert _no_pair_overlaps(sg_layouts)
-
 
 # ---------------------------------------------------------------------------
 # Test: Nested subgraphs in LR

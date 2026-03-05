@@ -21,8 +21,6 @@ Outputs:
     docs/comparison_scores.json
 """
 
-from __future__ import annotations
-
 import json
 import shutil
 import sys
@@ -35,7 +33,6 @@ CORPUS_DIR = PROJECT_ROOT / "tests" / "fixtures" / "corpus"
 REFERENCE_DIR = PROJECT_ROOT / "tests" / "reference" / "corpus"
 OUTPUT_DIR = PROJECT_ROOT / "docs" / "comparisons"
 PNG_WIDTH = 800  # render width for pymermaid SVG -> PNG
-
 
 def svg_to_png(svg_content: str, png_path: Path, width: int = PNG_WIDTH) -> bool:
     """Convert SVG string to PNG using cairosvg."""
@@ -52,7 +49,6 @@ def svg_to_png(svg_content: str, png_path: Path, width: int = PNG_WIDTH) -> bool
         print(f"  Failed to convert SVG to PNG: {e}")
         return False
 
-
 def render_pymermaid(mmd_path: Path) -> str | None:
     """Render a .mmd file with pymermaid, return SVG string."""
     try:
@@ -63,7 +59,6 @@ def render_pymermaid(mmd_path: Path) -> str | None:
     except Exception as e:
         print(f"  Failed to render {mmd_path.name} with pymermaid: {e}")
         return None
-
 
 def compute_ssim(img1_path: Path, img2_path: Path) -> float | None:
     """Compute SSIM between two PNG images."""
@@ -88,7 +83,6 @@ def compute_ssim(img1_path: Path, img2_path: Path) -> float | None:
     except Exception as e:
         print(f"  SSIM failed: {e}")
         return None
-
 
 def compute_pixel_diff(
     img1_path: Path, img2_path: Path, diff_path: Path
@@ -121,7 +115,6 @@ def compute_pixel_diff(
     except Exception as e:
         print(f"  Pixel diff failed: {e}")
         return None
-
 
 def generate_gallery(results: list[dict], output_path: Path) -> None:
     """Generate HTML gallery for visual comparison."""
@@ -189,7 +182,6 @@ th { background: #f0f0f0; }
 
     html += "</body></html>"
     output_path.write_text(html)
-
 
 def main() -> None:
     results: list[dict] = []
@@ -279,7 +271,6 @@ def main() -> None:
     print(f"\nReport: {report_path}")
     print(f"Gallery: {gallery_path}")
     print(f"Scores: {json_path}")
-
 
 if __name__ == "__main__":
     main()

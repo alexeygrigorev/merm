@@ -5,8 +5,6 @@ rendering for state diagram node types (start/end circles, fork/join bars,
 choice diamonds, composite states, notes).
 """
 
-from __future__ import annotations
-
 import re
 import xml.etree.ElementTree as ET
 
@@ -30,7 +28,6 @@ _SVG_NS = "http://www.w3.org/2000/svg"
 
 _COORD_RE = re.compile(r"\d+\.\d{3,}")
 
-
 def _round_coord(val: float) -> str:
     """Format a float coordinate to at most 2 decimal places."""
     rounded = round(val, 2)
@@ -38,13 +35,11 @@ def _round_coord(val: float) -> str:
         return str(int(rounded))
     return f"{rounded:.2f}".rstrip("0").rstrip(".")
 
-
 def _round_svg_coords(svg_str: str) -> str:
     """Round all float coordinate values in SVG string."""
     def _replacer(m: re.Match[str]) -> str:
         return f"{float(m.group()):.2f}".rstrip("0").rstrip(".")
     return _COORD_RE.sub(_replacer, svg_str)
-
 
 def _build_style_css(theme: Theme) -> str:
     """Build CSS for state diagrams."""
@@ -82,7 +77,6 @@ def _build_style_css(theme: Theme) -> str:
         f" font-size: 12px; }}\n"
     )
 
-
 def _render_start_state(
     parent: ET.Element, nl: NodeLayout,
 ) -> None:
@@ -98,7 +92,6 @@ def _render_start_state(
     circle.set("r", _round_coord(r))
     circle.set("fill", "black")
     circle.set("stroke", "black")
-
 
 def _render_end_state(
     parent: ET.Element, nl: NodeLayout,
@@ -124,7 +117,6 @@ def _render_end_state(
     inner.set("fill", "black")
     inner.set("stroke", "black")
 
-
 def _render_fork_join_state(
     parent: ET.Element, nl: NodeLayout,
 ) -> None:
@@ -139,7 +131,6 @@ def _render_fork_join_state(
     rect.set("rx", "3")
     rect.set("fill", "black")
     rect.set("stroke", "black")
-
 
 def _render_choice_state(
     parent: ET.Element, nl: NodeLayout,
@@ -157,7 +148,6 @@ def _render_choice_state(
     )
     polygon = ET.SubElement(g, "polygon")
     polygon.set("points", points)
-
 
 def _render_normal_state(
     parent: ET.Element, state: State, nl: NodeLayout, theme: Theme,
@@ -185,7 +175,6 @@ def _render_normal_state(
     text_el.set("font-family", theme.font_family)
     text_el.text = state.label
 
-
 def _render_state_node(
     parent: ET.Element,
     state: State,
@@ -210,7 +199,6 @@ def _render_state_node(
                 )
             else:
                 _render_normal_state(parent, state, nl, theme)
-
 
 def _render_note(
     parent: ET.Element,
@@ -250,7 +238,6 @@ def _render_note(
     text_el.set("dominant-baseline", "central")
     text_el.set("font-family", theme.font_family)
     text_el.text = note.text
-
 
 def render_state_svg(
     diagram: StateDiagram,
@@ -384,6 +371,5 @@ def render_state_svg(
     ET.indent(svg)
     result = ET.tostring(svg, encoding="unicode", xml_declaration=False)
     return _round_svg_coords(result)
-
 
 __all__ = ["render_state_svg"]

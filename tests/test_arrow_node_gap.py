@@ -4,8 +4,6 @@ Verifies that edge paths are shortened so arrowhead markers do not
 touch or penetrate node borders, across all directions and marker types.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid import render_diagram
@@ -38,7 +36,6 @@ def _assert_on_rect_boundary(
         f"center=({cx}, {cy}), size={size}"
     )
 
-
 # ---------------------------------------------------------------------------
 # Helper: parse marker refX from rendered defs
 # ---------------------------------------------------------------------------
@@ -51,7 +48,6 @@ def _get_marker_refx(marker_id: str) -> str:
         if marker.get("id") == marker_id:
             return marker.get("refX", "")
     raise AssertionError(f"Marker '{marker_id}' not found in defs")
-
 
 # ---------------------------------------------------------------------------
 # Unit: Marker refX alignment
@@ -74,7 +70,6 @@ class TestMarkerRefX:
     def test_cross_end_refx(self) -> None:
         """Cross-end refX=10 places the rightmost X stroke at path end."""
         assert _get_marker_refx("cross-end") == "10"
-
 
 # ---------------------------------------------------------------------------
 # Unit: Edge endpoint offset (gap from node border)
@@ -186,7 +181,6 @@ class TestEdgeEndpointGap:
         tgt_top = tgt_pos[1] - tgt_size[1] / 2
         gap = tgt_top - tgt_pt.y
         assert 1.0 < gap < 10.0, f"Gap should be 1-10px, got {gap}"
-
 
 # ---------------------------------------------------------------------------
 # Integration: full render with gap

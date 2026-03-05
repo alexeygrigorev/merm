@@ -1,7 +1,5 @@
 """Tests for the Theme system and its integration with the renderer."""
 
-from __future__ import annotations
-
 import re
 import xml.etree.ElementTree as ET
 
@@ -21,7 +19,6 @@ from pymermaid.render import render_svg
 from pymermaid.theme import DEFAULT_THEME, Theme
 
 _SVG_NS = "http://www.w3.org/2000/svg"
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -45,7 +42,6 @@ def _simple_diagram(
         ),
         subgraphs=subgraphs,
     )
-
 
 def _simple_layout(
     nodes: dict[str, tuple[float, float, float, float]] | None = None,
@@ -74,15 +70,12 @@ def _simple_layout(
     ]
     return LayoutResult(nodes=nl, edges=el, width=width, height=height)
 
-
 def _parse(svg_str: str) -> ET.Element:
     return ET.fromstring(svg_str)
-
 
 # ---------------------------------------------------------------------------
 # 1. Theme dataclass unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestThemeCustomization:
     def test_custom_theme_creation(self):
@@ -101,11 +94,9 @@ class TestThemeCustomization:
         with pytest.raises(AttributeError):
             DEFAULT_THEME.node_fill = "#000"  # type: ignore[misc]
 
-
 # ---------------------------------------------------------------------------
 # 2. Theme integration with renderer
 # ---------------------------------------------------------------------------
-
 
 class TestThemeRendererIntegration:
     def test_default_theme_node_fill_in_svg(self):
@@ -172,11 +163,9 @@ class TestThemeRendererIntegration:
         result_none = render_svg(d, lr, theme=None)
         assert result_default == result_none
 
-
 # ---------------------------------------------------------------------------
 # 3. SVG output structure
 # ---------------------------------------------------------------------------
-
 
 class TestSVGOutputStructure:
     def test_svg_has_background_color_style(self):
@@ -220,11 +209,9 @@ class TestSVGOutputStructure:
             ff = text_el.get("font-family", "")
             assert "trebuchet" in ff or "verdana" in ff
 
-
 # ---------------------------------------------------------------------------
 # 4. Coordinate rounding
 # ---------------------------------------------------------------------------
-
 
 class TestCoordinateRounding:
     def test_no_long_decimals_in_svg(self):
@@ -272,11 +259,9 @@ class TestCoordinateRounding:
                 f"Found coordinate with >2 decimal places: {f}"
             )
 
-
 # ---------------------------------------------------------------------------
 # 5. Integration: visual quality with fixture
 # ---------------------------------------------------------------------------
-
 
 class TestVisualQualityIntegration:
     def test_simple_flowchart_uses_theme_colors(self):

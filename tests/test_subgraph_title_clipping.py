@@ -4,8 +4,6 @@ Verifies that subgraph boundary rects are wide enough to fit the title text,
 and that the title text has proper left margin from the rect edge.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -31,10 +29,8 @@ _TITLE_FONT_SIZE = 12.0
 _TITLE_LEFT_MARGIN = 8.0
 _TITLE_H_PADDING = 16.0
 
-
 def _measure(text: str, font_size: float) -> tuple[float, float]:
     return (len(text) * font_size * 0.6, font_size * 1.2)
-
 
 def _make_diagram(
     node_ids: list[str],
@@ -52,10 +48,8 @@ def _make_diagram(
         subgraphs=subgraphs,
     )
 
-
 def _parse_svg(svg_str: str) -> ET.Element:
     return ET.fromstring(svg_str)
-
 
 def _get_subgraph_rect_and_text(root: ET.Element, sg_id: str):
     """Return (rect_element, text_element) for a subgraph."""
@@ -68,11 +62,9 @@ def _get_subgraph_rect_and_text(root: ET.Element, sg_id: str):
     assert len(texts) >= 1
     return rects[0], texts[0]
 
-
 # ---------------------------------------------------------------------------
 # Layout: subgraph width accommodates title
 # ---------------------------------------------------------------------------
-
 
 class TestSubgraphTitleWidth:
     """Verify that SubgraphLayout.width is at least as wide as the title text."""
@@ -143,11 +135,9 @@ class TestSubgraphTitleWidth:
                 f"Subgraph '{sg_id}' width {sgl.width} < min {min_expected}"
             )
 
-
 # ---------------------------------------------------------------------------
 # Renderer: title text has left margin and fits in rect
 # ---------------------------------------------------------------------------
-
 
 class TestSubgraphTitleRendering:
     """Verify SVG output has title text with proper margins."""
@@ -185,11 +175,9 @@ class TestSubgraphTitleRendering:
             f"Title right edge {text_x + title_w} > rect right edge {rect_x + rect_w}"
         )
 
-
 # ---------------------------------------------------------------------------
 # Integration: corpus fixture rendering
 # ---------------------------------------------------------------------------
-
 
 class TestCorpusSubgraphTitleVisibility:
     """End-to-end tests parsing corpus fixtures and checking title visibility."""

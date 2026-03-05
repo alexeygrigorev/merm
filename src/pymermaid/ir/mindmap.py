@@ -1,7 +1,5 @@
 """Intermediate representation for mindmap diagrams."""
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from enum import Enum
 
@@ -15,7 +13,6 @@ class MindmapShape(Enum):
     CLOUD = "cloud"
     DEFAULT = "default"
 
-
 @dataclass(frozen=True)
 class MindmapNode:
     """A single node in a mindmap tree."""
@@ -23,14 +20,12 @@ class MindmapNode:
     id: str
     label: str
     shape: MindmapShape
-    children: tuple[MindmapNode, ...] = ()
-
+    children: tuple["MindmapNode", ...] = ()
 
 @dataclass(frozen=True)
 class MindmapDiagram:
     """Top-level mindmap diagram representation."""
 
     root: MindmapNode
-
 
 __all__ = ["MindmapDiagram", "MindmapNode", "MindmapShape"]

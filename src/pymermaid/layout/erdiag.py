@@ -4,8 +4,6 @@ Maps ER entities to flowchart Nodes and relationships to Edges,
 then uses the Sugiyama layout engine to position them.
 """
 
-from __future__ import annotations
-
 from pymermaid.ir import (
     Diagram,
     DiagramType,
@@ -46,7 +44,6 @@ def er_diagram_to_flowchart(diagram: ERDiagram) -> Diagram:
         nodes=tuple(nodes),
         edges=tuple(edges),
     )
-
 
 def layout_er_diagram(
     diagram: ERDiagram,
@@ -107,7 +104,6 @@ def layout_er_diagram(
         subgraphs=result.subgraphs,
     )
 
-
 def _snap_to_boundary(
     point: Point, nl: NodeLayout, interior: Point,
 ) -> Point:
@@ -137,7 +133,6 @@ def _snap_to_boundary(
         else:
             return Point(nl.x, cy)  # left
 
-
 def _reroute_edges(
     edges: list[EdgeLayout],
     nodes: dict[str, NodeLayout],
@@ -163,7 +158,6 @@ def _reroute_edges(
 
         result.append(EdgeLayout(points=pts, source=el.source, target=el.target))
     return result
-
 
 __all__ = [
     "er_diagram_to_flowchart",

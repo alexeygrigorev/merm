@@ -18,7 +18,6 @@ from pymermaid.parser import ParseError, parse_flowchart
 
 # ---------- Diagram declaration ----------
 
-
 class TestDiagramDeclaration:
     def test_graph_td(self):
         d = parse_flowchart("graph TD\n  A --> B")
@@ -48,9 +47,7 @@ class TestDiagramDeclaration:
         d = parse_flowchart("graph TD\n  A --> B")
         assert d.type == DiagramType.flowchart
 
-
 # ---------- Node shapes (15 tests) ----------
-
 
 class TestNodeShapes:
     def _node(self, node_text: str):
@@ -132,9 +129,7 @@ class TestNodeShapes:
         assert n.shape == NodeShape.double_circle
         assert n.label == "text"
 
-
 # ---------- Edge types (11 tests) ----------
-
 
 class TestEdgeTypes:
     def _edge(self, edge_text: str):
@@ -194,9 +189,7 @@ class TestEdgeTypes:
         e = self._edge("A ----> B")
         assert e.extra_length == 2
 
-
 # ---------- Edge labels ----------
-
 
 class TestEdgeLabels:
     def test_pipe_syntax(self):
@@ -221,9 +214,7 @@ class TestEdgeLabels:
         d = parse_flowchart("graph TD\n  A -->|| B")
         assert d.edges[0].label == ""
 
-
 # ---------- Inline node definitions ----------
-
 
 class TestInlineNodeDefinitions:
     def test_both_nodes_with_labels(self):
@@ -245,9 +236,7 @@ class TestInlineNodeDefinitions:
         nodes = {n.id: n for n in d.nodes}
         assert nodes["A"].label == "Second"
 
-
 # ---------- Chained edges ----------
-
 
 class TestChainedEdges:
     def test_two_chained(self):
@@ -267,9 +256,7 @@ class TestChainedEdges:
         assert d.edges[0].label == "yes"
         assert d.edges[1].label == "no"
 
-
 # ---------- Multi-target edges ----------
-
 
 class TestMultiTargetEdges:
     def test_one_to_many(self):
@@ -294,9 +281,7 @@ class TestMultiTargetEdges:
         edge_pairs = {(e.source, e.target) for e in d.edges}
         assert edge_pairs == {("A", "C"), ("A", "D"), ("B", "C"), ("B", "D")}
 
-
 # ---------- Subgraphs ----------
-
 
 class TestSubgraphs:
     def test_simple_subgraph_with_title(self):
@@ -349,9 +334,7 @@ class TestSubgraphs:
         d = parse_flowchart(text)
         assert len(d.edges) == 1
 
-
 # ---------- Styling ----------
-
 
 class TestStyling:
     def test_style_directive(self):
@@ -380,9 +363,7 @@ class TestStyling:
         d = parse_flowchart("graph TD\n  A\n  classDef default fill:#f9f")
         assert "default" in d.classes
 
-
 # ---------- Comments and special characters ----------
-
 
 class TestCommentsAndSpecialChars:
     def test_full_line_comment(self):
@@ -409,9 +390,7 @@ class TestCommentsAndSpecialChars:
         d = parse_flowchart('graph TD\n  A["(special)"]')
         assert d.nodes[0].label == "(special)"
 
-
 # ---------- Error handling ----------
-
 
 class TestErrorHandling:
     def test_incomplete_edge(self):
@@ -431,9 +410,7 @@ class TestErrorHandling:
         with pytest.raises(ParseError):
             parse_flowchart("")
 
-
 # ---------- Integration: multi-statement diagrams ----------
-
 
 class TestIntegration:
     def test_complete_flowchart(self):

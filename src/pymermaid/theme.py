@@ -5,8 +5,6 @@ spacing) used by the renderer and layout engine. The DEFAULT_THEME instance
 matches mermaid.js's default theme (purple nodes, yellow subgraphs).
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass, replace
 
 
@@ -56,10 +54,9 @@ class Theme:
     rank_sep: float = 40.0
     node_sep: float = 30.0
 
-    def replace(self, **kwargs: object) -> Theme:
+    def replace(self, **kwargs: object) -> "Theme":
         """Return a new Theme with specified fields overridden."""
         return replace(self, **kwargs)
-
 
 # Singleton default theme matching mermaid.js defaults.
 DEFAULT_THEME = Theme()

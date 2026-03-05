@@ -46,7 +46,6 @@ class TestHTMLEntityDecodingInNodeLabels:
         d = parse_flowchart('graph TD\n  A["&lt;b&gt;bold&lt;/b&gt;"]')
         assert d.nodes[0].label == "<b>bold</b>"
 
-
 class TestHTMLEntityDecodingInEdgeLabels:
     """Verify that HTML entities are decoded in edge labels.
 
@@ -74,7 +73,6 @@ class TestHTMLEntityDecodingInEdgeLabels:
         """Inline edge labels without entities still work."""
         d = parse_flowchart('graph TD\n  A -- plain label --> B')
         assert d.edges[0].label == "plain label"
-
 
 class TestSVGOutputCorrectness:
     """Verify that decoded entities are properly XML-escaped in SVG output."""
@@ -122,7 +120,6 @@ class TestSVGOutputCorrectness:
         # Should contain proper XML escapes
         assert "&lt;" in svg_str
         assert "&gt;" in svg_str
-
 
 class TestPNGRendering:
     """Integration test: render special_chars.mmd to SVG and PNG."""

@@ -4,8 +4,6 @@ Verifies that edge paths start/end on node boundaries (within tolerance)
 and that the arrowhead marker is cleanly aligned.
 """
 
-from __future__ import annotations
-
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -16,7 +14,6 @@ from pymermaid.render.edges import make_edge_defs
 
 FIXTURES = Path(__file__).parent / "fixtures"
 NS = "{http://www.w3.org/2000/svg}"
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -43,7 +40,6 @@ def _parse_node_bboxes(svg_str: str) -> dict[str, dict]:
                     "h": float(rect.get("height", "0")),
                 }
     return nodes
-
 
 def _parse_edge_endpoints(svg_str: str) -> list[dict]:
     """Parse all g.edge elements, extract source, target, and path endpoints.
@@ -76,7 +72,6 @@ def _parse_edge_endpoints(svg_str: str) -> list[dict]:
                     })
     return edges
 
-
 def _point_on_rect_boundary(
     px: float,
     py: float,
@@ -105,12 +100,10 @@ def _point_on_rect_boundary(
     )
     return on_left_or_right or on_top_or_bottom
 
-
 def _render_fixture(fixture_path: str) -> str:
     """Read a fixture file and render it to SVG."""
     source = (FIXTURES / fixture_path).read_text()
     return render_diagram(source)
-
 
 # ---------------------------------------------------------------------------
 # Unit: _route_edge_on_boundary produces boundary-touching points
@@ -198,7 +191,6 @@ class TestRouteEdgeOnBoundary:
             f"Target ({tgt_pt.x:.2f}, {tgt_pt.y:.2f}) not on boundary"
         )
 
-
 # ---------------------------------------------------------------------------
 # Integration: two_nodes.mmd gap check
 # ---------------------------------------------------------------------------
@@ -243,7 +235,6 @@ class TestTwoNodesGap:
                 f"end ({edge['end_x']:.1f},{edge['end_y']:.1f}) "
                 f"not on target boundary"
             )
-
 
 # ---------------------------------------------------------------------------
 # Integration: diamond.mmd diagonal edges
@@ -292,7 +283,6 @@ class TestDiamondEdges:
                 f"not on target boundary"
             )
 
-
 # ---------------------------------------------------------------------------
 # Integration: linear_chain.mmd straight edges
 # ---------------------------------------------------------------------------
@@ -327,7 +317,6 @@ class TestLinearChainEdges:
                 f"Chain {edge['source']}->{edge['target']}: "
                 f"end not on target boundary"
             )
-
 
 # ---------------------------------------------------------------------------
 # Integration: LR direction
@@ -366,7 +355,6 @@ class TestLRDirection:
                 f"not on target boundary"
             )
 
-
 # ---------------------------------------------------------------------------
 # Integration: BT direction
 # ---------------------------------------------------------------------------
@@ -404,7 +392,6 @@ class TestBTDirection:
                 f"not on target boundary"
             )
 
-
 # ---------------------------------------------------------------------------
 # Integration: no overshoot into node interior
 # ---------------------------------------------------------------------------
@@ -433,7 +420,6 @@ class TestNoOvershoot:
                 f"Overshoot: end y={edge['end_y']:.1f} below "
                 f"target top={tgt_top:.1f}"
             )
-
 
 # ---------------------------------------------------------------------------
 # Unit: arrowhead marker alignment
@@ -523,7 +509,6 @@ class TestArrowheadMarkerAlignment:
                 assert dist_to_top < 2.0 or dist_to_bottom < 2.0, (
                     "With refX=0, path end should be shortened by marker width"
                 )
-
 
 # ---------------------------------------------------------------------------
 # Integration: back-edge (curve) connection

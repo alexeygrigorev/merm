@@ -1,7 +1,5 @@
 """Tests for edge label positioning and overlap resolution."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir import Edge, EdgeType
@@ -26,13 +24,11 @@ def _make_edge_layout(
         points=[Point(x=x, y=y) for x, y in points],
     )
 
-
 def _make_ir_edge(
     source: str, target: str, label: str,
     edge_type: EdgeType = EdgeType.arrow,
 ) -> Edge:
     return Edge(source=source, target=target, label=label, edge_type=edge_type)
-
 
 # ---------------------------------------------------------------------------
 # Unit tests: _rects_overlap
@@ -48,7 +44,6 @@ class TestRectsOverlap:
     def test_adjacent_no_overlap(self) -> None:
         # Touching edges do not overlap (strict inequality).
         assert not _rects_overlap((0, 0, 10, 10), (10, 0, 10, 10))
-
 
 # ---------------------------------------------------------------------------
 # Unit tests: resolve_label_positions -- no overlaps
@@ -75,7 +70,6 @@ class TestResolveLabelPositionsNoOverlap:
 
     def test_empty_list(self) -> None:
         assert resolve_label_positions([]) == {}
-
 
 # ---------------------------------------------------------------------------
 # Unit tests: resolve_label_positions -- with overlaps
@@ -130,7 +124,6 @@ class TestResolveLabelPositionsOverlap:
         bb2 = _label_bbox("a very long label text", *result[("C", "D")])
         assert not _rects_overlap(bb1, bb2)
 
-
 # ---------------------------------------------------------------------------
 # Unit tests: render_edge with explicit label_pos
 # ---------------------------------------------------------------------------
@@ -166,13 +159,11 @@ class TestRenderEdgeWithLabelPos:
         assert text_el.get("x") == "10.0"
         assert text_el.get("y") == "55.0"
 
-
 # ---------------------------------------------------------------------------
 # Integration: labeled_edges.mmd SVG output
 # ---------------------------------------------------------------------------
 
 _NS = "http://www.w3.org/2000/svg"
-
 
 def _iter_edge_groups(root: ET.Element) -> list[ET.Element]:
     """Find all <g class="edge"> elements, handling SVG namespace."""
@@ -186,7 +177,6 @@ def _iter_edge_groups(root: ET.Element) -> list[ET.Element]:
             results.append(g)
     return results
 
-
 def _find_child(parent: ET.Element, tag: str) -> ET.Element | None:
     """Find first child with given tag, with or without SVG namespace."""
     el = parent.find(f"{{{_NS}}}{tag}")
@@ -194,14 +184,12 @@ def _find_child(parent: ET.Element, tag: str) -> ET.Element | None:
         el = parent.find(tag)
     return el
 
-
 def _find_children(parent: ET.Element, tag: str) -> list[ET.Element]:
     """Find all children with given tag, with or without SVG namespace."""
     results = parent.findall(f"{{{_NS}}}{tag}")
     if not results:
         results = parent.findall(tag)
     return results
-
 
 class TestLabeledEdgesIntegration:
     def test_no_overlapping_labels_in_svg(self) -> None:

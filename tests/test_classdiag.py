@@ -4,8 +4,6 @@ Covers: IR dataclasses, parser, layout, renderer, and CLI integration.
 25+ tests organized by component.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -33,7 +31,6 @@ from pymermaid.render.classdiag import (
 # ============================================================================
 # IR dataclass tests
 # ============================================================================
-
 
 class TestIRDataclasses:
     """Test that IR dataclasses are correctly defined and frozen."""
@@ -78,11 +75,9 @@ class TestIRDataclasses:
         with pytest.raises(AttributeError):
             d.classes = ()  # type: ignore[misc]
 
-
 # ============================================================================
 # Parser tests
 # ============================================================================
-
 
 class TestParserDeclaration:
     """Test classDiagram declaration parsing."""
@@ -100,7 +95,6 @@ class TestParserDeclaration:
         assert isinstance(d, ClassDiagram)
         assert d.classes == ()
         assert d.relations == ()
-
 
 class TestParserClassDefinitions:
     """Test class definition parsing (block and shorthand)."""
@@ -168,7 +162,6 @@ class TestParserClassDefinitions:
     <<abstract>> Shape"""
         d = parse_class_diagram(text)
         assert d.classes[0].annotation == "<<abstract>>"
-
 
 class TestParserRelationships:
     """Test relationship parsing."""
@@ -262,7 +255,6 @@ class TestParserRelationships:
         assert len(d.relations) == 3
         assert len(d.classes) == 4
 
-
 class TestParserVisibility:
     """Test visibility marker parsing."""
 
@@ -298,7 +290,6 @@ class TestParserVisibility:
         d = parse_class_diagram(text)
         assert d.classes[0].members[0].visibility == Visibility.PACKAGE
 
-
 class TestParserComments:
     """Test comment handling."""
 
@@ -310,11 +301,9 @@ class TestParserComments:
         d = parse_class_diagram(text)
         assert len(d.classes) == 1
 
-
 # ============================================================================
 # Layout tests
 # ============================================================================
-
 
 class TestClassLayout:
     """Test class diagram layout bridge."""
@@ -378,11 +367,9 @@ class TestClassLayout:
         no_y_overlap = nl_a.y + nl_a.height <= nl_b.y or nl_b.y + nl_b.height <= nl_a.y
         assert no_x_overlap or no_y_overlap
 
-
 # ============================================================================
 # Measure tests
 # ============================================================================
-
 
 class TestMeasureClassBox:
     """Test class box measurement."""
@@ -414,11 +401,9 @@ class TestMeasureClassBox:
         _, h_ann = measure_class_box(node_ann)
         assert h_ann > h_no
 
-
 # ============================================================================
 # Renderer tests
 # ============================================================================
-
 
 class TestRenderer:
     """Test SVG rendering of class diagrams."""
@@ -548,11 +533,9 @@ class TestRenderer:
         svg = render_class_diagram(diag, layout, theme=custom_theme)
         assert "#FF0000" in svg
 
-
 # ============================================================================
 # Integration tests
 # ============================================================================
-
 
 class TestIntegration:
     """End-to-end integration tests."""

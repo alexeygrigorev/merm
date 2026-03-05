@@ -1,7 +1,5 @@
 """Tests for Gantt chart parser, IR, and renderer."""
 
-from __future__ import annotations
-
 import re
 from datetime import date
 from pathlib import Path
@@ -19,7 +17,6 @@ FIXTURES_DIR = (
 )
 
 D = date  # short alias for readability
-
 
 def _task(
     name: str = "T",
@@ -39,7 +36,6 @@ def _task(
         duration_days=days,
     )
 
-
 def _extract_rect_attrs(svg: str) -> dict[str, dict[str, str]]:
     """Extract {task_id: {attr: value}} from rect elements."""
     result: dict[str, dict[str, str]] = {}
@@ -55,9 +51,7 @@ def _extract_rect_attrs(svg: str) -> dict[str, dict[str, str]]:
         result[tid] = attrs
     return result
 
-
 # --- IR dataclass tests ---
-
 
 class TestGanttIR:
     def test_gantt_task_creation(self):
@@ -104,9 +98,7 @@ class TestGanttIR:
         with pytest.raises(AttributeError):
             task.name = "changed"  # type: ignore[misc]
 
-
 # --- Parser: basic parsing ---
-
 
 class TestParserBasic:
     def test_minimal_gantt(self):
@@ -159,9 +151,7 @@ class TestParserBasic:
         assert chart.sections[0].name == ""
         assert chart.sections[0].tasks[0].name == "TaskA"
 
-
 # --- Parser: task line variants ---
-
 
 class TestParserTaskVariants:
     def test_explicit_date_and_duration(self):
@@ -231,9 +221,7 @@ class TestParserTaskVariants:
         assert "active" in task_b.modifiers
         assert task_b.start_date == D(2024, 1, 11)
 
-
 # --- Parser: error cases ---
-
 
 class TestParserErrors:
     def test_empty_input(self):
@@ -276,9 +264,7 @@ class TestParserErrors:
         with pytest.raises(ParseError):
             parse_gantt(source)
 
-
 # --- Parser: comments ---
-
 
 class TestParserComments:
     def test_comments_stripped(self):
@@ -292,9 +278,7 @@ class TestParserComments:
         assert chart.title == "With Comments"
         assert len(chart.sections[0].tasks) == 1
 
-
 # --- Renderer: SVG structure ---
-
 
 class TestRendererStructure:
     def _simple_chart(
@@ -335,9 +319,7 @@ class TestRendererStructure:
         svg = render_gantt_svg(self._simple_chart())
         assert "Section1" in svg
 
-
 # --- Renderer: proportional bar widths ---
-
 
 class TestRendererProportions:
     def test_wider_bar_for_longer_task(self):
@@ -364,9 +346,7 @@ class TestRendererProportions:
         ratio = w_long / w_short
         assert 1.8 < ratio < 2.2
 
-
 # --- Renderer: modifier styling ---
-
 
 class TestRendererModifiers:
     def test_distinct_fill_colors(self):
@@ -405,9 +385,7 @@ class TestRendererModifiers:
         assert fills["d1"] != fills["ac1"]
         assert fills["c1"] != fills["dn1"]
 
-
 # --- Renderer: time axis ---
-
 
 class TestRendererTimeAxis:
     def test_tick_labels_present(self):
@@ -426,9 +404,7 @@ class TestRendererTimeAxis:
         assert 'class="gantt-tick"' in svg
         assert "2024-01-01" in svg
 
-
 # --- Integration: dispatch ---
-
 
 class TestDispatch:
     def test_render_diagram_gantt(self):
@@ -443,9 +419,7 @@ class TestDispatch:
         assert svg.strip().endswith("</svg>")
         assert "Test" in svg
 
-
 # --- Corpus: fixture rendering ---
-
 
 class TestCorpusFixtures:
     @pytest.mark.parametrize(
@@ -459,9 +433,7 @@ class TestCorpusFixtures:
         assert svg.strip().startswith("<svg")
         assert svg.strip().endswith("</svg>")
 
-
 # --- Additional edge case tests ---
-
 
 class TestMultipleSections:
     def test_multiple_sections_parsed(self):
@@ -487,7 +459,6 @@ class TestMultipleSections:
         chart = parse_gantt(source)
         t2 = chart.sections[1].tasks[0]
         assert t2.start_date == D(2024, 1, 6)
-
 
 class TestExcludesIgnored:
     def test_excludes_directive_ignored(self):

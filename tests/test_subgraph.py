@@ -1,9 +1,8 @@
 """Tests for subgraph support: parsing, layout, and rendering."""
 
-from __future__ import annotations
+import xml.etree.ElementTree as ET
 
 import pytest
-import xml.etree.ElementTree as ET
 
 from pymermaid.ir import (
     Diagram,
@@ -24,7 +23,6 @@ from pymermaid.render import render_svg
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -32,7 +30,6 @@ _SVG_NS = "http://www.w3.org/2000/svg"
 def _measure(text: str, font_size: float) -> tuple[float, float]:
     """Simple measure function for testing."""
     return (len(text) * font_size * 0.6, font_size * 1.2)
-
 
 def _make_diagram(
     node_ids: list[str],
@@ -50,19 +47,15 @@ def _make_diagram(
         subgraphs=subgraphs,
     )
 
-
 def _parse(svg_str: str) -> ET.Element:
     return ET.fromstring(svg_str)
-
 
 def _center(nl: NodeLayout) -> tuple[float, float]:
     return (nl.x + nl.width / 2, nl.y + nl.height / 2)
 
-
 # ---------------------------------------------------------------------------
 # Unit: Parser subgraph handling (verify existing behavior)
 # ---------------------------------------------------------------------------
-
 
 class TestParserSubgraph:
     def test_parse_simple_subgraph(self):
@@ -125,11 +118,9 @@ class TestParserSubgraph:
         except ParseError:
             pass
 
-
 # ---------------------------------------------------------------------------
 # Unit: Layout SubgraphLayout data structure
 # ---------------------------------------------------------------------------
-
 
 class TestSubgraphLayoutDataclass:
     def test_subgraph_layout_importable(self):
@@ -147,11 +138,9 @@ class TestSubgraphLayoutDataclass:
         assert sgl.height == 80.0
         assert sgl.title == "Title"
 
-
 # ---------------------------------------------------------------------------
 # Unit: Layout subgraph grouping
 # ---------------------------------------------------------------------------
-
 
 class TestLayoutSubgraphGrouping:
     def test_layout_result_has_subgraphs(self):
@@ -258,11 +247,9 @@ class TestLayoutSubgraphGrouping:
         assert result.subgraphs is not None
         assert len(result.subgraphs) == 0
 
-
 # ---------------------------------------------------------------------------
 # Unit: Renderer subgraph SVG output
 # ---------------------------------------------------------------------------
-
 
 class TestRendererSubgraph:
     def _diagram_with_subgraph(self):
@@ -368,11 +355,9 @@ class TestRendererSubgraph:
         assert inner_idx is not None
         assert outer_idx < inner_idx
 
-
 # ---------------------------------------------------------------------------
 # Integration: End-to-end subgraph rendering
 # ---------------------------------------------------------------------------
-
 
 class TestIntegrationSubgraph:
     def test_parse_layout_render_valid_xml(self):

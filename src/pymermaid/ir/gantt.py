@@ -1,7 +1,5 @@
 """Intermediate representation for Gantt charts."""
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from datetime import date
 
@@ -17,14 +15,12 @@ class GanttTask:
     end_date: date
     duration_days: int
 
-
 @dataclass(frozen=True)
 class GanttSection:
     """A named section containing tasks."""
 
     name: str
     tasks: tuple[GanttTask, ...]
-
 
 @dataclass(frozen=True)
 class GanttChart:
@@ -33,6 +29,5 @@ class GanttChart:
     title: str  # empty string if no title
     date_format: str  # e.g. 'YYYY-MM-DD'
     sections: tuple[GanttSection, ...]
-
 
 __all__ = ["GanttChart", "GanttSection", "GanttTask"]

@@ -4,8 +4,6 @@ Defines StateType, State, Transition, StateNote, and StateDiagram dataclasses
 used by the state diagram parser, layout, and renderer.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from enum import Enum
 
@@ -20,7 +18,6 @@ class StateType(Enum):
     FORK = "fork"
     JOIN = "join"
 
-
 @dataclass(frozen=True)
 class State:
     """A state in the state diagram."""
@@ -28,8 +25,7 @@ class State:
     id: str
     label: str
     state_type: StateType = StateType.NORMAL
-    children: tuple[State, ...] = ()
-
+    children: tuple["State", ...] = ()
 
 @dataclass(frozen=True)
 class Transition:
@@ -39,7 +35,6 @@ class Transition:
     target: str
     label: str = ""
 
-
 @dataclass(frozen=True)
 class StateNote:
     """A note attached to a state."""
@@ -48,7 +43,6 @@ class StateNote:
     text: str
     position: str = "right"  # "left" or "right"
 
-
 @dataclass(frozen=True)
 class StateDiagram:
     """Top-level state diagram representation."""
@@ -56,7 +50,6 @@ class StateDiagram:
     states: tuple[State, ...] = ()
     transitions: tuple[Transition, ...] = ()
     notes: tuple[StateNote, ...] = ()
-
 
 __all__ = [
     "State",

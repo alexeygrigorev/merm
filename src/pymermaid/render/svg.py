@@ -5,8 +5,6 @@ SVG output from a Diagram and LayoutResult, including node rendering,
 edge rendering delegation, subgraph rendering, and style/defs generation.
 """
 
-from __future__ import annotations
-
 import re
 import xml.etree.ElementTree as ET
 
@@ -31,7 +29,6 @@ _SUBGRAPH_PADDING = 20.0
 # Regex to find float values with more than 2 decimal places in SVG output.
 _COORD_RE = re.compile(r"\d+\.\d{3,}")
 
-
 def _round_coord(val: float) -> str:
     """Format a float coordinate, rounding to at most 2 decimal places."""
     rounded = round(val, 2)
@@ -41,13 +38,11 @@ def _round_coord(val: float) -> str:
         return str(int(rounded))
     return f"{rounded:.2f}".rstrip("0").rstrip(".")
 
-
 def _round_svg_coords(svg_str: str) -> str:
     """Round all float coordinate values in an SVG string to 2 decimal places."""
     def _replacer(m: re.Match[str]) -> str:
         return f"{float(m.group()):.2f}".rstrip("0").rstrip(".")
     return _COORD_RE.sub(_replacer, svg_str)
-
 
 def _build_style_css(theme: Theme) -> str:
     """Build CSS string from a Theme instance."""
@@ -71,7 +66,6 @@ def _build_style_css(theme: Theme) -> str:
         f"font-size: {theme.subgraph_title_font_size}; font-weight: bold; }}\n"
     )
 
-
 def _build_edge_lookup(diagram: Diagram) -> dict[tuple[str, str], Edge]:
     """Map (source, target) to the first matching IR Edge for label lookup."""
     lookup: dict[tuple[str, str], Edge] = {}
@@ -81,14 +75,12 @@ def _build_edge_lookup(diagram: Diagram) -> dict[tuple[str, str], Edge]:
             lookup[key] = e
     return lookup
 
-
 def _build_style_lookup(diagram: Diagram) -> dict[str, dict[str, str]]:
     """Map node id to inline style properties from diagram.styles."""
     lookup: dict[str, dict[str, str]] = {}
     for sd in diagram.styles:
         lookup[sd.target_id] = sd.properties
     return lookup
-
 
 def _build_classdef_css(diagram: Diagram) -> str:
     """Build CSS rules from diagram.classes (classDef definitions).
@@ -106,12 +98,10 @@ def _build_classdef_css(diagram: Diagram) -> str:
             rules.append(f".{cls_name} {{ {css_body}; }}")
     return "\n".join(rules)
 
-
 def _make_defs(svg: ET.Element, theme: Theme) -> None:
     """Add a <defs> section with arrow/endpoint marker definitions."""
     defs = ET.SubElement(svg, "defs")
     make_edge_defs(defs, edge_stroke=theme.edge_stroke)
-
 
 def _make_style(svg: ET.Element, diagram: Diagram, theme: Theme) -> None:
     """Add a <style> element with theme CSS and classDef rules."""
@@ -121,7 +111,6 @@ def _make_style(svg: ET.Element, diagram: Diagram, theme: Theme) -> None:
     if classdef_css:
         css += classdef_css + "\n"
     style.text = css
-
 
 def _render_text(
     parent: ET.Element,
@@ -192,7 +181,6 @@ def _render_text(
             tspan.set("x", _round_coord(cx))
             tspan.set("y", _round_coord(first_y + i * line_height_px))
             tspan.text = part
-
 
 def _render_text_with_icons(
     parent: ET.Element,
@@ -281,7 +269,6 @@ def _render_text_with_icons(
 
         x_pos += sw
 
-
 def _render_node(
     parent: ET.Element,
     ir_node: Node,
@@ -315,7 +302,6 @@ def _render_node(
     cy = nl.y + nl.height / 2.0
     _render_text(g, ir_node.label, cx, cy, theme)
 
-
 def _render_edge_delegate(
     parent: ET.Element,
     el: EdgeLayout,
@@ -329,7 +315,6 @@ def _render_edge_delegate(
         edge_label_bg=theme.edge_label_bg,
         label_pos=label_pos,
     )
-
 
 def _render_subgraph_recursive(
     parent: ET.Element,
@@ -417,7 +402,6 @@ def _render_subgraph_recursive(
         _render_subgraph_recursive(
             parent, child, subgraph_layouts, node_layouts, theme,
         )
-
 
 def render_svg(
     diagram: Diagram,

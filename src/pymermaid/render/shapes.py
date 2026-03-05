@@ -4,8 +4,6 @@ Each shape renderer implements the ShapeRenderer protocol, producing SVG element
 strings and computing connection points on shape boundaries.
 """
 
-from __future__ import annotations
-
 import math
 from typing import Protocol, runtime_checkable
 
@@ -14,7 +12,6 @@ from pymermaid.ir import NodeShape
 # Type alias for a 2D point.
 Point = tuple[float, float]
 
-
 def _style_attr(style: dict[str, str] | None) -> str:
     """Build an inline style attribute string from a dict, or empty string."""
     if not style:
@@ -22,12 +19,10 @@ def _style_attr(style: dict[str, str] | None) -> str:
     css = ";".join(f"{k}:{v}" for k, v in style.items())
     return f' style="{css}"'
 
-
 def _polygon_svg(points: list[Point], style: dict[str, str] | None) -> str:
     """Build a <polygon> SVG element from a list of points."""
     pts = " ".join(f"{x},{y}" for x, y in points)
     return f'<polygon points="{pts}"{_style_attr(style)} />'
-
 
 def _ray_polygon_intersection(
     cx: float, cy: float, angle: float, vertices: list[Point],
@@ -58,7 +53,6 @@ def _ray_polygon_intersection(
                 best_point = (cx + dx * t, cy + dy * t)
     return best_point
 
-
 def _rect_connection_point(
     x: float, y: float, w: float, h: float, angle: float,
 ) -> Point:
@@ -68,7 +62,6 @@ def _rect_connection_point(
         (x, y), (x + w, y), (x + w, y + h), (x, y + h),
     ]
     return _ray_polygon_intersection(cx, cy, angle, vertices)
-
 
 # ---------------------------------------------------------------------------
 # ShapeRenderer protocol
@@ -97,7 +90,6 @@ class ShapeRenderer(Protocol):
         angle_rad: float,
     ) -> Point: ...
 
-
 # ---------------------------------------------------------------------------
 # Individual shape renderers
 # ---------------------------------------------------------------------------
@@ -118,7 +110,6 @@ class RectRenderer:
     ) -> Point:
         return _rect_connection_point(x, y, w, h, angle_rad)
 
-
 class RoundedRectRenderer:
     """Rounded rectangle with fixed corner radius."""
 
@@ -136,7 +127,6 @@ class RoundedRectRenderer:
         self, x: float, y: float, w: float, h: float, angle_rad: float,
     ) -> Point:
         return _rect_connection_point(x, y, w, h, angle_rad)
-
 
 class StadiumRenderer:
     """Stadium (pill) shape -- rect with rx = h/2."""
@@ -156,7 +146,6 @@ class StadiumRenderer:
         self, x: float, y: float, w: float, h: float, angle_rad: float,
     ) -> Point:
         return _rect_connection_point(x, y, w, h, angle_rad)
-
 
 class SubroutineRenderer:
     """Subroutine -- rectangle with two inner vertical lines."""
@@ -180,7 +169,6 @@ class SubroutineRenderer:
         self, x: float, y: float, w: float, h: float, angle_rad: float,
     ) -> Point:
         return _rect_connection_point(x, y, w, h, angle_rad)
-
 
 class CylinderRenderer:
     """Cylinder shape using an SVG path with elliptical arcs."""
@@ -216,7 +204,6 @@ class CylinderRenderer:
         # Approximate as rectangle
         return _rect_connection_point(x, y, w, h, angle_rad)
 
-
 class CircleRenderer:
     """Circle shape."""
 
@@ -238,7 +225,6 @@ class CircleRenderer:
         cx = x + w / 2
         cy = y + h / 2
         return (cx + r * math.cos(angle_rad), cy + r * math.sin(angle_rad))
-
 
 class AsymmetricRenderer:
     """Asymmetric / flag / banner shape."""
@@ -265,7 +251,6 @@ class AsymmetricRenderer:
         cx, cy = x + w / 2, y + h / 2
         return _ray_polygon_intersection(cx, cy, angle_rad, self._vertices(x, y, w, h))
 
-
 class DiamondRenderer:
     """Diamond / rhombus shape."""
 
@@ -289,7 +274,6 @@ class DiamondRenderer:
     ) -> Point:
         cx, cy = x + w / 2, y + h / 2
         return _ray_polygon_intersection(cx, cy, angle_rad, self._vertices(x, y, w, h))
-
 
 class HexagonRenderer:
     """Hexagon shape."""
@@ -317,7 +301,6 @@ class HexagonRenderer:
         cx, cy = x + w / 2, y + h / 2
         return _ray_polygon_intersection(cx, cy, angle_rad, self._vertices(x, y, w, h))
 
-
 class ParallelogramRenderer:
     """Parallelogram -- skewed right."""
 
@@ -343,7 +326,6 @@ class ParallelogramRenderer:
     ) -> Point:
         cx, cy = x + w / 2, y + h / 2
         return _ray_polygon_intersection(cx, cy, angle_rad, self._vertices(x, y, w, h))
-
 
 class ParallelogramAltRenderer:
     """Parallelogram alt -- skewed opposite direction."""
@@ -371,7 +353,6 @@ class ParallelogramAltRenderer:
         cx, cy = x + w / 2, y + h / 2
         return _ray_polygon_intersection(cx, cy, angle_rad, self._vertices(x, y, w, h))
 
-
 class TrapezoidRenderer:
     """Trapezoid -- wider at the bottom."""
 
@@ -398,7 +379,6 @@ class TrapezoidRenderer:
         cx, cy = x + w / 2, y + h / 2
         return _ray_polygon_intersection(cx, cy, angle_rad, self._vertices(x, y, w, h))
 
-
 class TrapezoidAltRenderer:
     """Trapezoid alt -- wider at the top."""
 
@@ -424,7 +404,6 @@ class TrapezoidAltRenderer:
     ) -> Point:
         cx, cy = x + w / 2, y + h / 2
         return _ray_polygon_intersection(cx, cy, angle_rad, self._vertices(x, y, w, h))
-
 
 class DoubleCircleRenderer:
     """Double circle -- two concentric circles."""
@@ -453,7 +432,6 @@ class DoubleCircleRenderer:
         cy = y + h / 2
         return (cx + r * math.cos(angle_rad), cy + r * math.sin(angle_rad))
 
-
 # ---------------------------------------------------------------------------
 # Registry
 # ---------------------------------------------------------------------------
@@ -475,14 +453,12 @@ SHAPE_REGISTRY: dict[NodeShape, ShapeRenderer] = {
     NodeShape.double_circle: DoubleCircleRenderer(),
 }
 
-
 def get_shape_renderer(shape: NodeShape) -> ShapeRenderer:
     """Return the renderer for *shape*, raising KeyError if not found."""
     try:
         return SHAPE_REGISTRY[shape]
     except KeyError:
         raise KeyError(f"No renderer registered for shape: {shape!r}") from None
-
 
 __all__ = [
     "SHAPE_REGISTRY",

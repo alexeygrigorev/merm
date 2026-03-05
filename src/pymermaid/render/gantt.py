@@ -1,7 +1,5 @@
 """SVG renderer for Gantt charts."""
 
-from __future__ import annotations
-
 from datetime import date, timedelta
 from xml.sax.saxutils import escape
 
@@ -24,7 +22,6 @@ _BAR_PADDING = (_ROW_HEIGHT - _BAR_HEIGHT) / 2
 _CHART_WIDTH = 600  # width of the bar area
 _TICK_HEIGHT = 20
 _AXIS_MARGIN = 10
-
 
 def render_gantt_svg(chart: GanttChart, theme: Theme | None = None) -> str:
     """Render a GanttChart IR to an SVG string."""
@@ -207,7 +204,6 @@ def render_gantt_svg(chart: GanttChart, theme: Theme | None = None) -> str:
     parts.append("</svg>")
     return "\n".join(parts)
 
-
 def _get_fill(modifiers: frozenset[str]) -> str:
     """Return fill color based on task modifiers."""
     if "crit" in modifiers:
@@ -217,7 +213,6 @@ def _get_fill(modifiers: frozenset[str]) -> str:
     if "active" in modifiers:
         return _FILL_ACTIVE
     return _FILL_DEFAULT
-
 
 def _compute_tick_dates(start: date, end: date) -> list[date]:
     """Compute reasonable tick mark dates for the time axis."""
@@ -246,6 +241,5 @@ def _compute_tick_dates(start: date, end: date) -> list[date]:
         current += timedelta(days=interval)
     ticks.append(end)
     return ticks
-
 
 __all__ = ["render_gantt_svg"]

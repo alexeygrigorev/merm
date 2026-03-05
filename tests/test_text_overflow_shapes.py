@@ -6,8 +6,6 @@ that the shape dimensions are large enough to inscribe the text bounding
 box.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid import render_diagram
@@ -18,11 +16,9 @@ from pymermaid.measure.text import _line_width
 _SVG_NS = "http://www.w3.org/2000/svg"
 _DEFAULT_FONT_SIZE = 16.0
 
-
 def _render_and_parse(source: str) -> ET.Element:
     svg = render_diagram(source)
     return ET.fromstring(svg)
-
 
 def _simple_measure(text: str, font_size: float) -> tuple[float, float]:
     """Simple text measurement matching heuristic mode."""
@@ -30,7 +26,6 @@ def _simple_measure(text: str, font_size: float) -> tuple[float, float]:
     w = max(_line_width(line, font_size) for line in lines)
     h = font_size * 1.4 * len(lines)
     return (w, h)
-
 
 def _layout_single_node(label: str, shape: NodeShape) -> tuple[float, float]:
     """Layout a single node and return its (width, height)."""
@@ -42,7 +37,6 @@ def _layout_single_node(label: str, shape: NodeShape) -> tuple[float, float]:
     result = layout_diagram(diagram, _simple_measure)
     node = result.nodes["A"]
     return (node.width, node.height)
-
 
 # ---------------------------------------------------------------------------
 # Diamond text containment
@@ -92,7 +86,6 @@ class TestDiamondTextContainment:
         assert dw > rw * 1.3, "Diamond should be wider than rect"
         assert dh > rh * 1.3, "Diamond should be taller than rect"
 
-
 # ---------------------------------------------------------------------------
 # Hexagon text containment
 # ---------------------------------------------------------------------------
@@ -118,7 +111,6 @@ class TestHexagonTextContainment:
         hw, _ = _layout_single_node(label, NodeShape.hexagon)
         rw, _ = _layout_single_node(label, NodeShape.rect)
         assert hw > rw * 1.3, "Hexagon should be wider than rect"
-
 
 # ---------------------------------------------------------------------------
 # Circle sizing
@@ -148,7 +140,6 @@ class TestCircleSizing:
         dw, _ = _layout_single_node(label, NodeShape.double_circle)
         assert dw > sw, "Double circle must be larger than single circle"
 
-
 # ---------------------------------------------------------------------------
 # Parallelogram text containment
 # ---------------------------------------------------------------------------
@@ -175,7 +166,6 @@ class TestParallelogramTextContainment:
         rw, _ = _layout_single_node(label, NodeShape.rect)
         assert pw > rw, "Parallelogram should be wider than rect"
 
-
 # ---------------------------------------------------------------------------
 # Trapezoid text containment
 # ---------------------------------------------------------------------------
@@ -200,7 +190,6 @@ class TestTrapezoidTextContainment:
         tw_trap, _ = _layout_single_node(label, NodeShape.trapezoid)
         rw, _ = _layout_single_node(label, NodeShape.rect)
         assert tw_trap > rw, "Trapezoid should be wider than rect"
-
 
 # ---------------------------------------------------------------------------
 # Integration: SVG rendering text containment
@@ -304,7 +293,6 @@ class TestSVGTextContainment:
         polygons = self._extract_polygons(root)
         assert len(polygons) >= 1
 
-
 # ---------------------------------------------------------------------------
 # Integration: Coffee machine diagram
 # ---------------------------------------------------------------------------
@@ -339,7 +327,6 @@ class TestCoffeeMachineDiagram:
                 h = max(p[1] for p in pts) - min(p[1] for p in pts)
                 assert w > 20, f"Diamond too narrow: {w}"
                 assert h > 20, f"Diamond too short: {h}"
-
 
 # ---------------------------------------------------------------------------
 # Regression: shapes that were already OK should not regress

@@ -4,8 +4,6 @@ Defines Point, NodeLayout, EdgeLayout, SubgraphLayout, and LayoutResult
 dataclasses used as input/output of the layout algorithm.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 
@@ -16,7 +14,6 @@ class Point:
     x: float
     y: float
 
-
 @dataclass(frozen=True)
 class NodeLayout:
     """Positioned node with dimensions."""
@@ -26,7 +23,6 @@ class NodeLayout:
     width: float
     height: float
 
-
 @dataclass(frozen=True)
 class EdgeLayout:
     """Routed edge as a polyline."""
@@ -34,7 +30,6 @@ class EdgeLayout:
     points: list[Point]
     source: str
     target: str
-
 
 @dataclass(frozen=True)
 class SubgraphLayout:
@@ -46,7 +41,6 @@ class SubgraphLayout:
     width: float
     height: float
     title: str | None = None
-
 
 @dataclass(frozen=True)
 class LayoutResult:

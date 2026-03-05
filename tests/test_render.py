@@ -1,7 +1,5 @@
 """Tests for the SVG renderer."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir import (
@@ -18,7 +16,6 @@ from pymermaid.render import render_svg
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 _NS = {"svg": _SVG_NS}
-
 
 def _simple_diagram(
     nodes: list[tuple[str, str]] | None = None,
@@ -39,7 +36,6 @@ def _simple_diagram(
         ),
         subgraphs=subgraphs,
     )
-
 
 def _simple_layout(
     nodes: dict[str, tuple[float, float, float, float]] | None = None,
@@ -74,16 +70,13 @@ def _simple_layout(
     ]
     return LayoutResult(nodes=nl, edges=el, width=width, height=height)
 
-
 def _parse(svg_str: str) -> ET.Element:
     """Parse SVG string, returning the root Element."""
     return ET.fromstring(svg_str)
 
-
 # ---------------------------------------------------------------------------
 # 1. render_svg returns valid SVG
 # ---------------------------------------------------------------------------
-
 
 class TestRenderSVGBasic:
     def test_parseable_xml(self):
@@ -106,11 +99,9 @@ class TestRenderSVGBasic:
         result = render_svg(d, lr)
         assert 'xmlns="http://www.w3.org/2000/svg"' in result
 
-
 # ---------------------------------------------------------------------------
 # 2. SVG contains nodes
 # ---------------------------------------------------------------------------
-
 
 class TestNodeRendering:
     def test_correct_node_count(self):
@@ -140,11 +131,9 @@ class TestNodeRendering:
             assert len(rects) >= 1, "Node group missing <rect>"
             assert len(texts) >= 1, "Node group missing <text>"
 
-
 # ---------------------------------------------------------------------------
 # 3. Node text labels
 # ---------------------------------------------------------------------------
-
 
 class TestNodeTextLabels:
     def test_single_line_label(self):
@@ -175,11 +164,9 @@ class TestNodeTextLabels:
         texts = [ts.text for ts in tspan_els]
         assert texts == ["Line1", "Line2", "Line3"]
 
-
 # ---------------------------------------------------------------------------
 # 4. SVG contains edges
 # ---------------------------------------------------------------------------
-
 
 class TestEdgeRendering:
     def test_edge_path_exists(self):
@@ -227,11 +214,9 @@ class TestEdgeRendering:
         edge_groups = root.findall(".//*[@data-edge-source]")
         assert len(edge_groups) == 2
 
-
 # ---------------------------------------------------------------------------
 # 5. Edge labels
 # ---------------------------------------------------------------------------
-
 
 class TestEdgeLabels:
     def test_edge_label_rendered(self):
@@ -255,11 +240,9 @@ class TestEdgeLabels:
         ]
         assert len(text_els) == 0
 
-
 # ---------------------------------------------------------------------------
 # 6. Arrowhead marker in defs
 # ---------------------------------------------------------------------------
-
 
 class TestDefs:
     def test_defs_contains_marker(self):
@@ -285,11 +268,9 @@ class TestDefs:
         assert m.get("markerWidth") is not None
         assert m.get("markerHeight") is not None
 
-
 # ---------------------------------------------------------------------------
 # 7. Default theme colors
 # ---------------------------------------------------------------------------
-
 
 class TestDefaultTheme:
     def test_style_contains_node_fill(self):
@@ -304,11 +285,9 @@ class TestDefaultTheme:
         result = render_svg(d, lr)
         assert "#333" in result
 
-
 # ---------------------------------------------------------------------------
 # 8. ViewBox includes padding
 # ---------------------------------------------------------------------------
-
 
 class TestViewBox:
     def test_viewbox_has_padding(self):
@@ -334,11 +313,9 @@ class TestViewBox:
         assert vb_x < 0
         assert vb_y < 0
 
-
 # ---------------------------------------------------------------------------
 # 9. Subgraph rendering
 # ---------------------------------------------------------------------------
-
 
 class TestSubgraph:
     def test_subgraph_rendered(self):
@@ -389,11 +366,9 @@ class TestSubgraph:
         all_text = "".join(el.text or "" for el in sg_groups[0].iter())
         assert "My Group" in all_text
 
-
 # ---------------------------------------------------------------------------
 # 10. Empty diagram
 # ---------------------------------------------------------------------------
-
 
 class TestEmptyDiagram:
     def test_empty_returns_valid_svg(self):
@@ -410,11 +385,9 @@ class TestEmptyDiagram:
         assert root.findall(".//*[@data-node-id]") == []
         assert root.findall(".//*[@data-edge-source]") == []
 
-
 # ---------------------------------------------------------------------------
 # 11. Single node, no edges
 # ---------------------------------------------------------------------------
-
 
 class TestSingleNode:
     def test_single_node_no_edges(self):
@@ -424,11 +397,9 @@ class TestSingleNode:
         assert len(root.findall(".//*[@data-node-id]")) == 1
         assert len(root.findall(".//*[@data-edge-source]")) == 0
 
-
 # ---------------------------------------------------------------------------
 # 12. Integration: Round-trip with layout_diagram
 # ---------------------------------------------------------------------------
-
 
 class TestIntegration:
     def test_round_trip_3_nodes_2_edges(self):
@@ -479,11 +450,9 @@ class TestIntegration:
         )
         assert "Group" in all_text
 
-
 # ---------------------------------------------------------------------------
 # 13. SVG starts with <svg
 # ---------------------------------------------------------------------------
-
 
 class TestSVGOutput:
     def test_starts_with_svg_tag(self):

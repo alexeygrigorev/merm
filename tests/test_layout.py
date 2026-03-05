@@ -1,7 +1,5 @@
 """Tests for the layout engine."""
 
-from __future__ import annotations
-
 import time
 
 from pymermaid.ir import Diagram, DiagramType, Direction, Edge, Node
@@ -24,16 +22,13 @@ def _measure(text: str, font_size: float) -> tuple[float, float]:
     """Simple measure function for testing."""
     return (len(text) * font_size * 0.6, font_size * 1.2)
 
-
 def _large_measure(text: str, font_size: float) -> tuple[float, float]:
     """Returns large dimensions."""
     return (200.0, 60.0)
 
-
 def _small_measure(text: str, font_size: float) -> tuple[float, float]:
     """Returns small dimensions."""
     return (10.0, 10.0)
-
 
 def _make_diagram(
     node_ids: list[str],
@@ -50,11 +45,9 @@ def _make_diagram(
         edges=ir_edges,
     )
 
-
 def _bounding_box(nl: NodeLayout) -> tuple[float, float, float, float]:
     """Return (x1, y1, x2, y2) of a NodeLayout."""
     return (nl.x, nl.y, nl.x + nl.width, nl.y + nl.height)
-
 
 def _boxes_overlap(a: NodeLayout, b: NodeLayout) -> bool:
     """Check if two node bounding boxes overlap."""
@@ -66,11 +59,9 @@ def _boxes_overlap(a: NodeLayout, b: NodeLayout) -> bool:
         return False
     return True
 
-
 def _center(nl: NodeLayout) -> tuple[float, float]:
     """Return center of a NodeLayout."""
     return (nl.x + nl.width / 2, nl.y + nl.height / 2)
-
 
 # ---------------------------------------------------------------------------
 # Unit: Cycle removal
@@ -97,7 +88,6 @@ class TestCycleRemoval:
         edges: list[tuple[str, str, int]] = []
         result, reversed_set = _remove_cycles(["A"], edges)
         assert len(reversed_set) == 0
-
 
 # ---------------------------------------------------------------------------
 # Unit: Layer assignment
@@ -131,7 +121,6 @@ class TestLayerAssignment:
         for dummy_id, _ in dummy_info.items():
             assert new_layers[dummy_id] == 1
 
-
 # ---------------------------------------------------------------------------
 # Unit: Crossing minimization
 # ---------------------------------------------------------------------------
@@ -155,7 +144,6 @@ class TestCrossingMinimization:
         result = _crossing_minimization(layer_lists, edges, layers)
         # After minimization, layer 1 should be reordered to [D, C]
         assert result[1] == ["D", "C"]
-
 
 # ---------------------------------------------------------------------------
 # Unit: Coordinate assignment
@@ -193,7 +181,6 @@ class TestCoordinateAssignment:
         gap_small = abs(pos_small["B"][0] - pos_small["A"][0])
         gap_big = abs(pos_big["B"][0] - pos_big["A"][0])
         assert gap_big > gap_small
-
 
 # ---------------------------------------------------------------------------
 # Unit: Edge routing
@@ -239,7 +226,6 @@ class TestEdgeRouting:
         # At least one coordinate should differ from center
         assert (abs(start.x - a_cx) > 0.1 or abs(start.y - a_cy) > 0.1)
         assert (abs(end.x - b_cx) > 0.1 or abs(end.y - b_cy) > 0.1)
-
 
 # ---------------------------------------------------------------------------
 # Integration: layout_diagram end-to-end
@@ -354,7 +340,6 @@ class TestLayoutDiagramIntegration:
         assert elapsed < 1.0
         assert len(result.nodes) == 100
 
-
 # ---------------------------------------------------------------------------
 # Integration: measure function interaction
 # ---------------------------------------------------------------------------
@@ -385,7 +370,6 @@ class TestMeasureInteraction:
         a_nl = result.nodes["A"]
         # Width should be at least the measured width (200) + padding
         assert a_nl.width >= 200.0
-
 
 # ---------------------------------------------------------------------------
 # Integration: spacing configuration
@@ -441,7 +425,6 @@ class TestSpacingConfig:
         # In LR: A.x < B.x; In RL: A.x > B.x
         assert _center(r_lr.nodes["A"])[0] < _center(r_lr.nodes["B"])[0]
         assert _center(r_rl.nodes["A"])[0] > _center(r_rl.nodes["B"])[0]
-
 
 # ---------------------------------------------------------------------------
 # Disconnected component layout: vertical centering

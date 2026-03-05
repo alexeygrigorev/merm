@@ -3,8 +3,6 @@
 Generates standalone SVG from a SequenceDiagram IR and SequenceLayout.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir.sequence import MessageType, SequenceDiagram
@@ -21,14 +19,12 @@ from pymermaid.theme import DEFAULT_THEME, Theme
 _SVG_NS = "http://www.w3.org/2000/svg"
 _PADDING = 20
 
-
 def _rc(val: float) -> str:
     """Round a coordinate to at most 2 decimal places."""
     rounded = round(val, 2)
     if rounded == int(rounded):
         return str(int(rounded))
     return f"{rounded:.2f}".rstrip("0").rstrip(".")
-
 
 def _build_defs(svg: ET.Element, theme: Theme) -> None:
     """Add marker definitions for sequence diagram arrows."""
@@ -98,7 +94,6 @@ def _build_defs(svg: ET.Element, theme: Theme) -> None:
     pl2.set("stroke", stroke)
     pl2.set("stroke-width", "1.5")
 
-
 def _build_css(theme: Theme) -> str:
     """Build CSS for sequence diagram styling."""
     return (
@@ -128,7 +123,6 @@ def _build_css(theme: Theme) -> str:
         f"font-family: {theme.font_family}; font-size: 14px; }}\n"
     )
 
-
 def _render_participant_box(
     parent: ET.Element, pl: ParticipantLayout,
 ) -> None:
@@ -150,7 +144,6 @@ def _render_participant_box(
     text.set("text-anchor", "middle")
     text.set("dominant-baseline", "central")
     text.text = pl.label
-
 
 def _render_actor(parent: ET.Element, pl: ParticipantLayout) -> None:
     """Render a participant as a stick figure actor."""
@@ -209,7 +202,6 @@ def _render_actor(parent: ET.Element, pl: ParticipantLayout) -> None:
     text.set("dominant-baseline", "auto")
     text.text = pl.label
 
-
 def _render_lifeline(
     parent: ET.Element, pl: ParticipantLayout, bottom_y: float,
 ) -> None:
@@ -220,7 +212,6 @@ def _render_lifeline(
     line.set("y1", _rc(pl.box_y + pl.box_h))
     line.set("x2", _rc(pl.cx))
     line.set("y2", _rc(bottom_y))
-
 
 def _get_marker(msg_type_str: str) -> tuple[str, bool]:
     """Return (marker-end url, is_dashed) for a message type."""
@@ -240,7 +231,6 @@ def _get_marker(msg_type_str: str) -> tuple[str, bool]:
             return "url(#seq-cross)", True
         case MessageType.ASYNC:
             return "url(#seq-async)", False
-
 
 def _render_message(parent: ET.Element, ml: MessageLayout) -> None:
     """Render a message arrow."""
@@ -299,7 +289,6 @@ def _render_message(parent: ET.Element, ml: MessageLayout) -> None:
                 tspan.set("dy", "0" if i == 0 else str(line_height))
                 tspan.text = line
 
-
 def _render_activation(parent: ET.Element, al: ActivationLayout) -> None:
     """Render an activation rectangle on a lifeline."""
     g = ET.SubElement(parent, "g")
@@ -312,7 +301,6 @@ def _render_activation(parent: ET.Element, al: ActivationLayout) -> None:
     rect.set("width", _rc(al.width))
     rect.set("height", _rc(max(al.y_end - al.y_start, 5)))
     rect.set("rx", "2")
-
 
 def _render_note(parent: ET.Element, nl: NoteLayout) -> None:
     """Render a note box."""
@@ -348,7 +336,6 @@ def _render_note(parent: ET.Element, nl: NoteLayout) -> None:
             tspan.set("x", _rc(center_x))
             tspan.set("dy", "0" if i == 0 else str(line_height))
             tspan.text = line
-
 
 def _render_fragment(parent: ET.Element, fl: FragmentLayout) -> None:
     """Render a fragment box (loop/alt/opt)."""
@@ -398,7 +385,6 @@ def _render_fragment(parent: ET.Element, fl: FragmentLayout) -> None:
             sec_text.set("x", _rc(fl.x + 10))
             sec_text.set("y", _rc(section.y + 14))
             sec_text.text = f"[{section.label}]"
-
 
 def render_sequence_svg(
     diagram: SequenceDiagram,

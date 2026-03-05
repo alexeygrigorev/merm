@@ -3,8 +3,6 @@
 Supports stateDiagram and stateDiagram-v2 declarations.
 """
 
-from __future__ import annotations
-
 import re
 from dataclasses import dataclass, field
 
@@ -25,7 +23,6 @@ def _strip_comment(line: str) -> str:
         return line[:idx].rstrip()
     return line
 
-
 def _preprocess(text: str) -> list[tuple[int, str]]:
     """Return list of (line_number, stripped_line)."""
     result: list[tuple[int, str]] = []
@@ -34,7 +31,6 @@ def _preprocess(text: str) -> list[tuple[int, str]]:
         if stripped:
             result.append((lineno, stripped))
     return result
-
 
 # Regex for transitions: s1 --> s2 or s1 --> s2 : label
 _TRANSITION_RE = re.compile(
@@ -66,7 +62,6 @@ _NOTE_RE = re.compile(
     r"^note\s+(left|right)\s+of\s+(\S+)\s*:\s*(.+)$"
 )
 
-
 @dataclass
 class _StateInfo:
     """Mutable state info accumulated during parsing."""
@@ -75,7 +70,6 @@ class _StateInfo:
     state_type: StateType = StateType.NORMAL
     children: list[State] = field(default_factory=list)
 
-
 @dataclass
 class _ParserState:
     """Mutable parser state."""
@@ -83,11 +77,10 @@ class _ParserState:
     transitions: list[Transition] = field(default_factory=list)
     notes: list[StateNote] = field(default_factory=list)
     # Stack for composite state parsing
-    composite_stack: list[_CompositeBuilder] = field(default_factory=list)
+    composite_stack: list["_CompositeBuilder"] = field(default_factory=list)
     # Counter for generating unique start/end state IDs
     start_count: int = 0
     end_count: int = 0
-
 
 @dataclass
 class _CompositeBuilder:
@@ -97,7 +90,6 @@ class _CompositeBuilder:
     states: dict[str, _StateInfo] = field(default_factory=dict)
     transitions: list[Transition] = field(default_factory=list)
 
-
 def _ensure_state(
     state_id: str, states: dict[str, _StateInfo],
 ) -> _StateInfo:
@@ -105,7 +97,6 @@ def _ensure_state(
     if state_id not in states:
         states[state_id] = _StateInfo(id=state_id, label=state_id)
     return states[state_id]
-
 
 def _resolve_pseudo_state(
     state_id: str, is_source: bool, pstate: _ParserState,
@@ -134,20 +125,17 @@ def _resolve_pseudo_state(
             )
         return real_id
 
-
 def _get_current_states(pstate: _ParserState) -> dict[str, _StateInfo]:
     """Get the states dict for the current context (top-level or composite)."""
     if pstate.composite_stack:
         return pstate.composite_stack[-1].states
     return pstate.states
 
-
 def _get_current_transitions(pstate: _ParserState) -> list[Transition]:
     """Get the transitions list for the current context."""
     if pstate.composite_stack:
         return pstate.composite_stack[-1].transitions
     return pstate.transitions
-
 
 def _parse_line(
     line: str, lineno: int, pstate: _ParserState,
@@ -265,7 +253,6 @@ def _parse_line(
 
     # Ignore unknown lines silently (direction, etc.)
 
-
 def parse_state_diagram(text: str) -> StateDiagram:
     """Parse Mermaid state diagram syntax into a StateDiagram.
 
@@ -324,6 +311,5 @@ def parse_state_diagram(text: str) -> StateDiagram:
         transitions=tuple(pstate.transitions),
         notes=tuple(pstate.notes),
     )
-
 
 __all__ = ["parse_state_diagram"]

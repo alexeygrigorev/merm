@@ -1,7 +1,5 @@
 """Parser for Mermaid pie chart syntax."""
 
-from __future__ import annotations
-
 import re
 
 from pymermaid.ir.pie import PieChart, PieSlice
@@ -9,7 +7,6 @@ from pymermaid.parser.flowchart import ParseError
 
 # Pattern for a data entry: "Label" : number
 _SLICE_RE = re.compile(r'^\s*"([^"]+)"\s*:\s*([0-9]*\.?[0-9]+)\s*$')
-
 
 def parse_pie(text: str) -> PieChart:
     """Parse Mermaid pie chart syntax into a PieChart IR.
@@ -93,6 +90,5 @@ def parse_pie(text: str) -> PieChart:
         raise ParseError("No slices found in pie chart")
 
     return PieChart(title=title, show_data=show_data, slices=tuple(slices))
-
 
 __all__ = ["parse_pie"]

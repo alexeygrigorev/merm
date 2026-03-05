@@ -8,8 +8,6 @@ Covers:
 - Corpus fixture integration
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -25,28 +23,23 @@ _SVG_NS = {"svg": "http://www.w3.org/2000/svg"}
 
 CORPUS_DIR = Path(__file__).parent / "fixtures" / "corpus" / "class"
 
-
 def _render(text: str) -> str:
     diag = parse_class_diagram(text)
     measurer = TextMeasurer()
     layout = layout_class_diagram(diag, measure_fn=measurer.measure)
     return render_class_diagram(diag, layout)
 
-
 def _parse_svg(svg: str) -> ET.Element:
     return ET.fromstring(svg)
-
 
 def _layout(text: str):
     diag = parse_class_diagram(text)
     measurer = TextMeasurer()
     return layout_class_diagram(diag, measure_fn=measurer.measure)
 
-
 # ============================================================================
 # Marker definitions
 # ============================================================================
-
 
 class TestMarkerDefinitions:
     """Verify marker definitions use correct markerUnits and shapes."""
@@ -137,11 +130,9 @@ class TestMarkerDefinitions:
         assert path is not None
         assert path.get("fill") == "white"
 
-
 # ============================================================================
 # Parent-above-child layout
 # ============================================================================
-
 
 class TestParentAboveChild:
     """Verify parent class renders above children in TB layout."""
@@ -181,11 +172,9 @@ class TestParentAboveChild:
         marker_end = path.get("marker-end", "")
         assert "inherit-arrow" in marker_end
 
-
 # ============================================================================
 # Edge endpoint precision
 # ============================================================================
-
 
 class TestEdgeEndpoints:
     """Verify edge endpoints connect cleanly to class box edges."""
@@ -242,11 +231,9 @@ class TestEdgeEndpoints:
             f"target node ({tgt_nl.x}, {tgt_nl.y}, {tgt_nl.width}, {tgt_nl.height})"
         )
 
-
 # ============================================================================
 # Member text alignment
 # ============================================================================
-
 
 class TestMemberTextAlignment:
     """Verify member text uses dominant-baseline for vertical centering."""
@@ -297,11 +284,9 @@ class TestMemberTextAlignment:
                 # This text uses the new alignment -- good
                 pass
 
-
 # ============================================================================
 # Dashed lines preserved
 # ============================================================================
-
 
 class TestDashedLines:
     """Verify dashed lines still render for dependency and realization."""
@@ -314,11 +299,9 @@ class TestDashedLines:
         svg = _render("classDiagram\n  A ..|> B")
         assert "stroke-dasharray" in svg
 
-
 # ============================================================================
 # Padding constant match
 # ============================================================================
-
 
 class TestPaddingConstants:
     """Verify layout padding matches Sugiyama constants."""
@@ -341,11 +324,9 @@ class TestPaddingConstants:
         assert "_NODE_PADDING_H" in source
         assert "_NODE_PADDING_V" in source
 
-
 # ============================================================================
 # Corpus fixtures integration
 # ============================================================================
-
 
 class TestCorpusFixtures:
     """Verify all corpus fixtures parse and render without errors."""

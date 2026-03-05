@@ -5,8 +5,6 @@ mapping states to nodes and transitions to edges. Composite states become
 subgraphs.
 """
 
-from __future__ import annotations
-
 from pymermaid.ir import (
     Diagram,
     DiagramType,
@@ -31,7 +29,6 @@ _FORK_JOIN_WIDTH = 80.0
 _FORK_JOIN_HEIGHT = 8.0
 _CHOICE_SIZE = 30.0
 
-
 def _state_to_node_shape(state_type: StateType) -> NodeShape:
     """Map state type to a node shape for layout sizing."""
     match state_type:
@@ -43,7 +40,6 @@ def _state_to_node_shape(state_type: StateType) -> NodeShape:
             return NodeShape.rect
         case _:
             return NodeShape.rounded
-
 
 def state_diagram_to_flowchart(diagram: StateDiagram) -> Diagram:
     """Convert a StateDiagram into a flowchart Diagram for layout.
@@ -90,7 +86,6 @@ def state_diagram_to_flowchart(diagram: StateDiagram) -> Diagram:
         edges=tuple(edges),
         subgraphs=tuple(subgraphs),
     )
-
 
 def layout_state_diagram(
     diagram: StateDiagram,
@@ -166,7 +161,6 @@ def layout_state_diagram(
         height=result.height,
         subgraphs=result.subgraphs,
     )
-
 
 __all__ = [
     "layout_state_diagram",

@@ -1,7 +1,5 @@
 """SVG renderer for gitGraph diagrams."""
 
-from __future__ import annotations
-
 from xml.sax.saxutils import escape
 
 from pymermaid.ir.gitgraph import CommitType, GitGraph
@@ -25,7 +23,6 @@ _HIGHLIGHT_RADIUS = 12
 
 # Reverse commit fill
 _REVERSE_FILL = "#ffffff"
-
 
 def render_gitgraph_svg(graph: GitGraph, layout: GitGraphLayout) -> str:
     """Render a GitGraph and its layout to an SVG string."""
@@ -180,13 +177,11 @@ def render_gitgraph_svg(graph: GitGraph, layout: GitGraphLayout) -> str:
     parts.append("</svg>")
     return "\n".join(parts)
 
-
 def _is_auto_id(commit_id: str) -> bool:
     """Check if a commit ID looks auto-generated (e.g. '0-main')."""
     parts = commit_id.split("-", 1)
     if len(parts) == 2 and parts[0].isdigit():
         return True
     return False
-
 
 __all__ = ["render_gitgraph_svg"]

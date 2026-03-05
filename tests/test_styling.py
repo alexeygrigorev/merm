@@ -1,7 +1,5 @@
 """Tests for styling support and shape integration in the SVG renderer."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir import (
@@ -17,7 +15,6 @@ from pymermaid.render import render_svg
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 
-
 def _layout_for(*node_ids: str) -> LayoutResult:
     """Build a trivial layout with one box per node id."""
     nodes = {}
@@ -25,10 +22,8 @@ def _layout_for(*node_ids: str) -> LayoutResult:
         nodes[nid] = NodeLayout(x=float(i * 120), y=0.0, width=100.0, height=50.0)
     return LayoutResult(nodes=nodes, edges=[], width=len(node_ids) * 120.0, height=50.0)
 
-
 def _parse(svg_str: str) -> ET.Element:
     return ET.fromstring(svg_str)
-
 
 def _find_node_g(root: ET.Element, node_id: str) -> ET.Element:
     """Find the <g> element for a given node id."""
@@ -36,7 +31,6 @@ def _find_node_g(root: ET.Element, node_id: str) -> ET.Element:
         if g.get("data-node-id") == node_id:
             return g
     raise AssertionError(f"No <g data-node-id='{node_id}'> found")
-
 
 def _child_tags(g: ET.Element) -> list[str]:
     """Return the local tag names of direct children of g."""
@@ -48,11 +42,9 @@ def _child_tags(g: ET.Element) -> list[str]:
         tags.append(tag)
     return tags
 
-
 # ===================================================================
 # Part A: Shape integration
 # ===================================================================
-
 
 class TestShapeIntegrationDiamond:
     def test_diamond_produces_polygon(self):
@@ -77,7 +69,6 @@ class TestShapeIntegrationDiamond:
         rects = [c for c in g if c.tag in ("rect", f"{{{_SVG_NS}}}rect")]
         assert len(rects) == 0
 
-
 class TestShapeIntegrationCircle:
     def test_circle_produces_circle_element(self):
         d = Diagram(
@@ -88,7 +79,6 @@ class TestShapeIntegrationCircle:
         g = _find_node_g(root, "C")
         tags = _child_tags(g)
         assert "circle" in tags
-
 
 class TestShapeIntegrationStadium:
     def test_stadium_rect_has_rx(self):
@@ -105,7 +95,6 @@ class TestShapeIntegrationStadium:
         # rx should equal half the height (50/2 = 25)
         assert float(rx) == 25.0
 
-
 class TestShapeIntegrationCylinder:
     def test_cylinder_produces_path(self):
         d = Diagram(
@@ -116,7 +105,6 @@ class TestShapeIntegrationCylinder:
         g = _find_node_g(root, "CY")
         tags = _child_tags(g)
         assert "path" in tags
-
 
 class TestShapeIntegrationSubroutine:
     def test_subroutine_has_line_elements(self):
@@ -129,7 +117,6 @@ class TestShapeIntegrationSubroutine:
         tags = _child_tags(g)
         assert tags.count("line") == 2
 
-
 class TestShapeIntegrationDoubleCircle:
     def test_double_circle_two_circles(self):
         d = Diagram(
@@ -140,7 +127,6 @@ class TestShapeIntegrationDoubleCircle:
         g = _find_node_g(root, "DC")
         circles = [c for c in g if c.tag in ("circle", f"{{{_SVG_NS}}}circle")]
         assert len(circles) == 2
-
 
 class TestShapeIntegrationMixed:
     def test_mixed_shapes(self):
@@ -162,11 +148,9 @@ class TestShapeIntegrationMixed:
         assert "polygon" in d_tags
         assert "circle" in c_tags
 
-
 # ===================================================================
 # Default style block covers multiple shape selectors
 # ===================================================================
-
 
 class TestDefaultStyleBlock:
     def test_style_covers_polygon_circle_path(self):
@@ -178,11 +162,9 @@ class TestDefaultStyleBlock:
         assert ".node circle" in svg
         assert ".node path" in svg
 
-
 # ===================================================================
 # Part B: Inline style application
 # ===================================================================
-
 
 class TestInlineStyle:
     def test_style_applied_to_shape_element(self):
@@ -214,11 +196,9 @@ class TestInlineStyle:
         rect_b = [c for c in g_b if c.tag in ("rect", f"{{{_SVG_NS}}}rect")][0]
         assert rect_b.get("style") is None
 
-
 # ===================================================================
 # Part B: classDef application
 # ===================================================================
-
 
 class TestClassDef:
     def test_classdef_in_style_block(self):
@@ -255,11 +235,9 @@ class TestClassDef:
         assert ".node {" in svg
         assert "fill:#aaa" in svg
 
-
 # ===================================================================
 # Part B: Multiple classes
 # ===================================================================
-
 
 class TestMultipleClasses:
     def test_multiple_classes_on_node(self):
@@ -272,11 +250,9 @@ class TestMultipleClasses:
         cls = g.get("class", "")
         assert cls == "node foo bar"
 
-
 # ===================================================================
 # Integration: round-trip parse-to-SVG (if parser available)
 # ===================================================================
-
 
 class TestIntegrationRoundTrip:
     def test_diamond_and_circle_via_ir(self):

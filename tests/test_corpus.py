@@ -4,8 +4,6 @@ Each fixture is parsed, laid out, rendered, and verified for structural
 correctness, no overlaps, correct directionality, and subgraph containment.
 """
 
-from __future__ import annotations
-
 import time
 from pathlib import Path
 
@@ -35,7 +33,6 @@ _FLOWCHART_DIRS = {
     "styling", "subgraphs", "text", "flowchart",
 }
 
-
 def _discover_corpus_files() -> list[Path]:
     """Discover flowchart .mmd files in the corpus."""
     files: list[Path] = []
@@ -47,15 +44,12 @@ def _discover_corpus_files() -> list[Path]:
             files.append(mmd)
     return files
 
-
 def _corpus_ids(files: list[Path]) -> list[str]:
     """Generate test IDs from corpus file paths."""
     return [str(f.relative_to(CORPUS_DIR)) for f in files]
 
-
 CORPUS_FILES = _discover_corpus_files()
 CORPUS_IDS = _corpus_ids(CORPUS_FILES)
-
 
 def _render_mmd(mmd_text: str) -> str:
     """Parse, lay out, and render mermaid text to SVG."""
@@ -64,11 +58,9 @@ def _render_mmd(mmd_text: str) -> str:
     layout = layout_diagram(diagram, measure_fn=measurer.measure)
     return render_svg(diagram, layout)
 
-
 # ---------------------------------------------------------------------------
 # Parametrized corpus tests
 # ---------------------------------------------------------------------------
-
 
 @pytest.mark.parametrize("mmd_file", CORPUS_FILES, ids=CORPUS_IDS)
 class TestCorpusRenders:
@@ -139,7 +131,6 @@ class TestCorpusRenders:
                         f"not found in SVG"
                     )
 
-
 @pytest.mark.parametrize("mmd_file", CORPUS_FILES, ids=CORPUS_IDS)
 def test_corpus_no_overlaps(mmd_file: Path) -> None:
     """No node overlaps in any corpus fixture."""
@@ -147,7 +138,6 @@ def test_corpus_no_overlaps(mmd_file: Path) -> None:
     svg = _render_mmd(mmd_text)
     overlaps = check_no_overlaps(svg)
     assert overlaps == [], f"Node overlaps detected: {overlaps}"
-
 
 # ---------------------------------------------------------------------------
 # Direction-specific tests
@@ -157,7 +147,6 @@ DIRECTION_FILES = sorted(
     (CORPUS_DIR / "direction").glob("*.mmd")
 )
 DIRECTION_IDS = [f.stem for f in DIRECTION_FILES]
-
 
 @pytest.mark.parametrize("mmd_file", DIRECTION_FILES, ids=DIRECTION_IDS)
 def test_direction_flow(mmd_file: Path) -> None:
@@ -171,7 +160,6 @@ def test_direction_flow(mmd_file: Path) -> None:
         f"Directionality violations for {direction}: {violations}"
     )
 
-
 # ---------------------------------------------------------------------------
 # Subgraph containment tests
 # ---------------------------------------------------------------------------
@@ -181,7 +169,6 @@ SUBGRAPH_FILES = sorted(
 )
 SUBGRAPH_IDS = [f.stem for f in SUBGRAPH_FILES]
 
-
 @pytest.mark.parametrize("mmd_file", SUBGRAPH_FILES, ids=SUBGRAPH_IDS)
 def test_subgraph_containment(mmd_file: Path) -> None:
     """Subgraph fixtures verify children are inside subgraph bounds."""
@@ -190,11 +177,9 @@ def test_subgraph_containment(mmd_file: Path) -> None:
     violations = check_subgraph_containment(svg)
     assert violations == [], f"Subgraph containment violations: {violations}"
 
-
 # ---------------------------------------------------------------------------
 # Unit tests for comparison utilities
 # ---------------------------------------------------------------------------
-
 
 class TestBBox:
     """Unit tests for BBox overlap and containment."""
@@ -227,7 +212,6 @@ class TestBBox:
         box = BBox(10, 20, 30, 40)
         assert box.center_x == 25.0
         assert box.center_y == 40.0
-
 
 class TestOverlapDetection:
     """Unit tests for check_no_overlaps with synthetic SVG."""
@@ -268,7 +252,6 @@ class TestOverlapDetection:
         ])
         overlaps = check_no_overlaps(svg)
         assert overlaps == []
-
 
 class TestDirectionalityCheck:
     """Unit tests for check_directionality with synthetic SVG."""
@@ -330,7 +313,6 @@ class TestDirectionalityCheck:
         )
         assert check_directionality(svg, "RL") == []
 
-
 class TestSubgraphContainment:
     """Unit tests for check_subgraph_containment with synthetic SVG."""
 
@@ -389,11 +371,9 @@ class TestSubgraphContainment:
         )
         assert check_subgraph_containment(svg) == []
 
-
 # ---------------------------------------------------------------------------
 # Scale / performance test
 # ---------------------------------------------------------------------------
-
 
 def test_large_diagram_performance() -> None:
     """The large.mmd fixture (50+ nodes) renders in under 5 seconds."""
@@ -406,11 +386,9 @@ def test_large_diagram_performance() -> None:
 
     assert elapsed < 5.0, f"Large diagram took {elapsed:.2f}s (limit 5s)"
 
-
 # ---------------------------------------------------------------------------
 # Integration: existing fixtures still work
 # ---------------------------------------------------------------------------
-
 
 def test_existing_simple_flowchart() -> None:
     """The original simple_flowchart.mmd fixture still works."""

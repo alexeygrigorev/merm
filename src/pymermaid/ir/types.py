@@ -4,8 +4,6 @@ Defines Node, Edge, StyleDef, Subgraph, and Diagram dataclasses that form
 the core graph data model used by parsers, layout, and rendering.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass, field
 
 from .enums import ArrowType, DiagramType, Direction, EdgeType, NodeShape
@@ -16,7 +14,6 @@ def _hash_dict(d: dict | None) -> int:
     if d is None:
         return hash(None)
     return hash(tuple(sorted(d.items())))
-
 
 @dataclass(frozen=True)
 class Node:
@@ -34,7 +31,6 @@ class Node:
             self.css_classes, _hash_dict(self.inline_style),
         ))
 
-
 @dataclass(frozen=True)
 class Edge:
     """An edge connecting two nodes."""
@@ -47,7 +43,6 @@ class Edge:
     target_arrow: ArrowType = ArrowType.arrow
     extra_length: int = 0
 
-
 @dataclass(frozen=True)
 class StyleDef:
     """A style definition targeting a node or class."""
@@ -58,7 +53,6 @@ class StyleDef:
     def __hash__(self) -> int:
         return hash((self.target_id, _hash_dict(self.properties)))
 
-
 @dataclass(frozen=True)
 class Subgraph:
     """A subgraph grouping nodes together."""
@@ -67,8 +61,7 @@ class Subgraph:
     title: str | None = None
     direction: Direction | None = None
     node_ids: tuple[str, ...] = ()
-    subgraphs: tuple[Subgraph, ...] = ()
-
+    subgraphs: tuple["Subgraph", ...] = ()
 
 @dataclass(frozen=True)
 class Diagram:

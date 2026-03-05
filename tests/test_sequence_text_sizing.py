@@ -4,8 +4,6 @@ Verifies that <br/> tags are rendered as multi-line text, note boxes are
 properly sized, and the SVG viewBox encompasses all content.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -19,14 +17,12 @@ _NS = {"svg": _SVG_NS}
 _NOTE_FONT_SIZE = 12
 _CHAR_WIDTH_FACTOR = 0.6
 
-
 def _render_fixture(name: str) -> ET.Element:
     """Render a .mmd fixture and return the parsed SVG root element."""
     path = _FIXTURES / name
     source = path.read_text()
     svg_str = render_diagram(source)
     return ET.fromstring(svg_str)
-
 
 def _all_text_content(el: ET.Element) -> str:
     """Collect all text content from an element and its children."""
@@ -42,7 +38,6 @@ def _all_text_content(el: ET.Element) -> str:
         parts.append(el.tail)
     return "".join(parts)
 
-
 def _find_groups(root: ET.Element, class_name: str) -> list[ET.Element]:
     """Find all <g> elements with the given class attribute."""
     groups = []
@@ -51,18 +46,15 @@ def _find_groups(root: ET.Element, class_name: str) -> list[ET.Element]:
             groups.append(g)
     return groups
 
-
 def _parse_viewbox(root: ET.Element) -> tuple[float, float, float, float]:
     """Parse the viewBox attribute into (x, y, width, height)."""
     vb = root.get("viewBox", "0 0 0 0")
     parts = vb.split()
     return float(parts[0]), float(parts[1]), float(parts[2]), float(parts[3])
 
-
 # ---------------------------------------------------------------------------
 # Unit: br tag conversion in notes
 # ---------------------------------------------------------------------------
-
 
 class TestBrTagConversionInNotes:
     """Verify that <br/> in note text is rendered as tspan elements."""
@@ -132,11 +124,9 @@ class TestBrTagConversionInNotes:
                     f"Found literal '<br/>' in note text: {full_text}"
                 )
 
-
 # ---------------------------------------------------------------------------
 # Unit: br tag conversion in message labels
 # ---------------------------------------------------------------------------
-
 
 class TestBrTagConversionInMessages:
     """Verify that <br/> in message labels is rendered as tspan elements."""
@@ -170,11 +160,9 @@ class TestBrTagConversionInMessages:
             "Expected message label with <br/> to have multiple <tspan> children"
         )
 
-
 # ---------------------------------------------------------------------------
 # Unit: note box sizing
 # ---------------------------------------------------------------------------
-
 
 class TestNoteBoxSizing:
     """Verify note boxes are wide enough for their text content."""
@@ -214,11 +202,9 @@ class TestNoteBoxSizing:
         root = _render_fixture("flink_late_upsert.mmd")
         self._check_note_widths(root)
 
-
 # ---------------------------------------------------------------------------
 # Unit: note box height for multi-line notes
 # ---------------------------------------------------------------------------
-
 
 class TestNoteBoxHeight:
     """Verify note boxes are tall enough for multi-line content."""
@@ -247,11 +233,9 @@ class TestNoteBoxHeight:
                     f"{min_expected} for {num_lines} lines"
                 )
 
-
 # ---------------------------------------------------------------------------
 # Unit: viewBox encompasses all elements
 # ---------------------------------------------------------------------------
-
 
 class TestViewBoxEncompassesAll:
     """Verify the SVG viewBox is large enough for all rendered content."""
@@ -290,11 +274,9 @@ class TestViewBoxEncompassesAll:
         root = _render_fixture("flink_late_upsert.mmd")
         self._check_viewbox(root)
 
-
 # ---------------------------------------------------------------------------
 # Unit: notes.mmd still works (regression)
 # ---------------------------------------------------------------------------
-
 
 class TestNotesRegression:
     """Verify notes.mmd without <br/> still renders correctly."""
@@ -328,11 +310,9 @@ class TestNotesRegression:
                     f"found {len(tspans)}"
                 )
 
-
 # ---------------------------------------------------------------------------
 # Unit: message labels within viewBox
 # ---------------------------------------------------------------------------
-
 
 class TestMessageLabelsWithinViewBox:
     """Verify message labels don't extend past the viewBox."""

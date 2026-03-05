@@ -4,8 +4,6 @@ Defines DiagramType, Direction, NodeShape, EdgeType, and ArrowType enums
 used throughout the pymermaid pipeline.
 """
 
-from __future__ import annotations
-
 from enum import Enum
 
 
@@ -22,7 +20,6 @@ class DiagramType(Enum):
     mindmap = "mindmap"
     git_graph = "git_graph"
 
-
 class Direction(Enum):
     """Graph direction / orientation."""
 
@@ -31,7 +28,6 @@ class Direction(Enum):
     BT = "BT"
     LR = "LR"
     RL = "RL"
-
 
 class NodeShape(Enum):
     """Node shape types for flowchart nodes."""
@@ -51,7 +47,6 @@ class NodeShape(Enum):
     trapezoid_alt = "trapezoid_alt"
     double_circle = "double_circle"
 
-
 class EdgeType(Enum):
     """Edge line style types."""
 
@@ -62,7 +57,6 @@ class EdgeType(Enum):
     thick = "thick"
     thick_arrow = "thick_arrow"
     invisible = "invisible"
-
 
 class ArrowType(Enum):
     """Arrow endpoint marker types."""

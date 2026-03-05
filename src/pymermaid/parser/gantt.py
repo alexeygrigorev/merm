@@ -1,7 +1,5 @@
 """Parser for Mermaid gantt chart syntax."""
 
-from __future__ import annotations
-
 import re
 from datetime import date, timedelta
 
@@ -19,7 +17,6 @@ _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 # Pattern for 'after <id>'
 _AFTER_RE = re.compile(r"^after\s+(\S+)$")
-
 
 def parse_gantt(text: str) -> GanttChart:
     """Parse Mermaid gantt chart syntax into a GanttChart IR.
@@ -116,7 +113,6 @@ def parse_gantt(text: str) -> GanttChart:
         sections=tuple(sections),
     )
 
-
 class _RawTask:
     """Intermediate representation of a parsed but unresolved task."""
 
@@ -137,7 +133,6 @@ class _RawTask:
         self.start_spec = start_spec
         self.duration_days = duration_days
         self.line_num = line_num
-
 
 def _parse_task_line(line: str, line_num: int) -> _RawTask:
     """Parse a single task line into a _RawTask.
@@ -206,7 +201,6 @@ def _parse_task_line(line: str, line_num: int) -> _RawTask:
         line_num=line_num,
     )
 
-
 def _resolve_task(raw: _RawTask, registry: dict[str, GanttTask]) -> GanttTask:
     """Resolve a raw task's start_spec into concrete dates."""
     after_match = _AFTER_RE.match(raw.start_spec)
@@ -231,6 +225,5 @@ def _resolve_task(raw: _RawTask, registry: dict[str, GanttTask]) -> GanttTask:
         end_date=end,
         duration_days=raw.duration_days,
     )
-
 
 __all__ = ["parse_gantt"]

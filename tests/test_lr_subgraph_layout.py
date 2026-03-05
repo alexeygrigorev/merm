@@ -6,8 +6,6 @@ are ordered correctly, cross-subgraph edges flow horizontally, and
 edge labels are positioned properly.
 """
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -16,7 +14,6 @@ import pytest
 from pymermaid import render_diagram
 
 _SVG_NS = "{http://www.w3.org/2000/svg}"
-
 
 # -------------------------------------------------------------------
 # Helpers
@@ -61,7 +58,6 @@ def _parse_subgraph_rects(svg_str: str) -> dict[str, dict]:
 
     return result
 
-
 def _parse_node_positions(svg_str: str) -> dict[str, dict]:
     """Parse SVG and extract node bounding boxes.
 
@@ -100,7 +96,6 @@ def _parse_node_positions(svg_str: str) -> dict[str, dict]:
 
     return result
 
-
 def _rects_overlap(
     a: dict, b: dict, tolerance: float = 1.0,
 ) -> bool:
@@ -113,7 +108,6 @@ def _rects_overlap(
     y_overlap = a["y"] < by2 and b["y"] < ay2
     return x_overlap and y_overlap
 
-
 # -------------------------------------------------------------------
 # Fixtures
 # -------------------------------------------------------------------
@@ -123,18 +117,15 @@ CI_PIPELINE_PATH = (
     _FIXTURE_DIR / "corpus" / "flowchart" / "ci_pipeline.mmd"
 )
 
-
 @pytest.fixture()
 def ci_pipeline_svg() -> str:
     """Render ci_pipeline.mmd and return the SVG string."""
     source = CI_PIPELINE_PATH.read_text()
     return render_diagram(source)
 
-
 # -------------------------------------------------------------------
 # Tests
 # -------------------------------------------------------------------
-
 
 class TestLRSubgraphHorizontalOrdering:
     """Build, Test, Deploy subgraphs ordered left-to-right."""
@@ -159,7 +150,6 @@ class TestLRSubgraphHorizontalOrdering:
             f"Deploy cx ({deploy_cx})"
         )
 
-
 class TestLRSubgraphNoOverlap:
     """No pair of the 3 subgraph rects should overlap."""
 
@@ -178,7 +168,6 @@ class TestLRSubgraphNoOverlap:
                     f"{a} and {b} overlap: "
                     f"{rects[a]} vs {rects[b]}"
                 )
-
 
 class TestLRSubgraphVerticalAlignment:
     """In LR mode, subgraphs should be roughly vertically aligned.
@@ -217,7 +206,6 @@ class TestLRSubgraphVerticalAlignment:
             f"vertically aligned (side by side)."
         )
 
-
 class TestInternalNodeOrdering:
     """Nodes within Build subgraph flow left-to-right."""
 
@@ -240,7 +228,6 @@ class TestInternalNodeOrdering:
             f"B cx ({b_cx}) should be < C cx ({c_cx})"
         )
 
-
 class TestCrossSubgraphEdges:
     """Cross-subgraph edges should flow left-to-right."""
 
@@ -258,7 +245,6 @@ class TestCrossSubgraphEdges:
                 f"C cx ({c_cx}) should be "
                 f"< {target} cx ({t_cx})"
             )
-
 
 class TestEdgeLabelPositioning:
     """The 'Approved' label sits between F and G nodes."""
@@ -298,7 +284,6 @@ class TestEdgeLabelPositioning:
             f"between F cx ({f_cx}) and G cx ({g_cx})"
         )
 
-
 class TestTDRegression:
     """flowchart TD with 2 subgraphs still works."""
 
@@ -334,7 +319,6 @@ class TestTDRegression:
             f"Frontend cy ({fe_cy}) should be "
             f"< Backend cy ({be_cy})"
         )
-
 
 class TestRLDirection:
     """flowchart RL should reverse the ordering."""

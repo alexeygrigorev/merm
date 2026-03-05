@@ -1,7 +1,5 @@
 """Tests for pie chart IR, parser, renderer, and integration."""
 
-from __future__ import annotations
-
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -16,11 +14,9 @@ from pymermaid.render.pie import render_pie_svg
 
 FIXTURES = Path(__file__).parent / "fixtures" / "corpus" / "pie"
 
-
 # ---------------------------------------------------------------------------
 # IR unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestPieChartIR:
     def test_create_with_title_and_slices(self):
@@ -44,11 +40,9 @@ class TestPieChartIR:
         assert chart.title == ""
         assert chart.show_data is True
 
-
 # ---------------------------------------------------------------------------
 # Parser unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestParsePieBasics:
     def test_basic_fixture(self):
@@ -79,7 +73,6 @@ class TestParsePieBasics:
         chart = parse_pie(text)
         assert len(chart.slices) == 1
         assert chart.slices[0].value == 100
-
 
 class TestParsePieEdgeCases:
     def test_comments_stripped(self):
@@ -126,11 +119,9 @@ class TestParsePieEdgeCases:
         with pytest.raises(ParseError):
             parse_pie(text)
 
-
 # ---------------------------------------------------------------------------
 # Renderer unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestRenderPieSVGStructure:
     def test_svg_wrapper(self):
@@ -210,7 +201,6 @@ class TestRenderPieSVGStructure:
         assert "(60)" not in svg
         assert "(40)" not in svg
 
-
 class TestRenderPieGeometry:
     def test_equal_slices_have_equal_arcs(self):
         """Two 50/50 slices should each sweep 180 degrees."""
@@ -254,11 +244,9 @@ class TestRenderPieGeometry:
         assert arc1 is not None
         assert int(arc1.group(4)) == 0  # small arc
 
-
 # ---------------------------------------------------------------------------
 # Integration tests
 # ---------------------------------------------------------------------------
-
 
 class TestRenderDiagramDispatch:
     def test_dispatch_with_title(self):
@@ -271,11 +259,9 @@ class TestRenderDiagramDispatch:
         assert "<svg" in svg
         assert "</svg>" in svg
 
-
 # ---------------------------------------------------------------------------
 # Corpus fixture tests
 # ---------------------------------------------------------------------------
-
 
 class TestCorpusFixtures:
     @pytest.fixture(params=sorted(FIXTURES.glob("*.mmd")), ids=lambda p: p.stem)

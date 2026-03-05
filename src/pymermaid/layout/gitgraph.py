@@ -3,8 +3,6 @@
 Positions commits on a horizontal timeline with branch lanes.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass, field
 from typing import Callable
 
@@ -20,7 +18,6 @@ _LEFT_MARGIN = 120.0  # space for branch labels
 _TOP_MARGIN = 40.0
 _FONT_SIZE = 14.0
 
-
 @dataclass
 class CommitLayout:
     """Positioned commit node."""
@@ -28,7 +25,6 @@ class CommitLayout:
     id: str
     x: float
     y: float
-
 
 @dataclass
 class BranchLineSegment:
@@ -39,7 +35,6 @@ class BranchLineSegment:
     y: float
     x2: float
 
-
 @dataclass
 class MergeLineSegment:
     """A line connecting two branch lanes at a merge point."""
@@ -49,7 +44,6 @@ class MergeLineSegment:
     to_x: float
     to_y: float
     is_cherry_pick: bool = False
-
 
 @dataclass
 class GitGraphLayout:
@@ -64,7 +58,6 @@ class GitGraphLayout:
     branch_lane_y: dict[str, float] = field(default_factory=dict)
     width: float = 0.0
     height: float = 0.0
-
 
 def layout_gitgraph(
     graph: GitGraph,
@@ -165,7 +158,6 @@ def layout_gitgraph(
     layout.height = max_y
 
     return layout
-
 
 __all__ = [
     "BranchLineSegment",

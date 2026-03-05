@@ -1,7 +1,5 @@
 """Tests for mindmap IR, parser, layout, renderer, and integration."""
 
-from __future__ import annotations
-
 import math
 import re
 import xml.etree.ElementTree as ET
@@ -18,16 +16,13 @@ from pymermaid.render.mindmap import render_mindmap_svg
 
 FIXTURES = Path(__file__).parent / "fixtures" / "corpus" / "mindmap"
 
-
 def _simple_measure(text: str, font_size: float) -> tuple[float, float]:
     """Simple text measurer for tests."""
     return (len(text) * font_size * 0.6, font_size * 1.4)
 
-
 # ---------------------------------------------------------------------------
 # IR unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestMindmapIR:
     def test_create_node_with_all_fields(self):
@@ -65,11 +60,9 @@ class TestMindmapIR:
         actual = {m.name for m in MindmapShape}
         assert actual == expected
 
-
 # ---------------------------------------------------------------------------
 # Parser unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestParseMindmapBasic:
     def test_basic_fixture(self):
@@ -97,7 +90,6 @@ class TestParseMindmapBasic:
         assert diagram.root.label == "Solo Node"
         assert diagram.root.shape == MindmapShape.CIRCLE
         assert len(diagram.root.children) == 0
-
 
 class TestParseMindmapShapes:
     def test_circle_shape(self):
@@ -140,7 +132,6 @@ class TestParseMindmapShapes:
         assert MindmapShape.CLOUD in shapes
         assert MindmapShape.DEFAULT in shapes
 
-
 class TestParseMindmapEdgeCases:
     def test_comments_stripped(self):
         text = "mindmap\n  root((Root))\n    %% comment\n    Child"
@@ -164,11 +155,9 @@ class TestParseMindmapEdgeCases:
         with pytest.raises(ParseError, match="No root node"):
             parse_mindmap("mindmap\n")
 
-
 # ---------------------------------------------------------------------------
 # Layout unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestLayoutMindmap:
     def test_single_root_centered(self):
@@ -242,11 +231,9 @@ class TestLayoutMindmap:
         )
         assert d_gc > d_child, "Grandchild should be farther from root than child"
 
-
 # ---------------------------------------------------------------------------
 # Renderer unit tests
 # ---------------------------------------------------------------------------
-
 
 class TestRenderMindmapSVG:
     def _make_simple_diagram(self):
@@ -316,11 +303,9 @@ class TestRenderMindmapSVG:
         svg = render_mindmap_svg(diagram, layout)
         ET.fromstring(svg)  # Should not raise
 
-
 # ---------------------------------------------------------------------------
 # Integration tests
 # ---------------------------------------------------------------------------
-
 
 class TestRenderDiagramDispatch:
     def test_dispatch_returns_svg(self):
@@ -336,11 +321,9 @@ class TestRenderDiagramDispatch:
         assert "Alpha" in svg
         assert "Beta" in svg
 
-
 # ---------------------------------------------------------------------------
 # Corpus fixture tests
 # ---------------------------------------------------------------------------
-
 
 class TestCorpusFixtures:
     @pytest.fixture(params=sorted(FIXTURES.glob("*.mmd")), ids=lambda p: p.stem)

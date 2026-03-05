@@ -1,7 +1,5 @@
 """Tests for Font Awesome icon support (task 20)."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -18,7 +16,6 @@ from pymermaid.measure.text import TextMeasurer, measure_text
 # ---------------------------------------------------------------------------
 # Icon registry tests
 # ---------------------------------------------------------------------------
-
 
 class TestIconRegistry:
     """Tests for the icon registry lookups."""
@@ -73,11 +70,9 @@ class TestIconRegistry:
         assert isinstance(path_d, str)
         assert len(path_d) > 0
 
-
 # ---------------------------------------------------------------------------
 # Label parsing tests
 # ---------------------------------------------------------------------------
-
 
 class TestLabelParsing:
     """Tests for parsing labels with fa:fa-* tokens."""
@@ -128,11 +123,9 @@ class TestLabelParsing:
         assert segments[1].kind == "icon"
         assert segments[2].kind == "text"
 
-
 # ---------------------------------------------------------------------------
 # Text measurement with icons
 # ---------------------------------------------------------------------------
-
 
 class TestMeasurementWithIcons:
     """Tests that text measurement properly accounts for icon tokens."""
@@ -161,11 +154,9 @@ class TestMeasurementWithIcons:
         assert w > 0
         assert h > 0
 
-
 # ---------------------------------------------------------------------------
 # SVG rendering with icons
 # ---------------------------------------------------------------------------
-
 
 class TestSVGRenderingWithIcons:
     """Tests for SVG output when labels contain FA icons."""
@@ -239,11 +230,9 @@ class TestSVGRenderingWithIcons:
         )
         assert len(icon_groups) >= 2
 
-
 # ---------------------------------------------------------------------------
 # Integration: full pipeline
 # ---------------------------------------------------------------------------
-
 
 class TestIntegration:
     """Full pipeline integration tests with icon labels."""

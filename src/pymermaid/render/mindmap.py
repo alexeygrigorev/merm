@@ -1,7 +1,5 @@
 """SVG renderer for mindmap diagrams."""
 
-from __future__ import annotations
-
 from xml.sax.saxutils import escape
 
 from pymermaid.ir.mindmap import MindmapDiagram, MindmapNode, MindmapShape
@@ -21,7 +19,6 @@ MINDMAP_COLORS = [
     "#5C6BC0",  # indigo
 ]
 
-
 def _lighten_color(hex_color: str, factor: float = 0.3) -> str:
     """Lighten a hex color by mixing with white."""
     r = int(hex_color[1:3], 16)
@@ -31,7 +28,6 @@ def _lighten_color(hex_color: str, factor: float = 0.3) -> str:
     g = int(g + (255 - g) * factor)
     b = int(b + (255 - b) * factor)
     return f"#{r:02x}{g:02x}{b:02x}"
-
 
 def _get_subtree_color_index(root: MindmapNode) -> dict[str, int]:
     """Assign a color index to each node based on its top-level subtree."""
@@ -44,13 +40,11 @@ def _get_subtree_color_index(root: MindmapNode) -> dict[str, int]:
 
     return color_map
 
-
 def _assign_color(node: MindmapNode, color_idx: int, color_map: dict[str, int]) -> None:
     """Recursively assign a color index to a node and its descendants."""
     color_map[node.id] = color_idx
     for child in node.children:
         _assign_color(child, color_idx, color_map)
-
 
 def _render_node_shape(
     node_id: str,
@@ -116,7 +110,6 @@ def _render_node_shape(
 
     return parts
 
-
 def _render_branch(
     parent_layout: MindmapNodeLayout,
     child_layout: MindmapNodeLayout,
@@ -144,7 +137,6 @@ def _render_branch(
         f'stroke-linecap="round" '
         f'class="mindmap-branch" data-node-id="{escape(child_id)}"/>'
     )
-
 
 def render_mindmap_svg(
     diagram: MindmapDiagram,
@@ -224,6 +216,5 @@ def render_mindmap_svg(
 
     parts.append("</svg>")
     return "\n".join(parts)
-
 
 __all__ = ["render_mindmap_svg"]

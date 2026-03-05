@@ -4,8 +4,6 @@ Defines LayoutConfig and the MeasureFn type alias used to configure
 the layout engine.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Callable
 
@@ -19,7 +17,6 @@ class LayoutConfig:
     rank_sep: float = 40.0
     node_sep: float = 30.0
     direction: Direction = Direction.TB
-
 
 # Type alias for the measure function
 MeasureFn = Callable[[str, float], tuple[float, float]]

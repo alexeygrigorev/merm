@@ -4,8 +4,6 @@ Maps class nodes to flowchart Nodes and class relations to Edges,
 then uses the Sugiyama layout engine to position them.
 """
 
-from __future__ import annotations
-
 from pymermaid.ir import (
     Diagram,
     DiagramType,
@@ -23,7 +21,6 @@ from pymermaid.render.classdiag import measure_class_box
 # Relationship types where the edge direction should be reversed in
 # the layout so the parent/interface is at the top (source, layer 0).
 _REVERSED_RELS = {RelationType.INHERITANCE, RelationType.REALIZATION}
-
 
 def class_diagram_to_flowchart(diagram: ClassDiagram) -> Diagram:
     """Convert a ClassDiagram to a flowchart Diagram for layout."""
@@ -59,7 +56,6 @@ def class_diagram_to_flowchart(diagram: ClassDiagram) -> Diagram:
         nodes=tuple(nodes),
         edges=tuple(edges),
     )
-
 
 def layout_class_diagram(
     diagram: ClassDiagram,
@@ -120,7 +116,6 @@ def layout_class_diagram(
         subgraphs=result.subgraphs,
     )
 
-
 def _snap_to_boundary(
     point: Point, nl: NodeLayout, interior: Point,
 ) -> Point:
@@ -159,7 +154,6 @@ def _snap_to_boundary(
         else:
             return Point(nl.x, cy)  # left
 
-
 def _reroute_edges(
     edges: list[EdgeLayout],
     nodes: dict[str, NodeLayout],
@@ -187,7 +181,6 @@ def _reroute_edges(
 
         result.append(EdgeLayout(points=pts, source=el.source, target=el.target))
     return result
-
 
 __all__ = [
     "class_diagram_to_flowchart",

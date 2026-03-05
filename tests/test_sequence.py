@@ -1,7 +1,5 @@
 """Tests for sequence diagram support: parser, layout, and renderer."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -28,7 +26,6 @@ from pymermaid.theme import DEFAULT_THEME
 # ============================================================
 # Parser tests
 # ============================================================
-
 
 class TestParseSequenceBasic:
     """Basic parsing of participants and messages."""
@@ -103,7 +100,6 @@ class TestParseSequenceBasic:
         assert len(d.participants) == 2
         assert len(d.items) == 1
 
-
 class TestParseSequenceMessages:
     """Message type parsing."""
 
@@ -152,7 +148,6 @@ class TestParseSequenceMessages:
         assert d.items[0].sender == "A"
         assert d.items[1].sender == "B"
 
-
 class TestParseSequenceActivations:
     """Activation shorthand (+/-) on messages."""
 
@@ -183,7 +178,6 @@ class TestParseSequenceActivations:
         d = parse_sequence(text)
         # Should have 4 items: msg, activate, reply, deactivate.
         assert len(d.items) == 4
-
 
 class TestParseSequenceNotes:
     """Note parsing."""
@@ -228,7 +222,6 @@ class TestParseSequenceNotes:
         note = d.items[0]
         assert note.position == NotePosition.OVER
         assert note.participants == ("A", "B")
-
 
 class TestParseSequenceFragments:
     """Fragment (loop/alt/opt) parsing."""
@@ -282,11 +275,9 @@ class TestParseSequenceFragments:
         assert frag.frag_type == FragmentType.OPT
         assert frag.label == "If available"
 
-
 # ============================================================
 # Layout tests
 # ============================================================
-
 
 class TestLayoutSequence:
     """Layout engine for sequence diagrams."""
@@ -405,11 +396,9 @@ class TestLayoutSequence:
         assert layout.width > 0
         assert layout.height > 0
 
-
 # ============================================================
 # Renderer tests
 # ============================================================
-
 
 class TestRenderSequenceSvg:
     """SVG rendering for sequence diagrams."""
@@ -507,11 +496,9 @@ class TestRenderSequenceSvg:
         svg = self._make_svg("sequenceDiagram\nA->>A: self call")
         assert "self call" in svg
 
-
 # ============================================================
 # Integration tests
 # ============================================================
-
 
 class TestSequenceIntegration:
     """End-to-end integration tests."""

@@ -1,7 +1,5 @@
 """Tests for edge stroke-width scaling and marker sizing (task 25)."""
 
-from __future__ import annotations
-
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -9,11 +7,9 @@ import pytest
 from pymermaid.ir import EdgeType
 from pymermaid.render.edges import _STYLE_MAP, make_edge_defs
 
-
 # ---------------------------------------------------------------------------
 # Unit: _STYLE_MAP stroke-width values
 # ---------------------------------------------------------------------------
-
 
 class TestStyleMapStrokeWidths:
     """Verify _STYLE_MAP maps edge types to the correct stroke-width."""
@@ -45,11 +41,9 @@ class TestStyleMapStrokeWidths:
     def test_invisible_stroke_width_is_0(self) -> None:
         assert _STYLE_MAP[EdgeType.invisible]["stroke-width"] == "0"
 
-
 # ---------------------------------------------------------------------------
 # Unit: Marker dimensions in SVG defs
 # ---------------------------------------------------------------------------
-
 
 class TestMarkerDimensions:
     """Verify marker elements have the correct markerWidth/markerHeight."""
