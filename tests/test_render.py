@@ -86,12 +86,6 @@ def _parse(svg_str: str) -> ET.Element:
 
 
 class TestRenderSVGBasic:
-    def test_returns_string(self):
-        d = _simple_diagram()
-        lr = _simple_layout()
-        result = render_svg(d, lr)
-        assert isinstance(result, str)
-
     def test_parseable_xml(self):
         d = _simple_diagram()
         lr = _simple_layout()

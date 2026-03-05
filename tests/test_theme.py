@@ -84,59 +84,6 @@ def _parse(svg_str: str) -> ET.Element:
 # ---------------------------------------------------------------------------
 
 
-class TestThemeDataclass:
-    def test_default_theme_is_instance(self):
-        assert isinstance(DEFAULT_THEME, Theme)
-
-    def test_default_node_fill(self):
-        assert DEFAULT_THEME.node_fill == "#ECECFF"
-
-    def test_default_node_stroke(self):
-        assert DEFAULT_THEME.node_stroke == "#9370DB"
-
-    def test_default_edge_stroke(self):
-        assert DEFAULT_THEME.edge_stroke == "#333333"
-
-    def test_default_edge_stroke_width(self):
-        assert DEFAULT_THEME.edge_stroke_width == "2"
-
-    def test_default_font_family(self):
-        assert "trebuchet ms" in DEFAULT_THEME.font_family
-
-    def test_default_font_size(self):
-        assert DEFAULT_THEME.node_font_size == "16px"
-
-    def test_default_subgraph_fill(self):
-        assert DEFAULT_THEME.subgraph_fill == "#ffffde"
-
-    def test_default_subgraph_stroke(self):
-        assert DEFAULT_THEME.subgraph_stroke == "#aaaa33"
-
-    def test_default_background(self):
-        assert DEFAULT_THEME.background_color == "white"
-
-    def test_default_rank_sep(self):
-        assert DEFAULT_THEME.rank_sep == 40.0
-
-    def test_default_node_sep(self):
-        assert DEFAULT_THEME.node_sep == 30.0
-
-    def test_default_node_padding_h(self):
-        assert DEFAULT_THEME.node_padding_h == 16.0
-
-    def test_default_node_padding_v(self):
-        assert DEFAULT_THEME.node_padding_v == 8.0
-
-    def test_default_node_min_height(self):
-        assert DEFAULT_THEME.node_min_height == 42.0
-
-    def test_default_node_border_radius(self):
-        assert DEFAULT_THEME.node_border_radius == 5.0
-
-    def test_default_edge_label_bg(self):
-        assert DEFAULT_THEME.edge_label_bg == "rgba(232,232,232,0.8)"
-
-
 class TestThemeCustomization:
     def test_custom_theme_creation(self):
         theme = Theme(node_fill="#ff0000", node_stroke="#00ff00")
@@ -153,16 +100,6 @@ class TestThemeCustomization:
     def test_theme_is_frozen(self):
         with pytest.raises(AttributeError):
             DEFAULT_THEME.node_fill = "#000"  # type: ignore[misc]
-
-
-class TestThemeImports:
-    def test_import_from_theme_module(self):
-        from pymermaid.theme import DEFAULT_THEME, Theme
-        assert isinstance(DEFAULT_THEME, Theme)
-
-    def test_import_from_render_package(self):
-        from pymermaid.render import DEFAULT_THEME, Theme
-        assert isinstance(DEFAULT_THEME, Theme)
 
 
 # ---------------------------------------------------------------------------

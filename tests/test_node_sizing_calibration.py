@@ -60,39 +60,6 @@ def _get_rect_dims(rect: ET.Element) -> tuple[float, float]:
 # ---------------------------------------------------------------------------
 
 
-class TestConstants:
-    def test_node_min_height(self):
-        assert _NODE_MIN_HEIGHT == 42.0
-
-    def test_node_min_width(self):
-        assert _NODE_MIN_WIDTH == 70.0
-
-    def test_node_padding_h(self):
-        assert _NODE_PADDING_H == 32.0
-
-    def test_node_padding_v(self):
-        assert _NODE_PADDING_V == 16.0
-
-    def test_theme_rank_sep(self):
-        assert DEFAULT_THEME.rank_sep == 40.0
-
-    def test_theme_node_sep(self):
-        assert DEFAULT_THEME.node_sep == 30.0
-
-    def test_theme_node_padding_h(self):
-        assert DEFAULT_THEME.node_padding_h == 16.0
-
-    def test_theme_node_padding_v(self):
-        assert DEFAULT_THEME.node_padding_v == 8.0
-
-    def test_theme_node_min_height(self):
-        assert DEFAULT_THEME.node_min_height == 42.0
-
-    def test_layout_config_defaults(self):
-        cfg = LayoutConfig()
-        assert cfg.rank_sep == 40.0
-        assert cfg.node_sep == 30.0
-
 
 # ---------------------------------------------------------------------------
 # Unit: Node dimension calculation

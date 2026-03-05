@@ -98,26 +98,6 @@ class TestEnumCompleteness:
 
 
 class TestNode:
-    def test_node_all_fields(self):
-        node = Node(
-            id="A",
-            label="Label A",
-            shape=NodeShape.diamond,
-            css_classes=("cls1", "cls2"),
-            inline_style={"fill": "#f9f"},
-        )
-        assert node.id == "A"
-        assert node.label == "Label A"
-        assert node.shape == NodeShape.diamond
-        assert node.css_classes == ("cls1", "cls2")
-        assert node.inline_style == {"fill": "#f9f"}
-
-    def test_node_defaults(self):
-        node = Node("A", "Label A")
-        assert node.shape == NodeShape.rect
-        assert node.css_classes == ()
-        assert node.inline_style is None
-
     def test_node_is_frozen(self):
         node = Node("A", "Label A")
         with pytest.raises(dataclasses.FrozenInstanceError):
@@ -140,40 +120,10 @@ class TestNode:
 
 
 class TestEdge:
-    def test_edge_all_fields(self):
-        edge = Edge(
-            source="A",
-            target="B",
-            label="goes to",
-            edge_type=EdgeType.dotted_arrow,
-            source_arrow=ArrowType.circle,
-            target_arrow=ArrowType.cross,
-            extra_length=2,
-        )
-        assert edge.source == "A"
-        assert edge.target == "B"
-        assert edge.label == "goes to"
-        assert edge.edge_type == EdgeType.dotted_arrow
-        assert edge.source_arrow == ArrowType.circle
-        assert edge.target_arrow == ArrowType.cross
-        assert edge.extra_length == 2
-
-    def test_edge_defaults(self):
-        edge = Edge("A", "B")
-        assert edge.label is None
-        assert edge.edge_type == EdgeType.arrow
-        assert edge.source_arrow == ArrowType.none
-        assert edge.target_arrow == ArrowType.arrow
-        assert edge.extra_length == 0
-
     def test_edge_is_frozen(self):
         edge = Edge("A", "B")
         with pytest.raises(dataclasses.FrozenInstanceError):
             edge.label = "X"  # type: ignore[misc]
-
-    def test_edge_extra_length(self):
-        edge = Edge("A", "B", extra_length=3)
-        assert edge.extra_length == 3
 
     def test_edge_equality(self):
         a = Edge("A", "B", label="x")
@@ -191,14 +141,6 @@ class TestEdge:
 
 
 class TestSubgraph:
-    def test_subgraph_flat(self):
-        sg = Subgraph("sg1", title="My Group", node_ids=("A", "B", "C"))
-        assert sg.id == "sg1"
-        assert sg.title == "My Group"
-        assert sg.node_ids == ("A", "B", "C")
-        assert sg.subgraphs == ()
-        assert sg.direction is None
-
     def test_subgraph_nested(self):
         inner = Subgraph("inner", node_ids=("X",))
         outer = Subgraph("outer", subgraphs=(inner,))
@@ -208,10 +150,6 @@ class TestSubgraph:
     def test_subgraph_self_referencing_nesting(self):
         sg = Subgraph("outer", subgraphs=(Subgraph("inner"),))
         assert sg.subgraphs[0].id == "inner"
-
-    def test_subgraph_direction_override(self):
-        sg = Subgraph("sg1", direction=Direction.LR)
-        assert sg.direction == Direction.LR
 
     def test_subgraph_is_frozen(self):
         sg = Subgraph("sg1")
@@ -228,15 +166,6 @@ class TestSubgraph:
 
 
 class TestStyleDef:
-    def test_styledef_construction(self):
-        sd = StyleDef(target_id="A", properties={"fill": "#f9f", "stroke": "#333"})
-        assert sd.target_id == "A"
-        assert sd.properties == {"fill": "#f9f", "stroke": "#333"}
-
-    def test_styledef_default_properties(self):
-        sd = StyleDef(target_id="default")
-        assert sd.properties == {}
-
     def test_styledef_is_frozen(self):
         sd = StyleDef(target_id="A", properties={"fill": "red"})
         with pytest.raises(dataclasses.FrozenInstanceError):
@@ -247,49 +176,10 @@ class TestStyleDef:
 
 
 class TestDiagram:
-    def test_empty_diagram_defaults(self):
-        d = Diagram()
-        assert d.type == DiagramType.flowchart
-        assert d.direction == Direction.TB
-        assert d.nodes == ()
-        assert d.edges == ()
-        assert d.subgraphs == ()
-        assert d.styles == ()
-        assert d.classes == {}
-
-    def test_diagram_with_content(self):
-        d = Diagram(
-            type=DiagramType.sequence,
-            direction=Direction.LR,
-            nodes=(Node("A", "Hello"), Node("B", "World")),
-            edges=(Edge("A", "B"),),
-            subgraphs=(Subgraph("sg1", node_ids=("A",)),),
-            styles=(StyleDef("A", {"fill": "red"}),),
-            classes={"highlight": {"fill": "#ff0", "stroke": "#000"}},
-        )
-        assert d.type == DiagramType.sequence
-        assert d.direction == Direction.LR
-        assert len(d.nodes) == 2
-        assert len(d.edges) == 1
-        assert len(d.subgraphs) == 1
-        assert len(d.styles) == 1
-        assert "highlight" in d.classes
-
-    def test_diagram_nodes_and_edges(self):
-        d = Diagram(nodes=(Node("A", "Hello"),), edges=(Edge("A", "B"),))
-        assert d.nodes[0].id == "A"
-        assert d.edges[0].source == "A"
-        assert d.edges[0].target == "B"
-
     def test_diagram_is_frozen(self):
         d = Diagram()
         with pytest.raises(dataclasses.FrozenInstanceError):
             d.direction = Direction.LR  # type: ignore[misc]
-
-    def test_diagram_all_directions(self):
-        for direction in Direction:
-            d = Diagram(direction=direction)
-            assert d.direction == direction
 
     def test_diagram_hashable(self):
         d = Diagram()

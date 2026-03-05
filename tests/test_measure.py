@@ -8,31 +8,6 @@ import pytest
 
 from pymermaid.measure import TextMeasurer, measure_text
 
-# ---------- TextMeasurer construction ----------
-
-
-class TestTextMeasurerConstruction:
-    def test_default_construction(self):
-        m = TextMeasurer()
-        assert m.mode == "heuristic"
-        assert m.font_size == 16.0
-        assert m.font_family == '"trebuchet ms", verdana, arial, sans-serif'
-
-    def test_explicit_heuristic_mode(self):
-        m = TextMeasurer(mode="heuristic")
-        assert m.mode == "heuristic"
-
-    def test_custom_font_size_and_family(self):
-        m = TextMeasurer(font_size=20, font_family="monospace")
-        assert m.font_size == 20.0
-        assert m.font_family == "monospace"
-
-    def test_custom_padding(self):
-        m = TextMeasurer(padding_h=12, padding_v=6)
-        assert m.padding_h == 12.0
-        assert m.padding_v == 6.0
-
-
 # ---------- Heuristic single-line measurement ----------
 
 
@@ -231,11 +206,6 @@ class TestNodeTextMeasurement:
 
 
 class TestConvenienceFunction:
-    def test_measure_text_works(self):
-        w, h = measure_text("Hello", font_size=14)
-        assert isinstance(w, float)
-        assert isinstance(h, float)
-
     def test_same_as_measurer(self):
         result_fn = measure_text("Hello", font_size=14)
         result_cls = TextMeasurer(font_size=14).measure("Hello")

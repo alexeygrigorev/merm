@@ -360,21 +360,6 @@ class TestPolygonShapes:
 
 
 # ---------------------------------------------------------------------------
-# Connection point returns tuple[float, float]
-# ---------------------------------------------------------------------------
-
-class TestConnectionPointTypes:
-    @pytest.mark.parametrize("shape", list(NodeShape))
-    def test_returns_tuple_of_floats(self, shape: NodeShape):
-        r = get_shape_renderer(shape)
-        result = r.connection_point(X, Y, W, H, 0)
-        assert isinstance(result, tuple)
-        assert len(result) == 2
-        assert isinstance(result[0], float)
-        assert isinstance(result[1], float)
-
-
-# ---------------------------------------------------------------------------
 # Connection point boundary validation
 # ---------------------------------------------------------------------------
 

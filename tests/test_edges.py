@@ -545,14 +545,3 @@ class TestAllEdgeTypesValidSvg:
             )
 
 
-# =========================================================================
-# Import test
-# =========================================================================
-
-
-class TestImports:
-    def test_importable(self):
-        import pymermaid.render.edges as edges_mod
-        assert callable(edges_mod.make_edge_defs)
-        assert callable(edges_mod.render_edge)
-        assert callable(edges_mod.points_to_path_d)

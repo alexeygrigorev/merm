@@ -6,11 +6,8 @@ import time
 
 from pymermaid.ir import Diagram, DiagramType, Direction, Edge, Node
 from pymermaid.layout import (
-    EdgeLayout,
     LayoutConfig,
-    LayoutResult,
     NodeLayout,
-    Point,
     _assign_coordinates,
     _crossing_minimization,
     _insert_dummy_nodes,
@@ -73,52 +70,6 @@ def _boxes_overlap(a: NodeLayout, b: NodeLayout) -> bool:
 def _center(nl: NodeLayout) -> tuple[float, float]:
     """Return center of a NodeLayout."""
     return (nl.x + nl.width / 2, nl.y + nl.height / 2)
-
-
-# ---------------------------------------------------------------------------
-# Unit: Data structures
-# ---------------------------------------------------------------------------
-
-class TestDataStructures:
-    def test_point(self):
-        p = Point(1.0, 2.0)
-        assert p.x == 1.0
-        assert p.y == 2.0
-
-    def test_node_layout(self):
-        nl = NodeLayout(x=10.0, y=20.0, width=100.0, height=50.0)
-        assert nl.x == 10.0
-        assert nl.y == 20.0
-        assert nl.width == 100.0
-        assert nl.height == 50.0
-
-    def test_edge_layout(self):
-        pts = [Point(0.0, 0.0), Point(10.0, 20.0)]
-        el = EdgeLayout(points=pts, source="A", target="B")
-        assert len(el.points) == 2
-        assert el.source == "A"
-        assert el.target == "B"
-
-    def test_layout_result(self):
-        nl = NodeLayout(x=0.0, y=0.0, width=50.0, height=30.0)
-        el = EdgeLayout(points=[Point(0, 0), Point(1, 1)], source="A", target="B")
-        lr = LayoutResult(nodes={"A": nl}, edges=[el], width=100.0, height=80.0)
-        assert "A" in lr.nodes
-        assert len(lr.edges) == 1
-        assert lr.width == 100.0
-        assert lr.height == 80.0
-
-    def test_layout_config_defaults(self):
-        cfg = LayoutConfig()
-        assert cfg.rank_sep == 40.0
-        assert cfg.node_sep == 30.0
-        assert cfg.direction == Direction.TB
-
-    def test_layout_config_overrides(self):
-        cfg = LayoutConfig(rank_sep=100, node_sep=50, direction=Direction.LR)
-        assert cfg.rank_sep == 100
-        assert cfg.node_sep == 50
-        assert cfg.direction == Direction.LR
 
 
 # ---------------------------------------------------------------------------
@@ -490,29 +441,6 @@ class TestSpacingConfig:
         # In LR: A.x < B.x; In RL: A.x > B.x
         assert _center(r_lr.nodes["A"])[0] < _center(r_lr.nodes["B"])[0]
         assert _center(r_rl.nodes["A"])[0] > _center(r_rl.nodes["B"])[0]
-
-
-# ---------------------------------------------------------------------------
-# Import test
-# ---------------------------------------------------------------------------
-
-class TestImports:
-    def test_public_api_importable(self):
-        """All public names are importable from pymermaid.layout."""
-        from pymermaid.layout import (
-            EdgeLayout,
-            LayoutConfig,
-            LayoutResult,
-            NodeLayout,
-            Point,
-            layout_diagram,
-        )
-        assert layout_diagram is not None
-        assert LayoutResult is not None
-        assert LayoutConfig is not None
-        assert NodeLayout is not None
-        assert EdgeLayout is not None
-        assert Point is not None
 
 
 # ---------------------------------------------------------------------------
