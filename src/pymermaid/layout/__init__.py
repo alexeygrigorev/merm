@@ -6,7 +6,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Callable
 
-from pymermaid.ir import Diagram, Direction
+from pymermaid.ir import Diagram, Direction, Subgraph
 
 
 @dataclass(frozen=True)
@@ -37,6 +37,18 @@ class EdgeLayout:
 
 
 @dataclass(frozen=True)
+class SubgraphLayout:
+    """Bounding box for a laid-out subgraph."""
+
+    id: str
+    x: float
+    y: float
+    width: float
+    height: float
+    title: str | None = None
+
+
+@dataclass(frozen=True)
 class LayoutResult:
     """Complete layout output."""
 
@@ -44,6 +56,7 @@ class LayoutResult:
     edges: list[EdgeLayout]
     width: float
     height: float
+    subgraphs: dict[str, SubgraphLayout] | None = None
 
 
 @dataclass
@@ -621,6 +634,129 @@ def _transform_point(
 
 
 # ---------------------------------------------------------------------------
+# Subgraph helpers
+# ---------------------------------------------------------------------------
+
+_SUBGRAPH_PADDING = 20.0
+
+
+def _collect_all_subgraph_node_ids(sg: Subgraph) -> set[str]:
+    """Recursively collect all node IDs belonging to a subgraph and its children."""
+    result = set(sg.node_ids)
+    for child in sg.subgraphs:
+        result |= _collect_all_subgraph_node_ids(child)
+    return result
+
+
+def _build_node_to_subgraph_map(
+    subgraphs: tuple[Subgraph, ...],
+) -> dict[str, str]:
+    """Map each node ID to its innermost subgraph ID.
+
+    When a node belongs to a nested subgraph, the innermost wins.
+    """
+    mapping: dict[str, str] = {}
+
+    def _walk(sg: Subgraph) -> None:
+        # First map direct members to this subgraph
+        for nid in sg.node_ids:
+            mapping[nid] = sg.id
+        # Then recurse into children (children override parent mapping)
+        for child in sg.subgraphs:
+            _walk(child)
+
+    for sg in subgraphs:
+        _walk(sg)
+    return mapping
+
+
+def _group_subgraph_nodes_in_layers(
+    layer_lists: list[list[str]],
+    node_to_sg: dict[str, str],
+) -> list[list[str]]:
+    """Reorder nodes within each layer so that nodes belonging to the same
+    subgraph are contiguous."""
+    result: list[list[str]] = []
+    for layer_nodes in layer_lists:
+        # Stable sort: group by subgraph id (None for no subgraph)
+        # Preserve relative order within each group.
+        groups: dict[str | None, list[str]] = {}
+        order: list[str | None] = []
+        for n in layer_nodes:
+            sg_id = node_to_sg.get(n)
+            if sg_id not in groups:
+                groups[sg_id] = []
+                order.append(sg_id)
+            groups[sg_id].append(n)
+        new_layer: list[str] = []
+        for sg_id in order:
+            new_layer.extend(groups[sg_id])
+        result.append(new_layer)
+    return result
+
+
+def _compute_subgraph_layouts(
+    subgraphs: tuple[Subgraph, ...],
+    node_layouts: dict[str, NodeLayout],
+    padding: float = _SUBGRAPH_PADDING,
+) -> dict[str, SubgraphLayout]:
+    """Compute bounding boxes for all subgraphs, recursively.
+
+    For nested subgraphs, the parent bbox includes child bboxes.
+    """
+    result: dict[str, SubgraphLayout] = {}
+
+    def _compute(sg: Subgraph) -> SubgraphLayout | None:
+        min_x = float("inf")
+        min_y = float("inf")
+        max_x = float("-inf")
+        max_y = float("-inf")
+        found = False
+
+        # Include direct member nodes
+        all_node_ids = _collect_all_subgraph_node_ids(sg)
+        for nid in all_node_ids:
+            nl = node_layouts.get(nid)
+            if nl is None:
+                continue
+            found = True
+            min_x = min(min_x, nl.x)
+            min_y = min(min_y, nl.y)
+            max_x = max(max_x, nl.x + nl.width)
+            max_y = max(max_y, nl.y + nl.height)
+
+        # Recurse into child subgraphs and include their bboxes
+        for child in sg.subgraphs:
+            child_layout = _compute(child)
+            if child_layout is not None:
+                found = True
+                min_x = min(min_x, child_layout.x)
+                min_y = min(min_y, child_layout.y)
+                max_x = max(max_x, child_layout.x + child_layout.width)
+                max_y = max(max_y, child_layout.y + child_layout.height)
+
+        if not found:
+            return None
+
+        title_extra = 16.0  # extra top padding for title text
+        sgl = SubgraphLayout(
+            id=sg.id,
+            x=min_x - padding,
+            y=min_y - padding - title_extra,
+            width=(max_x - min_x) + 2 * padding,
+            height=(max_y - min_y) + 2 * padding + title_extra,
+            title=sg.title,
+        )
+        result[sg.id] = sgl
+        return sgl
+
+    for sg in subgraphs:
+        _compute(sg)
+
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Disconnected components
 # ---------------------------------------------------------------------------
 
@@ -676,6 +812,9 @@ def layout_diagram(
         config = LayoutConfig(direction=diagram.direction)
 
     direction = config.direction
+
+    # Build subgraph membership map for grouping constraint
+    node_to_sg = _build_node_to_subgraph_map(diagram.subgraphs)
 
     # Collect node info
     node_ids = [n.id for n in diagram.nodes]
@@ -737,6 +876,12 @@ def layout_diagram(
         # Step 3: Build layer lists and minimize crossings
         layer_lists = _build_layer_lists(layers)
         layer_lists = _crossing_minimization(layer_lists, dummy_edges, layers)
+
+        # Step 3b: Group subgraph members together within layers
+        if node_to_sg:
+            layer_lists = _group_subgraph_nodes_in_layers(
+                layer_lists, node_to_sg,
+            )
 
         # Step 4: Coordinate assignment (in TB space)
         positions = _assign_coordinates(
@@ -824,7 +969,12 @@ def layout_diagram(
                 height=h,
             )
 
-    # Compute overall dimensions
+    # Compute subgraph layouts
+    subgraph_layouts = _compute_subgraph_layouts(
+        diagram.subgraphs, node_layouts,
+    )
+
+    # Compute overall dimensions (include subgraph bboxes)
     if node_layouts:
         overall_w = max(nl.x + nl.width for nl in node_layouts.values())
         overall_h = max(nl.y + nl.height for nl in node_layouts.values())
@@ -832,11 +982,17 @@ def layout_diagram(
         overall_w = 0.0
         overall_h = 0.0
 
+    # Expand overall dimensions to include subgraph bounding boxes
+    for sgl in subgraph_layouts.values():
+        overall_w = max(overall_w, sgl.x + sgl.width)
+        overall_h = max(overall_h, sgl.y + sgl.height)
+
     return LayoutResult(
         nodes=node_layouts,
         edges=all_edge_layouts,
         width=overall_w,
         height=overall_h,
+        subgraphs=subgraph_layouts,
     )
 
 
@@ -846,5 +1002,6 @@ __all__ = [
     "LayoutResult",
     "NodeLayout",
     "Point",
+    "SubgraphLayout",
     "layout_diagram",
 ]

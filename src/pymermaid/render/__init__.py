@@ -5,7 +5,8 @@ from __future__ import annotations
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir import Diagram, Edge, Subgraph
-from pymermaid.layout import EdgeLayout, LayoutResult, NodeLayout, Point
+from pymermaid.layout import EdgeLayout, LayoutResult, NodeLayout, SubgraphLayout
+from pymermaid.render.edges import make_edge_defs, render_edge
 
 # Default padding around the viewBox so nodes are not clipped at edges.
 _PADDING = 20
@@ -57,19 +58,9 @@ def _build_edge_lookup(diagram: Diagram) -> dict[tuple[str, str], Edge]:
 
 
 def _make_defs(svg: ET.Element) -> None:
-    """Add a <defs> section with a default arrowhead marker."""
+    """Add a <defs> section with arrow/endpoint marker definitions."""
     defs = ET.SubElement(svg, "defs")
-    marker = ET.SubElement(defs, "marker")
-    marker.set("id", "arrowhead")
-    marker.set("markerWidth", "10")
-    marker.set("markerHeight", "7")
-    marker.set("refX", "10")
-    marker.set("refY", "3.5")
-    marker.set("orient", "auto")
-    marker.set("markerUnits", "strokeWidth")
-    arrow_path = ET.SubElement(marker, "path")
-    arrow_path.set("d", "M0,0 L10,3.5 L0,7 Z")
-    arrow_path.set("fill", _EDGE_STROKE)
+    make_edge_defs(defs)
 
 
 def _make_style(svg: ET.Element) -> None:
@@ -132,101 +123,60 @@ def _render_node(
     _render_text(g, label, cx, cy)
 
 
-def _points_to_path_d(points: list[Point]) -> str:
-    """Convert a list of Points to an SVG path d attribute (M ... L ...)."""
-    if not points:
-        return ""
-    parts = [f"M{points[0].x},{points[0].y}"]
-    for p in points[1:]:
-        parts.append(f"L{p.x},{p.y}")
-    return " ".join(parts)
-
-
-def _edge_midpoint(points: list[Point]) -> tuple[float, float]:
-    """Return the midpoint of a polyline."""
-    if len(points) == 0:
-        return (0.0, 0.0)
-    if len(points) == 1:
-        return (points[0].x, points[0].y)
-    # Use the midpoint of the middle segment
-    mid_idx = len(points) // 2
-    p1 = points[mid_idx - 1]
-    p2 = points[mid_idx]
-    return ((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0)
-
-
-def _render_edge(
+def _render_edge_delegate(
     parent: ET.Element,
     el: EdgeLayout,
     ir_edge: Edge | None,
 ) -> None:
-    """Render an edge as a <path>, optionally with a label <text>."""
-    g = ET.SubElement(parent, "g")
-    g.set("class", "edge")
-    g.set("data-edge-source", el.source)
-    g.set("data-edge-target", el.target)
-
-    path = ET.SubElement(g, "path")
-    path.set("d", _points_to_path_d(el.points))
-    path.set("marker-end", "url(#arrowhead)")
-
-    # Edge label
-    label = ir_edge.label if ir_edge else None
-    if label:
-        mx, my = _edge_midpoint(el.points)
-        label_text = ET.SubElement(g, "text")
-        label_text.set("x", str(mx))
-        label_text.set("y", str(my))
-        label_text.set("text-anchor", "middle")
-        label_text.set("dominant-baseline", "central")
-        label_text.text = label
+    """Delegate edge rendering to the edges module."""
+    render_edge(parent, el, ir_edge)
 
 
-def _compute_subgraph_bbox(
-    subgraph: Subgraph,
-    node_layouts: dict[str, NodeLayout],
-) -> tuple[float, float, float, float] | None:
-    """Compute bounding box (x, y, width, height) for a subgraph's member nodes."""
-    min_x = float("inf")
-    min_y = float("inf")
-    max_x = float("-inf")
-    max_y = float("-inf")
-
-    found = False
-    for nid in subgraph.node_ids:
-        nl = node_layouts.get(nid)
-        if nl is None:
-            continue
-        found = True
-        min_x = min(min_x, nl.x)
-        min_y = min(min_y, nl.y)
-        max_x = max(max_x, nl.x + nl.width)
-        max_y = max(max_y, nl.y + nl.height)
-
-    if not found:
-        return None
-
-    # Add padding
-    pad = _SUBGRAPH_PADDING
-    return (
-        min_x - pad,
-        min_y - pad - 16,  # extra top padding for title
-        (max_x - min_x) + 2 * pad,
-        (max_y - min_y) + 2 * pad + 16,
-    )
-
-
-def _render_subgraph(
+def _render_subgraph_recursive(
     parent: ET.Element,
     subgraph: Subgraph,
+    subgraph_layouts: dict[str, SubgraphLayout],
     node_layouts: dict[str, NodeLayout],
 ) -> None:
-    """Render a subgraph bounding box and title."""
-    bbox = _compute_subgraph_bbox(subgraph, node_layouts)
-    if bbox is None:
-        return
+    """Render a subgraph and its children recursively.
 
-    sx, sy, sw, sh = bbox
+    Outer subgraph <g> is rendered first (correct z-order), then inner children.
+    Uses SubgraphLayout from the layout result when available, falling back
+    to a simple node-based bbox computation.
+    """
+    sgl = subgraph_layouts.get(subgraph.id) if subgraph_layouts else None
+
+    # Fallback: compute bbox from node positions if no SubgraphLayout
+    if sgl is None:
+        min_x = float("inf")
+        min_y = float("inf")
+        max_x = float("-inf")
+        max_y = float("-inf")
+        found = False
+        for nid in subgraph.node_ids:
+            nl = node_layouts.get(nid)
+            if nl is None:
+                continue
+            found = True
+            min_x = min(min_x, nl.x)
+            min_y = min(min_y, nl.y)
+            max_x = max(max_x, nl.x + nl.width)
+            max_y = max(max_y, nl.y + nl.height)
+        if not found:
+            # Still recurse into children
+            for child in subgraph.subgraphs:
+                _render_subgraph_recursive(
+                    parent, child, subgraph_layouts, node_layouts,
+                )
+            return
+        pad = _SUBGRAPH_PADDING
+        sx = min_x - pad
+        sy = min_y - pad - 16
+        sw = (max_x - min_x) + 2 * pad
+        sh = (max_y - min_y) + 2 * pad + 16
+    else:
+        sx, sy, sw, sh = sgl.x, sgl.y, sgl.width, sgl.height
+
     g = ET.SubElement(parent, "g")
     g.set("class", "subgraph")
     g.set("data-subgraph-id", subgraph.id)
@@ -243,6 +193,13 @@ def _render_subgraph(
     text_el.set("x", str(sx + 8))
     text_el.set("y", str(sy + 14))
     text_el.text = title
+
+    # Recurse into child subgraphs (rendered after parent for correct z-order:
+    # outer bg first, then inner bg)
+    for child in subgraph.subgraphs:
+        _render_subgraph_recursive(
+            parent, child, subgraph_layouts, node_layouts,
+        )
 
 
 def render_svg(diagram: Diagram, layout: LayoutResult) -> str:
@@ -281,14 +238,15 @@ def render_svg(diagram: Diagram, layout: LayoutResult) -> str:
     # Build edge lookup for labels
     edge_lookup = _build_edge_lookup(diagram)
 
-    # Render subgraphs first (background)
+    # Render subgraphs first (background), recursively
+    sg_layouts = layout.subgraphs or {}
     for sg in diagram.subgraphs:
-        _render_subgraph(svg, sg, layout.nodes)
+        _render_subgraph_recursive(svg, sg, sg_layouts, layout.nodes)
 
     # Render edges
     for el in layout.edges:
         ir_edge = edge_lookup.get((el.source, el.target))
-        _render_edge(svg, el, ir_edge)
+        _render_edge_delegate(svg, el, ir_edge)
 
     # Render nodes (on top of edges)
     for node_id, nl in layout.nodes.items():
