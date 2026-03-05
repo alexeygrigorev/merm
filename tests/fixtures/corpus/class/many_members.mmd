@@ -1,0 +1,18 @@
+classDiagram
+    class DatabaseConnection {
+        +String host
+        +int port
+        +String database
+        -String username
+        -String password
+        #int maxRetries
+        ~int timeout
+        #boolean useSSL
+        +connect() boolean
+        +disconnect() void
+        +query(sql) ResultSet
+        +execute(sql) int
+        -validateCredentials() boolean
+        #retryConnection() boolean
+        ~logQuery(sql) void
+    }

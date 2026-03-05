@@ -1,0 +1,25 @@
+classDiagram
+    class Flyable {
+        <<interface>>
+        +fly()
+        +land()
+    }
+    class Swimmable {
+        <<interface>>
+        +swim()
+    }
+    class Duck {
+        +name: string
+        +fly()
+        +land()
+        +swim()
+        +quack()
+    }
+    class Airplane {
+        +model: string
+        +fly()
+        +land()
+    }
+    Duck ..|> Flyable
+    Duck ..|> Swimmable
+    Airplane ..|> Flyable

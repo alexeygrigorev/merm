@@ -136,14 +136,15 @@ def _marker_triangle_hollow(
     """Hollow triangle arrowhead (inheritance/realization)."""
     marker = ET.SubElement(parent, "marker")
     marker.set("id", marker_id)
-    marker.set("markerWidth", "12")
-    marker.set("markerHeight", "12")
-    marker.set("refX", "12")
-    marker.set("refY", "6")
+    marker.set("viewBox", "0 0 10 10")
+    marker.set("markerWidth", "10")
+    marker.set("markerHeight", "10")
+    marker.set("refX", "10")
+    marker.set("refY", "5")
     marker.set("orient", "auto")
-    marker.set("markerUnits", "strokeWidth")
+    marker.set("markerUnits", "userSpaceOnUse")
     path = ET.SubElement(marker, "path")
-    path.set("d", "M0,0 L12,6 L0,12 Z")
+    path.set("d", "M0,0 L10,5 L0,10 Z")
     path.set("fill", "white")
     path.set("stroke", stroke)
     path.set("stroke-width", "1")
@@ -155,12 +156,13 @@ def _marker_diamond(
     """Diamond marker (composition = filled, aggregation = hollow)."""
     marker = ET.SubElement(parent, "marker")
     marker.set("id", marker_id)
+    marker.set("viewBox", "0 0 16 10")
     marker.set("markerWidth", "16")
     marker.set("markerHeight", "10")
     marker.set("refX", "16")
     marker.set("refY", "5")
     marker.set("orient", "auto")
-    marker.set("markerUnits", "strokeWidth")
+    marker.set("markerUnits", "userSpaceOnUse")
     path = ET.SubElement(marker, "path")
     path.set("d", "M0,5 L8,0 L16,5 L8,10 Z")
     path.set("fill", fill)
@@ -174,12 +176,13 @@ def _marker_open_arrow(
     """Open arrow (association/dependency) -- simple V-shape."""
     marker = ET.SubElement(parent, "marker")
     marker.set("id", marker_id)
+    marker.set("viewBox", "0 0 10 7")
     marker.set("markerWidth", "10")
     marker.set("markerHeight", "7")
     marker.set("refX", "10")
     marker.set("refY", "3.5")
     marker.set("orient", "auto")
-    marker.set("markerUnits", "strokeWidth")
+    marker.set("markerUnits", "userSpaceOnUse")
     path = ET.SubElement(marker, "path")
     path.set("d", "M0,0 L10,3.5 L0,7")
     path.set("fill", "none")
@@ -279,7 +282,8 @@ def _render_class_node(
     for i, f in enumerate(fields):
         f_el = ET.SubElement(g, "text")
         f_el.set("x", str(round(x + _BOX_PADDING_H, 2)))
-        f_el.set("y", str(round(div1_y + (i + 1) * _MEMBER_LINE_HEIGHT - 4, 2)))
+        f_el.set("y", str(round(div1_y + (i + 0.5) * _MEMBER_LINE_HEIGHT, 2)))
+        f_el.set("dominant-baseline", "central")
         f_el.set("font-family", theme.font_family)
         f_el.set("font-size", f"{_SMALL_FONT_SIZE}px")
         f_el.set("fill", theme.node_text_color)
@@ -299,7 +303,8 @@ def _render_class_node(
     for i, m in enumerate(methods):
         m_el = ET.SubElement(g, "text")
         m_el.set("x", str(round(x + _BOX_PADDING_H, 2)))
-        m_el.set("y", str(round(div2_y + (i + 1) * _MEMBER_LINE_HEIGHT - 4, 2)))
+        m_el.set("y", str(round(div2_y + (i + 0.5) * _MEMBER_LINE_HEIGHT, 2)))
+        m_el.set("dominant-baseline", "central")
         m_el.set("font-family", theme.font_family)
         m_el.set("font-size", f"{_SMALL_FONT_SIZE}px")
         m_el.set("fill", theme.node_text_color)
@@ -485,9 +490,23 @@ def render_class_diagram(
         if key not in edge_layout_map:
             edge_layout_map[key] = el
 
+    # Relationship types whose edges were reversed in the layout
+    _reversed_rels = {RelationType.INHERITANCE, RelationType.REALIZATION}
+
     # Render edges first (underneath)
     for rel in diagram.relations:
         el = edge_layout_map.get((rel.source, rel.target))
+        if el is None:
+            # For reversed relationship types, the layout edge has
+            # source=target, target=source.  Look up with swapped key
+            # and reverse the points so marker-end still points at the parent.
+            el = edge_layout_map.get((rel.target, rel.source))
+            if el is not None and rel.rel_type in _reversed_rels:
+                el = EdgeLayout(
+                    points=list(reversed(el.points)),
+                    source=el.target,
+                    target=el.source,
+                )
         if el is None:
             continue
         _render_class_edge(svg, rel, el, theme)

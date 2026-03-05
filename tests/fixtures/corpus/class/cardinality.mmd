@@ -1,0 +1,21 @@
+classDiagram
+    class Customer {
+        +name: string
+        +email: string
+    }
+    class Order {
+        +id: int
+        +date: string
+        +total: float
+    }
+    class OrderItem {
+        +quantity: int
+        +price: float
+    }
+    class Product {
+        +name: string
+        +sku: string
+    }
+    Customer "1" --> "*" Order
+    Order "1" *-- "1..*" OrderItem
+    OrderItem "*" --> "1" Product

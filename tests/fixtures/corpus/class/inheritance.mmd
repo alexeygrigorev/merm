@@ -1,0 +1,23 @@
+classDiagram
+    class Animal {
+        +name: string
+        +age: int
+        +makeSound()
+        +move()
+    }
+    class Duck {
+        +beakColor: string
+        +swim()
+        +quack()
+    }
+    class Fish {
+        -sizeInFeet: int
+        +canEat()
+    }
+    class Zebra {
+        +isWild: boolean
+        +run()
+    }
+    Animal <|-- Duck
+    Animal <|-- Fish
+    Animal <|-- Zebra
