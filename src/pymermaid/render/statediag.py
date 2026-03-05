@@ -18,10 +18,11 @@ from pymermaid.ir.statediag import (
     StateType,
 )
 from pymermaid.layout.types import (
+    EdgeLayout,
     LayoutResult,
     NodeLayout,
 )
-from pymermaid.render.edges import make_edge_defs, render_edge
+from pymermaid.render.edges import make_edge_defs, render_edge, resolve_label_positions
 from pymermaid.theme import DEFAULT_THEME, Theme
 
 _PADDING = 20
@@ -339,6 +340,17 @@ def render_state_svg(
         if t.label:
             label_map[(t.source, t.target)] = t.label
 
+    # Resolve label positions to avoid overlapping labels.
+    labeled_state_edges: list[tuple[EdgeLayout, Edge]] = []
+    for el in layout.edges:
+        label = label_map.get((el.source, el.target))
+        if label:
+            labeled_state_edges.append((
+                el,
+                Edge(source=el.source, target=el.target, label=label),
+            ))
+    state_label_positions = resolve_label_positions(labeled_state_edges)
+
     # Render edges with labels inline
     for el in layout.edges:
         label = label_map.get((el.source, el.target))
@@ -348,8 +360,10 @@ def render_state_svg(
             target=el.target,
             label=label,
         ) if label else None
+        lpos = state_label_positions.get((el.source, el.target))
         render_edge(
             svg, el, ir_edge, edge_label_bg=theme.edge_label_bg,
+            label_pos=lpos,
         )
 
     # Render state nodes

@@ -12,7 +12,7 @@ import xml.etree.ElementTree as ET
 
 from pymermaid.ir import Diagram, Edge, Node, Subgraph
 from pymermaid.layout import EdgeLayout, LayoutResult, NodeLayout, SubgraphLayout
-from pymermaid.render.edges import make_edge_defs, render_edge
+from pymermaid.render.edges import make_edge_defs, render_edge, resolve_label_positions
 from pymermaid.render.shapes import get_shape_renderer
 from pymermaid.theme import DEFAULT_THEME, Theme
 
@@ -321,9 +321,14 @@ def _render_edge_delegate(
     el: EdgeLayout,
     ir_edge: Edge | None,
     theme: Theme,
+    label_pos: tuple[float, float] | None = None,
 ) -> None:
     """Delegate edge rendering to the edges module."""
-    render_edge(parent, el, ir_edge, edge_label_bg=theme.edge_label_bg)
+    render_edge(
+        parent, el, ir_edge,
+        edge_label_bg=theme.edge_label_bg,
+        label_pos=label_pos,
+    )
 
 
 def _render_subgraph_recursive(
@@ -467,10 +472,19 @@ def render_svg(
     for sg in diagram.subgraphs:
         _render_subgraph_recursive(svg, sg, sg_layouts, layout.nodes, theme)
 
+    # Resolve label positions to avoid overlapping labels.
+    labeled_edges: list[tuple[EdgeLayout, Edge]] = []
+    for el in layout.edges:
+        ir_edge = edge_lookup.get((el.source, el.target))
+        if ir_edge is not None and ir_edge.label:
+            labeled_edges.append((el, ir_edge))
+    label_positions = resolve_label_positions(labeled_edges)
+
     # Render edges
     for el in layout.edges:
         ir_edge = edge_lookup.get((el.source, el.target))
-        _render_edge_delegate(svg, el, ir_edge, theme)
+        lpos = label_positions.get((el.source, el.target))
+        _render_edge_delegate(svg, el, ir_edge, theme, label_pos=lpos)
 
     # Render nodes (on top of edges)
     for node_id, nl in layout.nodes.items():

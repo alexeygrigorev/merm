@@ -231,6 +231,108 @@ def _edge_midpoint(points: list[Point]) -> tuple[float, float]:
     return ((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0)
 
 
+def _label_bbox(
+    label: str, cx: float, cy: float,
+) -> tuple[float, float, float, float]:
+    """Compute approximate bounding box (x, y, w, h) for an edge label.
+
+    Uses the same constants as ``_render_edge_label``.
+    """
+    parts = label.split("<br/>")
+    max_line_len = max(len(p) for p in parts)
+    char_w = 7.0
+    line_h = 16.0
+    padding = 4.0
+    w = max_line_len * char_w + padding * 2
+    h = len(parts) * line_h + padding * 2
+    return (cx - w / 2, cy - h / 2, w, h)
+
+
+def _rects_overlap(
+    a: tuple[float, float, float, float],
+    b: tuple[float, float, float, float],
+) -> bool:
+    """Return True if two axis-aligned rectangles (x, y, w, h) overlap."""
+    ax, ay, aw, ah = a
+    bx, by, bw, bh = b
+    return (
+        ax < bx + bw
+        and ax + aw > bx
+        and ay < by + bh
+        and ay + ah > by
+    )
+
+
+def resolve_label_positions(
+    labeled_edges: list[tuple[EdgeLayout, Edge]],
+) -> dict[tuple[str, str], tuple[float, float]]:
+    """Compute adjusted label positions so no two label bounding boxes overlap.
+
+    Args:
+        labeled_edges: List of ``(edge_layout, ir_edge)`` pairs for edges
+            that have labels.
+
+    Returns:
+        A dict mapping ``(source, target)`` to the adjusted ``(cx, cy)``
+        position for the label.
+    """
+    if not labeled_edges:
+        return {}
+
+    # Compute initial positions from edge midpoints.
+    entries: list[tuple[tuple[str, str], str, float, float]] = []
+    for el, ir_edge in labeled_edges:
+        key = (el.source, el.target)
+        cx, cy = _edge_midpoint(el.points)
+        entries.append((key, ir_edge.label, cx, cy))
+
+    # Sort by y then x for deterministic processing.
+    entries.sort(key=lambda e: (e[3], e[2]))
+
+    # Build mutable position list.
+    positions: list[list[float]] = [[e[2], e[3]] for e in entries]
+    labels = [e[1] for e in entries]
+
+    # Iterative nudging -- run up to 20 passes to resolve overlaps.
+    gap = 6.0
+    for _ in range(20):
+        changed = False
+        for i in range(len(entries)):
+            bbox_i = _label_bbox(labels[i], positions[i][0], positions[i][1])
+            for j in range(i + 1, len(entries)):
+                bbox_j = _label_bbox(
+                    labels[j], positions[j][0], positions[j][1],
+                )
+                if _rects_overlap(bbox_i, bbox_j):
+                    # Compute overlap on y-axis.
+                    iy_bottom = bbox_i[1] + bbox_i[3]
+                    jy_top = bbox_j[1]
+                    y_overlap = iy_bottom - jy_top + gap
+                    if y_overlap > 0:
+                        # Push j down, i up by half each.
+                        positions[i][1] -= y_overlap / 2.0
+                        positions[j][1] += y_overlap / 2.0
+                    else:
+                        # Overlap on x-axis instead.
+                        ix_right = bbox_i[0] + bbox_i[2]
+                        jx_left = bbox_j[0]
+                        x_overlap = ix_right - jx_left + gap
+                        positions[i][0] -= x_overlap / 2.0
+                        positions[j][0] += x_overlap / 2.0
+                    changed = True
+                    # Recompute bbox_i after nudge.
+                    bbox_i = _label_bbox(
+                        labels[i], positions[i][0], positions[i][1],
+                    )
+        if not changed:
+            break
+
+    result: dict[tuple[str, str], tuple[float, float]] = {}
+    for idx, entry in enumerate(entries):
+        result[entry[0]] = (positions[idx][0], positions[idx][1])
+    return result
+
+
 # ---------------------------------------------------------------------------
 # Render a single edge
 # ---------------------------------------------------------------------------
@@ -241,8 +343,14 @@ def render_edge(
     ir_edge: Edge | None,
     smooth: bool = True,
     edge_label_bg: str = "rgba(232,232,232,0.8)",
+    label_pos: tuple[float, float] | None = None,
 ) -> None:
-    """Render a single edge with correct style, markers, and optional label."""
+    """Render a single edge with correct style, markers, and optional label.
+
+    Args:
+        label_pos: If provided, use this ``(cx, cy)`` for the label instead
+            of computing the edge midpoint.
+    """
     g = ET.SubElement(parent, "g")
     g.set("class", "edge")
     g.set("data-edge-source", edge_layout.source)
@@ -294,7 +402,10 @@ def render_edge(
     # Edge label
     label = ir_edge.label if ir_edge else None
     if label:
-        mx, my = _edge_midpoint(edge_layout.points)
+        if label_pos is not None:
+            mx, my = label_pos
+        else:
+            mx, my = _edge_midpoint(edge_layout.points)
         _render_edge_label(g, label, mx, my, edge_label_bg)
 
 
@@ -353,4 +464,5 @@ __all__ = [
     "make_edge_defs",
     "points_to_path_d",
     "render_edge",
+    "resolve_label_positions",
 ]
