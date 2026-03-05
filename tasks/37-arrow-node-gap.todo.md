@@ -21,6 +21,8 @@ Edges go from y=54 (node A bottom) to y=104 (node B top) with zero gap. Arrowhea
 
 **Also affects circle endpoints** (`docs/comparisons/edges/circle_endpoint_pymermaid.svg`): the circle marker sits right on top of the node border, partially overlapping it. Cross endpoints have the same issue.
 
+**Also affects BT direction** (`docs/comparisons/direction/bt_pymermaid.svg`): upward-pointing arrows have the same penetration issue — arrowhead tips touch/overlap the target node bottom border. This confirms the problem is in all 4 directions (TD, BT, LR, RL), not just TD.
+
 ### How mermaid.js does it
 
 In mermaid.js, the edge endpoint is offset inward by the marker size so the arrowhead tip lands exactly at the node border. The `refX` is set to match the arrowhead tip (refX=10 for a 10-unit triangle pointing right), and the path endpoint is shortened by the marker size.
