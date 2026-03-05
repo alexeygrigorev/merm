@@ -61,8 +61,8 @@ def _marker_circle(parent: ET.Element, fill: str) -> None:
     marker = ET.SubElement(parent, "marker")
     marker.set("id", "circle-end")
     marker.set("viewBox", "0 0 10 10")
-    marker.set("markerWidth", "11")
-    marker.set("markerHeight", "11")
+    marker.set("markerWidth", "8")
+    marker.set("markerHeight", "8")
     marker.set("refX", "10")
     marker.set("refY", "5")
     marker.set("orient", "auto")
@@ -78,8 +78,8 @@ def _marker_cross(parent: ET.Element, stroke: str) -> None:
     marker = ET.SubElement(parent, "marker")
     marker.set("id", "cross-end")
     marker.set("viewBox", "0 0 11 11")
-    marker.set("markerWidth", "11")
-    marker.set("markerHeight", "11")
+    marker.set("markerWidth", "8")
+    marker.set("markerHeight", "8")
     marker.set("refX", "10")
     marker.set("refY", "5.5")
     marker.set("orient", "auto")
@@ -178,10 +178,10 @@ def _self_loop_path_d(points: list[Point]) -> str:
 # ---------------------------------------------------------------------------
 
 _STYLE_MAP: dict[EdgeType, dict[str, str]] = {
-    EdgeType.arrow:       {"stroke-width": "1"},
-    EdgeType.open:        {"stroke-width": "1"},
-    EdgeType.dotted:      {"stroke-width": "1", "stroke-dasharray": "3"},
-    EdgeType.dotted_arrow: {"stroke-width": "1", "stroke-dasharray": "3"},
+    EdgeType.arrow:       {"stroke-width": "2"},
+    EdgeType.open:        {"stroke-width": "2"},
+    EdgeType.dotted:      {"stroke-width": "2", "stroke-dasharray": "3"},
+    EdgeType.dotted_arrow: {"stroke-width": "2", "stroke-dasharray": "3"},
     EdgeType.thick:       {"stroke-width": "3.5"},
     EdgeType.thick_arrow: {"stroke-width": "3.5"},
     EdgeType.invisible:   {"stroke-width": "0", "visibility": "hidden"},

@@ -152,12 +152,12 @@ class TestSelfLoopStrokeWidth:
     """Test that self-loop stroke-width is correct."""
 
     def test_stroke_width_is_1(self):
-        """The self-loop path should have stroke-width='1'."""
+        """The self-loop path should have stroke-width='2'."""
         svg = render_diagram("graph TD\n    A --> A")
         root = _parse_svg(svg)
         path = _find_self_loop_path(root)
         assert path is not None, "Self-loop path not found"
-        assert path.get("stroke-width") == "1"
+        assert path.get("stroke-width") == "2"
 
     def test_stroke_width_matches_normal_edge(self):
         """Self-loop and normal edge should have the same stroke-width."""
@@ -182,7 +182,7 @@ class TestSelfLoopStrokeWidth:
         assert len(stroke_widths) == 1, (
             f"Expected uniform stroke-width, got: {stroke_widths}"
         )
-        assert "1" in stroke_widths
+        assert "2" in stroke_widths
 
 
 # ---------------------------------------------------------------------------
