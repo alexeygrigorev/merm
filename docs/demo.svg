@@ -1,88 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 533.2 421.2" width="533.2" height="421.2" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 382.1 504.4" width="382.1" height="504.4" style="background-color: white">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="11" markerHeight="11" refX="11" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="11" markerHeight="11" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="11" markerHeight="11" refX="12" refY="5.2" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>
   <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
 .node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; }
-.edge path { fill: none; stroke: #333333; stroke-width: 2; stroke-dasharray: 0; }
+.edge path { fill: none; stroke: #333333; }
 .edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; }
 .subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M246.6,54.0 L246.6,104.0" stroke-width="1" marker-end="url(#arrow)" />
-    <rect x="211.1" y="67.0" width="71.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="246.6" y="79.0">Get money</text>
+    <path d="M183.3,57.0 L183.3,101" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M246.6,158.0 L246.6,208.0" stroke-width="1" marker-end="url(#arrow)" />
+    <path d="M147.85,178.6 L105.76,224.2" stroke-width="1" marker-end="url(#arrow)" />
+    <rect x="112.3" y="189.4" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="126.8" y="201.4">Yes</text>
   </g>
-  <g class="edge" data-edge-source="C" data-edge-target="D">
-    <path d="M192.03,277.2 L113.18,327.2" stroke-width="1" marker-end="url(#arrow)" />
-    <rect x="138.11" y="290.2" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="152.61" y="302.2">One</text>
+  <g class="edge" data-edge-source="B" data-edge-target="D">
+    <path d="M201.01,179.13 L221.27,223.67" stroke-width="1" marker-end="url(#arrow)" />
+    <rect x="200.14" y="189.4" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="211.14" y="201.4">No</text>
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="E">
-    <path d="M250.44,277.2 L256.0,327.2" stroke-width="1" marker-end="url(#arrow)" />
-    <rect x="238.72" y="290.2" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="253.22" y="302.2">Two</text>
+    <path d="M72.47,283.34 L63.13,327.46" stroke-width="1" marker-end="url(#arrow)" />
   </g>
-  <g class="edge" data-edge-source="C" data-edge-target="F">
-    <path d="M305.01,277.2 L389.42,327.2" stroke-width="1" marker-end="url(#arrow)" />
-    <rect x="325.72" y="290.2" width="43.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="347.22" y="302.2">Three</text>
+  <g class="edge" data-edge-source="D" data-edge-target="F">
+    <path d="M236.18,283.4 L238.22,327.4" stroke-width="1" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="F" data-edge-target="G">
+    <path d="M223.56,387.04 L199.34,431.76" stroke-width="1" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="G" data-edge-target="B">
+    <path d="M233.37,432.92 C255.49,420.33 348.44,387.32 366.1,357.4 C383.76,327.48 361.05,283.27 339.3,253.4 C317.55,223.53 252.9,190.7 235.62,178.16" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
-    <rect x="162.4" y="0.0" width="168.4" height="54.0" />
-    <g class="fa-icon" transform="translate(190.6,19) scale(0.03)">
-      <path d="M309.5-18.9c-4.1-8-12.4-13.1-21.4-13.1s-17.3 5.1-21.4 13.1L193.1 125.3 33.2 150.7c-8.9 1.4-16.3 7.7-19.1 16.3s-.5 18 5.8 24.4l114.4 114.5-25.2 159.9c-1.4 8.9 2.3 17.9 9.6 23.2s16.9 6.1 25 2L288.1 417.6 432.4 491c8 4.1 17.7 3.3 25-2s11-14.2 9.6-23.2L441.7 305.9 556.1 191.4c6.4-6.4 8.6-15.8 5.8-24.4s-10.1-14.9-19.1-16.3L383 125.3 309.5-18.9z" fill="#333333" />
-    </g>
-    <text x="255.6" y="27" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif"> Christmas</text>
+    <rect x="133.3" y="0.0" width="100.0" height="54.0" rx="27.0" ry="27.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="183.3" y="27">Start</text>
   </g>
   <g class="node" data-node-id="B">
-    <rect x="152.0" y="104.0" width="189.2" height="54.0" rx="5" ry="5" />
-    <g class="fa-icon" transform="translate(181,123) scale(0.03)">
-      <path d="M24-16C10.7-16 0-5.3 0 8S10.7 32 24 32l45.3 0c3.9 0 7.2 2.8 7.9 6.6l52.1 286.3c6.2 34.2 36 59.1 70.8 59.1L456 384c13.3 0 24-10.7 24-24s-10.7-24-24-24l-255.9 0c-11.6 0-21.5-8.3-23.6-19.7l-5.1-28.3 303.6 0c30.8 0 57.2-21.9 62.9-52.2L568.9 69.9C572.6 50.2 557.5 32 537.4 32l-412.7 0-.4-2c-4.8-26.6-28-46-55.1-46L24-16zM208 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm224 0a48 48 0 1 0 0-96 48 48 0 1 0 0 96z" fill="#333333" />
-    </g>
-    <text x="255.6" y="131" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif"> Go shopping</text>
+    <polygon points="183.3,104 285.7,140.2 183.3,176.4 80.9,140.2" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="183.3" y="140.2">Is it working?</text>
   </g>
   <g class="node" data-node-id="C">
-    <polygon points="246.6,208.0 353.2,242.6 246.6,277.2 140.0,242.6" />
-    <g class="fa-icon" transform="translate(176.2,234.6) scale(0.03)">
-      <path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm0-336c-17.7 0-32 14.3-32 32 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-44.2 35.8-80 80-80s80 35.8 80 80c0 47.2-36 67.2-56 74.5l0 3.8c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-8.1c0-20.5 14.8-35.2 30.1-40.2 6.4-2.1 13.2-5.5 18.2-10.3 4.3-4.2 7.7-10 7.7-19.6 0-17.7-14.3-32-32-32zM224 368a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" fill="#333333" />
-    </g>
-    <text x="255.6" y="242.6" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif"> Let me think</text>
+    <rect x="26.8" y="226.4" width="104.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="78.8" y="253.4">Great</text>
   </g>
   <g class="node" data-node-id="D">
-    <rect x="0.0" y="327.2" width="141.2" height="54.0" />
-    <g class="fa-icon" transform="translate(29,346.2) scale(0.03)">
-      <path d="M128 32C92.7 32 64 60.7 64 96l0 240 64 0 0-240 384 0 0 240 64 0 0-240c0-35.3-28.7-64-64-64L128 32zM19.2 384C8.6 384 0 392.6 0 403.2 0 445.6 34.4 480 76.8 480l486.4 0c42.4 0 76.8-34.4 76.8-76.8 0-10.6-8.6-19.2-19.2-19.2L19.2 384z" fill="#333333" />
-    </g>
-    <text x="79.6" y="354.2" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif"> Laptop</text>
+    <rect x="180.8" y="226.4" width="108.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="234.8" y="253.4">Debug</text>
   </g>
   <g class="node" data-node-id="E">
-    <rect x="191.2" y="327.2" width="135.6" height="54.0" />
-    <g class="fa-icon" transform="translate(222.2,346.2) scale(0.03)">
-      <path d="M80 0C44.7 0 16 28.7 16 64l0 384c0 35.3 28.7 64 64 64l224 0c35.3 0 64-28.7 64-64l0-384c0-35.3-28.7-64-64-64L80 0zm72 416l80 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z" fill="#333333" />
-    </g>
-    <text x="268" y="354.2" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif"> Phone</text>
+    <rect x="0.0" y="330.4" width="113.6" height="54.0" rx="27.0" ry="27.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="56.8" y="357.4">Deploy</text>
   </g>
   <g class="node" data-node-id="F">
-    <rect x="376.8" y="327.2" width="116.4" height="54.0" />
-    <g class="fa-icon" transform="translate(407.8,346.2) scale(0.03)">
-      <path d="M135.2 117.4l-26.1 74.6 293.8 0-26.1-74.6C372.3 104.6 360.2 96 346.6 96L165.4 96c-13.6 0-25.7 8.6-30.2 21.4zM39.6 196.8L74.8 96.3C88.3 57.8 124.6 32 165.4 32l181.2 0c40.8 0 77.1 25.8 90.6 64.3l35.2 100.5c23.2 9.6 39.6 32.5 39.6 59.2l0 192c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-32-320 0 0 32c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32L0 256c0-26.7 16.4-49.6 39.6-59.2zM128 304a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm288 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z" fill="#333333" />
-    </g>
-    <text x="444" y="354.2" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif"> Car</text>
+    <rect x="163.6" y="330.4" width="152.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="239.6" y="357.4">Check logs</text>
+  </g>
+  <g class="node" data-node-id="G">
+    <rect x="114.1" y="434.4" width="138.4" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="183.3" y="461.4">Fix issue</text>
   </g>
 </svg>
