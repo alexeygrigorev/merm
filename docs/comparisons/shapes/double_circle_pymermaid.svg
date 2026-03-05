@@ -1,37 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 173.2 228" width="173.2" height="228" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 169.2 308.4" width="169.2" height="308.4" style="background-color: white">
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-      <circle cx="5" cy="5" r="4" fill="#333333" />
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="11" markerHeight="11" refX="11" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-      <line x1="1" y1="1" x2="9" y2="9" stroke="#333333" stroke-width="2" />
-      <line x1="9" y1="1" x2="1" y2="9" stroke="#333333" stroke-width="2" />
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="11" markerHeight="11" refX="12" refY="5.2" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto-start-reverse" markerUnits="strokeWidth">
-      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>
-  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 2; }
+  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
 .node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; }
-.edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.edge path { fill: none; stroke: #333333; stroke-width: 2; stroke-dasharray: 0; }
 .edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; }
 .subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M66.6,54.0 L66.6,134.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M64.6,129.2 L64.6,179.2" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
-    <circle cx="66.6" cy="27.0" r="66.6" />
-    <circle cx="66.6" cy="27.0" r="61.6" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="66.6" y="27">DoubleCircle</text>
+    <circle cx="64.6" cy="64.6" r="64.6" />
+    <circle cx="64.6" cy="64.6" r="59.6" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="64.6" y="64.6">DoubleCircle</text>
   </g>
   <g class="node" data-node-id="B">
-    <circle cx="66.6" cy="161.0" r="46.6" />
-    <circle cx="66.6" cy="161.0" r="41.6" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="66.6" y="161">Another</text>
+    <circle cx="64.6" cy="223.8" r="44.6" />
+    <circle cx="64.6" cy="223.8" r="39.6" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="64.6" y="223.8">Another</text>
   </g>
 </svg>

@@ -1,42 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 328 87" width="328" height="87" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 283 102" width="283" height="102" style="background-color: white">
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-      <circle cx="5" cy="5" r="4" fill="#333333" />
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="11" markerHeight="11" refX="11" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-      <line x1="1" y1="1" x2="9" y2="9" stroke="#333333" stroke-width="2" />
-      <line x1="9" y1="1" x2="1" y2="9" stroke="#333333" stroke-width="2" />
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="11" markerHeight="11" refX="12" refY="5.2" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto-start-reverse" markerUnits="strokeWidth">
-      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>
-  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 2; }
+  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
 .node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; }
-.edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.edge path { fill: none; stroke: #333333; stroke-width: 2; stroke-dasharray: 0; }
 .edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; }
 .subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M-34.0,20.0 L-114.0,20.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M-19.0,35.0 L-69.0,35.0" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M-168.0,20.0 L-248.0,20.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M-123.0,35.0 L-173.0,35.0" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
-    <rect x="248.0" y="-7.0" width="40.0" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="268" y="20">A</text>
+    <rect x="173.0" y="8.0" width="70.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="208" y="35">A</text>
   </g>
   <g class="node" data-node-id="B">
-    <rect x="114.0" y="-7.0" width="40.0" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="134" y="20">B</text>
+    <rect x="69.0" y="8.0" width="70.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="104" y="35">B</text>
   </g>
   <g class="node" data-node-id="C">
-    <rect x="-20.0" y="-7.0" width="40.0" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="0" y="20">C</text>
+    <rect x="-35.0" y="8.0" width="70.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="0" y="35">C</text>
   </g>
 </svg>

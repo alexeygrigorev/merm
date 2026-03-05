@@ -1,63 +1,62 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 148.4 764" width="148.4" height="764" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 185.6 640.8" width="185.6" height="640.8" style="background-color: white">
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-      <circle cx="5" cy="5" r="4" fill="#333333" />
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="11" markerHeight="11" refX="11" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-      <line x1="1" y1="1" x2="9" y2="9" stroke="#333333" stroke-width="2" />
-      <line x1="9" y1="1" x2="1" y2="9" stroke="#333333" stroke-width="2" />
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="11" markerHeight="11" refX="12" refY="5.2" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto-start-reverse" markerUnits="strokeWidth">
-      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>
-  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 2; }
+  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
 .node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; }
-.edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.edge path { fill: none; stroke: #333333; stroke-width: 2; stroke-dasharray: 0; }
 .edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; }
 .subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M54.2,54.0 L54.2,134.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M72.8,54.0 L72.8,104.0" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M54.2,188.0 L54.2,268.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M72.8,158.0 L72.8,208.0" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="D">
-    <path d="M54.2,322.0 L54.2,402.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M72.8,262.0 L72.8,312.0" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="E">
-    <path d="M54.2,456.0 L54.2,536.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M72.8,381.2 L72.8,431.2" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="E" data-edge-target="F">
-    <path d="M54.2,590.0 L54.2,670.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M72.8,485.2 L72.8,535.2" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
-    <rect x="0.0" y="0.0" width="108.4" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="54.2" y="27">Rectangle</text>
+    <rect x="3.6" y="0.0" width="138.4" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="72.8" y="27">Rectangle</text>
   </g>
   <g class="node" data-node-id="B">
-    <rect x="5.6" y="134.0" width="97.2" height="54.0" rx="5" ry="5" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="54.2" y="161">Rounded</text>
+    <rect x="9.2" y="104.0" width="127.2" height="54.0" rx="5" ry="5" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="72.8" y="131">Rounded</text>
   </g>
   <g class="node" data-node-id="C">
-    <rect x="8.4" y="268.0" width="91.6" height="54.0" rx="27.0" ry="27.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="54.2" y="295">Stadium</text>
+    <rect x="12.0" y="208.0" width="121.6" height="54.0" rx="27.0" ry="27.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="72.8" y="235">Stadium</text>
   </g>
   <g class="node" data-node-id="D">
-    <polygon points="54.2,402.0 102.0,429.0 54.2,456.0 6.4,429.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="54.2" y="429">Diamond</text>
+    <polygon points="72.8,312.0 145.6,346.6 72.8,381.2 0.0,346.6" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="72.8" y="346.6">Diamond</text>
   </g>
   <g class="node" data-node-id="E">
-    <polygon points="29.9,536.0 78.5,536.0 102.8,563.0 78.5,590.0 29.9,590.0 5.6,563.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="54.2" y="563">Hexagon</text>
+    <polygon points="41.0,431.2 104.6,431.2 136.4,458.2 104.6,485.2 41.0,485.2 9.2,458.2" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="72.8" y="458.2">Hexagon</text>
   </g>
   <g class="node" data-node-id="F">
-    <circle cx="54.2" cy="697.0" r="39.8" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="54.2" y="697">Circle</text>
+    <circle cx="72.8" cy="568.0" r="32.8" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="72.8" y="568">Circle</text>
   </g>
 </svg>

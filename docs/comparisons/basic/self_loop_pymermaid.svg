@@ -1,31 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 80 94" width="80" height="94" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 110 94" width="110" height="94" style="background-color: white">
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-      <circle cx="5" cy="5" r="4" fill="#333333" />
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="11" markerHeight="11" refX="11" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-      <line x1="1" y1="1" x2="9" y2="9" stroke="#333333" stroke-width="2" />
-      <line x1="9" y1="1" x2="1" y2="9" stroke="#333333" stroke-width="2" />
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="11" markerHeight="11" refX="12" refY="5.2" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto-start-reverse" markerUnits="strokeWidth">
-      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>
-  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 2; }
+  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
 .node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; }
-.edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.edge path { fill: none; stroke: #333333; stroke-width: 2; stroke-dasharray: 0; }
 .edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; }
 .subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="A">
-    <path d="M40.0,27.0 C43.33,20.0 63.33,-10.5 60.0,-15.0 C56.67,-19.5 26.67,-2.5 20.0,0.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M21.0,54.0 C19.33,59.0 4.67,79.0 11.0,84.0 C17.33,89.0 52.67,89.0 59.0,84.0 C65.33,79.0 50.67,59.0 49.0,54.0" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
-    <rect x="0.0" y="0.0" width="40.0" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="20" y="27">A</text>
+    <rect x="0.0" y="0.0" width="70.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="35" y="27">A</text>
   </g>
 </svg>
