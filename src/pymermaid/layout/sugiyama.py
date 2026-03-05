@@ -16,6 +16,7 @@ grouping and the final bounding-box computation).
 
 from __future__ import annotations
 
+import math
 from collections import defaultdict
 
 from pymermaid.ir import Diagram, Direction, NodeShape, Subgraph
@@ -1058,17 +1059,21 @@ def layout_diagram(
         shape = node_shapes.get(nid, NodeShape.rect)
 
         if shape in (NodeShape.circle, NodeShape.double_circle):
-            # Circle: radius based on max text dimension + padding
+            # Circle: use diagonal of text bbox for diameter so the
+            # rectangular text area is inscribed within the circle.
             _CIRCLE_PAD = 8.0
-            r = max(tw, th) / 2.0 + _CIRCLE_PAD
+            diag = math.sqrt(tw ** 2 + th ** 2)
+            r = diag / 2.0 + _CIRCLE_PAD
             if shape == NodeShape.double_circle:
                 r += 5.0  # extra gap for outer circle
             diameter = r * 2.0
             node_sizes[nid] = (diameter, diameter)
         elif shape == NodeShape.diamond:
-            # Diamond: inscribed text, so diamond is larger
-            w = tw + _NODE_PADDING_H + 20.0
-            h = th + _NODE_PADDING_V + 20.0
+            # Diamond: the inscribed rectangle of a diamond with half-dims
+            # (a, b) has dimensions (a, b).  So to fit text (tw, th) the
+            # diamond bounding box must be ~2x the text dimensions.
+            w = 2.0 * tw + _NODE_PADDING_H
+            h = 2.0 * th + _NODE_PADDING_V
             node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
         elif shape == NodeShape.cylinder:
             # Cylinder: extra vertical space for top/bottom ellipse caps
@@ -1078,10 +1083,35 @@ def layout_diagram(
             min_h = _NODE_MIN_HEIGHT + 2 * _CYL_RY
             node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, min_h))
         elif shape == NodeShape.hexagon:
-            # Hexagon: extra horizontal space for the angled sides
+            # Hexagon: inset = w/4 on each side, so effective text width
+            # is w/2.  To fit text width tw we need w = 2*tw + padding.
+            w = 2.0 * tw + _NODE_PADDING_H
+            h = th + _NODE_PADDING_V
+            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+        elif shape in (NodeShape.parallelogram, NodeShape.parallelogram_alt):
+            # Parallelogram: 15% skew on each side eats 30% of width.
+            # Effective text width = w * 0.7, so w = tw / 0.7 + padding.
+            w = tw / 0.7 + _NODE_PADDING_H
+            h = th + _NODE_PADDING_V
+            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+        elif shape in (NodeShape.trapezoid, NodeShape.trapezoid_alt):
+            # Trapezoid: 15% inset on the narrow side eats 30% of width.
+            # Effective text width = w * 0.7, so w = tw / 0.7 + padding.
+            w = tw / 0.7 + _NODE_PADDING_H
+            h = th + _NODE_PADDING_V
+            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+        elif shape == NodeShape.asymmetric:
+            # Asymmetric: notch of h/4 on left side reduces usable width.
+            # Add extra horizontal padding to compensate.
             w = tw + _NODE_PADDING_H + 20.0
             h = th + _NODE_PADDING_V
-            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH + 20.0), max(h, _NODE_MIN_HEIGHT))
+            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+        elif shape == NodeShape.stadium:
+            # Stadium: pill shape loses rx = h/2 on each side.
+            # Add extra horizontal padding to compensate.
+            w = tw + _NODE_PADDING_H + 20.0
+            h = th + _NODE_PADDING_V
+            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
         else:
             w = tw + _NODE_PADDING_H
             h = th + _NODE_PADDING_V
