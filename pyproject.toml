@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pymermaid"
+version = "0.1.0"
+description = "Pure Python Mermaid diagram renderer"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+fonts = ["fonttools"]
+png = ["Pillow"]
+
+[project.scripts]
+pymermaid = "pymermaid.cli:main"
+
+[dependency-groups]
+dev = ["pytest", "ruff"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pymermaid"]

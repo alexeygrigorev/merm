@@ -1,0 +1,7 @@
+{
+  "theme": "default",
+  "flowchart": {
+    "useMaxWidth": false,
+    "htmlLabels": true
+  }
+}

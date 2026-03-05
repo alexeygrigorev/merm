@@ -1,0 +1,9 @@
+graph TD
+    A[Input]:::primary --> B{Validate}
+    B -->|Valid| C[Process]:::success
+    B -->|Invalid| D[Error]:::error
+    C --> E[Output]
+
+    classDef primary fill:#4a90d9,stroke:#333,color:#fff
+    classDef success fill:#2ecc71,stroke:#333,color:#fff
+    classDef error fill:#e74c3c,stroke:#333,color:#fff
