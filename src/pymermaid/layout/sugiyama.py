@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 
-from pymermaid.ir import Diagram, Direction, Subgraph
+from pymermaid.ir import Diagram, Direction, NodeShape, Subgraph
 
 from .config import LayoutConfig, MeasureFn
 from .types import EdgeLayout, LayoutResult, NodeLayout, Point, SubgraphLayout
@@ -27,11 +27,12 @@ from .types import EdgeLayout, LayoutResult, NodeLayout, Point, SubgraphLayout
 _DEFAULT_FONT_SIZE = 16.0
 
 # Padding added around measured text to get node dimensions
-_NODE_PADDING_H = 30.0  # 15px each side
-_NODE_PADDING_V = 20.0  # 10px each side
+_NODE_PADDING_H = 60.0  # 30px each side
+_NODE_PADDING_V = 30.0  # 15px each side
 
-# Minimum node height
+# Minimum node dimensions (matching mermaid.js defaults)
 _NODE_MIN_HEIGHT = 54.0
+_NODE_MIN_WIDTH = 70.0
 
 
 # ---------------------------------------------------------------------------
@@ -506,17 +507,20 @@ def _route_edges(
 
         results.append(EdgeLayout(points=points, source=orig_s, target=orig_t))
 
-    # Route self-loops
+    # Route self-loops (mermaid.js style: loop goes down below node and back up)
     for s, t, idx in self_loops:
         pos = positions.get(s, (0.0, 0.0))
         size = node_sizes.get(s, (40.0, 30.0))
         w, h = size
         cx, cy = pos
-        # Create a small loop to the right and back
-        p1 = Point(cx + w / 2, cy)
-        p2 = Point(cx + w / 2 + 20, cy - h / 2 - 15)
-        p3 = Point(cx, cy - h / 2)
-        results.append(EdgeLayout(points=[p1, p2, p3], source=s, target=t))
+        # Small loop: exit from bottom-left, curve down, re-enter bottom-right
+        loop_h = 30.0  # how far below the node the loop extends
+        offset_x = w * 0.2  # horizontal spread
+        p1 = Point(cx - offset_x, cy + h / 2)
+        p2 = Point(cx - offset_x - 10, cy + h / 2 + loop_h)
+        p3 = Point(cx + offset_x + 10, cy + h / 2 + loop_h)
+        p4 = Point(cx + offset_x, cy + h / 2)
+        results.append(EdgeLayout(points=[p1, p2, p3, p4], source=s, target=t))
 
     return results
 
@@ -554,18 +558,16 @@ def _apply_direction(
         new_sizes = dict(node_sizes)
 
     elif direction == Direction.LR:
-        # Swap x and y axes
+        # Swap x and y axes (positions are centers, sizes stay the same)
         for n, (x, y) in positions.items():
             new_positions[n] = (y, x)
-        for n, (w, h) in node_sizes.items():
-            new_sizes[n] = (h, w)
+        new_sizes = dict(node_sizes)
 
     elif direction == Direction.RL:
         # Swap x and y, then flip x
         for n, (x, y) in positions.items():
             new_positions[n] = (y, x)
-        for n, (w, h) in node_sizes.items():
-            new_sizes[n] = (h, w)
+        new_sizes = dict(node_sizes)
         if new_positions:
             max_x = max(pos[0] for pos in new_positions.values())
             new_positions = {n: (max_x - x, y) for n, (x, y) in new_positions.items()}
@@ -576,7 +578,11 @@ def _apply_direction(
 def _transform_point(
     p: Point, direction: Direction, max_y: float, max_x: float,
 ) -> Point:
-    """Transform a single point from TB coordinates to target direction."""
+    """Transform a single point from TB coordinates to target direction.
+
+    *max_y* and *max_x* are the maximum center coordinates in the original
+    TB layout (before direction transform).
+    """
     if direction in (Direction.TB, Direction.TD):
         return p
     if direction == Direction.BT:
@@ -584,7 +590,9 @@ def _transform_point(
     if direction == Direction.LR:
         return Point(p.y, p.x)
     if direction == Direction.RL:
-        return Point(max_x - p.y, p.x)
+        # Swap x/y then flip new-x.  max_y is the TB max-y which becomes
+        # the max of the new x-axis after the swap.
+        return Point(max_y - p.y, p.x)
     return p
 
 
@@ -774,17 +782,34 @@ def layout_diagram(
     # Collect node info
     node_ids = [n.id for n in diagram.nodes]
     node_labels = {n.id: n.label for n in diagram.nodes}
+    node_shapes = {n.id: n.shape for n in diagram.nodes}
 
-    # Measure nodes
+    # Measure nodes (shape-aware sizing)
     node_sizes: dict[str, tuple[float, float]] = {}
     for nid, label in node_labels.items():
         tw, th = measure_fn(label, _DEFAULT_FONT_SIZE)
-        w = tw + _NODE_PADDING_H
-        h = th + _NODE_PADDING_V
-        # Minimum dimensions
-        w = max(w, 40.0)
-        h = max(h, _NODE_MIN_HEIGHT)
-        node_sizes[nid] = (w, h)
+        shape = node_shapes.get(nid, NodeShape.rect)
+
+        if shape in (NodeShape.circle, NodeShape.double_circle):
+            # Circle: radius based on max text dimension + padding
+            _CIRCLE_PAD = 8.0
+            r = max(tw, th) / 2.0 + _CIRCLE_PAD
+            if shape == NodeShape.double_circle:
+                r += 5.0  # extra gap for outer circle
+            diameter = r * 2.0
+            node_sizes[nid] = (diameter, diameter)
+        elif shape == NodeShape.diamond:
+            # Diamond: inscribed text, so diamond is larger
+            w = tw + _NODE_PADDING_H + 20.0
+            h = th + _NODE_PADDING_V + 20.0
+            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+        else:
+            w = tw + _NODE_PADDING_H
+            h = th + _NODE_PADDING_V
+            # Minimum dimensions
+            w = max(w, _NODE_MIN_WIDTH)
+            h = max(h, _NODE_MIN_HEIGHT)
+            node_sizes[nid] = (w, h)
 
     # Build edge list as (source, target) tuples
     ir_edges: list[tuple[str, str]] = [(e.source, e.target) for e in diagram.edges]
@@ -803,9 +828,10 @@ def layout_diagram(
     all_node_sizes: dict[str, tuple[float, float]] = dict(node_sizes)
     component_edge_data: list[dict] = []
 
-    # Layout each component separately, then stack them
-    component_offsets: list[float] = []
-    y_offset = 0.0
+    # Layout each component separately, then place them side-by-side
+    # (matching mermaid.js behaviour for disconnected components)
+    component_positions: list[dict[str, tuple[float, float]]] = []
+    component_sizes: list[tuple[float, float]] = []  # (width, height) per component
 
     for comp_nodes in components:
         comp_set = set(comp_nodes)
@@ -843,21 +869,19 @@ def layout_diagram(
             layer_lists, all_node_sizes, config.rank_sep, config.node_sep,
         )
 
-        # Apply y offset for stacking components
-        component_offsets.append(y_offset)
-        for n, (x, y) in positions.items():
-            all_positions[n] = (x, y + y_offset)
-
-        # Calculate component height
+        # Compute component bounding box
+        comp_width = 0.0
         comp_height = 0.0
         for n in positions:
             pos = positions[n]
             size = all_node_sizes.get(n, (40.0, 30.0))
+            right = pos[0] + size[0] / 2.0
             bottom = pos[1] + size[1] / 2.0
-            if bottom > comp_height:
-                comp_height = bottom
+            comp_width = max(comp_width, right)
+            comp_height = max(comp_height, bottom)
 
-        y_offset = comp_height + config.rank_sep
+        component_positions.append(positions)
+        component_sizes.append((comp_width, comp_height))
 
         component_edge_data.append({
             "comp_edges": comp_edges,
@@ -866,6 +890,14 @@ def layout_diagram(
             "reversed_indices": reversed_indices,
             "comp_self_loops": comp_self_loops,
         })
+
+    # Place components side-by-side (left to right) with node_sep gap
+    x_offset = 0.0
+    for i, positions in enumerate(component_positions):
+        for n, (x, y) in positions.items():
+            all_positions[n] = (x + x_offset, y)
+        comp_w, _comp_h = component_sizes[i]
+        x_offset += comp_w + config.node_sep
 
     # Route edges for all components
     all_edge_layouts: list[EdgeLayout] = []
@@ -884,7 +916,7 @@ def layout_diagram(
 
     # Apply direction transform
     if direction not in (Direction.TB, Direction.TD):
-        # Compute max coords for transform reference
+        # Compute max coords for transform reference (in TB space)
         max_y = max((pos[1] for pos in all_positions.values()), default=0.0)
         max_x = max((pos[0] for pos in all_positions.values()), default=0.0)
 
@@ -907,16 +939,47 @@ def layout_diagram(
             ))
         all_edge_layouts = transformed_edges
 
+        # Normalize: shift everything so min position is >= 0
+        all_min_x = float("inf")
+        all_min_y = float("inf")
+        for cx, cy in all_positions.values():
+            w, h = all_node_sizes.get("", (0, 0))
+            all_min_x = min(all_min_x, cx)
+            all_min_y = min(all_min_y, cy)
+        for el in all_edge_layouts:
+            for p in el.points:
+                all_min_x = min(all_min_x, p.x)
+                all_min_y = min(all_min_y, p.y)
+
+        # Also account for node half-sizes
+        for nid, (cx, cy) in all_positions.items():
+            w, h = all_node_sizes.get(nid, (0, 0))
+            all_min_x = min(all_min_x, cx - w / 2.0)
+            all_min_y = min(all_min_y, cy - h / 2.0)
+
+        if all_min_x < 0 or all_min_y < 0:
+            dx = max(0.0, -all_min_x)
+            dy = max(0.0, -all_min_y)
+            all_positions = {
+                n: (x + dx, y + dy)
+                for n, (x, y) in all_positions.items()
+            }
+            shifted_edges: list[EdgeLayout] = []
+            for el in all_edge_layouts:
+                new_points = [Point(p.x + dx, p.y + dy) for p in el.points]
+                shifted_edges.append(EdgeLayout(
+                    points=new_points,
+                    source=el.source,
+                    target=el.target,
+                ))
+            all_edge_layouts = shifted_edges
+
     # Build NodeLayout results (only real nodes, not dummies)
     node_layouts: dict[str, NodeLayout] = {}
     for nid in node_ids:
         if nid in all_positions:
             cx, cy = all_positions[nid]
             w, h = all_node_sizes.get(nid, (40.0, 30.0))
-            # For LR/RL, sizes were swapped, but we want original logical sizes
-            if direction in (Direction.LR, Direction.RL):
-                # Sizes were swapped in _apply_direction; swap back for NodeLayout
-                w, h = h, w
             node_layouts[nid] = NodeLayout(
                 x=cx - w / 2.0,
                 y=cy - h / 2.0,

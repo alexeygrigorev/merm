@@ -58,7 +58,7 @@ def _build_style_css(theme: Theme) -> str:
         f"font-family: {theme.font_family}; "
         f"font-size: {theme.node_font_size}; }}\n"
         f".edge path {{ fill: none; "
-        f"stroke: {theme.edge_stroke}; stroke-width: {theme.edge_stroke_width}; }}\n"
+        f"stroke: {theme.edge_stroke}; }}\n"
         f".edge text {{ fill: {theme.text_color}; "
         f"font-family: {theme.font_family}; "
         f"font-size: {theme.edge_label_font_size}; }}\n"

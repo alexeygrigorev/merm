@@ -168,12 +168,12 @@ class TestMarkerDefinitions:
                 circles = [c for c in m if c.tag in ("circle", f"{{{_SVG_NS}}}circle")]
                 assert len(circles) == 1
 
-    def test_cross_marker_contains_lines(self):
+    def test_cross_marker_contains_path(self):
         defs = _defs_element()
         for m in _find_markers(defs):
             if m.get("id") == "cross-end":
-                lines = [c for c in m if c.tag in ("line", f"{{{_SVG_NS}}}line")]
-                assert len(lines) == 2
+                paths = [c for c in m if c.tag in ("path", f"{{{_SVG_NS}}}path")]
+                assert len(paths) == 1
 
 
 # =========================================================================

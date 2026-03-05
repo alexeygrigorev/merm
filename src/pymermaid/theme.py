@@ -22,12 +22,13 @@ class Theme:
     # Node styling
     node_fill: str = "#ECECFF"
     node_stroke: str = "#9370DB"
-    node_stroke_width: str = "2"
+    node_stroke_width: str = "1"
     node_text_color: str = "#333333"
     node_font_size: str = "16px"
-    node_padding_h: float = 15.0
-    node_padding_v: float = 10.0
+    node_padding_h: float = 30.0
+    node_padding_v: float = 15.0
     node_min_height: float = 54.0
+    node_min_width: float = 70.0
     node_border_radius: float = 5.0
 
     # Edge styling
@@ -48,7 +49,7 @@ class Theme:
     background_color: str = "white"
 
     # Layout spacing
-    rank_sep: float = 80.0
+    rank_sep: float = 50.0
     node_sep: float = 50.0
 
     def replace(self, **kwargs: object) -> Theme:

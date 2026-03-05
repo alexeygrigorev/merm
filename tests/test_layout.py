@@ -110,7 +110,7 @@ class TestDataStructures:
 
     def test_layout_config_defaults(self):
         cfg = LayoutConfig()
-        assert cfg.rank_sep == 80.0
+        assert cfg.rank_sep == 50.0
         assert cfg.node_sep == 50.0
         assert cfg.direction == Direction.TB
 

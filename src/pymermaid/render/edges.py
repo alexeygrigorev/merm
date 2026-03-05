@@ -45,57 +45,49 @@ def _marker_arrow(
 ) -> None:
     marker = ET.SubElement(parent, "marker")
     marker.set("id", marker_id)
-    marker.set("markerWidth", "10")
-    marker.set("markerHeight", "7")
-    marker.set("refX", "10")
-    marker.set("refY", "3.5")
+    marker.set("viewBox", "0 0 10 10")
+    marker.set("markerWidth", "8")
+    marker.set("markerHeight", "8")
+    marker.set("refX", "5")
+    marker.set("refY", "5")
     marker.set("orient", orient)
-    marker.set("markerUnits", "strokeWidth")
+    marker.set("markerUnits", "userSpaceOnUse")
     path = ET.SubElement(marker, "path")
-    path.set("d", "M0,0 L10,3.5 L0,7 Z")
+    path.set("d", "M 0 0 L 10 5 L 0 10 z")
     path.set("fill", fill)
 
 
 def _marker_circle(parent: ET.Element, fill: str) -> None:
     marker = ET.SubElement(parent, "marker")
     marker.set("id", "circle-end")
-    marker.set("markerWidth", "10")
-    marker.set("markerHeight", "10")
-    marker.set("refX", "5")
+    marker.set("viewBox", "0 0 10 10")
+    marker.set("markerWidth", "11")
+    marker.set("markerHeight", "11")
+    marker.set("refX", "11")
     marker.set("refY", "5")
     marker.set("orient", "auto")
-    marker.set("markerUnits", "strokeWidth")
+    marker.set("markerUnits", "userSpaceOnUse")
     circle = ET.SubElement(marker, "circle")
     circle.set("cx", "5")
     circle.set("cy", "5")
-    circle.set("r", "4")
+    circle.set("r", "5")
     circle.set("fill", fill)
 
 
 def _marker_cross(parent: ET.Element, stroke: str) -> None:
     marker = ET.SubElement(parent, "marker")
     marker.set("id", "cross-end")
-    marker.set("markerWidth", "10")
-    marker.set("markerHeight", "10")
-    marker.set("refX", "5")
-    marker.set("refY", "5")
+    marker.set("viewBox", "0 0 11 11")
+    marker.set("markerWidth", "11")
+    marker.set("markerHeight", "11")
+    marker.set("refX", "12")
+    marker.set("refY", "5.2")
     marker.set("orient", "auto")
-    marker.set("markerUnits", "strokeWidth")
-    # Two crossed lines forming an X
-    line1 = ET.SubElement(marker, "line")
-    line1.set("x1", "1")
-    line1.set("y1", "1")
-    line1.set("x2", "9")
-    line1.set("y2", "9")
-    line1.set("stroke", stroke)
-    line1.set("stroke-width", "2")
-    line2 = ET.SubElement(marker, "line")
-    line2.set("x1", "9")
-    line2.set("y1", "1")
-    line2.set("x2", "1")
-    line2.set("y2", "9")
-    line2.set("stroke", stroke)
-    line2.set("stroke-width", "2")
+    marker.set("markerUnits", "userSpaceOnUse")
+    path = ET.SubElement(marker, "path")
+    path.set("d", "M 1,1 l 9,9 M 10,1 l -9,9")
+    path.set("stroke", stroke)
+    path.set("stroke-width", "2")
 
 
 # ---------------------------------------------------------------------------
@@ -158,10 +150,10 @@ def _catmull_rom_to_bezier(points: list[Point]) -> str:
 # ---------------------------------------------------------------------------
 
 _STYLE_MAP: dict[EdgeType, dict[str, str]] = {
-    EdgeType.arrow:       {"stroke-width": "2"},
-    EdgeType.open:        {"stroke-width": "2"},
-    EdgeType.dotted:      {"stroke-width": "2", "stroke-dasharray": "3"},
-    EdgeType.dotted_arrow: {"stroke-width": "2", "stroke-dasharray": "3"},
+    EdgeType.arrow:       {"stroke-width": "1"},
+    EdgeType.open:        {"stroke-width": "1"},
+    EdgeType.dotted:      {"stroke-width": "1", "stroke-dasharray": "3"},
+    EdgeType.dotted_arrow: {"stroke-width": "1", "stroke-dasharray": "3"},
     EdgeType.thick:       {"stroke-width": "3.5"},
     EdgeType.thick_arrow: {"stroke-width": "3.5"},
     EdgeType.invisible:   {"stroke-width": "0", "visibility": "hidden"},

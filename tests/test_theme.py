@@ -116,16 +116,16 @@ class TestThemeDataclass:
         assert DEFAULT_THEME.background_color == "white"
 
     def test_default_rank_sep(self):
-        assert DEFAULT_THEME.rank_sep == 80.0
+        assert DEFAULT_THEME.rank_sep == 50.0
 
     def test_default_node_sep(self):
         assert DEFAULT_THEME.node_sep == 50.0
 
     def test_default_node_padding_h(self):
-        assert DEFAULT_THEME.node_padding_h == 15.0
+        assert DEFAULT_THEME.node_padding_h == 30.0
 
     def test_default_node_padding_v(self):
-        assert DEFAULT_THEME.node_padding_v == 10.0
+        assert DEFAULT_THEME.node_padding_v == 15.0
 
     def test_default_node_min_height(self):
         assert DEFAULT_THEME.node_min_height == 54.0
