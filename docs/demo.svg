@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 382.1 504.4" width="382.1" height="504.4" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 266.8 322.8" width="266.8" height="322.8" style="background-color: white">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="11" markerHeight="11" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
     <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
@@ -21,56 +21,42 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M183.3,57.0 L183.3,101" stroke-width="1" marker-end="url(#arrow)" />
+    <path d="M125.4,42.0 L125.4,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M147.85,178.6 L105.76,224.2" stroke-width="1" marker-end="url(#arrow)" />
-    <rect x="112.3" y="189.4" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="126.8" y="201.4">Yes</text>
+    <path d="M100.19,142.8 L67.02,182.8" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="69.1" y="150.8" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="83.6" y="162.8">Yes</text>
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="D">
-    <path d="M201.01,179.13 L221.27,223.67" stroke-width="1" marker-end="url(#arrow)" />
-    <rect x="200.14" y="189.4" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="211.14" y="201.4">No</text>
+    <path d="M146.89,142.8 L175.16,182.8" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="150.02" y="150.8" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="161.02" y="162.8">No</text>
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="E">
-    <path d="M72.47,283.34 L63.13,327.46" stroke-width="1" marker-end="url(#arrow)" />
+    <path d="M69.01,224.8 L105.99,264.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
-  <g class="edge" data-edge-source="D" data-edge-target="F">
-    <path d="M236.18,283.4 L238.22,327.4" stroke-width="1" marker-end="url(#arrow)" />
-  </g>
-  <g class="edge" data-edge-source="F" data-edge-target="G">
-    <path d="M223.56,387.04 L199.34,431.76" stroke-width="1" marker-end="url(#arrow)" />
-  </g>
-  <g class="edge" data-edge-source="G" data-edge-target="B">
-    <path d="M233.37,432.92 C255.49,420.33 348.44,387.32 366.1,357.4 C383.76,327.48 361.05,283.27 339.3,253.4 C317.55,223.53 252.9,190.7 235.62,178.16" stroke-width="1" marker-end="url(#arrow)" />
+  <g class="edge" data-edge-source="D" data-edge-target="E">
+    <path d="M173.46,224.8 L141.94,264.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
-    <rect x="133.3" y="0.0" width="100.0" height="54.0" rx="27.0" ry="27.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="183.3" y="27">Start</text>
+    <rect x="89.4" y="0.0" width="72.0" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="125.4" y="21">Start</text>
   </g>
   <g class="node" data-node-id="B">
-    <polygon points="183.3,104 285.7,140.2 183.3,176.4 80.9,140.2" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="183.3" y="140.2">Is it working?</text>
+    <polygon points="125.4,82.0 210.2,112.4 125.4,142.8 40.6,112.4" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="125.4" y="112.4">Decision</text>
   </g>
   <g class="node" data-node-id="C">
-    <rect x="26.8" y="226.4" width="104.0" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="78.8" y="253.4">Great</text>
+    <rect x="0.0" y="182.8" width="99.2" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="49.6" y="203.8">Process</text>
   </g>
   <g class="node" data-node-id="D">
-    <rect x="180.8" y="226.4" width="108.0" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="234.8" y="253.4">Debug</text>
+    <rect x="129.2" y="182.8" width="121.6" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="190" y="203.8">Alternative</text>
   </g>
   <g class="node" data-node-id="E">
-    <rect x="0.0" y="330.4" width="113.6" height="54.0" rx="27.0" ry="27.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="56.8" y="357.4">Deploy</text>
-  </g>
-  <g class="node" data-node-id="F">
-    <rect x="163.6" y="330.4" width="152.0" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="239.6" y="357.4">Check logs</text>
-  </g>
-  <g class="node" data-node-id="G">
-    <rect x="114.1" y="434.4" width="138.4" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="183.3" y="461.4">Fix issue</text>
+    <rect x="90.4" y="264.8" width="70.0" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="125.4" y="285.8">End</text>
   </g>
 </svg>
