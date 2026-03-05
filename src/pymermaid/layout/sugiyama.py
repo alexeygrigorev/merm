@@ -340,6 +340,106 @@ def _assign_coordinates(
 
 
 # ---------------------------------------------------------------------------
+# Step 4b: Offset back-edge dummy nodes to separate overlapping back-edges
+# ---------------------------------------------------------------------------
+
+_BACK_EDGE_CHANNEL_OFFSET = 30.0  # horizontal gap between back-edge channels
+
+
+def _offset_back_edge_dummies(
+    positions: dict[str, tuple[float, float]],
+    node_sizes: dict[str, tuple[float, float]],
+    layer_lists: list[list[str]],
+    dummy_info: dict[str, tuple[str, str, int]],
+    reversed_indices: set[int],
+    channel_offset: float = _BACK_EDGE_CHANNEL_OFFSET,
+) -> dict[str, tuple[float, float]]:
+    """Offset dummy nodes for back-edges so they don't overlap.
+
+    When multiple back-edges route through the same layers, their dummy
+    nodes all end up at the same x-coordinate.  This pass assigns each
+    back-edge a distinct horizontal channel to the right of the rightmost
+    real node in each layer.
+
+    Returns an updated positions dict (does not mutate in place).
+    """
+    if not reversed_indices or not dummy_info:
+        return positions
+
+    # Identify which back-edge (by original edge index) each dummy belongs to
+    back_edge_dummies: dict[int, list[str]] = {}
+    for dummy_id, (orig_s, orig_t, orig_idx) in dummy_info.items():
+        if orig_idx in reversed_indices:
+            back_edge_dummies.setdefault(orig_idx, []).append(dummy_id)
+
+    if not back_edge_dummies:
+        return positions
+
+    # For each layer, find the rightmost x-coordinate of real (non-dummy) nodes
+    layer_right_x: dict[int, float] = {}
+    for li, layer_nodes in enumerate(layer_lists):
+        max_right = float("-inf")
+        for n in layer_nodes:
+            if n in dummy_info:
+                continue  # skip dummy nodes
+            if n in positions:
+                cx = positions[n][0]
+                w = node_sizes.get(n, (40.0, 30.0))[0]
+                right = cx + w / 2.0
+                if right > max_right:
+                    max_right = right
+        if max_right > float("-inf"):
+            layer_right_x[li] = max_right
+
+    if not layer_right_x:
+        return positions
+
+    # Build a mapping from layer index to which back-edge indices have
+    # dummies in that layer
+    layer_to_dummy_node: dict[int, str] = {}
+    for li, layer_nodes in enumerate(layer_lists):
+        for n in layer_nodes:
+            if n in dummy_info:
+                layer_to_dummy_node[n] = str(li)  # dummy_id -> layer_index as str
+
+    # Actually, we need layer index for each dummy node.
+    # The layer_lists already contain this info.
+    dummy_to_layer: dict[str, int] = {}
+    for li, layer_nodes in enumerate(layer_lists):
+        for n in layer_nodes:
+            dummy_to_layer[n] = li
+
+    # Sort back-edge indices for deterministic channel assignment.
+    # Sort by the source node position (leftmost source gets channel 0).
+    sorted_back_edges = sorted(back_edge_dummies.keys())
+
+    # Assign each back-edge a channel index
+    n_back_edges = len(sorted_back_edges)
+    if n_back_edges <= 1:
+        # Single back-edge: no offset needed (it already routes fine)
+        return positions
+
+    positions = dict(positions)  # copy
+
+    for channel_idx, edge_idx in enumerate(sorted_back_edges):
+        dummies = back_edge_dummies[edge_idx]
+        # Compute offset: spread channels evenly, centered around the right
+        # side. Channel 0 is closest to the nodes, channel N-1 is furthest.
+        offset = (channel_idx + 1) * channel_offset
+
+        for dummy_id in dummies:
+            if dummy_id in positions:
+                li = dummy_to_layer.get(dummy_id, -1)
+                right_x = layer_right_x.get(li, 0.0)
+                old_cx, cy = positions[dummy_id]
+                # Place dummy at right_x + offset
+                new_cx = right_x + offset
+                positions[dummy_id] = (new_cx, cy)
+
+    return positions
+
+
+# ---------------------------------------------------------------------------
 # Step 5: Edge routing
 # ---------------------------------------------------------------------------
 
@@ -848,8 +948,24 @@ def _separate_subgraphs(
                 ox, oy = positions[nid]
                 positions[nid] = (ox + dx, oy + dy)
 
+    def _boxes_overlap(
+        bb1: tuple[float, float, float, float],
+        bb2: tuple[float, float, float, float],
+    ) -> bool:
+        """Check if two bounding boxes overlap (with gap tolerance)."""
+        # bb = (min_x, min_y, max_x, max_y)
+        x_overlap = bb1[0] < bb2[2] + gap and bb2[0] < bb1[2] + gap
+        y_overlap = bb1[1] < bb2[3] + gap and bb2[1] < bb1[3] + gap
+        return x_overlap and y_overlap
+
     def _separate_siblings(siblings: tuple[Subgraph, ...]) -> None:
-        """Ensure sibling subgraphs don't overlap vertically."""
+        """Ensure sibling subgraphs don't overlap in either axis.
+
+        First separates along Y (rank axis in TB), then resolves any
+        remaining overlaps along X (order axis in TB).  This is needed
+        for LR/RL layouts where subgraphs sharing the same ranks would
+        otherwise overlap after the coordinate swap.
+        """
         if len(siblings) <= 1:
             return
 
@@ -863,10 +979,9 @@ def _separate_subgraphs(
         if len(bboxes) <= 1:
             return
 
-        # Sort by min_y (top edge)
+        # --- Pass 1: separate along Y axis (existing logic) ---
         bboxes.sort(key=lambda item: item[1][1])
 
-        # Push each subsequent subgraph down if it overlaps the previous one
         for i in range(1, len(bboxes)):
             _prev_sg, prev_bb = bboxes[i - 1]
             curr_sg, curr_bb = bboxes[i]
@@ -877,10 +992,28 @@ def _separate_subgraphs(
             if curr_top < prev_bottom + gap:
                 shift_y = (prev_bottom + gap) - curr_top
                 _shift_sg_nodes(curr_sg, 0.0, shift_y)
-                # Recompute bbox after shift
                 new_bb = _bbox_for_sg(curr_sg)
                 if new_bb is not None:
                     bboxes[i] = (curr_sg, new_bb)
+
+        # --- Pass 2: separate along X axis for any remaining overlaps ---
+        # Re-sort by min_x for X-axis separation
+        bboxes.sort(key=lambda item: item[1][0])
+
+        for i in range(1, len(bboxes)):
+            _prev_sg, prev_bb = bboxes[i - 1]
+            curr_sg, curr_bb = bboxes[i]
+
+            # Only push apart on X if the boxes actually overlap in both axes
+            if _boxes_overlap(prev_bb, curr_bb):
+                prev_right = prev_bb[2]
+                curr_left = curr_bb[0]
+                shift_x = (prev_right + gap) - curr_left
+                if shift_x > 0:
+                    _shift_sg_nodes(curr_sg, shift_x, 0.0)
+                    new_bb = _bbox_for_sg(curr_sg)
+                    if new_bb is not None:
+                        bboxes[i] = (curr_sg, new_bb)
 
     def _separate_recursive(siblings: tuple[Subgraph, ...]) -> None:
         """Recursively separate subgraphs at each nesting level."""
@@ -1194,6 +1327,14 @@ def layout_diagram(
             layer_lists, all_node_sizes, effective_rank_sep, config.node_sep,
         )
 
+        # Step 4b: Offset back-edge dummy nodes so overlapping back-edges
+        # get distinct horizontal channels.
+        if reversed_indices:
+            positions = _offset_back_edge_dummies(
+                positions, all_node_sizes, layer_lists,
+                dummy_info, reversed_indices,
+            )
+
         # Compute component bounding box
         comp_width = 0.0
         comp_height = 0.0
@@ -1237,6 +1378,15 @@ def layout_diagram(
         all_positions, all_node_sizes = _apply_direction(
             all_positions, all_node_sizes, direction,
         )
+
+        # After direction transform, subgraph bounding boxes may overlap
+        # in the new coordinate space (e.g. LR swaps axes, so TB X-axis
+        # overlap becomes Y-axis overlap).  Run separation again in the
+        # transformed space.
+        if diagram.subgraphs:
+            all_positions = _separate_subgraphs(
+                all_positions, all_node_sizes, diagram.subgraphs,
+            )
 
         # Normalize: shift everything so min position is >= 0
         all_min_x = float("inf")
