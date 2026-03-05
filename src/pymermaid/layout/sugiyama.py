@@ -1336,15 +1336,19 @@ def layout_diagram(
             )
 
         # Compute component bounding box
-        comp_width = 0.0
-        comp_height = 0.0
+        min_x = float("inf")
+        min_y = float("inf")
+        max_x = float("-inf")
+        max_y = float("-inf")
         for n in positions:
             pos = positions[n]
             size = all_node_sizes.get(n, (40.0, 30.0))
-            right = pos[0] + size[0] / 2.0
-            bottom = pos[1] + size[1] / 2.0
-            comp_width = max(comp_width, right)
-            comp_height = max(comp_height, bottom)
+            min_x = min(min_x, pos[0] - size[0] / 2.0)
+            min_y = min(min_y, pos[1] - size[1] / 2.0)
+            max_x = max(max_x, pos[0] + size[0] / 2.0)
+            max_y = max(max_y, pos[1] + size[1] / 2.0)
+        comp_width = max_x - min_x if positions else 0.0
+        comp_height = max_y - min_y if positions else 0.0
 
         component_positions.append(positions)
         component_sizes.append((comp_width, comp_height))
@@ -1357,12 +1361,15 @@ def layout_diagram(
             "comp_self_loops": comp_self_loops,
         })
 
-    # Place components side-by-side (left to right) with node_sep gap
+    # Place components side-by-side (left to right) with node_sep gap,
+    # vertically centered relative to the tallest component.
+    max_comp_height = max((h for _, h in component_sizes), default=0.0)
     x_offset = 0.0
     for i, positions in enumerate(component_positions):
+        comp_w, comp_h = component_sizes[i]
+        y_offset = (max_comp_height - comp_h) / 2.0
         for n, (x, y) in positions.items():
-            all_positions[n] = (x + x_offset, y)
-        comp_w, _comp_h = component_sizes[i]
+            all_positions[n] = (x + x_offset, y + y_offset)
         x_offset += comp_w + config.node_sep
 
     # Separate overlapping subgraph bounding boxes (in TB space, before

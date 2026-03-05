@@ -513,3 +513,122 @@ class TestImports:
         assert NodeLayout is not None
         assert EdgeLayout is not None
         assert Point is not None
+
+
+# ---------------------------------------------------------------------------
+# Disconnected component layout: vertical centering
+# ---------------------------------------------------------------------------
+
+class TestDisconnectedComponentVerticalCentering:
+    """Tests for task 23: vertically center disconnected components."""
+
+    def test_disconnected_equal_height_same_y(self):
+        """Two 2-layer components of equal height should have the same y positions."""
+        # graph TD\n  A-->B\n  C-->D
+        d = _make_diagram(["A", "B", "C", "D"], [("A", "B"), ("C", "D")])
+        result = layout_diagram(d, _measure)
+        a_cy = _center(result.nodes["A"])[1]
+        b_cy = _center(result.nodes["B"])[1]
+        c_cy = _center(result.nodes["C"])[1]
+        d_cy = _center(result.nodes["D"])[1]
+        # Same vertical positions for corresponding layers
+        assert abs(a_cy - c_cy) < 1.0, f"A.y={a_cy} != C.y={c_cy}"
+        assert abs(b_cy - d_cy) < 1.0, f"B.y={b_cy} != D.y={d_cy}"
+        # C should be to the right of A (side by side)
+        a_cx = _center(result.nodes["A"])[0]
+        c_cx = _center(result.nodes["C"])[0]
+        assert c_cx > a_cx
+
+    def test_disconnected_unequal_height_vertical_centering(self):
+        """A 3-layer component + 2-layer component: shorter one vertically centered."""
+        # graph TD\n  A-->B\n  B-->C\n  D-->E
+        d = _make_diagram(
+            ["A", "B", "C", "D", "E"],
+            [("A", "B"), ("B", "C"), ("D", "E")],
+        )
+        result = layout_diagram(d, _measure)
+
+        # Component {A,B,C} has 3 layers, {D,E} has 2 layers
+        a_top = result.nodes["A"].y
+        c_bottom = result.nodes["C"].y + result.nodes["C"].height
+        d_top = result.nodes["D"].y
+        e_bottom = result.nodes["E"].y + result.nodes["E"].height
+
+        height_abc = c_bottom - a_top
+        height_de = e_bottom - d_top
+
+        # The shorter component should be offset downward
+        assert height_abc > height_de, "ABC should be taller than DE"
+        # D's top should be > A's top (shifted down for centering)
+        assert d_top > a_top + 1.0, (
+            f"D.top={d_top} should be below A.top={a_top} for vertical centering"
+        )
+        # D's top offset should be ~ half the height difference
+        expected_offset = (height_abc - height_de) / 2.0
+        actual_offset = d_top - a_top
+        assert abs(actual_offset - expected_offset) < 5.0, (
+            f"Expected offset ~{expected_offset}, got {actual_offset}"
+        )
+
+    def test_disconnected_three_components_centered(self):
+        """Three components of different heights are all vertically centered."""
+        # graph TD\n  A-->B\n  B-->C\n  D-->E\n  F
+        d = _make_diagram(
+            ["A", "B", "C", "D", "E", "F"],
+            [("A", "B"), ("B", "C"), ("D", "E")],
+        )
+        result = layout_diagram(d, _measure)
+
+        # All three should be side-by-side (increasing x)
+        a_cx = _center(result.nodes["A"])[0]
+        d_cx = _center(result.nodes["D"])[0]
+        f_cx = _center(result.nodes["F"])[0]
+        assert d_cx > a_cx, "D should be to the right of A"
+        assert f_cx > d_cx, "F should be to the right of D"
+
+        # Component heights
+        a_top = result.nodes["A"].y
+        c_bottom = result.nodes["C"].y + result.nodes["C"].height
+        d_top = result.nodes["D"].y
+        e_bottom = result.nodes["E"].y + result.nodes["E"].height
+        f_top = result.nodes["F"].y
+        f_bottom = result.nodes["F"].y + result.nodes["F"].height
+
+        height_abc = c_bottom - a_top
+        height_de = e_bottom - d_top
+        height_f = f_bottom - f_top
+
+        # Tallest is ABC; DE and F should be centered
+        assert height_abc >= height_de
+        assert height_abc >= height_f
+
+        # Check that shorter components are vertically centered
+        expected_de_offset = (height_abc - height_de) / 2.0
+        actual_de_offset = d_top - a_top
+        assert abs(actual_de_offset - expected_de_offset) < 5.0
+
+        expected_f_offset = (height_abc - height_f) / 2.0
+        actual_f_offset = f_top - a_top
+        assert abs(actual_f_offset - expected_f_offset) < 5.0
+
+    def test_single_component_unaffected(self):
+        """A single connected component should have no vertical offset applied."""
+        d = _make_diagram(["A", "B", "C"], [("A", "B"), ("B", "C")])
+        result = layout_diagram(d, _measure)
+        # A should be near the top (y ~ 0 area, no centering offset)
+        a_top = result.nodes["A"].y
+        # With a single component, no centering offset should be applied
+        # The top node should start near y=0 (within reasonable padding)
+        assert a_top < 50.0, f"A.top={a_top} should be near top of canvas"
+
+    def test_no_overlap_between_disconnected_components(self):
+        """Disconnected components should not overlap each other."""
+        d = _make_diagram(
+            ["A", "B", "C", "D"],
+            [("A", "B"), ("C", "D")],
+        )
+        result = layout_diagram(d, _measure)
+        nodes_list = list(result.nodes.values())
+        for i in range(len(nodes_list)):
+            for j in range(i + 1, len(nodes_list)):
+                assert not _boxes_overlap(nodes_list[i], nodes_list[j])
