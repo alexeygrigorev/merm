@@ -29,6 +29,7 @@ A task filename (e.g. `tasks/01-project-setup.todo.md`).
    - Test scenarios (what pytest tests should verify)
    - Dependencies listed (which other tasks must be `.done.md` first)
    - **For rendering/visual tasks:** Include visual acceptance criteria — specify which diagrams must render correctly, what the expected output should look like, and require PNG visual verification as part of testing
+   - **CRITICAL: Every rendering task MUST include a PNG verification criterion.** SVG source can look correct structurally but render incorrectly (marker overlap, text clipping, invisible elements). Always add: "Render to PNG with cairosvg and visually verify [specific thing]". Never accept SVG-only checks for visual tasks.
 5. If the task is missing any of the above, add them
 6. Rename: `mv tasks/NN-name.todo.md tasks/NN-name.groomed.md`
 
@@ -90,3 +91,5 @@ A task filename (`.in-progress.md`) and confirmation that the tester passed.
 - Tests pass but don't actually validate the visual correctness of the output
 - Engineer claims something works but the PNG evidence shows otherwise
 - The tester passed it with "tests pass" but the output is visually broken
+- Acceptance criteria for a rendering task don't include PNG verification — send it back for grooming
+- SVG was checked but PNG was not — SVG source can look fine while the actual rendered PNG shows problems (e.g., markers overlapping nodes, text outside viewport, invisible elements)
