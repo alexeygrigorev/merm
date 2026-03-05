@@ -189,7 +189,7 @@ class TextMeasurer:
             lines = wrapped
 
         width = max(_line_width(line, fs) for line in lines)
-        height = fs * 1.2 * len(lines)
+        height = fs * 1.4 * len(lines)
         return (width, height)
 
     def measure_node_text(

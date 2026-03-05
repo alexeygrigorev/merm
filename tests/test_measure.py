@@ -42,7 +42,7 @@ class TestHeuristicSingleLine:
         m = TextMeasurer(font_size=10)
         w, h = m.measure("abc")
         assert w == pytest.approx(10 * 0.6 * 3)
-        assert h == pytest.approx(10 * 1.2)
+        assert h == pytest.approx(10 * 1.4)
 
     def test_narrow_chars(self):
         """Narrow chars (i, l, .) use font_size * 0.35."""
@@ -92,23 +92,23 @@ class TestMultiLine:
         w, h = m.measure("ab\ncd")
         # Both lines have same width (2 normal chars)
         assert w == pytest.approx(10 * 0.6 * 2)
-        assert h == pytest.approx(10 * 1.2 * 2)
+        assert h == pytest.approx(10 * 1.4 * 2)
 
     def test_br_split(self):
         m = TextMeasurer(font_size=10)
         w, h = m.measure("ab<br/>cd")
         assert w == pytest.approx(10 * 0.6 * 2)
-        assert h == pytest.approx(10 * 1.2 * 2)
+        assert h == pytest.approx(10 * 1.4 * 2)
 
     def test_mixed_delimiters(self):
         m = TextMeasurer(font_size=10)
         w, h = m.measure("ab<br/>cd\nef")
-        assert h == pytest.approx(10 * 1.2 * 3)
+        assert h == pytest.approx(10 * 1.4 * 3)
 
     def test_single_line_height(self):
         m = TextMeasurer(font_size=14)
         _, h = m.measure("hello")
-        assert h == pytest.approx(14 * 1.2)
+        assert h == pytest.approx(14 * 1.4)
 
     def test_width_is_widest_line(self):
         m = TextMeasurer(font_size=10)
@@ -187,7 +187,7 @@ class TestEdgeCases:
         m = TextMeasurer(font_size=14)
         w, h = m.measure("")
         assert w == pytest.approx(0.0)
-        assert h == pytest.approx(14 * 1.2)
+        assert h == pytest.approx(14 * 1.4)
 
     def test_whitespace_only(self):
         m = TextMeasurer(font_size=10)
@@ -199,7 +199,7 @@ class TestEdgeCases:
         text = "a" * 1000
         w, h = m.measure(text)
         assert w == pytest.approx(10 * 0.6 * 1000)
-        assert h == pytest.approx(10 * 1.2)
+        assert h == pytest.approx(10 * 1.4)
 
     def test_only_markdown_markers(self):
         """Text with only markdown markers '****' returns zero width."""
