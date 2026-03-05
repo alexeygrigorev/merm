@@ -69,6 +69,37 @@ The orchestrator (top-level Claude Code session) drives the process:
 3. Check dependencies — don't start until deps are `.done.md`
 4. Pick 2 independent tasks at a time for parallel implementation
 
+## Visual Verification (Critical)
+
+For any task that changes rendering or SVG output:
+
+1. **SVG alone is NOT sufficient** — SVG source can look structurally correct but render incorrectly
+2. **Always render to PNG** with cairosvg and visually inspect the result
+3. **PM must include PNG verification** in acceptance criteria during grooming
+4. **Tester must render to PNG** and view the actual image, not just check SVG structure
+5. **PM rejects** any rendering task where PNG verification was not performed
+
+### Common visual issues to check:
+- Text clipping outside viewport
+- Text overflow outside shapes
+- Arrowheads penetrating nodes
+- Subgraph titles clipped
+- Empty nodes (text missing)
+- Overlapping text lines
+
+## Task Panel Workflow
+
+Tasks are tracked both as files in `tasks/` and in the Claude Code task panel:
+
+| Panel Tag | Agent | What happens |
+|-----------|-------|-------------|
+| `[PM]` | Product Manager | Grooms .todo → .groomed (adds acceptance criteria + PNG verification) |
+| `[SWE]` | Software Engineer | Implements code + tests |
+| `[QA]` | Tester | Verifies against acceptance criteria, renders PNGs |
+| `[PM]` | Product Manager | Final acceptance review (after QA passes) |
+
+Pipeline per feature: **[PM] Groom → [SWE] Implement → [QA] Test → [PM] Accept → Commit**
+
 ## Conventions
 
 - Every task must include pytest tests
@@ -76,3 +107,5 @@ The orchestrator (top-level Claude Code session) drives the process:
 - Lint with `uv run ruff check`
 - Commit message references task: "Implement task 01: project setup"
 - Only commit after PM accepts
+- Tasks are NEVER deleted — they move through statuses (.todo → .groomed → .in-progress → .done)
+- Commit regularly — don't accumulate large uncommitted changes
