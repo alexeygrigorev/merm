@@ -145,6 +145,33 @@ def _catmull_rom_to_bezier(points: list[Point]) -> str:
     return " ".join(parts)
 
 
+def _self_loop_path_d(points: list[Point]) -> str:
+    """Generate an SVG path for a self-loop edge.
+
+    Expects 13 points from the layout encoding 4 cubic Bezier segments:
+        p0  = start (left side of node bottom)
+        p1, p2  = control points for segment 1
+        p3  = left midpoint (widest horizontal spread)
+        p4, p5  = control points for segment 2
+        p6  = bottom apex
+        p7, p8  = control points for segment 3
+        p9  = right midpoint (widest horizontal spread)
+        p10, p11 = control points for segment 4
+        p12 = end (right side of node top)
+
+    Produces four cubic Bezier segments that form a compact leaf-shaped loop
+    below the node, matching the visual style of mermaid.js self-loop rendering.
+    """
+    p = points[:13]
+    return (
+        f"M{p[0].x},{p[0].y} "
+        f"C{p[1].x},{p[1].y} {p[2].x},{p[2].y} {p[3].x},{p[3].y} "
+        f"C{p[4].x},{p[4].y} {p[5].x},{p[5].y} {p[6].x},{p[6].y} "
+        f"C{p[7].x},{p[7].y} {p[8].x},{p[8].y} {p[9].x},{p[9].y} "
+        f"C{p[10].x},{p[10].y} {p[11].x},{p[11].y} {p[12].x},{p[12].y}"
+    )
+
+
 # ---------------------------------------------------------------------------
 # Edge style mapping
 # ---------------------------------------------------------------------------
@@ -230,9 +257,14 @@ def render_edge(
         target_arrow = ArrowType.arrow
         source_arrow = ArrowType.none
 
-    # Build the <path>
+    # Build the <path>.  Self-loops (source == target) use explicit cubic
+    # Bezier curves so the loop stays compact.  Normal edges use Catmull-Rom.
+    is_self_loop = edge_layout.source == edge_layout.target
     path = ET.SubElement(g, "path")
-    path.set("d", points_to_path_d(edge_layout.points, smooth=smooth))
+    if is_self_loop and len(edge_layout.points) >= 13:
+        path.set("d", _self_loop_path_d(edge_layout.points))
+    else:
+        path.set("d", points_to_path_d(edge_layout.points, smooth=smooth))
 
     # Apply line style
     style_attrs = _STYLE_MAP.get(edge_type, {})

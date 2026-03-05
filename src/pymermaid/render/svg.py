@@ -17,7 +17,8 @@ from pymermaid.render.shapes import get_shape_renderer
 from pymermaid.theme import DEFAULT_THEME, Theme
 
 # Default padding around the viewBox so nodes are not clipped at edges.
-_PADDING = 20
+# Matches mermaid.js which uses ~8px padding.
+_PADDING = 8
 
 # SVG namespace.
 _SVG_NS = "http://www.w3.org/2000/svg"
@@ -134,14 +135,37 @@ def _render_text(
     When the label contains ``fa:fa-<name>`` icon tokens, the text element
     is replaced by a mixed group of ``<text>`` and ``<g>`` (icon path)
     elements positioned inline.
+
+    Long labels (exceeding 200px estimated width) are automatically wrapped
+    at word boundaries to match mermaid.js behaviour.
     """
     from pymermaid.icons import has_icons
+    from pymermaid.measure.text import _line_width, _wrap_line
 
     if has_icons(label):
         _render_text_with_icons(parent, label, cx, cy, theme)
         return
 
+    # Parse font size from theme
+    font_size_str = theme.node_font_size.replace("px", "")
+    try:
+        font_size = float(font_size_str)
+    except ValueError:
+        font_size = 16.0
+
+    # Split on explicit line breaks first
     parts = label.split("<br/>")
+
+    # Wrap long lines (matching mermaid.js max-width: 200px)
+    _MAX_TEXT_WIDTH = 200.0
+    wrapped_parts: list[str] = []
+    for part in parts:
+        if _line_width(part, font_size) > _MAX_TEXT_WIDTH:
+            wrapped_parts.extend(_wrap_line(part, font_size, _MAX_TEXT_WIDTH))
+        else:
+            wrapped_parts.append(part)
+    parts = wrapped_parts
+
     text_el = ET.SubElement(parent, "text")
     text_el.set("text-anchor", "middle")
     text_el.set("dominant-baseline", "central")
@@ -339,9 +363,9 @@ def _render_subgraph_recursive(
             return
         pad = _SUBGRAPH_PADDING
         sx = min_x - pad
-        sy = min_y - pad - 16
+        sy = min_y - pad - 24
         sw = (max_x - min_x) + 2 * pad
-        sh = (max_y - min_y) + 2 * pad + 16
+        sh = (max_y - min_y) + 2 * pad + 24
     else:
         sx, sy, sw, sh = sgl.x, sgl.y, sgl.width, sgl.height
 
@@ -359,7 +383,7 @@ def _render_subgraph_recursive(
     title = subgraph.title or subgraph.id
     text_el = ET.SubElement(g, "text")
     text_el.set("x", _round_coord(sx + 8))
-    text_el.set("y", _round_coord(sy + 14))
+    text_el.set("y", _round_coord(sy + 18))
     text_el.set("font-family", theme.font_family)
     text_el.text = title
 

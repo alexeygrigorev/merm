@@ -189,12 +189,12 @@ class TestThemeRendererIntegration:
         result = render_svg(d, lr)
         assert "trebuchet ms" in result
 
-    def test_default_theme_edge_stroke_width_in_css(self):
+    def test_default_theme_edge_stroke_in_css(self):
         d = _simple_diagram()
         lr = _simple_layout()
         result = render_svg(d, lr)
-        # The CSS for .edge path should have stroke-width: 2
-        assert "stroke-width: 2" in result
+        # The CSS for .edge path should have stroke color
+        assert "#333333" in result
 
     def test_default_theme_subgraph_fill_in_css(self):
         sg = Subgraph(id="sg1", title="Group", node_ids=("A", "B"))

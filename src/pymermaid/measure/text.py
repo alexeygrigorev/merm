@@ -84,6 +84,33 @@ def _line_width(text: str, font_size: float) -> float:
     return char_w + icon_width
 
 
+def _wrap_line(text: str, font_size: float, max_width: float) -> list[str]:
+    """Wrap a single line of text into multiple lines to fit within *max_width*.
+
+    Splits on word boundaries. Returns a list of lines.
+    """
+    if _line_width(text, font_size) <= max_width:
+        return [text]
+
+    words = text.split()
+    if not words:
+        return [text]
+
+    lines: list[str] = []
+    current_line = words[0]
+
+    for word in words[1:]:
+        test_line = current_line + " " + word
+        if _line_width(test_line, font_size) <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word
+
+    lines.append(current_line)
+    return lines
+
+
 @dataclass
 class TextMeasurer:
     """Measures text dimensions for layout purposes.
@@ -128,6 +155,7 @@ class TextMeasurer:
         text: str,
         font_size: float | None = None,
         font_family: str | None = None,
+        max_width: float = 0.0,
     ) -> tuple[float, float]:
         """Measure the pixel dimensions of *text*.
 
@@ -137,6 +165,7 @@ class TextMeasurer:
             font_size: Override the default font size.
             font_family: Override the default font family (currently unused
                 in heuristic mode but stored for future font-based mode).
+            max_width: If > 0, wrap text to fit within this width.
 
         Returns:
             A ``(width, height)`` tuple of floats.
@@ -151,6 +180,13 @@ class TextMeasurer:
 
         if not lines:
             lines = [""]
+
+        # Wrap long lines if max_width is set
+        if max_width > 0:
+            wrapped: list[str] = []
+            for line in lines:
+                wrapped.extend(_wrap_line(line, fs, max_width))
+            lines = wrapped
 
         width = max(_line_width(line, fs) for line in lines)
         height = fs * 1.2 * len(lines)

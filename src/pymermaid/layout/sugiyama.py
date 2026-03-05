@@ -509,41 +509,55 @@ def _route_edges(
         results.append(EdgeLayout(points=points, source=orig_s, target=orig_t))
 
     # Route self-loops (mermaid.js style: loop goes down below node and back up).
-    # We store 7 points that trace the loop path.  The edge renderer detects
-    # self-loops (source == target) and converts these into explicit cubic
-    # Bezier curves, bypassing Catmull-Rom smoothing which would distort the
-    # compact shape.
+    # We store 10 points encoding 3 cubic Bezier segments (start + 3x3 control
+    # points).  The edge renderer detects self-loops (source == target) and
+    # uses _self_loop_path_d() to emit the path.
     #
-    # Reference proportions (from mermaid.js):
-    #   - exit from left side of node bottom edge
-    #   - descend to a midpoint left of centre
-    #   - curve around a bottom apex below the node
-    #   - ascend through a midpoint right of centre
-    #   - re-enter at right side of node top edge
+    # Reference (from mermaid.js self_loop.svg):
+    #   - Node "A" at (43.34, 35), size ~70.67 x 54
+    #   - Loop exits left side of bottom, descends ~100px below bottom,
+    #     curves around bottom apex, ascends back to right side of top
+    #   - Total loop drop ~1.85x node height
     for s, t, idx in self_loops:
         pos = positions.get(s, (0.0, 0.0))
         size = node_sizes.get(s, (40.0, 30.0))
         w, h = size
         cx, cy = pos
-        # How far the loop extends below the node bottom
-        loop_drop = 70.0
-        side_offset = w * 0.25  # horizontal offset from centre at node edge
-        # Start: left side of bottom edge
-        p0 = Point(cx - side_offset, cy + h / 2)
-        # Left descent control
-        p1 = Point(cx - side_offset, cy + h / 2 + loop_drop * 0.4)
-        # Left midpoint
-        p2 = Point(cx - side_offset, cy + h / 2 + loop_drop * 0.65)
-        # Bottom apex
-        p3 = Point(cx, cy + h / 2 + loop_drop)
-        # Right midpoint
-        p4 = Point(cx + side_offset, cy + h / 2 + loop_drop * 0.65)
-        # Right ascent control
-        p5 = Point(cx + side_offset, cy + h / 2 + loop_drop * 0.4)
-        # End: right side of top edge
-        p6 = Point(cx + side_offset, cy - h / 2)
+        loop_drop = h * 1.85
+        side_offset = w * 0.25
+
+        bot = cy + h / 2
+        top = cy - h / 2
+
+        # The reference mermaid.js shape is a leaf/teardrop: the left side
+        # bows outward to the left, then curves inward to the bottom point;
+        # the right side mirrors this, bowing outward to the right on the
+        # way back up.  The widest spread is at the vertical midpoint.
+        #
+        # We use 4 cubic Bezier segments (13 points: 1 start + 4*3 CPs):
+        #   Seg 1: start -> left-mid  (left side, upper half -- bow left)
+        #   Seg 2: left-mid -> bottom (left side, lower half -- curve inward)
+        #   Seg 3: bottom -> right-mid (right side, lower half -- curve outward)
+        #   Seg 4: right-mid -> end   (right side, upper half -- bow inward)
+        bulge = side_offset * 2.0
+
+        p0  = Point(cx - side_offset, bot)                         # start
+        p1  = Point(cx - bulge * 0.9, bot + loop_drop * 0.1)      # CP1 seg1
+        p2  = Point(cx - bulge, bot + loop_drop * 0.3)             # CP2 seg1
+        p3  = Point(cx - bulge, bot + loop_drop * 0.5)             # left midpoint
+        p4  = Point(cx - bulge, bot + loop_drop * 0.7)             # CP1 seg2
+        p5  = Point(cx - side_offset * 0.3, bot + loop_drop)       # CP2 seg2
+        p6  = Point(cx, bot + loop_drop)                            # bottom apex
+        p7  = Point(cx + side_offset * 0.3, bot + loop_drop)       # CP1 seg3
+        p8  = Point(cx + bulge, bot + loop_drop * 0.7)             # CP2 seg3
+        p9  = Point(cx + bulge, bot + loop_drop * 0.5)             # right midpoint
+        p10 = Point(cx + bulge, bot + loop_drop * 0.3)             # CP1 seg4
+        p11 = Point(cx + bulge * 0.9, bot + loop_drop * 0.1)      # CP2 seg4
+        p12 = Point(cx + side_offset, top)                          # end
+
         results.append(EdgeLayout(
-            points=[p0, p1, p2, p3, p4, p5, p6], source=s, target=t,
+            points=[p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
+            source=s, target=t,
         ))
 
     return results
@@ -657,6 +671,23 @@ def _build_node_to_subgraph_map(
     return mapping
 
 
+def _build_node_to_toplevel_subgraph_map(
+    subgraphs: tuple[Subgraph, ...],
+) -> dict[str, str]:
+    """Map each node ID to its top-level subgraph ID.
+
+    All nodes in nested subgraphs are mapped to the outermost parent.
+    """
+    mapping: dict[str, str] = {}
+
+    for sg in subgraphs:
+        all_ids = _collect_all_subgraph_node_ids(sg)
+        for nid in all_ids:
+            mapping[nid] = sg.id
+
+    return mapping
+
+
 def _group_subgraph_nodes_in_layers(
     layer_lists: list[list[str]],
     node_to_sg: dict[str, str],
@@ -680,6 +711,115 @@ def _group_subgraph_nodes_in_layers(
             new_layer.extend(groups[sg_id])
         result.append(new_layer)
     return result
+
+
+def _separate_subgraphs(
+    positions: dict[str, tuple[float, float]],
+    node_sizes: dict[str, tuple[float, float]],
+    subgraphs: tuple[Subgraph, ...],
+    padding: float = _SUBGRAPH_PADDING,
+    title_height: float = 24.0,
+    gap: float = 30.0,
+) -> dict[str, tuple[float, float]]:
+    """Push nodes apart so that sibling subgraph bounding boxes do not overlap.
+
+    This operates in TB coordinate space (y is the rank axis).  For each set
+    of sibling subgraphs (top-level siblings, and children within a parent),
+    we compute their bounding boxes (with padding + title space) and shift
+    nodes downward to eliminate vertical overlaps.
+
+    Returns an updated positions dict.
+    """
+    if not subgraphs:
+        return positions
+
+    positions = dict(positions)  # copy to avoid mutating caller's dict
+
+    def _bbox_for_sg(
+        sg: Subgraph,
+    ) -> tuple[float, float, float, float] | None:
+        """Compute (min_x, min_y, max_x, max_y) including padding/title."""
+        all_ids = _collect_all_subgraph_node_ids(sg)
+        min_x = float("inf")
+        min_y = float("inf")
+        max_x = float("-inf")
+        max_y = float("-inf")
+        found = False
+        for nid in all_ids:
+            if nid not in positions:
+                continue
+            cx, cy = positions[nid]
+            w, h = node_sizes.get(nid, (40.0, 30.0))
+            found = True
+            min_x = min(min_x, cx - w / 2.0)
+            min_y = min(min_y, cy - h / 2.0)
+            max_x = max(max_x, cx + w / 2.0)
+            max_y = max(max_y, cy + h / 2.0)
+        if not found:
+            return None
+        # Add padding and title space
+        return (
+            min_x - padding,
+            min_y - padding - title_height,
+            max_x + padding,
+            max_y + padding,
+        )
+
+    def _shift_sg_nodes(sg: Subgraph, dx: float, dy: float) -> None:
+        """Shift all nodes in a subgraph (including nested) by (dx, dy)."""
+        all_ids = _collect_all_subgraph_node_ids(sg)
+        for nid in all_ids:
+            if nid in positions:
+                ox, oy = positions[nid]
+                positions[nid] = (ox + dx, oy + dy)
+
+    def _separate_siblings(siblings: tuple[Subgraph, ...]) -> None:
+        """Ensure sibling subgraphs don't overlap vertically."""
+        if len(siblings) <= 1:
+            return
+
+        # Collect subgraphs that have actual nodes
+        bboxes: list[tuple[Subgraph, tuple[float, float, float, float]]] = []
+        for sg in siblings:
+            bb = _bbox_for_sg(sg)
+            if bb is not None:
+                bboxes.append((sg, bb))
+
+        if len(bboxes) <= 1:
+            return
+
+        # Sort by min_y (top edge)
+        bboxes.sort(key=lambda item: item[1][1])
+
+        # Push each subsequent subgraph down if it overlaps the previous one
+        for i in range(1, len(bboxes)):
+            _prev_sg, prev_bb = bboxes[i - 1]
+            curr_sg, curr_bb = bboxes[i]
+
+            prev_bottom = prev_bb[3]
+            curr_top = curr_bb[1]
+
+            if curr_top < prev_bottom + gap:
+                shift_y = (prev_bottom + gap) - curr_top
+                _shift_sg_nodes(curr_sg, 0.0, shift_y)
+                # Recompute bbox after shift
+                new_bb = _bbox_for_sg(curr_sg)
+                if new_bb is not None:
+                    bboxes[i] = (curr_sg, new_bb)
+
+    def _separate_recursive(siblings: tuple[Subgraph, ...]) -> None:
+        """Recursively separate subgraphs at each nesting level."""
+        # First recurse into children of each subgraph
+        for sg in siblings:
+            if sg.subgraphs:
+                _separate_recursive(sg.subgraphs)
+
+        # Then separate the siblings at this level
+        _separate_siblings(siblings)
+
+    _separate_recursive(subgraphs)
+
+    return positions
 
 
 def _compute_subgraph_layouts(
@@ -725,7 +865,7 @@ def _compute_subgraph_layouts(
         if not found:
             return None
 
-        title_extra = 16.0  # extra top padding for title text
+        title_extra = 24.0  # extra top padding for title text
         sgl = SubgraphLayout(
             id=sg.id,
             x=min_x - padding,
@@ -838,6 +978,18 @@ def layout_diagram(
             w = tw + _NODE_PADDING_H + 20.0
             h = th + _NODE_PADDING_V + 20.0
             node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+        elif shape == NodeShape.cylinder:
+            # Cylinder: extra vertical space for top/bottom ellipse caps
+            _CYL_RY = 10.0
+            w = tw + _NODE_PADDING_H
+            h = th + _NODE_PADDING_V + 4 * _CYL_RY  # extra for caps
+            min_h = _NODE_MIN_HEIGHT + 2 * _CYL_RY
+            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, min_h))
+        elif shape == NodeShape.hexagon:
+            # Hexagon: extra horizontal space for the angled sides
+            w = tw + _NODE_PADDING_H + 20.0
+            h = th + _NODE_PADDING_V
+            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH + 20.0), max(h, _NODE_MIN_HEIGHT))
         else:
             w = tw + _NODE_PADDING_H
             h = th + _NODE_PADDING_V
@@ -854,6 +1006,22 @@ def layout_diagram(
 
     if not node_ids:
         return LayoutResult(nodes={}, edges=[], width=0.0, height=0.0)
+
+    # For LR/RL, adjust rank_sep: after the coordinate swap, inter-rank
+    # spacing becomes horizontal.  We need to account for the difference
+    # between node width (post-swap horizontal dimension) and node height
+    # (pre-swap vertical dimension which determines layer spacing).
+    # The goal is rank_sep gap between node EDGES, regardless of direction.
+    effective_rank_sep = config.rank_sep
+    if direction in (Direction.LR, Direction.RL):
+        # In TB layout, inter-rank center distance = max_layer_height + rank_sep.
+        # After LR swap, this becomes horizontal distance.  But nodes are wider
+        # than tall, so we need extra space: add (avg_width - avg_height).
+        if node_sizes:
+            avg_w = sum(s[0] for s in node_sizes.values()) / len(node_sizes)
+            avg_h = sum(s[1] for s in node_sizes.values()) / len(node_sizes)
+            extra = max(0.0, avg_w - avg_h)
+            effective_rank_sep = config.rank_sep + extra
 
     # Find connected components
     all_edges_for_components = normal_edges + self_loops
@@ -901,7 +1069,7 @@ def layout_diagram(
 
         # Step 4: Coordinate assignment (in TB space)
         positions = _assign_coordinates(
-            layer_lists, all_node_sizes, config.rank_sep, config.node_sep,
+            layer_lists, all_node_sizes, effective_rank_sep, config.node_sep,
         )
 
         # Compute component bounding box
@@ -933,6 +1101,13 @@ def layout_diagram(
             all_positions[n] = (x + x_offset, y)
         comp_w, _comp_h = component_sizes[i]
         x_offset += comp_w + config.node_sep
+
+    # Separate overlapping subgraph bounding boxes (in TB space, before
+    # direction transform) so sibling subgraphs don't overlap.
+    if diagram.subgraphs:
+        all_positions = _separate_subgraphs(
+            all_positions, all_node_sizes, diagram.subgraphs,
+        )
 
     # Apply direction transform BEFORE edge routing so that boundary
     # intersection points are computed in the final coordinate space.
