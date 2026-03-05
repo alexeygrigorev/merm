@@ -19,6 +19,7 @@ from __future__ import annotations
 from collections import defaultdict
 
 from pymermaid.ir import Diagram, Direction, NodeShape, Subgraph
+from pymermaid.measure.text import _line_width, _wrap_line
 
 from .config import LayoutConfig, MeasureFn
 from .types import EdgeLayout, LayoutResult, NodeLayout, Point, SubgraphLayout
@@ -507,20 +508,43 @@ def _route_edges(
 
         results.append(EdgeLayout(points=points, source=orig_s, target=orig_t))
 
-    # Route self-loops (mermaid.js style: loop goes down below node and back up)
+    # Route self-loops (mermaid.js style: loop goes down below node and back up).
+    # We store 7 points that trace the loop path.  The edge renderer detects
+    # self-loops (source == target) and converts these into explicit cubic
+    # Bezier curves, bypassing Catmull-Rom smoothing which would distort the
+    # compact shape.
+    #
+    # Reference proportions (from mermaid.js):
+    #   - exit from left side of node bottom edge
+    #   - descend to a midpoint left of centre
+    #   - curve around a bottom apex below the node
+    #   - ascend through a midpoint right of centre
+    #   - re-enter at right side of node top edge
     for s, t, idx in self_loops:
         pos = positions.get(s, (0.0, 0.0))
         size = node_sizes.get(s, (40.0, 30.0))
         w, h = size
         cx, cy = pos
-        # Small loop: exit from bottom-left, curve down, re-enter bottom-right
-        loop_h = 30.0  # how far below the node the loop extends
-        offset_x = w * 0.2  # horizontal spread
-        p1 = Point(cx - offset_x, cy + h / 2)
-        p2 = Point(cx - offset_x - 10, cy + h / 2 + loop_h)
-        p3 = Point(cx + offset_x + 10, cy + h / 2 + loop_h)
-        p4 = Point(cx + offset_x, cy + h / 2)
-        results.append(EdgeLayout(points=[p1, p2, p3, p4], source=s, target=t))
+        # How far the loop extends below the node bottom
+        loop_drop = 70.0
+        side_offset = w * 0.25  # horizontal offset from centre at node edge
+        # Start: left side of bottom edge
+        p0 = Point(cx - side_offset, cy + h / 2)
+        # Left descent control
+        p1 = Point(cx - side_offset, cy + h / 2 + loop_drop * 0.4)
+        # Left midpoint
+        p2 = Point(cx - side_offset, cy + h / 2 + loop_drop * 0.65)
+        # Bottom apex
+        p3 = Point(cx, cy + h / 2 + loop_drop)
+        # Right midpoint
+        p4 = Point(cx + side_offset, cy + h / 2 + loop_drop * 0.65)
+        # Right ascent control
+        p5 = Point(cx + side_offset, cy + h / 2 + loop_drop * 0.4)
+        # End: right side of top edge
+        p6 = Point(cx + side_offset, cy - h / 2)
+        results.append(EdgeLayout(
+            points=[p0, p1, p2, p3, p4, p5, p6], source=s, target=t,
+        ))
 
     return results
 
@@ -784,10 +808,21 @@ def layout_diagram(
     node_labels = {n.id: n.label for n in diagram.nodes}
     node_shapes = {n.id: n.shape for n in diagram.nodes}
 
-    # Measure nodes (shape-aware sizing)
+    # Maximum text width before wrapping (matches mermaid.js max-width: 200px)
+    _MAX_TEXT_WIDTH = 200.0
+
+    # Measure nodes (shape-aware sizing, with text wrapping for long labels)
     node_sizes: dict[str, tuple[float, float]] = {}
     for nid, label in node_labels.items():
-        tw, th = measure_fn(label, _DEFAULT_FONT_SIZE)
+        # Check if text needs wrapping
+        raw_width = _line_width(label, _DEFAULT_FONT_SIZE)
+        if raw_width > _MAX_TEXT_WIDTH and "<br/>" not in label:
+            # Wrap the label and measure the wrapped version
+            wrapped_lines = _wrap_line(label, _DEFAULT_FONT_SIZE, _MAX_TEXT_WIDTH)
+            tw = max(_line_width(line, _DEFAULT_FONT_SIZE) for line in wrapped_lines)
+            th = _DEFAULT_FONT_SIZE * 1.2 * len(wrapped_lines)
+        else:
+            tw, th = measure_fn(label, _DEFAULT_FONT_SIZE)
         shape = node_shapes.get(nid, NodeShape.rect)
 
         if shape in (NodeShape.circle, NodeShape.double_circle):
@@ -899,7 +934,30 @@ def layout_diagram(
         comp_w, _comp_h = component_sizes[i]
         x_offset += comp_w + config.node_sep
 
-    # Route edges for all components
+    # Apply direction transform BEFORE edge routing so that boundary
+    # intersection points are computed in the final coordinate space.
+    if direction not in (Direction.TB, Direction.TD):
+        all_positions, all_node_sizes = _apply_direction(
+            all_positions, all_node_sizes, direction,
+        )
+
+        # Normalize: shift everything so min position is >= 0
+        all_min_x = float("inf")
+        all_min_y = float("inf")
+        for nid, (cx, cy) in all_positions.items():
+            w, h = all_node_sizes.get(nid, (0, 0))
+            all_min_x = min(all_min_x, cx - w / 2.0)
+            all_min_y = min(all_min_y, cy - h / 2.0)
+
+        if all_min_x < 0 or all_min_y < 0:
+            dx = max(0.0, -all_min_x)
+            dy = max(0.0, -all_min_y)
+            all_positions = {
+                n: (x + dx, y + dy)
+                for n, (x, y) in all_positions.items()
+            }
+
+    # Route edges for all components (using final transformed positions)
     all_edge_layouts: list[EdgeLayout] = []
     for data in component_edge_data:
         edge_layouts = _route_edges(
@@ -913,66 +971,6 @@ def layout_diagram(
             ir_edges,
         )
         all_edge_layouts.extend(edge_layouts)
-
-    # Apply direction transform
-    if direction not in (Direction.TB, Direction.TD):
-        # Compute max coords for transform reference (in TB space)
-        max_y = max((pos[1] for pos in all_positions.values()), default=0.0)
-        max_x = max((pos[0] for pos in all_positions.values()), default=0.0)
-
-        # Transform positions
-        all_positions, all_node_sizes = _apply_direction(
-            all_positions, all_node_sizes, direction,
-        )
-
-        # Transform edge points
-        transformed_edges: list[EdgeLayout] = []
-        for el in all_edge_layouts:
-            new_points = [
-                _transform_point(p, direction, max_y, max_x)
-                for p in el.points
-            ]
-            transformed_edges.append(EdgeLayout(
-                points=new_points,
-                source=el.source,
-                target=el.target,
-            ))
-        all_edge_layouts = transformed_edges
-
-        # Normalize: shift everything so min position is >= 0
-        all_min_x = float("inf")
-        all_min_y = float("inf")
-        for cx, cy in all_positions.values():
-            w, h = all_node_sizes.get("", (0, 0))
-            all_min_x = min(all_min_x, cx)
-            all_min_y = min(all_min_y, cy)
-        for el in all_edge_layouts:
-            for p in el.points:
-                all_min_x = min(all_min_x, p.x)
-                all_min_y = min(all_min_y, p.y)
-
-        # Also account for node half-sizes
-        for nid, (cx, cy) in all_positions.items():
-            w, h = all_node_sizes.get(nid, (0, 0))
-            all_min_x = min(all_min_x, cx - w / 2.0)
-            all_min_y = min(all_min_y, cy - h / 2.0)
-
-        if all_min_x < 0 or all_min_y < 0:
-            dx = max(0.0, -all_min_x)
-            dy = max(0.0, -all_min_y)
-            all_positions = {
-                n: (x + dx, y + dy)
-                for n, (x, y) in all_positions.items()
-            }
-            shifted_edges: list[EdgeLayout] = []
-            for el in all_edge_layouts:
-                new_points = [Point(p.x + dx, p.y + dy) for p in el.points]
-                shifted_edges.append(EdgeLayout(
-                    points=new_points,
-                    source=el.source,
-                    target=el.target,
-                ))
-            all_edge_layouts = shifted_edges
 
     # Build NodeLayout results (only real nodes, not dummies)
     node_layouts: dict[str, NodeLayout] = {}
@@ -992,13 +990,20 @@ def layout_diagram(
         diagram.subgraphs, node_layouts,
     )
 
-    # Compute overall dimensions (include subgraph bboxes)
+    # Compute overall dimensions (include subgraph bboxes and edge points)
     if node_layouts:
         overall_w = max(nl.x + nl.width for nl in node_layouts.values())
         overall_h = max(nl.y + nl.height for nl in node_layouts.values())
     else:
         overall_w = 0.0
         overall_h = 0.0
+
+    # Expand overall dimensions to include edge points (self-loops extend
+    # beyond node bounding boxes)
+    for el in all_edge_layouts:
+        for p in el.points:
+            overall_w = max(overall_w, p.x)
+            overall_h = max(overall_h, p.y)
 
     # Expand overall dimensions to include subgraph bounding boxes
     for sgl in subgraph_layouts.values():
