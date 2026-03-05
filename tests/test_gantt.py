@@ -14,7 +14,46 @@ from pymermaid.parser.flowchart import ParseError
 from pymermaid.parser.gantt import parse_gantt
 from pymermaid.render.gantt import render_gantt_svg
 
-FIXTURES_DIR = Path(__file__).parent / "fixtures" / "corpus" / "gantt"
+FIXTURES_DIR = (
+    Path(__file__).parent / "fixtures" / "corpus" / "gantt"
+)
+
+D = date  # short alias for readability
+
+
+def _task(
+    name: str = "T",
+    tid: str | None = None,
+    mods: frozenset[str] | None = None,
+    start: date = D(2024, 1, 1),
+    end: date = D(2024, 1, 11),
+    days: int = 10,
+) -> GanttTask:
+    """Helper to build a GanttTask concisely."""
+    return GanttTask(
+        name=name,
+        id=tid,
+        modifiers=mods or frozenset(),
+        start_date=start,
+        end_date=end,
+        duration_days=days,
+    )
+
+
+def _extract_rect_attrs(svg: str) -> dict[str, dict[str, str]]:
+    """Extract {task_id: {attr: value}} from rect elements."""
+    result: dict[str, dict[str, str]] = {}
+    for m in re.finditer(r"<rect\s([^>]+)/>", svg):
+        attrs_str = m.group(1)
+        id_m = re.search(r'data-task-id="(\w+)"', attrs_str)
+        if not id_m:
+            continue
+        tid = id_m.group(1)
+        attrs: dict[str, str] = {}
+        for am in re.finditer(r'(\w[\w-]*)="([^"]*)"', attrs_str):
+            attrs[am.group(1)] = am.group(2)
+        result[tid] = attrs
+    return result
 
 
 # --- IR dataclass tests ---
@@ -26,35 +65,42 @@ class TestGanttIR:
             name="Research",
             id="a1",
             modifiers=frozenset({"done"}),
-            start_date=date(2024, 1, 1),
-            end_date=date(2024, 1, 31),
+            start_date=D(2024, 1, 1),
+            end_date=D(2024, 1, 31),
             duration_days=30,
         )
         assert task.name == "Research"
         assert task.id == "a1"
         assert "done" in task.modifiers
-        assert task.start_date == date(2024, 1, 1)
-        assert task.end_date == date(2024, 1, 31)
+        assert task.start_date == D(2024, 1, 1)
+        assert task.end_date == D(2024, 1, 31)
         assert task.duration_days == 30
 
     def test_gantt_section_creation(self):
-        t1 = GanttTask("A", "a1", frozenset(), date(2024, 1, 1), date(2024, 1, 10), 9)
-        t2 = GanttTask("B", "b1", frozenset(), date(2024, 1, 10), date(2024, 1, 20), 10)
+        t1 = _task("A", "a1", days=9, end=D(2024, 1, 10))
+        t2 = _task(
+            "B", "b1", days=10,
+            start=D(2024, 1, 10), end=D(2024, 1, 20),
+        )
         section = GanttSection(name="Dev", tasks=(t1, t2))
         assert section.name == "Dev"
         assert len(section.tasks) == 2
         assert section.tasks[0].name == "A"
 
     def test_gantt_chart_creation(self):
-        task = GanttTask("X", None, frozenset(), date(2024, 1, 1), date(2024, 1, 5), 4)
+        task = _task("X", days=4, end=D(2024, 1, 5))
         section = GanttSection(name="S1", tasks=(task,))
-        chart = GanttChart(title="My Plan", date_format="YYYY-MM-DD", sections=(section,))
+        chart = GanttChart(
+            title="My Plan",
+            date_format="YYYY-MM-DD",
+            sections=(section,),
+        )
         assert chart.title == "My Plan"
         assert chart.date_format == "YYYY-MM-DD"
         assert len(chart.sections) == 1
 
     def test_frozen_immutability(self):
-        task = GanttTask("X", None, frozenset(), date(2024, 1, 1), date(2024, 1, 5), 4)
+        task = _task("X", days=4, end=D(2024, 1, 5))
         with pytest.raises(AttributeError):
             task.name = "changed"  # type: ignore[misc]
 
@@ -71,9 +117,10 @@ class TestParserBasic:
         chart = parse_gantt(source)
         assert len(chart.sections) == 1
         assert chart.sections[0].name == "S1"
-        assert chart.sections[0].tasks[0].name == "Task1"
-        assert chart.sections[0].tasks[0].start_date == date(2024, 1, 1)
-        assert chart.sections[0].tasks[0].end_date == date(2024, 1, 11)
+        t = chart.sections[0].tasks[0]
+        assert t.name == "Task1"
+        assert t.start_date == D(2024, 1, 1)
+        assert t.end_date == D(2024, 1, 11)
 
     def test_title_directive(self):
         source = """gantt
@@ -108,7 +155,8 @@ class TestParserBasic:
 """
         chart = parse_gantt(source)
         assert len(chart.sections) == 1
-        assert chart.sections[0].name == ""  # default unnamed section
+        # default unnamed section
+        assert chart.sections[0].name == ""
         assert chart.sections[0].tasks[0].name == "TaskA"
 
 
@@ -124,9 +172,9 @@ class TestParserTaskVariants:
         chart = parse_gantt(source)
         task = chart.sections[0].tasks[0]
         assert task.id == "a1"
-        assert task.start_date == date(2024, 1, 1)
+        assert task.start_date == D(2024, 1, 1)
         assert task.duration_days == 30
-        assert task.end_date == date(2024, 1, 31)
+        assert task.end_date == D(2024, 1, 31)
 
     def test_after_dependency(self):
         source = """gantt
@@ -136,8 +184,8 @@ class TestParserTaskVariants:
 """
         chart = parse_gantt(source)
         task_b = chart.sections[0].tasks[1]
-        assert task_b.start_date == date(2024, 1, 11)
-        assert task_b.end_date == date(2024, 1, 31)
+        assert task_b.start_date == D(2024, 1, 11)
+        assert task_b.end_date == D(2024, 1, 31)
 
     def test_modifiers(self):
         source = """gantt
@@ -159,7 +207,7 @@ class TestParserTaskVariants:
         task = chart.sections[0].tasks[0]
         assert task.id is None
         assert task.name == "Simple Task"
-        assert task.start_date == date(2024, 1, 1)
+        assert task.start_date == D(2024, 1, 1)
 
     def test_task_no_id_no_modifiers(self):
         source = """gantt
@@ -181,7 +229,7 @@ class TestParserTaskVariants:
         chart = parse_gantt(source)
         task_b = chart.sections[0].tasks[1]
         assert "active" in task_b.modifiers
-        assert task_b.start_date == date(2024, 1, 11)
+        assert task_b.start_date == D(2024, 1, 11)
 
 
 # --- Parser: error cases ---
@@ -193,15 +241,23 @@ class TestParserErrors:
             parse_gantt("")
 
     def test_missing_gantt_keyword(self):
-        with pytest.raises(ParseError, match="Missing 'gantt' keyword"):
-            parse_gantt("title Something\nsection S\n    Task :2024-01-01, 5d")
+        with pytest.raises(
+            ParseError, match="Missing 'gantt' keyword"
+        ):
+            parse_gantt(
+                "title Something\n"
+                "section S\n"
+                "    Task :2024-01-01, 5d"
+            )
 
     def test_unknown_after_reference(self):
         source = """gantt
     section S
         A :a1, after nonexistent, 10d
 """
-        with pytest.raises(ParseError, match="Unknown task reference"):
+        with pytest.raises(
+            ParseError, match="Unknown task reference"
+        ):
             parse_gantt(source)
 
     def test_malformed_task_missing_duration(self):
@@ -241,10 +297,16 @@ class TestParserComments:
 
 
 class TestRendererStructure:
-    def _simple_chart(self, title: str = "Test Chart") -> GanttChart:
-        task = GanttTask("Task1", "t1", frozenset(), date(2024, 1, 1), date(2024, 1, 11), 10)
+    def _simple_chart(
+        self, title: str = "Test Chart",
+    ) -> GanttChart:
+        task = _task("Task1", "t1")
         section = GanttSection("Section1", (task,))
-        return GanttChart(title=title, date_format="YYYY-MM-DD", sections=(section,))
+        return GanttChart(
+            title=title,
+            date_format="YYYY-MM-DD",
+            sections=(section,),
+        )
 
     def test_svg_wrapper(self):
         svg = render_gantt_svg(self._simple_chart())
@@ -258,11 +320,10 @@ class TestRendererStructure:
 
     def test_title_absent_when_empty(self):
         svg = render_gantt_svg(self._simple_chart(""))
-        # No <text> element with gantt-title class should be rendered
-        assert 'class="gantt-title"' not in svg or '<text' not in svg.split('class="gantt-title"')[0].rsplit('\n', 1)[-1]
-        # Simpler: no title text element (check no <text...gantt-title> outside <style>)
-        # Remove style block then check
-        no_style = re.sub(r'<style>.*?</style>', '', svg, flags=re.DOTALL)
+        # Remove style block, then check no title element
+        no_style = re.sub(
+            r"<style>.*?</style>", "", svg, flags=re.DOTALL
+        )
         assert "gantt-title" not in no_style
 
     def test_task_rect_with_data_id(self):
@@ -280,25 +341,27 @@ class TestRendererStructure:
 
 class TestRendererProportions:
     def test_wider_bar_for_longer_task(self):
-        t_short = GanttTask("Short", "s1", frozenset(), date(2024, 1, 1), date(2024, 1, 16), 15)
-        t_long = GanttTask("Long", "l1", frozenset(), date(2024, 1, 1), date(2024, 1, 31), 30)
+        t_short = _task(
+            "Short", "s1", days=15, end=D(2024, 1, 16),
+        )
+        t_long = _task(
+            "Long", "l1", days=30, end=D(2024, 1, 31),
+        )
         section = GanttSection("S", (t_short, t_long))
-        chart = GanttChart(title="", date_format="YYYY-MM-DD", sections=(section,))
+        chart = GanttChart(
+            title="",
+            date_format="YYYY-MM-DD",
+            sections=(section,),
+        )
         svg = render_gantt_svg(chart)
 
-        # Extract widths from rect elements with data-task-id
-        widths = {}
-        for m in re.finditer(r'<rect\s([^>]+)/>', svg):
-            attrs = m.group(1)
-            id_match = re.search(r'data-task-id="(\w+)"', attrs)
-            w_match = re.search(r'width="([\d.]+)"', attrs)
-            if id_match and w_match:
-                widths[id_match.group(1)] = float(w_match.group(1))
-
-        assert "s1" in widths
-        assert "l1" in widths
+        rects = _extract_rect_attrs(svg)
+        assert "s1" in rects
+        assert "l1" in rects
+        w_short = float(rects["s1"]["width"])
+        w_long = float(rects["l1"]["width"])
         # 30d bar should be ~2x the 15d bar
-        ratio = widths["l1"] / widths["s1"]
+        ratio = w_long / w_short
         assert 1.8 < ratio < 2.2
 
 
@@ -307,28 +370,40 @@ class TestRendererProportions:
 
 class TestRendererModifiers:
     def test_distinct_fill_colors(self):
-        t_default = GanttTask("Def", "d1", frozenset(), date(2024, 1, 1), date(2024, 1, 11), 10)
-        t_crit = GanttTask("Crit", "c1", frozenset({"crit"}), date(2024, 1, 11), date(2024, 1, 21), 10)
-        t_done = GanttTask("Done", "dn1", frozenset({"done"}), date(2024, 1, 21), date(2024, 1, 31), 10)
-        t_active = GanttTask("Act", "ac1", frozenset({"active"}), date(2024, 1, 31), date(2024, 2, 10), 10)
+        t_def = _task("Def", "d1")
+        t_crit = _task(
+            "Crit", "c1",
+            mods=frozenset({"crit"}),
+            start=D(2024, 1, 11), end=D(2024, 1, 21),
+        )
+        t_done = _task(
+            "Done", "dn1",
+            mods=frozenset({"done"}),
+            start=D(2024, 1, 21), end=D(2024, 1, 31),
+        )
+        t_active = _task(
+            "Act", "ac1",
+            mods=frozenset({"active"}),
+            start=D(2024, 1, 31), end=D(2024, 2, 10),
+        )
 
-        section = GanttSection("S", (t_default, t_crit, t_done, t_active))
-        chart = GanttChart(title="", date_format="YYYY-MM-DD", sections=(section,))
+        section = GanttSection(
+            "S", (t_def, t_crit, t_done, t_active),
+        )
+        chart = GanttChart(
+            title="",
+            date_format="YYYY-MM-DD",
+            sections=(section,),
+        )
         svg = render_gantt_svg(chart)
 
-        # Extract fill colors for each task
-        fills = {}
-        for m in re.finditer(r'<rect\s([^>]+)/>', svg):
-            attrs = m.group(1)
-            id_match = re.search(r'data-task-id="(\w+)"', attrs)
-            fill_match = re.search(r'fill="([^"]+)"', attrs)
-            if id_match and fill_match:
-                fills[id_match.group(1)] = fill_match.group(1)
+        rects = _extract_rect_attrs(svg)
+        fills = {k: v["fill"] for k, v in rects.items()}
 
-        assert fills["d1"] != fills["c1"]  # default != crit
-        assert fills["d1"] != fills["dn1"]  # default != done
-        assert fills["d1"] != fills["ac1"]  # default != active
-        assert fills["c1"] != fills["dn1"]  # crit != done
+        assert fills["d1"] != fills["c1"]
+        assert fills["d1"] != fills["dn1"]
+        assert fills["d1"] != fills["ac1"]
+        assert fills["c1"] != fills["dn1"]
 
 
 # --- Renderer: time axis ---
@@ -336,12 +411,18 @@ class TestRendererModifiers:
 
 class TestRendererTimeAxis:
     def test_tick_labels_present(self):
-        task = GanttTask("T", "t1", frozenset(), date(2024, 1, 1), date(2024, 2, 1), 31)
+        task = _task(
+            "T", "t1", days=31,
+            end=D(2024, 2, 1),
+        )
         section = GanttSection("S", (task,))
-        chart = GanttChart(title="", date_format="YYYY-MM-DD", sections=(section,))
+        chart = GanttChart(
+            title="",
+            date_format="YYYY-MM-DD",
+            sections=(section,),
+        )
         svg = render_gantt_svg(chart)
 
-        # Should contain tick date labels
         assert 'class="gantt-tick"' in svg
         assert "2024-01-01" in svg
 
@@ -351,7 +432,12 @@ class TestRendererTimeAxis:
 
 class TestDispatch:
     def test_render_diagram_gantt(self):
-        source = "gantt\n    title Test\n    section S\n        Task1 :t1, 2024-01-01, 10d\n"
+        source = (
+            "gantt\n"
+            "    title Test\n"
+            "    section S\n"
+            "        Task1 :t1, 2024-01-01, 10d\n"
+        )
         svg = render_diagram(source)
         assert svg.strip().startswith("<svg")
         assert svg.strip().endswith("</svg>")
@@ -362,7 +448,11 @@ class TestDispatch:
 
 
 class TestCorpusFixtures:
-    @pytest.mark.parametrize("fixture", sorted(FIXTURES_DIR.glob("*.mmd")), ids=lambda p: p.stem)
+    @pytest.mark.parametrize(
+        "fixture",
+        sorted(FIXTURES_DIR.glob("*.mmd")),
+        ids=lambda p: p.stem,
+    )
     def test_fixture_renders(self, fixture: Path):
         source = fixture.read_text()
         svg = render_diagram(source)
@@ -396,7 +486,7 @@ class TestMultipleSections:
 """
         chart = parse_gantt(source)
         t2 = chart.sections[1].tasks[0]
-        assert t2.start_date == date(2024, 1, 6)
+        assert t2.start_date == D(2024, 1, 6)
 
 
 class TestExcludesIgnored:

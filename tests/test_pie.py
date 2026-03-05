@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import math
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -84,7 +83,10 @@ class TestParsePieBasics:
 
 class TestParsePieEdgeCases:
     def test_comments_stripped(self):
-        text = 'pie title Test\n    %% a comment\n    "A" : 10\n    %% another\n    "B" : 20'
+        text = (
+            'pie title Test\n    %% a comment\n'
+            '    "A" : 10\n    %% another\n    "B" : 20'
+        )
         chart = parse_pie(text)
         assert len(chart.slices) == 2
 

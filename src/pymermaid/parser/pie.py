@@ -80,7 +80,8 @@ def parse_pie(text: str) -> PieChart:
             label = slice_match.group(1)
             value = float(slice_match.group(2))
             if value < 0:
-                raise ParseError(f"Negative value for slice '{label}': {value}", line=i + 1)
+                msg = f"Negative value for slice '{label}': {value}"
+                raise ParseError(msg, line=i + 1)
             slices.append(PieSlice(label=label, value=value))
             continue
 

@@ -44,14 +44,23 @@ def render_pie_svg(chart: PieChart, theme: Theme | None = None) -> str:
     )
 
     # Style
+    parts.append("<style>")
     parts.append(
-        "<style>"
-        ".pie-title { font-family: sans-serif; font-size: 20px; font-weight: bold; text-anchor: middle; }"
-        ".pie-label { font-family: sans-serif; font-size: 12px; text-anchor: middle; fill: #333; }"
-        ".pie-legend { font-family: sans-serif; font-size: 14px; fill: #333; }"
-        ".pie-slice { stroke: #fff; stroke-width: 2; }"
-        "</style>"
+        ".pie-title { font-family: sans-serif;"
+        " font-size: 20px; font-weight: bold;"
+        " text-anchor: middle; }"
     )
+    parts.append(
+        ".pie-label { font-family: sans-serif;"
+        " font-size: 12px; text-anchor: middle;"
+        " fill: #333; }"
+    )
+    parts.append(
+        ".pie-legend { font-family: sans-serif;"
+        " font-size: 14px; fill: #333; }"
+    )
+    parts.append(".pie-slice { stroke: #fff; stroke-width: 2; }")
+    parts.append("</style>")
 
     # Title
     if chart.title:
