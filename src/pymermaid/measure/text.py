@@ -40,6 +40,34 @@ def _is_cjk(ch: str) -> bool:
     )
 
 
+# Zero-width joiners and variation selectors contribute no width.
+_ZERO_WIDTH = frozenset({0x200D, 0xFE0E, 0xFE0F})
+
+
+def _is_emoji(ch: str) -> bool:
+    """Return True if the character is an emoji codepoint.
+
+    Covers the most common emoji Unicode ranges.  Does not handle
+    multi-codepoint sequences (ZWJ, skin-tone modifiers) -- those are
+    handled by giving zero width to ZWJ and variation selectors.
+    """
+    cp = ord(ch)
+    return (
+        0x1F600 <= cp <= 0x1F64F  # Emoticons
+        or 0x1F300 <= cp <= 0x1F5FF  # Misc Symbols and Pictographs
+        or 0x1F680 <= cp <= 0x1F6FF  # Transport and Map
+        or 0x1F900 <= cp <= 0x1F9FF  # Supplemental Symbols
+        or 0x1FA00 <= cp <= 0x1FA6F  # Symbols Extended-A
+        or 0x1FA70 <= cp <= 0x1FAFF  # Symbols Extended-A (cont.)
+        or 0x2600 <= cp <= 0x26FF  # Misc Symbols
+        or 0x2700 <= cp <= 0x27BF  # Dingbats
+        or 0x2300 <= cp <= 0x23FF  # Misc Technical (includes ⏩ etc.)
+        or 0x25A0 <= cp <= 0x25FF  # Geometric Shapes
+        or 0x2139 == cp  # Information source ℹ
+        or 0x2190 <= cp <= 0x21FF  # Arrows
+    )
+
+
 def _strip_markdown(text: str) -> str:
     """Remove markdown bold/italic markers, keeping the inner text."""
 
@@ -55,7 +83,12 @@ def _strip_markdown(text: str) -> str:
 
 def _char_width(ch: str, font_size: float) -> float:
     """Return the estimated width of a single character."""
+    cp = ord(ch)
+    if cp in _ZERO_WIDTH:
+        return 0.0
     if _is_cjk(ch):
+        return font_size * 1.0
+    if _is_emoji(ch):
         return font_size * 1.0
     if ch in _NARROW_CHARS:
         return font_size * 0.35

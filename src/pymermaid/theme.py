@@ -44,7 +44,11 @@ class Theme:
     subgraph_title_font_size: str = "12px"
 
     # General
-    font_family: str = '"trebuchet ms", verdana, arial, sans-serif'
+    font_family: str = (
+        '"trebuchet ms", verdana, arial, sans-serif, '
+        '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", '
+        '"Twemoji Mozilla"'
+    )
     text_color: str = "#333333"
     background_color: str = "white"
 
