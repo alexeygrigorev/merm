@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 267.0 310.0" width="267.0" height="310.0">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333" />
+    </marker>
+    <marker id="circle-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+      <circle cx="5" cy="5" r="4" fill="#333" />
+    </marker>
+    <marker id="cross-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+      <line x1="1" y1="1" x2="9" y2="9" stroke="#333" stroke-width="2" />
+      <line x1="9" y1="1" x2="1" y2="9" stroke="#333" stroke-width="2" />
+    </marker>
+    <marker id="arrow-reverse" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto-start-reverse" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333" />
+    </marker>
+  </defs>
+  <style>.node rect { fill: #f9f9f9; stroke: #333; stroke-width: 1; }
+.node text { fill: #333; font-family: sans-serif; font-size: 14px; }
+.edge path { fill: none; stroke: #333; stroke-width: 1; }
+.edge text { fill: #333; font-family: sans-serif; font-size: 12px; }
+.subgraph rect { fill: #e8e8e8; stroke: #999; stroke-width: 1; opacity: 0.5; }
+.subgraph text { fill: #333; font-family: sans-serif; font-size: 12px; font-weight: bold; }
+</style>
+  <g class="edge" data-edge-source="A" data-edge-target="B">
+    <path d="M113.5,30.0 L113.5,80.0" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="78.0" y="43.0" width="71.0" height="24.0" fill="white" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="113.5" y="55.0">Get money</text>
+  </g>
+  <g class="edge" data-edge-source="B" data-edge-target="C">
+    <path d="M113.5,110.0 L113.5,160.0" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="C" data-edge-target="D">
+    <path d="M98.115625,190.0 L46.834374999999994,240.0" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="57.974999999999994" y="203.0" width="29.0" height="24.0" fill="white" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="72.475" y="215.0">One</text>
+  </g>
+  <g class="edge" data-edge-source="C" data-edge-target="E">
+    <path d="M115.534375,190.0 L122.31562500000001,240.0" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="104.42500000000001" y="203.0" width="29.0" height="24.0" fill="white" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="118.92500000000001" y="215.0">Two</text>
+  </g>
+  <g class="edge" data-edge-source="C" data-edge-target="F">
+    <path d="M130.91875,190.0 L188.98125,240.0" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="138.45" y="203.0" width="43.0" height="24.0" fill="white" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="159.95" y="215.0">Three</text>
+  </g>
+  <g class="node" data-node-id="A">
+    <rect x="70.15" y="0.0" width="86.7" height="30.0" />
+    <text text-anchor="middle" dominant-baseline="central" x="113.5" y="15.0">Christmas</text>
+  </g>
+  <g class="node" data-node-id="B">
+    <rect x="61.05" y="80.0" width="104.9" height="30.0" />
+    <text text-anchor="middle" dominant-baseline="central" x="113.5" y="95.0">Go shopping</text>
+  </g>
+  <g class="node" data-node-id="C">
+    <rect x="59.3" y="160.0" width="108.4" height="30.0" />
+    <text text-anchor="middle" dominant-baseline="central" x="113.5" y="175.0">Let me think</text>
+  </g>
+  <g class="node" data-node-id="D">
+    <rect x="0.0" y="240.0" width="62.9" height="30.0" />
+    <text text-anchor="middle" dominant-baseline="central" x="31.45" y="255.0">Laptop</text>
+  </g>
+  <g class="node" data-node-id="E">
+    <rect x="92.9" y="240.0" width="62.9" height="30.0" />
+    <text text-anchor="middle" dominant-baseline="central" x="124.35000000000001" y="255.0">iPhone</text>
+  </g>
+  <g class="node" data-node-id="F">
+    <rect x="185.8" y="240.0" width="41.2" height="30.0" />
+    <text text-anchor="middle" dominant-baseline="central" x="206.4" y="255.0">Car</text>
+  </g>
+</svg>

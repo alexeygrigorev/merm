@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import xml.etree.ElementTree as ET
 
-from pymermaid.ir import Diagram, Edge, Subgraph
+from pymermaid.ir import Diagram, Edge, Node, Subgraph
 from pymermaid.layout import EdgeLayout, LayoutResult, NodeLayout, SubgraphLayout
 from pymermaid.render.edges import make_edge_defs, render_edge
+from pymermaid.render.shapes import get_shape_renderer
 
 # Default padding around the viewBox so nodes are not clipped at edges.
 _PADDING = 20
@@ -26,9 +27,12 @@ _SUBGRAPH_PADDING = 20.0
 # SVG namespace.
 _SVG_NS = "http://www.w3.org/2000/svg"
 
+# Shape selectors that share default fill/stroke.
+_SHAPE_SELECTORS = ".node rect, .node polygon, .node circle, .node path, .node line"
+
 # Default CSS embedded in <style>.
 _DEFAULT_STYLE = (
-    f".node rect {{ fill: {_NODE_FILL}; "
+    f"{_SHAPE_SELECTORS} {{ fill: {_NODE_FILL}; "
     f"stroke: {_NODE_STROKE}; "
     f"stroke-width: {_NODE_STROKE_WIDTH}; }}\n"
     f".node text {{ fill: {_TEXT_FILL}; "
@@ -57,16 +61,45 @@ def _build_edge_lookup(diagram: Diagram) -> dict[tuple[str, str], Edge]:
     return lookup
 
 
+def _build_style_lookup(diagram: Diagram) -> dict[str, dict[str, str]]:
+    """Map node id to inline style properties from diagram.styles."""
+    lookup: dict[str, dict[str, str]] = {}
+    for sd in diagram.styles:
+        lookup[sd.target_id] = sd.properties
+    return lookup
+
+
+def _build_classdef_css(diagram: Diagram) -> str:
+    """Build CSS rules from diagram.classes (classDef definitions).
+
+    Returns a CSS string with one rule per class name.  The special class
+    name ``"default"`` is emitted as ``.node { ... }`` so that it applies
+    to all nodes without an explicit class.
+    """
+    rules: list[str] = []
+    for cls_name, props in diagram.classes.items():
+        css_body = ";".join(f"{k}:{v}" for k, v in props.items())
+        if cls_name == "default":
+            rules.append(f".node {{ {css_body}; }}")
+        else:
+            rules.append(f".{cls_name} {{ {css_body}; }}")
+    return "\n".join(rules)
+
+
 def _make_defs(svg: ET.Element) -> None:
     """Add a <defs> section with arrow/endpoint marker definitions."""
     defs = ET.SubElement(svg, "defs")
     make_edge_defs(defs)
 
 
-def _make_style(svg: ET.Element) -> None:
-    """Add a <style> element with default theme CSS."""
+def _make_style(svg: ET.Element, diagram: Diagram) -> None:
+    """Add a <style> element with default theme CSS and classDef rules."""
     style = ET.SubElement(svg, "style")
-    style.text = _DEFAULT_STYLE
+    css = _DEFAULT_STYLE
+    classdef_css = _build_classdef_css(diagram)
+    if classdef_css:
+        css += classdef_css + "\n"
+    style.text = css
 
 
 def _render_text(
@@ -103,24 +136,35 @@ def _render_text(
 
 def _render_node(
     parent: ET.Element,
-    node_id: str,
-    label: str,
+    ir_node: Node,
     nl: NodeLayout,
+    inline_styles: dict[str, dict[str, str]],
 ) -> None:
-    """Render a single node as a <g> group with <rect> and <text>."""
+    """Render a single node using the appropriate shape renderer."""
     g = ET.SubElement(parent, "g")
-    g.set("class", "node")
-    g.set("data-node-id", node_id)
 
-    rect = ET.SubElement(g, "rect")
-    rect.set("x", str(nl.x))
-    rect.set("y", str(nl.y))
-    rect.set("width", str(nl.width))
-    rect.set("height", str(nl.height))
+    # Build class attribute: always "node", plus any CSS classes from the IR node.
+    class_parts = ["node"] + list(ir_node.css_classes)
+    g.set("class", " ".join(class_parts))
+    g.set("data-node-id", ir_node.id)
+
+    # Get the shape renderer.
+    renderer = get_shape_renderer(ir_node.shape)
+
+    # Determine inline style for the shape elements (from diagram.styles).
+    node_style = inline_styles.get(ir_node.id)
+
+    # Render shape SVG element strings, then parse and attach to <g>.
+    shape_elems_str = renderer.render(
+        nl.x, nl.y, nl.width, nl.height, ir_node.label, node_style,
+    )
+    for elem_str in shape_elems_str:
+        shape_el = ET.fromstring(elem_str)
+        g.append(shape_el)
 
     cx = nl.x + nl.width / 2.0
     cy = nl.y + nl.height / 2.0
-    _render_text(g, label, cx, cy)
+    _render_text(g, ir_node.label, cx, cy)
 
 
 def _render_edge_delegate(
@@ -230,10 +274,13 @@ def render_svg(diagram: Diagram, layout: LayoutResult) -> str:
 
     # Defs and style
     _make_defs(svg)
-    _make_style(svg)
+    _make_style(svg, diagram)
 
-    # Build label lookup from IR nodes
-    node_labels: dict[str, str] = {n.id: n.label for n in diagram.nodes}
+    # Build lookup from IR nodes by id.
+    node_map: dict[str, Node] = {n.id: n for n in diagram.nodes}
+
+    # Build inline style lookup from diagram.styles
+    inline_styles = _build_style_lookup(diagram)
 
     # Build edge lookup for labels
     edge_lookup = _build_edge_lookup(diagram)
@@ -250,8 +297,9 @@ def render_svg(diagram: Diagram, layout: LayoutResult) -> str:
 
     # Render nodes (on top of edges)
     for node_id, nl in layout.nodes.items():
-        label = node_labels.get(node_id, node_id)
-        _render_node(svg, node_id, label, nl)
+        # Get the IR node; fall back to a plain rect node if not in diagram.
+        ir_node = node_map.get(node_id, Node(id=node_id, label=node_id))
+        _render_node(svg, ir_node, nl, inline_styles)
 
     # Pretty-print
     ET.indent(svg)
