@@ -302,7 +302,7 @@ class TestDefaultTheme:
         d = _simple_diagram()
         lr = _simple_layout()
         result = render_svg(d, lr)
-        assert "#f9f9f9" in result
+        assert "#ECECFF" in result
 
     def test_style_contains_text_color(self):
         d = _simple_diagram()

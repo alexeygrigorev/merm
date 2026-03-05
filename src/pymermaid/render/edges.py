@@ -7,34 +7,42 @@ import xml.etree.ElementTree as ET
 from pymermaid.ir import ArrowType, Edge, EdgeType
 from pymermaid.layout import EdgeLayout, Point
 
-# Default colours (matching render/__init__.py theme).
-_EDGE_STROKE = "#333"
+# Default edge stroke colour (used as fallback).
+_DEFAULT_EDGE_STROKE = "#333333"
 
 
 # ---------------------------------------------------------------------------
 # Marker definitions
 # ---------------------------------------------------------------------------
 
-def make_edge_defs(parent: ET.Element) -> None:
+def make_edge_defs(
+    parent: ET.Element,
+    edge_stroke: str = _DEFAULT_EDGE_STROKE,
+) -> None:
     """Add all arrow/endpoint marker definitions to a <defs> element.
 
     Creates four ``<marker>`` elements: arrow, circle-end, cross-end,
     and arrow-reverse.
     """
     # 1. Triangle arrow (forward)
-    _marker_arrow(parent, marker_id="arrow", orient="auto")
+    _marker_arrow(parent, marker_id="arrow", orient="auto", fill=edge_stroke)
 
     # 2. Circle endpoint
-    _marker_circle(parent)
+    _marker_circle(parent, fill=edge_stroke)
 
     # 3. Cross endpoint
-    _marker_cross(parent)
+    _marker_cross(parent, stroke=edge_stroke)
 
     # 4. Reverse triangle arrow
-    _marker_arrow(parent, marker_id="arrow-reverse", orient="auto-start-reverse")
+    _marker_arrow(
+        parent, marker_id="arrow-reverse",
+        orient="auto-start-reverse", fill=edge_stroke,
+    )
 
 
-def _marker_arrow(parent: ET.Element, marker_id: str, orient: str) -> None:
+def _marker_arrow(
+    parent: ET.Element, marker_id: str, orient: str, fill: str,
+) -> None:
     marker = ET.SubElement(parent, "marker")
     marker.set("id", marker_id)
     marker.set("markerWidth", "10")
@@ -45,10 +53,10 @@ def _marker_arrow(parent: ET.Element, marker_id: str, orient: str) -> None:
     marker.set("markerUnits", "strokeWidth")
     path = ET.SubElement(marker, "path")
     path.set("d", "M0,0 L10,3.5 L0,7 Z")
-    path.set("fill", _EDGE_STROKE)
+    path.set("fill", fill)
 
 
-def _marker_circle(parent: ET.Element) -> None:
+def _marker_circle(parent: ET.Element, fill: str) -> None:
     marker = ET.SubElement(parent, "marker")
     marker.set("id", "circle-end")
     marker.set("markerWidth", "10")
@@ -61,10 +69,10 @@ def _marker_circle(parent: ET.Element) -> None:
     circle.set("cx", "5")
     circle.set("cy", "5")
     circle.set("r", "4")
-    circle.set("fill", _EDGE_STROKE)
+    circle.set("fill", fill)
 
 
-def _marker_cross(parent: ET.Element) -> None:
+def _marker_cross(parent: ET.Element, stroke: str) -> None:
     marker = ET.SubElement(parent, "marker")
     marker.set("id", "cross-end")
     marker.set("markerWidth", "10")
@@ -79,14 +87,14 @@ def _marker_cross(parent: ET.Element) -> None:
     line1.set("y1", "1")
     line1.set("x2", "9")
     line1.set("y2", "9")
-    line1.set("stroke", _EDGE_STROKE)
+    line1.set("stroke", stroke)
     line1.set("stroke-width", "2")
     line2 = ET.SubElement(marker, "line")
     line2.set("x1", "9")
     line2.set("y1", "1")
     line2.set("x2", "1")
     line2.set("y2", "9")
-    line2.set("stroke", _EDGE_STROKE)
+    line2.set("stroke", stroke)
     line2.set("stroke-width", "2")
 
 
@@ -212,6 +220,7 @@ def render_edge(
     edge_layout: EdgeLayout,
     ir_edge: Edge | None,
     smooth: bool = True,
+    edge_label_bg: str = "rgba(232,232,232,0.8)",
 ) -> None:
     """Render a single edge with correct style, markers, and optional label."""
     g = ET.SubElement(parent, "g")
@@ -261,7 +270,7 @@ def render_edge(
     label = ir_edge.label if ir_edge else None
     if label:
         mx, my = _edge_midpoint(edge_layout.points)
-        _render_edge_label(g, label, mx, my)
+        _render_edge_label(g, label, mx, my, edge_label_bg)
 
 
 def _render_edge_label(
@@ -269,8 +278,9 @@ def _render_edge_label(
     label: str,
     cx: float,
     cy: float,
+    bg_fill: str = "rgba(232,232,232,0.8)",
 ) -> None:
-    """Render an edge label with a white background rect and text."""
+    """Render an edge label with a background rect and text."""
     parts = label.split("<br/>")
 
     # Approximate dimensions for background rect
@@ -287,7 +297,7 @@ def _render_edge_label(
     rect.set("y", str(cy - rect_h / 2))
     rect.set("width", str(rect_w))
     rect.set("height", str(rect_h))
-    rect.set("fill", "white")
+    rect.set("fill", bg_fill)
     rect.set("stroke", "none")
 
     # Text element

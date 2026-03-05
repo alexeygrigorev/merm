@@ -88,10 +88,10 @@ class TextMeasurer:
     """
 
     mode: str = "heuristic"
-    font_size: float = 14.0
-    font_family: str = "sans-serif"
-    padding_h: float = 8.0
-    padding_v: float = 4.0
+    font_size: float = 16.0
+    font_family: str = '"trebuchet ms", verdana, arial, sans-serif'
+    padding_h: float = 15.0
+    padding_v: float = 10.0
 
     def __post_init__(self) -> None:
         if self.mode == "font":
@@ -157,8 +157,8 @@ class TextMeasurer:
 
 def measure_text(
     text: str,
-    font_size: float = 14.0,
-    font_family: str = "sans-serif",
+    font_size: float = 16.0,
+    font_family: str = '"trebuchet ms", verdana, arial, sans-serif',
 ) -> tuple[float, float]:
     """Convenience function: measure *text* using the heuristic measurer.
 

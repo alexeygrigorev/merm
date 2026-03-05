@@ -24,11 +24,14 @@ from .config import LayoutConfig, MeasureFn
 from .types import EdgeLayout, LayoutResult, NodeLayout, Point, SubgraphLayout
 
 # Default font size used when calling measure_fn
-_DEFAULT_FONT_SIZE = 14.0
+_DEFAULT_FONT_SIZE = 16.0
 
 # Padding added around measured text to get node dimensions
-_NODE_PADDING_H = 16.0
-_NODE_PADDING_V = 12.0
+_NODE_PADDING_H = 30.0  # 15px each side
+_NODE_PADDING_V = 20.0  # 10px each side
+
+# Minimum node height
+_NODE_MIN_HEIGHT = 54.0
 
 
 # ---------------------------------------------------------------------------
@@ -780,7 +783,7 @@ def layout_diagram(
         h = th + _NODE_PADDING_V
         # Minimum dimensions
         w = max(w, 40.0)
-        h = max(h, 30.0)
+        h = max(h, _NODE_MIN_HEIGHT)
         node_sizes[nid] = (w, h)
 
     # Build edge list as (source, target) tuples

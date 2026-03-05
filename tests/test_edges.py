@@ -382,10 +382,10 @@ class TestEdgeLabels:
         g = _render_edge_to_group(ir_edge=edge)
         rects = _find_rects(g)
         assert len(rects) >= 1
-        # At least one rect should have white fill
-        white_fills = ("white", "#fff", "#ffffff")
-        white_rects = [r for r in rects if r.get("fill") in white_fills]
-        assert len(white_rects) >= 1
+        # At least one rect should have a background fill
+        bg_fills = ("white", "#fff", "#ffffff", "rgba(232,232,232,0.8)")
+        bg_rects = [r for r in rects if r.get("fill") in bg_fills]
+        assert len(bg_rects) >= 1
 
     def test_rect_before_text_in_dom(self):
         edge = Edge(source="A", target="B", label="Yes")

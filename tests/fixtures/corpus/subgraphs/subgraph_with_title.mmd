@@ -1,0 +1,8 @@
+graph TD
+    subgraph title1[Database Layer]
+        DB1[Primary] --> DB2[Replica]
+    end
+    subgraph title2[App Layer]
+        App1[Server] --> App2[Cache]
+    end
+    App1 --> DB1

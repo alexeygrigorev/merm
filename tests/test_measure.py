@@ -15,8 +15,8 @@ class TestTextMeasurerConstruction:
     def test_default_construction(self):
         m = TextMeasurer()
         assert m.mode == "heuristic"
-        assert m.font_size == 14.0
-        assert m.font_family == "sans-serif"
+        assert m.font_size == 16.0
+        assert m.font_family == '"trebuchet ms", verdana, arial, sans-serif'
 
     def test_explicit_heuristic_mode(self):
         m = TextMeasurer(mode="heuristic")
@@ -216,8 +216,8 @@ class TestNodeTextMeasurement:
         m = TextMeasurer(font_size=14)
         w_text, h_text = m.measure("Hi")
         w_node, h_node = m.measure_node_text("Hi")
-        assert w_node == pytest.approx(w_text + 16)
-        assert h_node == pytest.approx(h_text + 8)
+        assert w_node == pytest.approx(w_text + 30)
+        assert h_node == pytest.approx(h_text + 20)
 
     def test_custom_padding(self):
         m = TextMeasurer(font_size=14, padding_h=20, padding_v=10)

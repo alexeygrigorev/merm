@@ -7,27 +7,17 @@ edge rendering delegation, subgraph rendering, and style/defs generation.
 
 from __future__ import annotations
 
+import re
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir import Diagram, Edge, Node, Subgraph
 from pymermaid.layout import EdgeLayout, LayoutResult, NodeLayout, SubgraphLayout
 from pymermaid.render.edges import make_edge_defs, render_edge
 from pymermaid.render.shapes import get_shape_renderer
+from pymermaid.theme import DEFAULT_THEME, Theme
 
 # Default padding around the viewBox so nodes are not clipped at edges.
 _PADDING = 20
-
-# Default theme colours.
-_NODE_FILL = "#f9f9f9"
-_NODE_STROKE = "#333"
-_NODE_STROKE_WIDTH = "1"
-_TEXT_FILL = "#333"
-_FONT_FAMILY = "sans-serif"
-_FONT_SIZE = "14px"
-_EDGE_STROKE = "#333"
-_SUBGRAPH_FILL = "#e8e8e8"
-_SUBGRAPH_STROKE = "#999"
-_SUBGRAPH_PADDING = 20.0
 
 # SVG namespace.
 _SVG_NS = "http://www.w3.org/2000/svg"
@@ -35,25 +25,50 @@ _SVG_NS = "http://www.w3.org/2000/svg"
 # Shape selectors that share default fill/stroke.
 _SHAPE_SELECTORS = ".node rect, .node polygon, .node circle, .node path, .node line"
 
-# Default CSS embedded in <style>.
-_DEFAULT_STYLE = (
-    f"{_SHAPE_SELECTORS} {{ fill: {_NODE_FILL}; "
-    f"stroke: {_NODE_STROKE}; "
-    f"stroke-width: {_NODE_STROKE_WIDTH}; }}\n"
-    f".node text {{ fill: {_TEXT_FILL}; "
-    f"font-family: {_FONT_FAMILY}; "
-    f"font-size: {_FONT_SIZE}; }}\n"
-    f".edge path {{ fill: none; "
-    f"stroke: {_EDGE_STROKE}; stroke-width: 1; }}\n"
-    f".edge text {{ fill: {_TEXT_FILL}; "
-    f"font-family: {_FONT_FAMILY}; font-size: 12px; }}\n"
-    f".subgraph rect {{ fill: {_SUBGRAPH_FILL}; "
-    f"stroke: {_SUBGRAPH_STROKE}; "
-    f"stroke-width: 1; opacity: 0.5; }}\n"
-    f".subgraph text {{ fill: {_TEXT_FILL}; "
-    f"font-family: {_FONT_FAMILY}; "
-    f"font-size: 12px; font-weight: bold; }}\n"
-)
+_SUBGRAPH_PADDING = 20.0
+
+# Regex to find float values with more than 2 decimal places in SVG output.
+_COORD_RE = re.compile(r"\d+\.\d{3,}")
+
+
+def _round_coord(val: float) -> str:
+    """Format a float coordinate, rounding to at most 2 decimal places."""
+    rounded = round(val, 2)
+    # Avoid trailing zeros: 10.00 -> "10.0" (keep at least one decimal),
+    # but 10.50 -> "10.5"
+    if rounded == int(rounded):
+        return str(int(rounded))
+    return f"{rounded:.2f}".rstrip("0").rstrip(".")
+
+
+def _round_svg_coords(svg_str: str) -> str:
+    """Round all float coordinate values in an SVG string to 2 decimal places."""
+    def _replacer(m: re.Match[str]) -> str:
+        return f"{float(m.group()):.2f}".rstrip("0").rstrip(".")
+    return _COORD_RE.sub(_replacer, svg_str)
+
+
+def _build_style_css(theme: Theme) -> str:
+    """Build CSS string from a Theme instance."""
+    return (
+        f"{_SHAPE_SELECTORS} {{ fill: {theme.node_fill}; "
+        f"stroke: {theme.node_stroke}; "
+        f"stroke-width: {theme.node_stroke_width}; }}\n"
+        f".node text {{ fill: {theme.node_text_color}; "
+        f"font-family: {theme.font_family}; "
+        f"font-size: {theme.node_font_size}; }}\n"
+        f".edge path {{ fill: none; "
+        f"stroke: {theme.edge_stroke}; stroke-width: {theme.edge_stroke_width}; }}\n"
+        f".edge text {{ fill: {theme.text_color}; "
+        f"font-family: {theme.font_family}; "
+        f"font-size: {theme.edge_label_font_size}; }}\n"
+        f".subgraph rect {{ fill: {theme.subgraph_fill}; "
+        f"stroke: {theme.subgraph_stroke}; "
+        f"stroke-width: {theme.subgraph_stroke_width}; opacity: 0.5; }}\n"
+        f".subgraph text {{ fill: {theme.text_color}; "
+        f"font-family: {theme.font_family}; "
+        f"font-size: {theme.subgraph_title_font_size}; font-weight: bold; }}\n"
+    )
 
 
 def _build_edge_lookup(diagram: Diagram) -> dict[tuple[str, str], Edge]:
@@ -91,16 +106,16 @@ def _build_classdef_css(diagram: Diagram) -> str:
     return "\n".join(rules)
 
 
-def _make_defs(svg: ET.Element) -> None:
+def _make_defs(svg: ET.Element, theme: Theme) -> None:
     """Add a <defs> section with arrow/endpoint marker definitions."""
     defs = ET.SubElement(svg, "defs")
-    make_edge_defs(defs)
+    make_edge_defs(defs, edge_stroke=theme.edge_stroke)
 
 
-def _make_style(svg: ET.Element, diagram: Diagram) -> None:
-    """Add a <style> element with default theme CSS and classDef rules."""
+def _make_style(svg: ET.Element, diagram: Diagram, theme: Theme) -> None:
+    """Add a <style> element with theme CSS and classDef rules."""
     style = ET.SubElement(svg, "style")
-    css = _DEFAULT_STYLE
+    css = _build_style_css(theme)
     classdef_css = _build_classdef_css(diagram)
     if classdef_css:
         css += classdef_css + "\n"
@@ -112,16 +127,18 @@ def _render_text(
     label: str,
     cx: float,
     cy: float,
+    theme: Theme,
 ) -> None:
     """Render a <text> element, handling multi-line labels with <tspan>."""
     parts = label.split("<br/>")
     text_el = ET.SubElement(parent, "text")
     text_el.set("text-anchor", "middle")
     text_el.set("dominant-baseline", "central")
+    text_el.set("font-family", theme.font_family)
 
     if len(parts) == 1:
-        text_el.set("x", str(cx))
-        text_el.set("y", str(cy))
+        text_el.set("x", _round_coord(cx))
+        text_el.set("y", _round_coord(cy))
         text_el.text = parts[0]
     else:
         # Multi-line: position first tspan, subsequent ones offset by 1.2em
@@ -131,7 +148,7 @@ def _render_text(
 
         for i, part in enumerate(parts):
             tspan = ET.SubElement(text_el, "tspan")
-            tspan.set("x", str(cx))
+            tspan.set("x", _round_coord(cx))
             if i == 0:
                 tspan.set("dy", f"{start_offset}em")
             else:
@@ -144,6 +161,7 @@ def _render_node(
     ir_node: Node,
     nl: NodeLayout,
     inline_styles: dict[str, dict[str, str]],
+    theme: Theme,
 ) -> None:
     """Render a single node using the appropriate shape renderer."""
     g = ET.SubElement(parent, "g")
@@ -169,16 +187,17 @@ def _render_node(
 
     cx = nl.x + nl.width / 2.0
     cy = nl.y + nl.height / 2.0
-    _render_text(g, ir_node.label, cx, cy)
+    _render_text(g, ir_node.label, cx, cy, theme)
 
 
 def _render_edge_delegate(
     parent: ET.Element,
     el: EdgeLayout,
     ir_edge: Edge | None,
+    theme: Theme,
 ) -> None:
     """Delegate edge rendering to the edges module."""
-    render_edge(parent, el, ir_edge)
+    render_edge(parent, el, ir_edge, edge_label_bg=theme.edge_label_bg)
 
 
 def _render_subgraph_recursive(
@@ -186,6 +205,7 @@ def _render_subgraph_recursive(
     subgraph: Subgraph,
     subgraph_layouts: dict[str, SubgraphLayout],
     node_layouts: dict[str, NodeLayout],
+    theme: Theme,
 ) -> None:
     """Render a subgraph and its children recursively.
 
@@ -215,7 +235,7 @@ def _render_subgraph_recursive(
             # Still recurse into children
             for child in subgraph.subgraphs:
                 _render_subgraph_recursive(
-                    parent, child, subgraph_layouts, node_layouts,
+                    parent, child, subgraph_layouts, node_layouts, theme,
                 )
             return
         pad = _SUBGRAPH_PADDING
@@ -231,36 +251,45 @@ def _render_subgraph_recursive(
     g.set("data-subgraph-id", subgraph.id)
 
     rect = ET.SubElement(g, "rect")
-    rect.set("x", str(sx))
-    rect.set("y", str(sy))
-    rect.set("width", str(sw))
-    rect.set("height", str(sh))
-    rect.set("rx", "5")
+    rect.set("x", _round_coord(sx))
+    rect.set("y", _round_coord(sy))
+    rect.set("width", _round_coord(sw))
+    rect.set("height", _round_coord(sh))
+    rect.set("rx", _round_coord(theme.node_border_radius))
 
     title = subgraph.title or subgraph.id
     text_el = ET.SubElement(g, "text")
-    text_el.set("x", str(sx + 8))
-    text_el.set("y", str(sy + 14))
+    text_el.set("x", _round_coord(sx + 8))
+    text_el.set("y", _round_coord(sy + 14))
+    text_el.set("font-family", theme.font_family)
     text_el.text = title
 
     # Recurse into child subgraphs (rendered after parent for correct z-order:
     # outer bg first, then inner bg)
     for child in subgraph.subgraphs:
         _render_subgraph_recursive(
-            parent, child, subgraph_layouts, node_layouts,
+            parent, child, subgraph_layouts, node_layouts, theme,
         )
 
 
-def render_svg(diagram: Diagram, layout: LayoutResult) -> str:
+def render_svg(
+    diagram: Diagram,
+    layout: LayoutResult,
+    theme: Theme | None = None,
+) -> str:
     """Render a Diagram and its LayoutResult to a standalone SVG string.
 
     Args:
         diagram: The IR diagram.
         layout: The positioned layout result.
+        theme: Optional theme for styling. Defaults to DEFAULT_THEME.
 
     Returns:
         A string containing valid SVG XML.
     """
+    if theme is None:
+        theme = DEFAULT_THEME
+
     # Compute viewBox with padding
     vb_x = -_PADDING
     vb_y = -_PADDING
@@ -273,13 +302,14 @@ def render_svg(diagram: Diagram, layout: LayoutResult) -> str:
 
     svg = ET.Element("svg")
     svg.set("xmlns", _SVG_NS)
-    svg.set("viewBox", f"{vb_x} {vb_y} {vb_w} {vb_h}")
-    svg.set("width", str(vb_w))
-    svg.set("height", str(vb_h))
+    svg.set("viewBox", f"{vb_x} {vb_y} {_round_coord(vb_w)} {_round_coord(vb_h)}")
+    svg.set("width", _round_coord(vb_w))
+    svg.set("height", _round_coord(vb_h))
+    svg.set("style", f"background-color: {theme.background_color}")
 
     # Defs and style
-    _make_defs(svg)
-    _make_style(svg, diagram)
+    _make_defs(svg, theme)
+    _make_style(svg, diagram, theme)
 
     # Build lookup from IR nodes by id.
     node_map: dict[str, Node] = {n.id: n for n in diagram.nodes}
@@ -293,21 +323,24 @@ def render_svg(diagram: Diagram, layout: LayoutResult) -> str:
     # Render subgraphs first (background), recursively
     sg_layouts = layout.subgraphs or {}
     for sg in diagram.subgraphs:
-        _render_subgraph_recursive(svg, sg, sg_layouts, layout.nodes)
+        _render_subgraph_recursive(svg, sg, sg_layouts, layout.nodes, theme)
 
     # Render edges
     for el in layout.edges:
         ir_edge = edge_lookup.get((el.source, el.target))
-        _render_edge_delegate(svg, el, ir_edge)
+        _render_edge_delegate(svg, el, ir_edge, theme)
 
     # Render nodes (on top of edges)
     for node_id, nl in layout.nodes.items():
         # Get the IR node; fall back to a plain rect node if not in diagram.
         ir_node = node_map.get(node_id, Node(id=node_id, label=node_id))
-        _render_node(svg, ir_node, nl, inline_styles)
+        _render_node(svg, ir_node, nl, inline_styles, theme)
 
     # Pretty-print
     ET.indent(svg)
 
     # Serialize to string
-    return ET.tostring(svg, encoding="unicode", xml_declaration=False)
+    result = ET.tostring(svg, encoding="unicode", xml_declaration=False)
+
+    # Round any remaining float coordinates with >2 decimal places
+    return _round_svg_coords(result)
