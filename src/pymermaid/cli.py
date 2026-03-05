@@ -3,13 +3,26 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from importlib.metadata import version
 
 from pymermaid.layout import layout_diagram
+from pymermaid.layout.classdiag import layout_class_diagram
+from pymermaid.layout.sequence import layout_sequence
+from pymermaid.layout.statediag import layout_state_diagram
 from pymermaid.measure import TextMeasurer
-from pymermaid.parser import ParseError, parse_flowchart
+from pymermaid.parser import (
+    ParseError,
+    parse_class_diagram,
+    parse_flowchart,
+    parse_state_diagram,
+)
+from pymermaid.parser.sequence import parse_sequence
 from pymermaid.render import render_svg
+from pymermaid.render.classdiag import render_class_diagram
+from pymermaid.render.sequence import render_sequence_svg
+from pymermaid.render.statediag import render_state_svg
 
 
 def _get_version() -> str:
@@ -70,22 +83,47 @@ def main() -> None:
     else:
         source = sys.stdin.read()
 
+    # --- Detect diagram type ---
+    is_class = bool(
+        re.match(r"^\s*classDiagram", source, re.MULTILINE)
+    )
+    is_state = bool(
+        re.match(r"^\s*stateDiagram", source, re.MULTILINE)
+    )
+    is_sequence = bool(
+        re.match(r"^\s*sequenceDiagram", source, re.MULTILINE)
+    )
+
     # --- Parse ---
+    measurer = TextMeasurer()
     try:
-        diagram = parse_flowchart(source)
+        if is_sequence:
+            seq_diagram = parse_sequence(source)
+            seq_layout = layout_sequence(
+                seq_diagram, measure_fn=measurer.measure,
+            )
+            svg_output = render_sequence_svg(seq_diagram, seq_layout)
+        elif is_class:
+            class_diag = parse_class_diagram(source)
+            layout = layout_class_diagram(
+                class_diag, measure_fn=measurer.measure,
+            )
+            svg_output = render_class_diagram(class_diag, layout)
+        elif is_state:
+            state_diagram = parse_state_diagram(source)
+            layout = layout_state_diagram(
+                state_diagram, measure_fn=measurer.measure,
+            )
+            svg_output = render_state_svg(state_diagram, layout)
+        else:
+            diagram = parse_flowchart(source)
+            layout = layout_diagram(
+                diagram, measure_fn=measurer.measure,
+            )
+            svg_output = render_svg(diagram, layout)
     except ParseError as exc:
         print(f"Parse error: {exc}", file=sys.stderr)
         sys.exit(1)
-
-    # --- Measure + Layout ---
-    measurer = TextMeasurer()
-    layout = layout_diagram(
-        diagram,
-        measure_fn=measurer.measure,
-    )
-
-    # --- Render ---
-    svg_output = render_svg(diagram, layout)
 
     # --- Write output ---
     if args.output is not None:
