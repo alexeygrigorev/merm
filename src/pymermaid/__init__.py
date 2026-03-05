@@ -35,6 +35,22 @@ def render_diagram(source: str) -> str:
         layout = layout_class_diagram(diagram, measure_fn=measurer.measure)
         return render_class_diagram(diagram, layout)
 
+    if re.match(r"^\s*erDiagram", source, re.MULTILINE):
+        from pymermaid.layout.erdiag import layout_er_diagram
+        from pymermaid.parser import parse_er_diagram
+        from pymermaid.render.erdiag import render_er_diagram
+
+        diagram = parse_er_diagram(source)
+        layout = layout_er_diagram(diagram, measure_fn=measurer.measure)
+        return render_er_diagram(diagram, layout)
+
+    if re.match(r"^\s*pie\b", source, re.MULTILINE):
+        from pymermaid.parser.pie import parse_pie
+        from pymermaid.render.pie import render_pie_svg
+
+        chart = parse_pie(source)
+        return render_pie_svg(chart)
+
     if re.match(r"^\s*stateDiagram", source, re.MULTILINE):
         from pymermaid.layout.statediag import layout_state_diagram
         from pymermaid.parser import parse_state_diagram

@@ -1,0 +1,34 @@
+erDiagram
+    CUSTOMER {
+        string name PK
+        string email UK
+        int age
+    }
+    ORDER {
+        int id PK
+        date created
+        float total
+        string status
+    }
+    LINE-ITEM {
+        int id PK
+        int quantity
+        float price
+    }
+    PRODUCT {
+        int id PK
+        string name
+        string category
+        float price
+    }
+    DELIVERY-ADDRESS {
+        int id PK
+        string street
+        string city
+        string zip
+    }
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    LINE-ITEM }o--|| PRODUCT : "refers to"
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+    CUSTOMER ||--|| DELIVERY-ADDRESS : "has primary"

@@ -9,6 +9,16 @@ from pymermaid.ir.classdiag import (
     Visibility,
 )
 from pymermaid.ir.enums import ArrowType, DiagramType, Direction, EdgeType, NodeShape
+from pymermaid.ir.erdiag import (
+    ERAttribute,
+    ERAttributeKey,
+    ERCardinality,
+    ERDiagram,
+    EREntity,
+    ERLineStyle,
+    ERRelationship,
+)
+from pymermaid.ir.pie import PieChart, PieSlice
 from pymermaid.ir.statediag import State, StateDiagram, StateNote, StateType, Transition
 from pymermaid.ir.types import Diagram, Edge, Node, StyleDef, Subgraph
 
@@ -21,10 +31,19 @@ __all__ = [
     "Diagram",
     "DiagramType",
     "Direction",
+    "ERAttribute",
+    "ERAttributeKey",
+    "ERCardinality",
+    "ERDiagram",
+    "EREntity",
+    "ERLineStyle",
+    "ERRelationship",
     "Edge",
     "EdgeType",
     "Node",
     "NodeShape",
+    "PieChart",
+    "PieSlice",
     "RelationType",
     "State",
     "StateDiagram",
