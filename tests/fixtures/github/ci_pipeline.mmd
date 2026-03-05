@@ -1,0 +1,18 @@
+flowchart LR
+    subgraph Build
+        A[Checkout] --> B[Restore]
+        B --> C[Compile]
+    end
+    subgraph Test
+        D[Unit Tests]
+        E[Integration Tests]
+    end
+    subgraph Deploy
+        F[Staging]
+        G[Production]
+    end
+    C --> D
+    C --> E
+    D --> F
+    E --> F
+    F -->|Approved| G

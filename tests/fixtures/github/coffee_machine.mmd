@@ -1,0 +1,8 @@
+flowchart TD
+   A(Coffee machine not working) --> B{Machine has power?}
+   B -->|No| H(Plug in and turn on)
+   B -->|Yes| C{Out of beans or water?}
+   C -->|Yes| G(Refill beans and water)
+   C -->|No| D{Filter warning?}
+   D -->|Yes| I(Replace or clean filter)
+   D -->|No| F(Send for repair)
