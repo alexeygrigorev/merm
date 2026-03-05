@@ -176,18 +176,21 @@ def _render_text(
         text_el.set("y", _round_coord(cy))
         text_el.text = parts[0]
     else:
-        # Multi-line: position first tspan, subsequent ones offset by 1.2em
-        line_height = 1.2  # em
-        total_height = line_height * (len(parts) - 1)
-        start_offset = -total_height / 2.0
+        # Multi-line: use absolute y positioning for each tspan to avoid
+        # accumulation errors with relative dy offsets.
+        # Use pixel-based line height for predictable spacing.
+        line_height_px = font_size * 1.4
+        total_height = line_height_px * (len(parts) - 1)
+        # First line starts so that the block is vertically centered on cy
+        first_y = cy - total_height / 2.0
+
+        text_el.set("x", _round_coord(cx))
+        text_el.set("y", _round_coord(first_y))
 
         for i, part in enumerate(parts):
             tspan = ET.SubElement(text_el, "tspan")
             tspan.set("x", _round_coord(cx))
-            if i == 0:
-                tspan.set("dy", f"{start_offset}em")
-            else:
-                tspan.set("dy", f"{line_height}em")
+            tspan.set("y", _round_coord(first_y + i * line_height_px))
             tspan.text = part
 
 
@@ -361,10 +364,26 @@ def _render_subgraph_recursive(
                     parent, child, subgraph_layouts, node_layouts, theme,
                 )
             return
+        from pymermaid.measure.text import _line_width
+
         pad = _SUBGRAPH_PADDING
-        sx = min_x - pad
+        title_margin = 8.0
+        title_padding = 16.0
+        content_width = (max_x - min_x) + 2 * pad
+        sw = content_width
+
+        # Ensure rect is wide enough for the title text
+        fb_title = subgraph.title or subgraph.id
+        _SG_TITLE_FS = 12.0
+        title_text_w = _line_width(fb_title, _SG_TITLE_FS)
+        min_w_for_title = title_text_w + title_margin + title_padding
+        if min_w_for_title > sw:
+            sw = min_w_for_title
+
+        # Center the rect around child content
+        content_cx = (min_x + max_x) / 2.0
+        sx = content_cx - sw / 2.0
         sy = min_y - pad - 24
-        sw = (max_x - min_x) + 2 * pad
         sh = (max_y - min_y) + 2 * pad + 24
     else:
         sx, sy, sw, sh = sgl.x, sgl.y, sgl.width, sgl.height
