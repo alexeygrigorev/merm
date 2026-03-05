@@ -993,18 +993,23 @@ def _separate_subgraphs(
     padding: float = _SUBGRAPH_PADDING,
     title_height: float = 24.0,
     gap: float = 30.0,
+    direction: Direction = Direction.TB,
 ) -> dict[str, tuple[float, float]]:
     """Push nodes apart so that sibling subgraph bounding boxes do not overlap.
 
-    This operates in TB coordinate space (y is the rank axis).  For each set
-    of sibling subgraphs (top-level siblings, and children within a parent),
-    we compute their bounding boxes (with padding + title space) and shift
-    nodes downward to eliminate vertical overlaps.
+    For TB/TD/BT directions, this operates in TB coordinate space where
+    y is the rank axis: subgraphs are separated along Y first, then X.
+
+    For LR/RL directions (post-transform), the rank axis is X: subgraphs
+    are center-aligned along Y (the cross-axis) and separated along X
+    only where they overlap.
 
     Returns an updated positions dict.
     """
     if not subgraphs:
         return positions
+
+    is_horizontal = direction in (Direction.LR, Direction.RL)
 
     positions = dict(positions)  # copy to avoid mutating caller's dict
 
@@ -1056,13 +1061,11 @@ def _separate_subgraphs(
         y_overlap = bb1[1] < bb2[3] + gap and bb2[1] < bb1[3] + gap
         return x_overlap and y_overlap
 
-    def _separate_siblings(siblings: tuple[Subgraph, ...]) -> None:
-        """Ensure sibling subgraphs don't overlap in either axis.
+    def _separate_siblings_tb(siblings: tuple[Subgraph, ...]) -> None:
+        """Ensure sibling subgraphs don't overlap (TB/BT mode).
 
         First separates along Y (rank axis in TB), then resolves any
-        remaining overlaps along X (order axis in TB).  This is needed
-        for LR/RL layouts where subgraphs sharing the same ranks would
-        otherwise overlap after the coordinate swap.
+        remaining overlaps along X (order axis in TB).
         """
         if len(siblings) <= 1:
             return
@@ -1077,7 +1080,7 @@ def _separate_subgraphs(
         if len(bboxes) <= 1:
             return
 
-        # --- Pass 1: separate along Y axis (existing logic) ---
+        # --- Pass 1: separate along Y axis ---
         bboxes.sort(key=lambda item: item[1][1])
 
         for i in range(1, len(bboxes)):
@@ -1095,20 +1098,122 @@ def _separate_subgraphs(
                     bboxes[i] = (curr_sg, new_bb)
 
         # --- Pass 2: separate along X axis for any remaining overlaps ---
-        # Re-sort by min_x for X-axis separation
         bboxes.sort(key=lambda item: item[1][0])
 
         for i in range(1, len(bboxes)):
             _prev_sg, prev_bb = bboxes[i - 1]
             curr_sg, curr_bb = bboxes[i]
 
-            # Only push apart on X if the boxes actually overlap in both axes
             if _boxes_overlap(prev_bb, curr_bb):
                 prev_right = prev_bb[2]
                 curr_left = curr_bb[0]
                 shift_x = (prev_right + gap) - curr_left
                 if shift_x > 0:
                     _shift_sg_nodes(curr_sg, shift_x, 0.0)
+                    new_bb = _bbox_for_sg(curr_sg)
+                    if new_bb is not None:
+                        bboxes[i] = (curr_sg, new_bb)
+
+    def _separate_siblings_lr(siblings: tuple[Subgraph, ...]) -> None:
+        """Ensure sibling subgraphs don't overlap (LR/RL mode).
+
+        For horizontal layouts, the rank axis is X and the cross-axis is Y.
+        We center-align subgraphs along Y so they sit side-by-side, then
+        separate along X only where they actually overlap.
+        """
+        if len(siblings) <= 1:
+            return
+
+        # Collect subgraphs that have actual nodes
+        bboxes: list[tuple[Subgraph, tuple[float, float, float, float]]] = []
+        for sg in siblings:
+            bb = _bbox_for_sg(sg)
+            if bb is not None:
+                bboxes.append((sg, bb))
+
+        if len(bboxes) <= 1:
+            return
+
+        # --- Center-align along Y (cross-axis) ---
+        # Compute the overall vertical center of all subgraph nodes,
+        # then shift each subgraph so its vertical center matches.
+        all_sg_node_ids: set[str] = set()
+        for sg, _bb in bboxes:
+            all_sg_node_ids |= _collect_all_subgraph_node_ids(sg)
+
+        # Compute global vertical center across all subgraph nodes
+        y_vals: list[float] = []
+        for nid in all_sg_node_ids:
+            if nid in positions:
+                y_vals.append(positions[nid][1])
+        if not y_vals:
+            return
+        global_center_y = (min(y_vals) + max(y_vals)) / 2.0
+
+        # Shift each subgraph so its vertical center aligns with the global center
+        for sg, bb in bboxes:
+            sg_center_y = (bb[1] + bb[3]) / 2.0
+            dy = global_center_y - sg_center_y
+            if abs(dy) > 0.5:
+                _shift_sg_nodes(sg, 0.0, dy)
+
+        # Recompute bounding boxes after vertical alignment
+        bboxes = []
+        for sg in siblings:
+            bb = _bbox_for_sg(sg)
+            if bb is not None:
+                bboxes.append((sg, bb))
+
+        if len(bboxes) <= 1:
+            return
+
+        # --- Separate along X (rank axis) where boxes overlap ---
+        bboxes.sort(key=lambda item: item[1][0])
+
+        for i in range(1, len(bboxes)):
+            _prev_sg, prev_bb = bboxes[i - 1]
+            curr_sg, curr_bb = bboxes[i]
+
+            if _boxes_overlap(prev_bb, curr_bb):
+                prev_right = prev_bb[2]
+                curr_left = curr_bb[0]
+                shift_x = (prev_right + gap) - curr_left
+                if shift_x > 0:
+                    _shift_sg_nodes(curr_sg, shift_x, 0.0)
+                    new_bb = _bbox_for_sg(curr_sg)
+                    if new_bb is not None:
+                        bboxes[i] = (curr_sg, new_bb)
+
+        # --- Separate along Y for any remaining overlaps ---
+        # Recompute bboxes after X-separation to get accurate positions.
+        # Use a small epsilon for the X-overlap check to avoid false
+        # positives from floating-point rounding after the X-separation
+        # pass (which places boxes at exactly gap distance apart).
+        _eps = 1.0
+        bboxes = []
+        for sg in siblings:
+            bb = _bbox_for_sg(sg)
+            if bb is not None:
+                bboxes.append((sg, bb))
+        bboxes.sort(key=lambda item: item[1][1])
+
+        for i in range(1, len(bboxes)):
+            _prev_sg, prev_bb = bboxes[i - 1]
+            curr_sg, curr_bb = bboxes[i]
+
+            # Check true overlap (with epsilon tolerance on X to avoid
+            # floating-point false positives after X separation)
+            x_overlap = (
+                prev_bb[0] + _eps < curr_bb[2] + gap
+                and curr_bb[0] + _eps < prev_bb[2] + gap
+            )
+            y_overlap = prev_bb[1] < curr_bb[3] + gap and curr_bb[1] < prev_bb[3] + gap
+            if x_overlap and y_overlap:
+                prev_bottom = prev_bb[3]
+                curr_top = curr_bb[1]
+                shift_y = (prev_bottom + gap) - curr_top
+                if shift_y > 0:
+                    _shift_sg_nodes(curr_sg, 0.0, shift_y)
                     new_bb = _bbox_for_sg(curr_sg)
                     if new_bb is not None:
                         bboxes[i] = (curr_sg, new_bb)
@@ -1121,7 +1226,10 @@ def _separate_subgraphs(
                 _separate_recursive(sg.subgraphs)
 
         # Then separate the siblings at this level
-        _separate_siblings(siblings)
+        if is_horizontal:
+            _separate_siblings_lr(siblings)
+        else:
+            _separate_siblings_tb(siblings)
 
     _separate_recursive(subgraphs)
 
@@ -1494,10 +1602,12 @@ def layout_diagram(
         # After direction transform, subgraph bounding boxes may overlap
         # in the new coordinate space (e.g. LR swaps axes, so TB X-axis
         # overlap becomes Y-axis overlap).  Run separation again in the
-        # transformed space.
+        # transformed space, using direction-aware logic so that LR/RL
+        # layouts center-align subgraphs vertically.
         if diagram.subgraphs:
             all_positions = _separate_subgraphs(
                 all_positions, all_node_sizes, diagram.subgraphs,
+                direction=direction,
             )
 
         # Normalize: shift everything so min position is >= 0
