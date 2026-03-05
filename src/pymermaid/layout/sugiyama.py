@@ -28,11 +28,11 @@ from .types import EdgeLayout, LayoutResult, NodeLayout, Point, SubgraphLayout
 _DEFAULT_FONT_SIZE = 16.0
 
 # Padding added around measured text to get node dimensions
-_NODE_PADDING_H = 60.0  # 30px each side
-_NODE_PADDING_V = 30.0  # 15px each side
+_NODE_PADDING_H = 32.0  # 16px each side
+_NODE_PADDING_V = 16.0  # 8px each side
 
 # Minimum node dimensions (matching mermaid.js defaults)
-_NODE_MIN_HEIGHT = 54.0
+_NODE_MIN_HEIGHT = 42.0
 _NODE_MIN_WIDTH = 70.0
 
 
@@ -348,13 +348,21 @@ def _route_edge_on_boundary(
     tgt_pos: tuple[float, float],
     tgt_size: tuple[float, float],
     *,
-    gap: float = 3.0,
+    source_gap: float = 0.0,
+    target_gap: float = 0.0,
 ) -> tuple[Point, Point]:
     """Compute edge endpoints on the node boundaries (rectangular approximation).
 
-    Positions are centers; sizes are (width, height).  A small *gap* is
-    applied so the edge path starts/ends slightly away from the node border,
-    preventing arrowhead markers from touching or penetrating the node.
+    Positions are centers; sizes are (width, height).
+
+    *source_gap* pulls the source endpoint inward (away from the source node
+    boundary) along the edge direction.  Typically 0 so the edge starts
+    exactly on the source rect.
+
+    *target_gap* pulls the target endpoint inward (away from the target node
+    boundary).  Used when a marker (arrowhead) needs space so the marker
+    tip lands on the node boundary rather than the path endpoint itself.
+    With ``refX``-based marker alignment this is usually 0 as well.
     """
     sx, sy = src_pos
     sw, sh = src_size
@@ -366,21 +374,31 @@ def _route_edge_on_boundary(
     dy = ty - sy
 
     if abs(dx) < 1e-9 and abs(dy) < 1e-9:
-        # Same position -- just use center, with gap
-        return Point(sx, sy + sh / 2 + gap), Point(tx, ty - th / 2 - gap)
+        # Same position -- just use center
+        return Point(sx, sy + sh / 2 + source_gap), Point(tx, ty - th / 2 - target_gap)
 
     # Source exit point
     src_point = _boundary_point(sx, sy, sw, sh, dx, dy)
     # Target entry point (reverse direction)
     tgt_point = _boundary_point(tx, ty, tw, th, -dx, -dy)
 
-    # Pull both endpoints inward by `gap` pixels along the edge direction
-    length = (dx * dx + dy * dy) ** 0.5
-    if length > 2 * gap:
-        ux = dx / length
-        uy = dy / length
-        src_point = Point(src_point.x + ux * gap, src_point.y + uy * gap)
-        tgt_point = Point(tgt_point.x - ux * gap, tgt_point.y - uy * gap)
+    # Apply gaps along the edge direction
+    total_gap = source_gap + target_gap
+    if total_gap > 0:
+        length = (dx * dx + dy * dy) ** 0.5
+        if length > 2 * total_gap:
+            ux = dx / length
+            uy = dy / length
+            if source_gap > 0:
+                src_point = Point(
+                    src_point.x + ux * source_gap,
+                    src_point.y + uy * source_gap,
+                )
+            if target_gap > 0:
+                tgt_point = Point(
+                    tgt_point.x - ux * target_gap,
+                    tgt_point.y - uy * target_gap,
+                )
 
     return src_point, tgt_point
 

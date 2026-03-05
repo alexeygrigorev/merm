@@ -16,8 +16,8 @@ from pymermaid.ir import Direction
 class LayoutConfig:
     """Configuration for the layout engine."""
 
-    rank_sep: float = 50.0
-    node_sep: float = 50.0
+    rank_sep: float = 40.0
+    node_sep: float = 30.0
     direction: Direction = Direction.TB
 
 

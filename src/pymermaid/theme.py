@@ -25,9 +25,9 @@ class Theme:
     node_stroke_width: str = "1"
     node_text_color: str = "#333333"
     node_font_size: str = "16px"
-    node_padding_h: float = 30.0
-    node_padding_v: float = 15.0
-    node_min_height: float = 54.0
+    node_padding_h: float = 16.0
+    node_padding_v: float = 8.0
+    node_min_height: float = 42.0
     node_min_width: float = 70.0
     node_border_radius: float = 5.0
 
@@ -49,8 +49,8 @@ class Theme:
     background_color: str = "white"
 
     # Layout spacing
-    rank_sep: float = 50.0
-    node_sep: float = 50.0
+    rank_sep: float = 40.0
+    node_sep: float = 30.0
 
     def replace(self, **kwargs: object) -> Theme:
         """Return a new Theme with specified fields overridden."""
