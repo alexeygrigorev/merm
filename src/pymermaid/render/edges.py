@@ -149,7 +149,7 @@ def _self_loop_path_d(points: list[Point]) -> str:
     """Generate an SVG path for a self-loop edge.
 
     Expects 13 points from the layout encoding 4 cubic Bezier segments:
-        p0  = start (left side of node bottom)
+        p0  = start (left side of node bottom edge)
         p1, p2  = control points for segment 1
         p3  = left midpoint (widest horizontal spread)
         p4, p5  = control points for segment 2
@@ -157,10 +157,11 @@ def _self_loop_path_d(points: list[Point]) -> str:
         p7, p8  = control points for segment 3
         p9  = right midpoint (widest horizontal spread)
         p10, p11 = control points for segment 4
-        p12 = end (right side of node top)
+        p12 = end (right side of node bottom edge)
 
-    Produces four cubic Bezier segments that form a compact leaf-shaped loop
-    below the node, matching the visual style of mermaid.js self-loop rendering.
+    Both start and end are on the node bottom edge.  The loop descends
+    below the node in a leaf/oval shape and the arrowhead re-enters
+    from below, pointing upward into the node.
     """
     p = points[:13]
     return (

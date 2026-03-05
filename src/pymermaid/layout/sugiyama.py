@@ -407,6 +407,86 @@ def _boundary_point(
     return Point(cx + dx * t, cy + dy * t)
 
 
+def _self_loop_points(
+    cx: float, cy: float, w: float, h: float, direction: Direction,
+) -> list[Point]:
+    """Generate 13 control points for a self-loop Bezier path.
+
+    For TB/TD: loop extends below the node, both start and end on bottom edge.
+    For BT: loop extends above the node, both start and end on top edge.
+    For LR: loop extends to the right of the node, start and end on right edge.
+    For RL: loop extends to the left of the node, start and end on left edge.
+    """
+    if direction in (Direction.LR, Direction.RL):
+        # For LR/RL the loop extends horizontally.
+        # After _apply_direction, positions are swapped but sizes are NOT.
+        # The node in screen space has its width=w (horizontal) and height=h.
+        # For LR: loop extends to the right (+x direction).
+        # For RL: loop extends to the left (-x direction).
+        loop_extent = w * 1.85
+        side_offset = h * 0.25
+        edge_x = cx + w / 2  # right edge
+        sign = 1.0
+        if direction == Direction.RL:
+            edge_x = cx - w / 2  # left edge
+            sign = -1.0
+
+        p0  = Point(edge_x, cy - side_offset)
+        p1  = Point(edge_x + sign * loop_extent * 0.1, cy - side_offset * 2.0 * 0.9)
+        p2  = Point(edge_x + sign * loop_extent * 0.3, cy - h * 0.5)
+        p3  = Point(edge_x + sign * loop_extent * 0.5, cy - h * 0.5)
+        p4  = Point(edge_x + sign * loop_extent * 0.7, cy - h * 0.5)
+        p5  = Point(edge_x + sign * loop_extent, cy - side_offset * 0.3)
+        p6  = Point(edge_x + sign * loop_extent, cy)
+        p7  = Point(edge_x + sign * loop_extent, cy + side_offset * 0.3)
+        p8  = Point(edge_x + sign * loop_extent * 0.7, cy + h * 0.5)
+        p9  = Point(edge_x + sign * loop_extent * 0.5, cy + h * 0.5)
+        p10 = Point(edge_x + sign * loop_extent * 0.3, cy + h * 0.5)
+        p11 = Point(edge_x + sign * loop_extent * 0.1, cy + side_offset * 2.0 * 0.9)
+        p12 = Point(edge_x, cy + side_offset)
+        return [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12]
+
+    # TB/TD (default) and BT directions: loop extends vertically.
+    loop_drop = h * 1.85
+    side_offset = w * 0.25
+    bulge = w * 0.5
+
+    if direction == Direction.BT:
+        # Loop goes above the node
+        top = cy - h / 2
+        p0  = Point(cx - side_offset, top)
+        p1  = Point(cx - bulge * 0.9, top - loop_drop * 0.1)
+        p2  = Point(cx - bulge, top - loop_drop * 0.3)
+        p3  = Point(cx - bulge, top - loop_drop * 0.5)
+        p4  = Point(cx - bulge, top - loop_drop * 0.7)
+        p5  = Point(cx - side_offset * 0.3, top - loop_drop)
+        p6  = Point(cx, top - loop_drop)
+        p7  = Point(cx + side_offset * 0.3, top - loop_drop)
+        p8  = Point(cx + bulge, top - loop_drop * 0.7)
+        p9  = Point(cx + bulge, top - loop_drop * 0.5)
+        p10 = Point(cx + bulge, top - loop_drop * 0.3)
+        p11 = Point(cx + bulge * 0.9, top - loop_drop * 0.1)
+        p12 = Point(cx + side_offset, top)
+        return [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12]
+
+    # TB/TD: loop goes below the node
+    bot = cy + h / 2
+    p0  = Point(cx - side_offset, bot)
+    p1  = Point(cx - bulge * 0.9, bot + loop_drop * 0.1)
+    p2  = Point(cx - bulge, bot + loop_drop * 0.3)
+    p3  = Point(cx - bulge, bot + loop_drop * 0.5)
+    p4  = Point(cx - bulge, bot + loop_drop * 0.7)
+    p5  = Point(cx - side_offset * 0.3, bot + loop_drop)
+    p6  = Point(cx, bot + loop_drop)
+    p7  = Point(cx + side_offset * 0.3, bot + loop_drop)
+    p8  = Point(cx + bulge, bot + loop_drop * 0.7)
+    p9  = Point(cx + bulge, bot + loop_drop * 0.5)
+    p10 = Point(cx + bulge, bot + loop_drop * 0.3)
+    p11 = Point(cx + bulge * 0.9, bot + loop_drop * 0.1)
+    p12 = Point(cx + side_offset, bot)
+    return [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12]
+
+
 def _route_edges(
     original_edges: list[tuple[str, str, int]],
     acyclic_edges_with_dummies: list[tuple[str, str, int]],
@@ -416,6 +496,7 @@ def _route_edges(
     node_sizes: dict[str, tuple[float, float]],
     self_loops: list[tuple[str, str, int]],
     ir_edges: list[tuple[str, str]],
+    direction: Direction = Direction.TD,
 ) -> list[EdgeLayout]:
     """Route all edges, collecting polylines through dummy nodes."""
     # Group dummy edges by original edge index to reconstruct paths
@@ -520,57 +601,20 @@ def _route_edges(
 
         results.append(EdgeLayout(points=points, source=orig_s, target=orig_t))
 
-    # Route self-loops (mermaid.js style: loop goes down below node and back up).
-    # We store 10 points encoding 3 cubic Bezier segments (start + 3x3 control
-    # points).  The edge renderer detects self-loops (source == target) and
-    # uses _self_loop_path_d() to emit the path.
+    # Route self-loops: generate a leaf/oval loop that extends away from the
+    # node in the flow direction.  For TB/TD the loop goes below; for BT it
+    # goes above; for LR it extends to the right; for RL to the left.
     #
-    # Reference (from mermaid.js self_loop.svg):
-    #   - Node "A" at (43.34, 35), size ~70.67 x 54
-    #   - Loop exits left side of bottom, descends ~100px below bottom,
-    #     curves around bottom apex, ascends back to right side of top
-    #   - Total loop drop ~1.85x node height
+    # We store 13 points encoding 4 cubic Bezier segments.  The edge renderer
+    # detects self-loops (source == target) and uses _self_loop_path_d().
     for s, t, idx in self_loops:
         pos = positions.get(s, (0.0, 0.0))
         size = node_sizes.get(s, (40.0, 30.0))
         w, h = size
         cx, cy = pos
-        loop_drop = h * 1.85
-        side_offset = w * 0.25
 
-        bot = cy + h / 2
-        top = cy - h / 2
-
-        # The reference mermaid.js shape is a leaf/teardrop: the left side
-        # bows outward to the left, then curves inward to the bottom point;
-        # the right side mirrors this, bowing outward to the right on the
-        # way back up.  The widest spread is at the vertical midpoint.
-        #
-        # We use 4 cubic Bezier segments (13 points: 1 start + 4*3 CPs):
-        #   Seg 1: start -> left-mid  (left side, upper half -- bow left)
-        #   Seg 2: left-mid -> bottom (left side, lower half -- curve inward)
-        #   Seg 3: bottom -> right-mid (right side, lower half -- curve outward)
-        #   Seg 4: right-mid -> end   (right side, upper half -- bow inward)
-        bulge = side_offset * 2.0
-
-        p0  = Point(cx - side_offset, bot)                         # start
-        p1  = Point(cx - bulge * 0.9, bot + loop_drop * 0.1)      # CP1 seg1
-        p2  = Point(cx - bulge, bot + loop_drop * 0.3)             # CP2 seg1
-        p3  = Point(cx - bulge, bot + loop_drop * 0.5)             # left midpoint
-        p4  = Point(cx - bulge, bot + loop_drop * 0.7)             # CP1 seg2
-        p5  = Point(cx - side_offset * 0.3, bot + loop_drop)       # CP2 seg2
-        p6  = Point(cx, bot + loop_drop)                            # bottom apex
-        p7  = Point(cx + side_offset * 0.3, bot + loop_drop)       # CP1 seg3
-        p8  = Point(cx + bulge, bot + loop_drop * 0.7)             # CP2 seg3
-        p9  = Point(cx + bulge, bot + loop_drop * 0.5)             # right midpoint
-        p10 = Point(cx + bulge, bot + loop_drop * 0.3)             # CP1 seg4
-        p11 = Point(cx + bulge * 0.9, bot + loop_drop * 0.1)      # CP2 seg4
-        p12 = Point(cx + side_offset, top)                          # end
-
-        results.append(EdgeLayout(
-            points=[p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
-            source=s, target=t,
-        ))
+        pts = _self_loop_points(cx, cy, w, h, direction)
+        results.append(EdgeLayout(points=pts, source=s, target=t))
 
     return results
 
@@ -1174,6 +1218,7 @@ def layout_diagram(
             all_node_sizes,
             data["comp_self_loops"],
             ir_edges,
+            direction=direction,
         )
         all_edge_layouts.extend(edge_layouts)
 
