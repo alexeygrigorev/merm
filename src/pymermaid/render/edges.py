@@ -180,8 +180,8 @@ def _self_loop_path_d(points: list[Point]) -> str:
 _STYLE_MAP: dict[EdgeType, dict[str, str]] = {
     EdgeType.arrow:       {"stroke-width": "2"},
     EdgeType.open:        {"stroke-width": "2"},
-    EdgeType.dotted:      {"stroke-width": "2", "stroke-dasharray": "3"},
-    EdgeType.dotted_arrow: {"stroke-width": "2", "stroke-dasharray": "3"},
+    EdgeType.dotted:      {"stroke-width": "2", "stroke-dasharray": "5,5"},
+    EdgeType.dotted_arrow: {"stroke-width": "2", "stroke-dasharray": "5,5"},
     EdgeType.thick:       {"stroke-width": "3.5"},
     EdgeType.thick_arrow: {"stroke-width": "3.5"},
     EdgeType.invisible:   {"stroke-width": "0", "visibility": "hidden"},
@@ -341,19 +341,23 @@ def resolve_label_positions(
                     labels[j], positions[j][0], positions[j][1],
                 )
                 if _rects_overlap(bbox_i, bbox_j):
-                    # Compute overlap on y-axis.
+                    # Compute overlap amount on each axis.
                     iy_bottom = bbox_i[1] + bbox_i[3]
                     jy_top = bbox_j[1]
                     y_overlap = iy_bottom - jy_top + gap
-                    if y_overlap > 0:
+
+                    ix_right = bbox_i[0] + bbox_i[2]
+                    jx_left = bbox_j[0]
+                    x_overlap = ix_right - jx_left + gap
+
+                    # Nudge along the axis with less overlap (cheaper
+                    # to separate).
+                    if y_overlap <= x_overlap:
                         # Push j down, i up by half each.
                         positions[i][1] -= y_overlap / 2.0
                         positions[j][1] += y_overlap / 2.0
                     else:
-                        # Overlap on x-axis instead.
-                        ix_right = bbox_i[0] + bbox_i[2]
-                        jx_left = bbox_j[0]
-                        x_overlap = ix_right - jx_left + gap
+                        # Push i left, j right by half each.
                         positions[i][0] -= x_overlap / 2.0
                         positions[j][0] += x_overlap / 2.0
                     changed = True

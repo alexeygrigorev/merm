@@ -28,13 +28,13 @@ class TestStyleMapStrokeWidths:
         assert _STYLE_MAP[EdgeType.dotted]["stroke-width"] == "2"
 
     def test_dotted_dasharray(self) -> None:
-        assert _STYLE_MAP[EdgeType.dotted]["stroke-dasharray"] == "3"
+        assert _STYLE_MAP[EdgeType.dotted]["stroke-dasharray"] == "5,5"
 
     def test_dotted_arrow_stroke_width_is_2(self) -> None:
         assert _STYLE_MAP[EdgeType.dotted_arrow]["stroke-width"] == "2"
 
     def test_dotted_arrow_dasharray(self) -> None:
-        assert _STYLE_MAP[EdgeType.dotted_arrow]["stroke-dasharray"] == "3"
+        assert _STYLE_MAP[EdgeType.dotted_arrow]["stroke-dasharray"] == "5,5"
 
     def test_thick_stroke_width_is_3_5(self) -> None:
         assert _STYLE_MAP[EdgeType.thick]["stroke-width"] == "3.5"

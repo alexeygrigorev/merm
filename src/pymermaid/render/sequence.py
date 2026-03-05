@@ -283,9 +283,21 @@ def _render_message(parent: ET.Element, ml: MessageLayout) -> None:
         if ml.is_self:
             mid_x = ml.sender_x + 25
         text.set("x", _rc(mid_x))
-        text.set("y", _rc(ml.y - 5))
         text.set("text-anchor", "middle")
-        text.text = ml.text
+
+        lines = ml.text.split("<br/>")
+        if len(lines) == 1:
+            text.set("y", _rc(ml.y - 5))
+            text.text = lines[0]
+        else:
+            line_height = 16
+            start_y = ml.y - 5 - (len(lines) - 1) * line_height
+            text.set("y", _rc(start_y))
+            for i, line in enumerate(lines):
+                tspan = ET.SubElement(text, "tspan")
+                tspan.set("x", _rc(mid_x))
+                tspan.set("dy", "0" if i == 0 else str(line_height))
+                tspan.text = line
 
 
 def _render_activation(parent: ET.Element, al: ActivationLayout) -> None:
@@ -315,11 +327,27 @@ def _render_note(parent: ET.Element, nl: NoteLayout) -> None:
     rect.set("rx", "3")
 
     text = ET.SubElement(g, "text")
-    text.set("x", _rc(nl.x + nl.width / 2))
-    text.set("y", _rc(nl.y + nl.height / 2))
     text.set("text-anchor", "middle")
-    text.set("dominant-baseline", "central")
-    text.text = nl.text
+
+    lines = nl.text.split("<br/>")
+    center_x = nl.x + nl.width / 2
+    text.set("x", _rc(center_x))
+
+    if len(lines) == 1:
+        text.set("y", _rc(nl.y + nl.height / 2))
+        text.set("dominant-baseline", "central")
+        text.text = lines[0]
+    else:
+        line_height = 16
+        total_text_h = len(lines) * line_height
+        start_y = nl.y + nl.height / 2 - total_text_h / 2 + line_height / 2
+        text.set("y", _rc(start_y))
+        text.set("dominant-baseline", "central")
+        for i, line in enumerate(lines):
+            tspan = ET.SubElement(text, "tspan")
+            tspan.set("x", _rc(center_x))
+            tspan.set("dy", "0" if i == 0 else str(line_height))
+            tspan.text = line
 
 
 def _render_fragment(parent: ET.Element, fl: FragmentLayout) -> None:
@@ -390,7 +418,7 @@ def render_sequence_svg(
     if theme is None:
         theme = DEFAULT_THEME
 
-    vb_x = -_PADDING
+    vb_x = layout.origin_x - _PADDING
     vb_y = -_PADDING
     vb_w = layout.width + 2 * _PADDING
     vb_h = layout.height + 2 * _PADDING

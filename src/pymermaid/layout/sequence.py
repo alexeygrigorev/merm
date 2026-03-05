@@ -118,6 +118,7 @@ class SequenceLayout:
     notes: list[NoteLayout]
     fragments: list[FragmentLayout]
     lifeline_bottom: float  # Y coordinate where lifelines end.
+    origin_x: float = 0.0  # Leftmost x coordinate of content.
 
 
 def layout_sequence(
@@ -248,7 +249,12 @@ def layout_sequence(
     def _process_note(note: Note, y: float) -> float:
         """Layout a note and return next y."""
         # Compute note position based on participants and position.
-        text_w, text_h = measure_fn(note.text, _FONT_SIZE)
+        # Split on <br/> to measure each line independently.
+        lines = note.text.split("<br/>")
+        line_widths = [measure_fn(line, _FONT_SIZE)[0] for line in lines]
+        text_w = max(line_widths) if line_widths else 0
+        single_h = measure_fn("X", _FONT_SIZE)[1]
+        text_h = len(lines) * single_h
         nw = max(_NOTE_WIDTH, text_w + 2 * _NOTE_PAD)
         nh = max(_NOTE_HEIGHT, text_h + 2 * _NOTE_PAD)
 
@@ -332,6 +338,36 @@ def layout_sequence(
         )
     else:
         total_w = 200.0
+
+    # Track bounding box to encompass all content.
+    min_left = 0.0
+
+    # Expand to encompass notes that extend beyond participant positions.
+    for nl in notes_layout:
+        right = nl.x + nl.width
+        if right > total_w:
+            total_w = right + _TOP_MARGIN
+        if nl.x < min_left:
+            min_left = nl.x
+
+    # Expand to encompass message label text widths.
+    for ml in messages_layout:
+        if ml.text:
+            msg_lines = ml.text.split("<br/>")
+            longest_line = max(msg_lines, key=len) if msg_lines else ml.text
+            label_w = len(longest_line) * _FONT_SIZE * 0.6
+            mid_x = (ml.sender_x + ml.receiver_x) / 2
+            if ml.is_self:
+                mid_x = ml.sender_x + 25
+            label_right = mid_x + label_w / 2
+            label_left = mid_x - label_w / 2
+            if label_right > total_w:
+                total_w = label_right + _TOP_MARGIN
+            if label_left < min_left:
+                min_left = label_left
+
+    # Adjust total width to account for negative origin.
+    total_w = total_w - min_left
     total_h = lifeline_bottom + _BOTTOM_MARGIN
 
     return SequenceLayout(
@@ -343,4 +379,5 @@ def layout_sequence(
         notes=notes_layout,
         fragments=fragments_layout,
         lifeline_bottom=lifeline_bottom,
+        origin_x=min_left,
     )
