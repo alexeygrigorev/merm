@@ -2,22 +2,19 @@
 
 import subprocess
 
-import pytest
-
 
 class TestPublicAPI:
     """Test the public API is importable and callable."""
 
-    def test_import_render(self):
-        from pymermaid import render
+    def test_import_render_svg(self):
+        from pymermaid import render_svg
 
-        assert callable(render)
+        assert callable(render_svg)
 
-    def test_render_raises_not_implemented(self):
-        from pymermaid import render
+    def test_render_svg_callable(self):
+        from pymermaid.render import render_svg
 
-        with pytest.raises(NotImplementedError):
-            render("graph TD; A-->B")
+        assert callable(render_svg)
 
 
 class TestCLI:
