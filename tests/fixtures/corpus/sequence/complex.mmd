@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant Client
+    participant Gateway
+    participant Auth
+    participant API
+    participant DB
+
+    Client->>Gateway: POST /login
+    Gateway->>Auth: Validate credentials
+    Auth->>DB: Query user
+    DB-->>Auth: User record
+    alt Valid credentials
+        Auth-->>Gateway: JWT token
+        Gateway-->>Client: 200 OK + token
+        Client->>Gateway: GET /data (Bearer token)
+        Gateway->>Auth: Verify token
+        Auth-->>Gateway: Token valid
+        Gateway->>API: Forward request
+        API->>DB: SELECT data
+        DB-->>API: Results
+        API-->>Gateway: JSON response
+        Gateway-->>Client: 200 OK + data
+    else Invalid credentials
+        Auth-->>Gateway: 401 Unauthorized
+        Gateway-->>Client: 401 Unauthorized
+    end

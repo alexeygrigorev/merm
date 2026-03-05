@@ -27,10 +27,25 @@ from tests.comparison import (
 
 CORPUS_DIR = Path(__file__).parent / "fixtures" / "corpus"
 
+# Directories containing flowchart fixtures (this test uses parse_flowchart).
+# Non-flowchart diagram types (sequence, state, class) are tested in
+# test_corpus_rendering.py via render_diagram() which auto-detects type.
+_FLOWCHART_DIRS = {
+    "basic", "direction", "edges", "scale", "shapes",
+    "styling", "subgraphs", "text", "flowchart",
+}
+
 
 def _discover_corpus_files() -> list[Path]:
-    """Discover all .mmd files in the corpus."""
-    return sorted(CORPUS_DIR.rglob("*.mmd"))
+    """Discover flowchart .mmd files in the corpus."""
+    files: list[Path] = []
+    for mmd in sorted(CORPUS_DIR.rglob("*.mmd")):
+        # Include file if its top-level corpus subdirectory is a flowchart dir
+        rel = mmd.relative_to(CORPUS_DIR)
+        top_dir = rel.parts[0]
+        if top_dir in _FLOWCHART_DIRS:
+            files.append(mmd)
+    return files
 
 
 def _corpus_ids(files: list[Path]) -> list[str]:
@@ -115,6 +130,10 @@ class TestCorpusRenders:
             label_text = node.label.replace("<br/>", " ").strip()
             if label_text:
                 for part in label_text.split():
+                    # FA icon references (fa:fa-*) are rendered as SVG
+                    # paths, not text -- skip them in label checks.
+                    if part.startswith("fa:"):
+                        continue
                     assert part in svg, (
                         f"Label part {part!r} from node {node.id!r} "
                         f"not found in SVG"

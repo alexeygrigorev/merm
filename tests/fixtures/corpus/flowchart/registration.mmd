@@ -1,0 +1,15 @@
+flowchart TD
+    Start([User clicks Register]) --> Form[Display registration form]
+    Form --> Submit[User submits form]
+    Submit --> ValidateEmail{Email valid?}
+    ValidateEmail -->|No| EmailError[Show email error]
+    EmailError --> Form
+    ValidateEmail -->|Yes| CheckExists{User exists?}
+    CheckExists -->|Yes| ExistsError[Show already registered]
+    ExistsError --> Form
+    CheckExists -->|No| ValidatePassword{Password strong?}
+    ValidatePassword -->|No| PasswordError[Show password requirements]
+    PasswordError --> Form
+    ValidatePassword -->|Yes| CreateUser[(Save to database)]
+    CreateUser --> SendEmail[/Send verification email/]
+    SendEmail --> Success([Show success message])

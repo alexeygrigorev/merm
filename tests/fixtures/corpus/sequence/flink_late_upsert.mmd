@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant P as Producer
+    participant K as Kafka
+    participant F as Flink
+    participant PG as PostgreSQL
+
+    P->>K: Event A (ts=14:00:07, on time)
+    K->>F: Event A
+    Note over F: A added to window [00:00, 00:10)
+
+    Note over F: watermark reaches 00:10<br/>time to publish
+
+    F->>PG: INSERT (window=00:00, PU=79, trips=1)
+    Note over PG: published with trips=1
+
+    Note over P: 20 seconds later, phone reconnects
+
+    P->>K: Event B (ts=14:00:04, 20s late)
+    K->>F: Event B
+    Note over F: window [00:00, 00:10) already published<br/>but B still belongs to it
+
+    F->>PG: UPDATE (window=00:00, PU=79, trips=2)
+    Note over PG: upsert via PRIMARY KEY<br/>corrected from 1 to 2

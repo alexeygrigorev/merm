@@ -1,0 +1,12 @@
+classDiagram
+    class BankAccount {
+        +String owner
+        +BigDecimal balance
+        -String pin
+        #String branch
+        ~String internalId
+        +deposit(amount) bool
+        +withdraw(amount) bool
+        -validatePin(pin) bool
+        #calculateInterest() BigDecimal
+    }

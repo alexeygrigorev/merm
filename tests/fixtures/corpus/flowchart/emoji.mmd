@@ -1,0 +1,6 @@
+flowchart TD
+    A["🚀 Deploy"] --> B{"✅ Tests Pass?"}
+    B -->|Yes| C["📦 Package"]
+    B -->|No| D["🔧 Fix Issues"]
+    D --> B
+    C --> E["🎉 Release"]

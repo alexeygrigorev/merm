@@ -1,0 +1,23 @@
+classDiagram
+    class Controller {
+        +handleRequest(req) Response
+        -validate(req) bool
+    }
+    class Service {
+        +process(data) Result
+        +findAll() List
+    }
+    class Repository {
+        +save(entity) void
+        +findById(id) Entity
+        +delete(id) void
+    }
+    class Entity {
+        +int id
+        +String name
+        +Date createdAt
+    }
+
+    Controller --> Service : uses
+    Service --> Repository : uses
+    Repository --> Entity : manages

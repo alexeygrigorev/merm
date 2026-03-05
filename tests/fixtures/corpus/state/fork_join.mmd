@@ -1,0 +1,11 @@
+stateDiagram-v2
+    [*] --> Ready
+    Ready --> Processing
+    state Processing {
+        [*] --> TaskA
+        [*] --> TaskB
+        TaskA --> [*]
+        TaskB --> [*]
+    }
+    Processing --> Done
+    Done --> [*]

@@ -1,0 +1,12 @@
+flowchart TD
+    A[Receive Request] --> B[Validate Input]
+    B --> C{Valid?}
+    C -->|Yes| D[Process Request]
+    C -->|No| E[Return 400 Bad Request]
+    D --> F{Success?}
+    F -->|Yes| G[Return 200 OK]
+    F -->|No| H[Log Error]
+    H --> I[Return 500 Error]
+    style E fill:#f66,stroke:#900
+    style I fill:#f66,stroke:#900
+    style G fill:#6f6,stroke:#090

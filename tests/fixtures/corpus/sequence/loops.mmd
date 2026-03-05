@@ -1,0 +1,14 @@
+sequenceDiagram
+    Alice->>Bob: Request data
+    loop Every minute
+        Bob->>Server: Poll for updates
+        Server-->>Bob: Response
+    end
+    alt Has data
+        Bob-->>Alice: Here is the data
+    else No data
+        Bob-->>Alice: No updates yet
+    end
+    opt Extra logging
+        Bob->>Logger: Log result
+    end

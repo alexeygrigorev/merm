@@ -1,0 +1,18 @@
+classDiagram
+    class Shape {
+        <<interface>>
+        +area() double
+        +perimeter() double
+    }
+    class Color {
+        <<enumeration>>
+        RED
+        GREEN
+        BLUE
+    }
+    class AbstractShape {
+        <<abstract>>
+        #String name
+        +getName() String
+    }
+    Shape <|.. AbstractShape

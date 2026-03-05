@@ -1,0 +1,17 @@
+stateDiagram-v2
+    [*] --> Placed
+    Placed --> Confirmed: confirm
+    Confirmed --> Preparing: start prep
+    Preparing --> Ready: prep done
+    Ready --> Shipped: ship
+    Shipped --> Delivered: deliver
+    Delivered --> [*]
+
+    Placed --> Cancelled: cancel
+    Confirmed --> Cancelled: cancel
+    Cancelled --> [*]
+
+    Shipped --> Returned: return
+    Delivered --> Returned: return
+    Returned --> Refunded: process refund
+    Refunded --> [*]

@@ -1,0 +1,7 @@
+stateDiagram-v2
+    [*] --> Evaluating
+    Evaluating --> Pass: score >= 70
+    Evaluating --> Fail: score < 70
+    Pass --> [*]
+    Fail --> Retry
+    Retry --> Evaluating
