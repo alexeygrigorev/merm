@@ -2,325 +2,325 @@
   {
     "name": "basic/diamond",
     "rel_path": "basic/diamond",
-    "ssim": 0.8359,
-    "pixel_diff": 12.01
+    "ssim": 0.9492,
+    "pixel_diff": 2.56
   },
   {
     "name": "basic/fan_in",
     "rel_path": "basic/fan_in",
-    "ssim": 0.7509,
-    "pixel_diff": 13.42
+    "ssim": 0.9034,
+    "pixel_diff": 3.27
   },
   {
     "name": "basic/fan_out",
     "rel_path": "basic/fan_out",
-    "ssim": 0.7497,
-    "pixel_diff": 13.47
+    "ssim": 0.8947,
+    "pixel_diff": 3.75
   },
   {
     "name": "basic/linear_chain",
     "rel_path": "basic/linear_chain",
-    "ssim": 0.7663,
-    "pixel_diff": 21.39
+    "ssim": 0.9667,
+    "pixel_diff": 1.72
   },
   {
     "name": "basic/parallel_paths",
     "rel_path": "basic/parallel_paths",
-    "ssim": 0.74,
-    "pixel_diff": 20.5
+    "ssim": 0.9569,
+    "pixel_diff": 2.37
   },
   {
     "name": "basic/self_loop",
     "rel_path": "basic/self_loop",
-    "ssim": 0.5163,
-    "pixel_diff": 46.77
+    "ssim": 0.8652,
+    "pixel_diff": 11.42
   },
   {
     "name": "basic/single_node",
     "rel_path": "basic/single_node",
-    "ssim": 0.6611,
-    "pixel_diff": 29.7
+    "ssim": 0.9393,
+    "pixel_diff": 3.53
   },
   {
     "name": "basic/two_nodes",
     "rel_path": "basic/two_nodes",
-    "ssim": 0.7382,
-    "pixel_diff": 24.05
+    "ssim": 0.98,
+    "pixel_diff": 1.36
   },
   {
     "name": "direction/bt",
     "rel_path": "direction/bt",
-    "ssim": 0.6714,
-    "pixel_diff": 31.0
+    "ssim": 0.965,
+    "pixel_diff": 1.82
   },
   {
     "name": "direction/lr",
     "rel_path": "direction/lr",
-    "ssim": 0.6237,
-    "pixel_diff": 29.26
+    "ssim": 0.8089,
+    "pixel_diff": 12.36
   },
   {
     "name": "direction/rl",
     "rel_path": "direction/rl",
-    "ssim": 0.5442,
-    "pixel_diff": 38.0
+    "ssim": 0.8089,
+    "pixel_diff": 12.36
   },
   {
     "name": "direction/tb",
     "rel_path": "direction/tb",
-    "ssim": 0.7556,
-    "pixel_diff": 22.37
+    "ssim": 0.965,
+    "pixel_diff": 1.82
   },
   {
     "name": "direction/td",
     "rel_path": "direction/td",
-    "ssim": 0.7556,
-    "pixel_diff": 22.37
+    "ssim": 0.965,
+    "pixel_diff": 1.82
   },
   {
     "name": "edges/arrow",
     "rel_path": "edges/arrow",
-    "ssim": 0.7556,
-    "pixel_diff": 22.37
+    "ssim": 0.965,
+    "pixel_diff": 1.82
   },
   {
     "name": "edges/circle_endpoint",
     "rel_path": "edges/circle_endpoint",
-    "ssim": 0.7537,
-    "pixel_diff": 22.58
+    "ssim": 0.9666,
+    "pixel_diff": 1.62
   },
   {
     "name": "edges/cross_endpoint",
     "rel_path": "edges/cross_endpoint",
-    "ssim": 0.7524,
-    "pixel_diff": 22.57
+    "ssim": 0.9683,
+    "pixel_diff": 1.55
   },
   {
     "name": "edges/dotted",
     "rel_path": "edges/dotted",
-    "ssim": 0.7544,
-    "pixel_diff": 22.53
+    "ssim": 0.9612,
+    "pixel_diff": 2.01
   },
   {
     "name": "edges/invisible",
     "rel_path": "edges/invisible",
-    "ssim": 0.763,
-    "pixel_diff": 21.99
+    "ssim": 0.969,
+    "pixel_diff": 1.53
   },
   {
     "name": "edges/labeled_edges",
     "rel_path": "edges/labeled_edges",
-    "ssim": 0.7676,
-    "pixel_diff": 19.31
+    "ssim": 0.774,
+    "pixel_diff": 18.78
   },
   {
     "name": "edges/open_link",
     "rel_path": "edges/open_link",
-    "ssim": 0.7571,
-    "pixel_diff": 22.22
+    "ssim": 0.969,
+    "pixel_diff": 1.53
   },
   {
     "name": "edges/thick",
     "rel_path": "edges/thick",
-    "ssim": 0.7522,
-    "pixel_diff": 22.69
+    "ssim": 0.9635,
+    "pixel_diff": 1.8
   },
   {
     "name": "scale/large",
     "rel_path": "scale/large",
-    "ssim": 0.8377,
-    "pixel_diff": 11.64
+    "ssim": 0.9431,
+    "pixel_diff": 3.01
   },
   {
     "name": "scale/medium",
     "rel_path": "scale/medium",
-    "ssim": 0.8504,
-    "pixel_diff": 10.93
+    "ssim": 0.8969,
+    "pixel_diff": 7.57
   },
   {
     "name": "scale/small",
     "rel_path": "scale/small",
-    "ssim": 0.7556,
-    "pixel_diff": 22.37
+    "ssim": 0.965,
+    "pixel_diff": 1.82
   },
   {
     "name": "shapes/circle",
     "rel_path": "shapes/circle",
-    "ssim": 0.8141,
-    "pixel_diff": 15.83
+    "ssim": 0.897,
+    "pixel_diff": 7.49
   },
   {
     "name": "shapes/cylinder",
     "rel_path": "shapes/cylinder",
-    "ssim": 0.7275,
-    "pixel_diff": 23.18
+    "ssim": 0.7377,
+    "pixel_diff": 21.91
   },
   {
     "name": "shapes/diamond",
     "rel_path": "shapes/diamond",
-    "ssim": 0.8354,
-    "pixel_diff": 13.32
+    "ssim": 0.8774,
+    "pixel_diff": 9.08
   },
   {
     "name": "shapes/double_circle",
     "rel_path": "shapes/double_circle",
-    "ssim": 0.799,
-    "pixel_diff": 14.84
+    "ssim": 0.8575,
+    "pixel_diff": 7.81
   },
   {
     "name": "shapes/hexagon",
     "rel_path": "shapes/hexagon",
-    "ssim": 0.7131,
-    "pixel_diff": 24.16
+    "ssim": 0.814,
+    "pixel_diff": 13.74
   },
   {
     "name": "shapes/mixed_shapes",
     "rel_path": "shapes/mixed_shapes",
-    "ssim": 0.7326,
-    "pixel_diff": 23.21
+    "ssim": 0.7895,
+    "pixel_diff": 17.58
   },
   {
     "name": "shapes/parallelogram",
     "rel_path": "shapes/parallelogram",
-    "ssim": 0.7525,
-    "pixel_diff": 19.41
+    "ssim": 0.838,
+    "pixel_diff": 10.91
   },
   {
     "name": "shapes/parallelogram_alt",
     "rel_path": "shapes/parallelogram_alt",
-    "ssim": 0.7515,
-    "pixel_diff": 19.0
+    "ssim": 0.8306,
+    "pixel_diff": 11.08
   },
   {
     "name": "shapes/rect",
     "rel_path": "shapes/rect",
-    "ssim": 0.7248,
-    "pixel_diff": 21.97
+    "ssim": 0.9202,
+    "pixel_diff": 4.52
   },
   {
     "name": "shapes/rounded",
     "rel_path": "shapes/rounded",
-    "ssim": 0.7675,
-    "pixel_diff": 19.46
+    "ssim": 0.8884,
+    "pixel_diff": 7.75
   },
   {
     "name": "shapes/stadium",
     "rel_path": "shapes/stadium",
-    "ssim": 0.7604,
-    "pixel_diff": 20.21
+    "ssim": 0.8183,
+    "pixel_diff": 14.55
   },
   {
     "name": "shapes/subroutine",
     "rel_path": "shapes/subroutine",
-    "ssim": 0.7228,
-    "pixel_diff": 22.45
+    "ssim": 0.7793,
+    "pixel_diff": 15.98
   },
   {
     "name": "shapes/trapezoid",
     "rel_path": "shapes/trapezoid",
-    "ssim": 0.75,
-    "pixel_diff": 20.24
+    "ssim": 0.8362,
+    "pixel_diff": 11.66
   },
   {
     "name": "shapes/trapezoid_alt",
     "rel_path": "shapes/trapezoid_alt",
-    "ssim": 0.7635,
-    "pixel_diff": 18.15
+    "ssim": 0.9272,
+    "pixel_diff": 4.03
   },
   {
     "name": "styling/classdef_multiple",
     "rel_path": "styling/classdef_multiple",
-    "ssim": 0.7546,
-    "pixel_diff": 50.15
+    "ssim": 0.9103,
+    "pixel_diff": 48.0
   },
   {
     "name": "styling/classdef_single",
     "rel_path": "styling/classdef_single",
-    "ssim": 0.7373,
-    "pixel_diff": 39.33
+    "ssim": 0.9151,
+    "pixel_diff": 30.4
   },
   {
     "name": "styling/default_class",
     "rel_path": "styling/default_class",
-    "ssim": 0.7528,
-    "pixel_diff": 52.16
+    "ssim": 0.9617,
+    "pixel_diff": 49.5
   },
   {
     "name": "styling/inline_style",
     "rel_path": "styling/inline_style",
-    "ssim": 0.7547,
-    "pixel_diff": 22.37
+    "ssim": 0.9657,
+    "pixel_diff": 1.78
   },
   {
     "name": "styling/mixed_styled_unstyled",
     "rel_path": "styling/mixed_styled_unstyled",
-    "ssim": 0.7921,
-    "pixel_diff": 24.45
+    "ssim": 0.8821,
+    "pixel_diff": 20.2
   },
   {
     "name": "subgraphs/cross_boundary_edges",
     "rel_path": "subgraphs/cross_boundary_edges",
-    "ssim": 0.3547,
-    "pixel_diff": 67.69
+    "ssim": 0.3629,
+    "pixel_diff": 67.83
   },
   {
     "name": "subgraphs/nested_subgraphs",
     "rel_path": "subgraphs/nested_subgraphs",
-    "ssim": 0.6752,
-    "pixel_diff": 38.25
+    "ssim": 0.7323,
+    "pixel_diff": 34.68
   },
   {
     "name": "subgraphs/sibling_subgraphs",
     "rel_path": "subgraphs/sibling_subgraphs",
-    "ssim": 0.6381,
-    "pixel_diff": 46.54
+    "ssim": 0.715,
+    "pixel_diff": 43.01
   },
   {
     "name": "subgraphs/single_subgraph",
     "rel_path": "subgraphs/single_subgraph",
-    "ssim": 0.6614,
-    "pixel_diff": 37.93
+    "ssim": 0.7258,
+    "pixel_diff": 33.34
   },
   {
     "name": "subgraphs/subgraph_direction",
     "rel_path": "subgraphs/subgraph_direction",
-    "ssim": 0.6789,
-    "pixel_diff": 37.37
+    "ssim": 0.7456,
+    "pixel_diff": 33.12
   },
   {
     "name": "subgraphs/subgraph_with_title",
     "rel_path": "subgraphs/subgraph_with_title",
-    "ssim": 0.3343,
-    "pixel_diff": 67.31
+    "ssim": 0.3278,
+    "pixel_diff": 69.7
   },
   {
     "name": "text/long_text",
     "rel_path": "text/long_text",
-    "ssim": 0.543,
-    "pixel_diff": 36.9
+    "ssim": 0.8661,
+    "pixel_diff": 8.32
   },
   {
     "name": "text/multiline",
     "rel_path": "text/multiline",
-    "ssim": 0.773,
-    "pixel_diff": 18.84
+    "ssim": 0.8964,
+    "pixel_diff": 7.02
   },
   {
     "name": "text/quoted_labels",
     "rel_path": "text/quoted_labels",
-    "ssim": 0.735,
-    "pixel_diff": 19.64
+    "ssim": 0.9153,
+    "pixel_diff": 4.45
   },
   {
     "name": "text/short_text",
     "rel_path": "text/short_text",
-    "ssim": 0.7455,
-    "pixel_diff": 22.86
+    "ssim": 0.9538,
+    "pixel_diff": 2.96
   },
   {
     "name": "text/special_chars",
     "rel_path": "text/special_chars",
-    "ssim": 0.6866,
-    "pixel_diff": 23.74
+    "ssim": 0.8735,
+    "pixel_diff": 8.1
   }
 ]

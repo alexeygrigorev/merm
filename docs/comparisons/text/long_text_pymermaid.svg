@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 762.4 198" width="762.4" height="198" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 257.6 260.4" width="257.6" height="260.4" style="background-color: white">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
@@ -15,20 +15,29 @@
   </defs>
   <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
 .node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; }
-.edge path { fill: none; stroke: #333333; stroke-width: 2; stroke-dasharray: 0; }
+.edge path { fill: none; stroke: #333333; }
 .edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; }
 .subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M361.2,54.0 L361.2,104.0" stroke-width="1" marker-end="url(#arrow)" />
+    <path d="M120.8,106.8 L120.8,156.8" stroke-width="1" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
-    <rect x="0.0" y="0.0" width="722.4" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="361.2" y="27">This is a very long label that should be handled correctly by the renderer</text>
+    <rect x="0.8" y="0.0" width="240.0" height="106.8" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif">
+      <tspan x="120.8" dy="-1.8em">This is a very long</tspan>
+      <tspan x="120.8" dy="1.2em">label that should be</tspan>
+      <tspan x="120.8" dy="1.2em">handled correctly by</tspan>
+      <tspan x="120.8" dy="1.2em">the renderer</tspan>
+    </text>
   </g>
   <g class="node" data-node-id="B">
-    <rect x="128.0" y="104.0" width="466.4" height="54.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="361.2" y="131">Another quite lengthy label with multiple words</text>
+    <rect x="0.0" y="156.8" width="241.6" height="87.6" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif">
+      <tspan x="120.8" dy="-1.2em">Another quite lengthy</tspan>
+      <tspan x="120.8" dy="1.2em">label with multiple</tspan>
+      <tspan x="120.8" dy="1.2em">words</tspan>
+    </text>
   </g>
 </svg>
