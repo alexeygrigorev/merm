@@ -91,5 +91,5 @@ A task filename (`.in-progress.md`) and confirmation that the tester passed.
 - Tests pass but don't actually validate the visual correctness of the output
 - Engineer claims something works but the PNG evidence shows otherwise
 - The tester passed it with "tests pass" but the output is visually broken
-- Acceptance criteria for a rendering task don't include PNG verification — send it back for grooming
+- Acceptance criteria for a rendering task don't include PNG verification — reject and require the engineer to add PNG verification and confirm visually before resubmitting
 - SVG was checked but PNG was not — SVG source can look fine while the actual rendered PNG shows problems (e.g., markers overlapping nodes, text outside viewport, invisible elements)
