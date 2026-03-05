@@ -28,6 +28,7 @@ A task filename (e.g. `tasks/01-project-setup.todo.md`).
    - Concrete acceptance criteria (testable, specific)
    - Test scenarios (what pytest tests should verify)
    - Dependencies listed (which other tasks must be `.done.md` first)
+   - **For rendering/visual tasks:** Include visual acceptance criteria — specify which diagrams must render correctly, what the expected output should look like, and require PNG visual verification as part of testing
 5. If the task is missing any of the above, add them
 6. Rename: `mv tasks/NN-name.todo.md tasks/NN-name.groomed.md`
 
@@ -73,6 +74,19 @@ A task filename (`.in-progress.md`) and confirmation that the tester passed.
    - [ ] Implementation matches the spec (not over-engineered, not under-built)
    - [ ] Tests are meaningful (not just smoke tests)
    - [ ] Code is clean and follows project patterns
-5. Verdict:
+5. **Visual verification (for rendering/SVG tasks):**
+   - [ ] Render representative diagrams and **read the output SVG/PNG** yourself — do not rely solely on the tester's report
+   - [ ] If the task adds or modifies visual elements, convert SVG to PNG and view it to confirm it looks correct
+   - [ ] Compare against mmdc reference if available — check that we're not regressing
+   - [ ] Do NOT accept work where the output "has the right structure" but doesn't actually render correctly
+6. Verdict:
    - **ACCEPT** -- Engineer can commit. Task moves to `.done.md`.
    - **REJECT** -- List specific issues. Engineer must fix.
+
+### When to Reject
+
+- Tester only did structural checks without visual verification on a rendering task
+- SVG output renders but looks obviously wrong (overlapping elements, missing labels, broken layout)
+- Tests pass but don't actually validate the visual correctness of the output
+- Engineer claims something works but the PNG evidence shows otherwise
+- The tester passed it with "tests pass" but the output is visually broken

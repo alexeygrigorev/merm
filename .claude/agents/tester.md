@@ -44,6 +44,14 @@ Verify:
 - [ ] Tests cover the acceptance criteria
 - [ ] Edge cases tested
 
+#### Visual Output Verification (for rendering/SVG tasks)
+- [ ] Render at least 3 representative diagrams to SVG using `render_diagram()`
+- [ ] Read each SVG file and verify the output is structurally valid (proper XML, no empty/broken elements)
+- [ ] If the task involves SVG path data (icons, shapes, markers), verify path `d` attributes contain valid SVG path commands (M, L, C, Z, etc.), NOT placeholder text or garbage
+- [ ] Convert SVGs to PNG using cairosvg and **read the PNG** to visually confirm correctness — do not trust structural checks alone
+- [ ] If a reference mmdc rendering exists in `tests/reference/`, compare against it
+- [ ] Any visual regression (elements missing, overlapping, misaligned) is a **FAIL**
+
 #### Lint
 - [ ] `uv run ruff check src/ tests/` passes
 
@@ -81,8 +89,13 @@ When the engineer applies fixes:
 - Tests fail
 - Core acceptance criteria not met
 - Lint errors
+- SVG output contains invalid/broken elements (empty paths, placeholder text in `d` attributes, missing required elements)
+- Visual output doesn't render correctly when converted to PNG (cairosvg crash, blank image, missing elements)
+- Tests only check structural existence (e.g. "path element exists") without verifying the content is valid/correct
+- Rendered output has obvious visual defects (overlapping text, misaligned nodes, disconnected edges)
 
 ### Pass with note (don't block)
 - Minor style issues
 - Edge cases not in acceptance criteria
 - Could be more efficient (if it works)
+- Minor visual differences from mmdc reference (different fonts, slight spacing differences)
