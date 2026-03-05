@@ -42,13 +42,24 @@ In mermaid.js, the edge endpoint is offset inward by the marker size so the arro
 ### Unit: Edge endpoint offset
 - Render A-->B in TD, verify edge path end y < node B top y (gap exists)
 - Render A-->B in LR, verify edge path end x < node B left x
+- Render A-->B in BT, verify edge path end y > node B bottom y (gap exists)
+- Render A-->B in RL, verify edge path end x > node B right x
 
 ### Unit: Marker refX
 - Arrow marker refX should align triangle tip with the path endpoint
 - Circle-end marker refX should place circle edge at path endpoint
+- Cross-end marker refX should place cross center at path endpoint
 
-### Visual: Clean arrow connections
-- Render 3-node chain, verify arrowheads don't penetrate nodes
+### PNG Verification (mandatory)
+Render each of the following to PNG with cairosvg and verify arrowheads/markers do NOT touch or overlap node borders:
+- [ ] `docs/comparisons/edges/arrow_pymermaid.svg` — arrow markers
+- [ ] `docs/comparisons/edges/circle_endpoint_pymermaid.svg` — circle markers
+- [ ] `docs/comparisons/edges/cross_endpoint_pymermaid.svg` — cross markers
+- [ ] `docs/comparisons/direction/td_pymermaid.svg` — TD direction
+- [ ] `docs/comparisons/direction/bt_pymermaid.svg` — BT direction
+- [ ] `docs/comparisons/direction/lr_pymermaid.svg` — LR direction
+- [ ] `docs/comparisons/direction/rl_pymermaid.svg` — RL direction
+- [ ] `docs/comparisons/edges/labeled_edges_pymermaid.svg` — labeled edges
 
 ## Dependencies
 - None
