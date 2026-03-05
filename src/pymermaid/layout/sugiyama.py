@@ -347,10 +347,14 @@ def _route_edge_on_boundary(
     src_size: tuple[float, float],
     tgt_pos: tuple[float, float],
     tgt_size: tuple[float, float],
+    *,
+    gap: float = 3.0,
 ) -> tuple[Point, Point]:
     """Compute edge endpoints on the node boundaries (rectangular approximation).
 
-    Positions are centers; sizes are (width, height).
+    Positions are centers; sizes are (width, height).  A small *gap* is
+    applied so the edge path starts/ends slightly away from the node border,
+    preventing arrowhead markers from touching or penetrating the node.
     """
     sx, sy = src_pos
     sw, sh = src_size
@@ -362,13 +366,21 @@ def _route_edge_on_boundary(
     dy = ty - sy
 
     if abs(dx) < 1e-9 and abs(dy) < 1e-9:
-        # Same position -- just use center
-        return Point(sx, sy + sh / 2), Point(tx, ty - th / 2)
+        # Same position -- just use center, with gap
+        return Point(sx, sy + sh / 2 + gap), Point(tx, ty - th / 2 - gap)
 
     # Source exit point
     src_point = _boundary_point(sx, sy, sw, sh, dx, dy)
     # Target entry point (reverse direction)
     tgt_point = _boundary_point(tx, ty, tw, th, -dx, -dy)
+
+    # Pull both endpoints inward by `gap` pixels along the edge direction
+    length = (dx * dx + dy * dy) ** 0.5
+    if length > 2 * gap:
+        ux = dx / length
+        uy = dy / length
+        src_point = Point(src_point.x + ux * gap, src_point.y + uy * gap)
+        tgt_point = Point(tgt_point.x - ux * gap, tgt_point.y - uy * gap)
 
     return src_point, tgt_point
 
@@ -866,11 +878,29 @@ def _compute_subgraph_layouts(
             return None
 
         title_extra = 24.0  # extra top padding for title text
+        title_margin = 8.0  # left margin for title text inside rect
+        title_padding = 16.0  # total horizontal padding around title text
+
+        content_width = (max_x - min_x) + 2 * padding
+        rect_width = content_width
+
+        # Measure title text width and ensure the rect is wide enough
+        title = sg.title or sg.id
+        _SUBGRAPH_TITLE_FONT_SIZE = 12.0
+        title_text_width = _line_width(title, _SUBGRAPH_TITLE_FONT_SIZE)
+        min_width_for_title = title_text_width + title_margin + title_padding
+        if min_width_for_title > rect_width:
+            rect_width = min_width_for_title
+
+        # Center the wider rect around the child content
+        content_center_x = (min_x + max_x) / 2.0
+        rect_x = content_center_x - rect_width / 2.0
+
         sgl = SubgraphLayout(
             id=sg.id,
-            x=min_x - padding,
+            x=rect_x,
             y=min_y - padding - title_extra,
-            width=(max_x - min_x) + 2 * padding,
+            width=rect_width,
             height=(max_y - min_y) + 2 * padding + title_extra,
             title=sg.title,
         )
@@ -960,7 +990,7 @@ def layout_diagram(
             # Wrap the label and measure the wrapped version
             wrapped_lines = _wrap_line(label, _DEFAULT_FONT_SIZE, _MAX_TEXT_WIDTH)
             tw = max(_line_width(line, _DEFAULT_FONT_SIZE) for line in wrapped_lines)
-            th = _DEFAULT_FONT_SIZE * 1.2 * len(wrapped_lines)
+            th = _DEFAULT_FONT_SIZE * 1.4 * len(wrapped_lines)
         else:
             tw, th = measure_fn(label, _DEFAULT_FONT_SIZE)
         shape = node_shapes.get(nid, NodeShape.rect)
@@ -1165,30 +1195,66 @@ def layout_diagram(
         diagram.subgraphs, node_layouts,
     )
 
-    # Compute overall dimensions (include subgraph bboxes and edge points)
-    if node_layouts:
-        overall_w = max(nl.x + nl.width for nl in node_layouts.values())
-        overall_h = max(nl.y + nl.height for nl in node_layouts.values())
-    else:
-        overall_w = 0.0
-        overall_h = 0.0
+    # Compute bounding box across all elements (nodes, edges, subgraphs)
+    min_x = 0.0
+    min_y = 0.0
+    max_x = 0.0
+    max_y = 0.0
 
-    # Expand overall dimensions to include edge points (self-loops extend
-    # beyond node bounding boxes)
+    if node_layouts:
+        min_x = min(nl.x for nl in node_layouts.values())
+        min_y = min(nl.y for nl in node_layouts.values())
+        max_x = max(nl.x + nl.width for nl in node_layouts.values())
+        max_y = max(nl.y + nl.height for nl in node_layouts.values())
+
     for el in all_edge_layouts:
         for p in el.points:
-            overall_w = max(overall_w, p.x)
-            overall_h = max(overall_h, p.y)
+            min_x = min(min_x, p.x)
+            min_y = min(min_y, p.y)
+            max_x = max(max_x, p.x)
+            max_y = max(max_y, p.y)
 
-    # Expand overall dimensions to include subgraph bounding boxes
     for sgl in subgraph_layouts.values():
-        overall_w = max(overall_w, sgl.x + sgl.width)
-        overall_h = max(overall_h, sgl.y + sgl.height)
+        min_x = min(min_x, sgl.x)
+        min_y = min(min_y, sgl.y)
+        max_x = max(max_x, sgl.x + sgl.width)
+        max_y = max(max_y, sgl.y + sgl.height)
+
+    # If any element extends into negative coordinates, shift everything
+    # so that the minimum is at 0.
+    shift_x = -min_x if min_x < 0 else 0.0
+    shift_y = -min_y if min_y < 0 else 0.0
+
+    if shift_x != 0.0 or shift_y != 0.0:
+        for nid in node_layouts:
+            nl = node_layouts[nid]
+            node_layouts[nid] = NodeLayout(
+                x=nl.x + shift_x, y=nl.y + shift_y,
+                width=nl.width, height=nl.height,
+            )
+        for i, el in enumerate(all_edge_layouts):
+            shifted_points = [
+                Point(p.x + shift_x, p.y + shift_y) for p in el.points
+            ]
+            all_edge_layouts[i] = EdgeLayout(
+                source=el.source, target=el.target,
+                points=shifted_points,
+            )
+        for sg_id in list(subgraph_layouts):
+            sgl = subgraph_layouts[sg_id]
+            subgraph_layouts[sg_id] = SubgraphLayout(
+                id=sgl.id,
+                x=sgl.x + shift_x, y=sgl.y + shift_y,
+                width=sgl.width, height=sgl.height,
+                title=sgl.title,
+            )
+        max_x += shift_x
+        max_y += shift_y
 
     return LayoutResult(
         nodes=node_layouts,
         edges=all_edge_layouts,
-        width=overall_w,
-        height=overall_h,
+        width=max_x,
+        height=max_y,
         subgraphs=subgraph_layouts,
     )
