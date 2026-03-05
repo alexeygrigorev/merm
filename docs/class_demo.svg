@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 338 490" width="338" height="490" style="background-color: white">
+  <defs>
+    <marker id="inherit-arrow" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="white" stroke="#333333" stroke-width="1" />
+    </marker>
+    <marker id="composition-arrow" markerWidth="16" markerHeight="10" refX="16" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,5 L8,0 L16,5 L8,10 Z" fill="#333333" stroke="#333333" stroke-width="1" />
+    </marker>
+    <marker id="aggregation-arrow" markerWidth="16" markerHeight="10" refX="16" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,5 L8,0 L16,5 L8,10 Z" fill="white" stroke="#333333" stroke-width="1" />
+    </marker>
+    <marker id="association-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+    <marker id="dependency-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+    <marker id="realization-arrow" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="white" stroke="#333333" stroke-width="1" />
+    </marker>
+  </defs>
+  <style>.class-node rect { fill: #ECECFF; stroke: #9370DB; stroke-width: 2; }
+.class-node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; }
+.class-node line { stroke: #9370DB; }
+.class-edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.class-edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; }
+</style>
+  <g class="class-edge" data-edge-source="Dog" data-edge-target="Animal">
+    <path d="M119.22058823529412,90.0 L36.5,215.0 L54.208333333333336,340.0" fill="none" stroke="#333333" stroke-width="2" marker-end="url(#inherit-arrow)" />
+    <text x="77.86" y="144.5" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">inherits</text>
+  </g>
+  <g class="class-edge" data-edge-source="Cat" data-edge-target="Animal">
+    <path d="M127.25,260.0 L88.58333333333334,340.0" fill="none" stroke="#333333" stroke-width="2" marker-end="url(#inherit-arrow)" />
+    <text x="107.92" y="292.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">inherits</text>
+  </g>
+  <g class="class-edge" data-edge-source="Dog" data-edge-target="Pet">
+    <path d="M178.77941176470588,90.0 L261.5,215.0 L243.50833333333333,342.0" fill="none" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#realization-arrow)" />
+    <text x="220.14" y="144.5" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">implements</text>
+  </g>
+  <g class="class-edge" data-edge-source="Cat" data-edge-target="Pet">
+    <path d="M170.75,260.0 L210.38333333333333,342.0" fill="none" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#realization-arrow)" />
+    <text x="190.57" y="293.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">implements</text>
+  </g>
+  <g class="class-edge" data-edge-source="Dog" data-edge-target="Cat">
+    <path d="M149.0,90.0 L149.0,170.0" fill="none" stroke="#333333" stroke-width="2" marker-end="url(#association-arrow)" />
+    <text x="137.0" y="105.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">1</text>
+    <text x="161.0" y="155.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">1</text>
+    <text x="149.0" y="122.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">chases</text>
+  </g>
+  <g class="class-node" data-node-id="Animal">
+    <rect x="0.0" y="340.0" width="124.0" height="110.0" fill="#ECECFF" stroke="#9370DB" stroke-width="2" />
+    <text x="62.0" y="360.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="14.0px" font-weight="bold" fill="#333333">Animal</text>
+    <line x1="0.0" y1="370.0" x2="124.0" y2="370.0" stroke="#9370DB" stroke-width="1" />
+    <text x="10.0" y="386.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+String: name</text>
+    <text x="10.0" y="406.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+int: age</text>
+    <line x1="0.0" y1="410.0" x2="124.0" y2="410.0" stroke="#9370DB" stroke-width="1" />
+    <text x="10.0" y="426.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+makeSound()</text>
+    <text x="10.0" y="446.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+move()</text>
+  </g>
+  <g class="class-node" data-node-id="Dog">
+    <rect x="83.0" y="0.0" width="132.0" height="90.0" fill="#ECECFF" stroke="#9370DB" stroke-width="2" />
+    <text x="149.0" y="20.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="14.0px" font-weight="bold" fill="#333333">Dog</text>
+    <line x1="83.0" y1="30.0" x2="215.0" y2="30.0" stroke="#9370DB" stroke-width="1" />
+    <text x="93.0" y="46.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+String: breed</text>
+    <line x1="83.0" y1="50.0" x2="215.0" y2="50.0" stroke="#9370DB" stroke-width="1" />
+    <text x="93.0" y="66.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+bark()</text>
+    <text x="93.0" y="86.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+fetch()</text>
+  </g>
+  <g class="class-node" data-node-id="Cat">
+    <rect x="87.0" y="170.0" width="124.0" height="90.0" fill="#ECECFF" stroke="#9370DB" stroke-width="2" />
+    <text x="149.0" y="190.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="14.0px" font-weight="bold" fill="#333333">Cat</text>
+    <line x1="87.0" y1="200.0" x2="211.0" y2="200.0" stroke="#9370DB" stroke-width="1" />
+    <text x="97.0" y="216.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+bool: indoor</text>
+    <line x1="87.0" y1="220.0" x2="211.0" y2="220.0" stroke="#9370DB" stroke-width="1" />
+    <text x="97.0" y="236.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+purr()</text>
+    <text x="97.0" y="256.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+scratch()</text>
+  </g>
+  <g class="class-node" data-node-id="Pet">
+    <rect x="174.0" y="342.0" width="124.0" height="106.0" fill="#ECECFF" stroke="#9370DB" stroke-width="2" />
+    <text x="236.0" y="356.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" font-style="italic" fill="#333333">&lt;&lt;interface&gt;&gt;</text>
+    <text x="236.0" y="378.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="14.0px" font-weight="bold" fill="#333333">Pet</text>
+    <line x1="174.0" y1="388.0" x2="298.0" y2="388.0" stroke="#9370DB" stroke-width="1" />
+    <line x1="174.0" y1="408.0" x2="298.0" y2="408.0" stroke="#9370DB" stroke-width="1" />
+    <text x="184.0" y="424.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+getOwner()</text>
+    <text x="184.0" y="444.0" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" font-size="12.0px" fill="#333333">+setOwner()</text>
+  </g>
+</svg>

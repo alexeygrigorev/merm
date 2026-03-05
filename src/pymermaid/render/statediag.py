@@ -10,6 +10,7 @@ from __future__ import annotations
 import re
 import xml.etree.ElementTree as ET
 
+from pymermaid.ir import Edge
 from pymermaid.ir.statediag import (
     State,
     StateDiagram,
@@ -184,42 +185,6 @@ def _render_normal_state(
     text_el.text = state.label
 
 
-def _render_composite_state(
-    parent: ET.Element,
-    state: State,
-    nl: NodeLayout,
-    child_layouts: dict[str, NodeLayout],
-    theme: Theme,
-) -> None:
-    """Render a composite state as a bordered box with children."""
-    g = ET.SubElement(parent, "g")
-    g.set("class", "composite")
-    g.set("data-state-id", state.id)
-
-    # Outer box
-    rect = ET.SubElement(g, "rect")
-    rect.set("x", _round_coord(nl.x))
-    rect.set("y", _round_coord(nl.y))
-    rect.set("width", _round_coord(nl.width))
-    rect.set("height", _round_coord(nl.height))
-    rect.set("rx", "10")
-    rect.set("ry", "10")
-
-    # Title
-    text_el = ET.SubElement(g, "text")
-    text_el.set("x", _round_coord(nl.x + 10))
-    text_el.set("y", _round_coord(nl.y + 16))
-    text_el.set("font-family", theme.font_family)
-    text_el.text = state.label
-
-    # Render children
-    for child in state.children:
-        child_nl = child_layouts.get(child.id)
-        if child_nl is None:
-            continue
-        _render_state_node(parent, child, child_nl, {}, theme)
-
-
 def _render_state_node(
     parent: ET.Element,
     state: State,
@@ -334,6 +299,13 @@ def render_state_svg(
         for child in s.children:
             state_map[child.id] = child
 
+    # Build set of composite child IDs to avoid double-rendering
+    composite_child_ids: set[str] = set()
+    for state in diagram.states:
+        if state.children:
+            for child in state.children:
+                composite_child_ids.add(child.id)
+
     # Render composite state backgrounds first (subgraphs)
     sg_layouts = layout.subgraphs or {}
     for state in diagram.states:
@@ -344,25 +316,50 @@ def render_state_svg(
                     x=sgl.x, y=sgl.y,
                     width=sgl.width, height=sgl.height,
                 )
-                _render_composite_state(
-                    svg, state, nl, layout.nodes, theme,
-                )
+                # Render just the composite box (not children here)
+                g = ET.SubElement(svg, "g")
+                g.set("class", "composite")
+                g.set("data-state-id", state.id)
+                rect = ET.SubElement(g, "rect")
+                rect.set("x", _round_coord(nl.x))
+                rect.set("y", _round_coord(nl.y))
+                rect.set("width", _round_coord(nl.width))
+                rect.set("height", _round_coord(nl.height))
+                rect.set("rx", "10")
+                rect.set("ry", "10")
+                text_el = ET.SubElement(g, "text")
+                text_el.set("x", _round_coord(nl.x + 10))
+                text_el.set("y", _round_coord(nl.y + 16))
+                text_el.set("font-family", theme.font_family)
+                text_el.text = state.label
 
-    # Render edges
+    # Build transition label map for edge rendering
+    label_map: dict[tuple[str, str], str] = {}
+    for t in diagram.transitions:
+        if t.label:
+            label_map[(t.source, t.target)] = t.label
+
+    # Render edges with labels inline
     for el in layout.edges:
-        render_edge(svg, el, None, edge_label_bg=theme.edge_label_bg)
+        label = label_map.get((el.source, el.target))
+        # Create a minimal Edge IR to carry the label
+        ir_edge = Edge(
+            source=el.source,
+            target=el.target,
+            label=label,
+        ) if label else None
+        render_edge(
+            svg, el, ir_edge, edge_label_bg=theme.edge_label_bg,
+        )
 
-    # Render transition labels on edges
-    _render_transition_labels(svg, diagram, layout, theme)
-
-    # Render state nodes (non-composite)
+    # Render state nodes
     for node_id, nl in layout.nodes.items():
         state = state_map.get(node_id)
         if state is None:
-            # Auto-created state
+            # Auto-created state (e.g. start/end pseudo-states)
             state = State(id=node_id, label=node_id)
         if state.children:
-            # Already rendered as composite background
+            # Composite rendered as subgraph background above
             continue
         _render_state_node(svg, state, nl, layout.nodes, theme)
 
@@ -373,59 +370,6 @@ def render_state_svg(
     ET.indent(svg)
     result = ET.tostring(svg, encoding="unicode", xml_declaration=False)
     return _round_svg_coords(result)
-
-
-def _render_transition_labels(
-    parent: ET.Element,
-    diagram: StateDiagram,
-    layout: LayoutResult,
-    theme: Theme,
-) -> None:
-    """Render labels on transitions that have them."""
-    # Build a mapping from (source, target) -> label
-    label_map: dict[tuple[str, str], str] = {}
-    for t in diagram.transitions:
-        if t.label:
-            label_map[(t.source, t.target)] = t.label
-
-    for el in layout.edges:
-        label = label_map.get((el.source, el.target))
-        if not label:
-            continue
-        # Place label at midpoint of edge
-        if len(el.points) >= 2:
-            mid_idx = len(el.points) // 2
-            if len(el.points) % 2 == 0:
-                p1 = el.points[mid_idx - 1]
-                p2 = el.points[mid_idx]
-                mx = (p1.x + p2.x) / 2
-                my = (p1.y + p2.y) / 2
-            else:
-                p = el.points[mid_idx]
-                mx, my = p.x, p.y
-        else:
-            mx, my = 0.0, 0.0
-
-        g = ET.SubElement(parent, "g")
-        g.set("class", "edge")
-        # Background rect for readability
-        text_w = len(label) * 7
-        text_h = 16
-        bg = ET.SubElement(g, "rect")
-        bg.set("x", _round_coord(mx - text_w / 2))
-        bg.set("y", _round_coord(my - text_h / 2))
-        bg.set("width", _round_coord(text_w))
-        bg.set("height", _round_coord(text_h))
-        bg.set("fill", theme.edge_label_bg)
-        bg.set("stroke", "none")
-        bg.set("rx", "3")
-
-        text_el = ET.SubElement(g, "text")
-        text_el.set("x", _round_coord(mx))
-        text_el.set("y", _round_coord(my))
-        text_el.set("text-anchor", "middle")
-        text_el.set("dominant-baseline", "central")
-        text_el.text = label
 
 
 __all__ = ["render_state_svg"]
