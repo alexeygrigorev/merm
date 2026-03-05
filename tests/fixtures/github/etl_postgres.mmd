@@ -1,0 +1,14 @@
+graph LR
+  Start[Select Year & Month] --> SetLabel[Set Labels]
+  SetLabel --> Extract[Extract CSV Data]
+  Extract -->|Taxi=Yellow| YellowFinalTable[Create Yellow Final Table]:::yellow
+  Extract -->|Taxi=Green| GreenFinalTable[Create Green Final Table]:::green
+  YellowFinalTable --> YellowMonthlyTable[Create Yellow Monthly Table]:::yellow
+  GreenFinalTable --> GreenMonthlyTable[Create Green Monthly Table]:::green
+  YellowMonthlyTable --> YellowCopyIn[Load Data to Monthly Table]:::yellow
+  GreenMonthlyTable --> GreenCopyIn[Load Data to Monthly Table]:::green
+  YellowCopyIn --> YellowMerge[Merge Yellow Data]:::yellow
+  GreenCopyIn --> GreenMerge[Merge Green Data]:::green
+
+  classDef yellow fill:#FFD700,stroke:#000,stroke-width:1px,color:#000;
+  classDef green fill:#32CD32,stroke:#000,stroke-width:1px,color:#000;
