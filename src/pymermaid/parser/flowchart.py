@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 import re
 from dataclasses import dataclass, field
 
@@ -37,8 +38,14 @@ _ENTITY_RE = re.compile(r"#(\d+);")
 
 
 def _decode_entities(text: str) -> str:
-    """Decode Mermaid entity codes like ``#35;`` -> ``#``."""
-    return _ENTITY_RE.sub(lambda m: chr(int(m.group(1))), text)
+    """Decode Mermaid entity codes and standard HTML entities."""
+    # First decode standard HTML entities (&amp; &lt; &gt; &quot; &#38; &#x26; etc.)
+    # This must run before Mermaid-specific decoding to avoid partial matches
+    # (e.g. &#38; contains #38; which would be matched by the Mermaid regex)
+    text = html.unescape(text)
+    # Then decode Mermaid-specific numeric codes (#35; style without &)
+    text = _ENTITY_RE.sub(lambda m: chr(int(m.group(1))), text)
+    return text
 
 
 # ---------------------------------------------------------------------------
@@ -841,7 +848,7 @@ def _parse_edge_token(token: str, lineno: int) -> _EdgeInfo:
         op_str = pipe_match.group(1).strip()
         label = pipe_match.group(2)
         info = _parse_edge_operator(op_str)
-        info.label = label if label else ""
+        info.label = _decode_entities(label) if label else ""
         return info
 
     # Check for inline label: -- label --> or -. label .-> or == label ==>
@@ -884,7 +891,7 @@ def _parse_edge_token(token: str, lineno: int) -> _EdgeInfo:
                 info = _parse_edge_operator(op)
             except ValueError:
                 raise ParseError(f"Cannot parse edge: {token!r}", lineno) from None
-            info.label = label
+            info.label = _decode_entities(label)
             return info
 
     # Plain edge operator
