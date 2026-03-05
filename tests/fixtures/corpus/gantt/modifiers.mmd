@@ -1,0 +1,12 @@
+gantt
+    title Release Pipeline
+    dateFormat YYYY-MM-DD
+    section Phase 1
+        Research     :done, r1, 2024-01-01, 20d
+        Prototype    :done, p1, after r1, 15d
+    section Phase 2
+        Development  :active, d1, after p1, 40d
+        Code Review  :crit, cr1, after d1, 5d
+    section Phase 3
+        QA           :q1, after cr1, 10d
+        Release      :crit, rel1, after q1, 3d
