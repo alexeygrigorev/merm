@@ -91,14 +91,24 @@ For any task that changes rendering or SVG output:
 
 Tasks are tracked both as files in `tasks/` and in the Claude Code task panel:
 
-| Panel Tag | Agent | What happens |
-|-----------|-------|-------------|
-| `[PM]` | Product Manager | Grooms .todo → .groomed (adds acceptance criteria + PNG verification) |
-| `[SWE]` | Software Engineer | Implements code + tests |
-| `[QA]` | Tester | Verifies against acceptance criteria, renders PNGs |
-| `[PM]` | Product Manager | Final acceptance review (after QA passes) |
+| Panel Tag | Agent | When | What happens |
+|-----------|-------|------|-------------|
+| `[PM groom]` | Product Manager | BEFORE implementation | Adds acceptance criteria, PNG verification checklist, test scenarios. Renames .todo → .groomed |
+| `[SWE]` | Software Engineer | After grooming | Implements code + tests. Renames .groomed → .in-progress |
+| `[QA]` | Tester | After implementation | Verifies acceptance criteria, renders to PNG and visually inspects. Pass/Fail |
+| `[PM accept]` | Product Manager | AFTER QA passes | Final review. Renders PNGs independently. Accept → .done + commit. Reject → back to SWE to finish |
 
-Pipeline per feature: **[PM] Groom → [SWE] Implement → [QA] Test → [PM] Accept → Commit**
+Pipeline per feature:
+
+```
+[PM groom] → [SWE] Implement → [QA] Test → [PM accept] → Commit
+                  ↑                              |
+                  └──── Reject (back to SWE) ────┘
+```
+
+**PM has two distinct roles:**
+1. **Before** engineering: groom the task (define what "done" looks like)
+2. **After** QA: accept or reject (verify it actually looks right). Reject sends it back to engineer for finishing, NOT back to grooming.
 
 ## Conventions
 
