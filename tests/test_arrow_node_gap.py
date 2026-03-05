@@ -10,7 +10,34 @@ import xml.etree.ElementTree as ET
 
 from pymermaid import render_diagram
 from pymermaid.layout.sugiyama import _route_edge_on_boundary
+from pymermaid.layout.types import Point  # noqa: F401 (used by helper)
 from pymermaid.render.edges import make_edge_defs
+
+# ---------------------------------------------------------------------------
+# Helper: assert a point lies on a rect boundary
+# ---------------------------------------------------------------------------
+
+def _assert_on_rect_boundary(
+    pt: Point,
+    center: tuple[float, float],
+    size: tuple[float, float],
+    tolerance: float = 0.5,
+) -> None:
+    """Assert that *pt* lies on the boundary of the rect centred at *center*."""
+    cx, cy = center
+    hw, hh = size[0] / 2.0, size[1] / 2.0
+
+    on_left_or_right = (
+        abs(abs(pt.x - cx) - hw) < tolerance and abs(pt.y - cy) <= hh + tolerance
+    )
+    on_top_or_bottom = (
+        abs(abs(pt.y - cy) - hh) < tolerance and abs(pt.x - cx) <= hw + tolerance
+    )
+    assert on_left_or_right or on_top_or_bottom, (
+        f"Point ({pt.x}, {pt.y}) is not on rect boundary "
+        f"center=({cx}, {cy}), size={size}"
+    )
+
 
 # ---------------------------------------------------------------------------
 # Helper: parse marker refX from rendered defs
@@ -54,11 +81,16 @@ class TestMarkerRefX:
 # ---------------------------------------------------------------------------
 
 class TestEdgeEndpointGap:
-    """Edge start/end points should be offset from the node boundary."""
+    """Edge endpoints should lie exactly on the node boundary (no gap by default).
 
-    def test_td_target_gap(self) -> None:
-        """In a vertical (TD) layout, the edge end-y should be above the
-        target node's top border (i.e., gap exists)."""
+    Source endpoints always touch the node rect.  Target endpoints touch the
+    rect as well -- the SVG marker ``refX`` handles arrowhead alignment so no
+    path-level gap is needed.
+    """
+
+    def test_td_target_on_boundary(self) -> None:
+        """In a vertical (TD) layout, the edge target endpoint should be
+        exactly on the target node's top border."""
         src_pos = (100.0, 50.0)
         src_size = (80.0, 54.0)
         tgt_pos = (100.0, 150.0)
@@ -66,14 +98,13 @@ class TestEdgeEndpointGap:
 
         src_pt, tgt_pt = _route_edge_on_boundary(src_pos, src_size, tgt_pos, tgt_size)
 
-        # Target top border is at 150 - 27 = 123
         tgt_top = tgt_pos[1] - tgt_size[1] / 2
-        assert tgt_pt.y < tgt_top, (
-            f"Edge end y={tgt_pt.y} should be above target top={tgt_top}"
+        assert abs(tgt_pt.y - tgt_top) < 0.5, (
+            f"Edge end y={tgt_pt.y} should be on target top={tgt_top}"
         )
 
-    def test_td_source_gap(self) -> None:
-        """In TD, the edge start-y should be below the source node bottom."""
+    def test_td_source_on_boundary(self) -> None:
+        """In TD, the edge source endpoint should be on the source node bottom."""
         src_pos = (100.0, 50.0)
         src_size = (80.0, 54.0)
         tgt_pos = (100.0, 150.0)
@@ -81,14 +112,13 @@ class TestEdgeEndpointGap:
 
         src_pt, tgt_pt = _route_edge_on_boundary(src_pos, src_size, tgt_pos, tgt_size)
 
-        # Source bottom border is at 50 + 27 = 77
         src_bot = src_pos[1] + src_size[1] / 2
-        assert src_pt.y > src_bot, (
-            f"Edge start y={src_pt.y} should be below source bottom={src_bot}"
+        assert abs(src_pt.y - src_bot) < 0.5, (
+            f"Edge start y={src_pt.y} should be on source bottom={src_bot}"
         )
 
-    def test_lr_target_gap(self) -> None:
-        """In a horizontal layout, edge end-x should be left of target."""
+    def test_lr_target_on_boundary(self) -> None:
+        """Horizontal: target endpoint on target left border."""
         src_pos = (50.0, 100.0)
         src_size = (80.0, 54.0)
         tgt_pos = (200.0, 100.0)
@@ -97,12 +127,12 @@ class TestEdgeEndpointGap:
         src_pt, tgt_pt = _route_edge_on_boundary(src_pos, src_size, tgt_pos, tgt_size)
 
         tgt_left = tgt_pos[0] - tgt_size[0] / 2
-        assert tgt_pt.x < tgt_left, (
-            f"Edge end x={tgt_pt.x} should be left of target left={tgt_left}"
+        assert abs(tgt_pt.x - tgt_left) < 0.5, (
+            f"Edge end x={tgt_pt.x} should be on target left={tgt_left}"
         )
 
-    def test_lr_source_gap(self) -> None:
-        """In horizontal, edge start-x should be right of source right border."""
+    def test_lr_source_on_boundary(self) -> None:
+        """In horizontal, edge source endpoint should be on source right border."""
         src_pos = (50.0, 100.0)
         src_size = (80.0, 54.0)
         tgt_pos = (200.0, 100.0)
@@ -111,12 +141,12 @@ class TestEdgeEndpointGap:
         src_pt, tgt_pt = _route_edge_on_boundary(src_pos, src_size, tgt_pos, tgt_size)
 
         src_right = src_pos[0] + src_size[0] / 2
-        assert src_pt.x > src_right, (
-            f"Edge start x={src_pt.x} should be right of source right={src_right}"
+        assert abs(src_pt.x - src_right) < 0.5, (
+            f"Edge start x={src_pt.x} should be on source right={src_right}"
         )
 
-    def test_diagonal_gap(self) -> None:
-        """Diagonal edges should also have a gap at both ends."""
+    def test_diagonal_on_boundary(self) -> None:
+        """Diagonal edges should have endpoints exactly on both boundaries."""
         src_pos = (50.0, 50.0)
         src_size = (80.0, 54.0)
         tgt_pos = (200.0, 200.0)
@@ -124,29 +154,34 @@ class TestEdgeEndpointGap:
 
         src_pt, tgt_pt = _route_edge_on_boundary(src_pos, src_size, tgt_pos, tgt_size)
 
-        # The gap should move both points away from the boundary
-        # Source boundary would be closer to center than the gap-adjusted point
-        # Check via distance from node centers
-        import math
-        src_dist = math.hypot(src_pt.x - src_pos[0], src_pt.y - src_pos[1])
-        tgt_dist = math.hypot(tgt_pt.x - tgt_pos[0], tgt_pt.y - tgt_pos[1])
+        # Source point should lie on the source rect boundary
+        _assert_on_rect_boundary(src_pt, src_pos, src_size, tolerance=0.5)
+        # Target point should lie on the target rect boundary
+        _assert_on_rect_boundary(tgt_pt, tgt_pos, tgt_size, tolerance=0.5)
 
-        # Both distances should be greater than the half-size (boundary is at half-size)
-        # For a diagonal, the boundary point is somewhere on the rect edge
-        # The gap pulls the point further from center
-        src_half_min = min(src_size) / 2
-        tgt_half_min = min(tgt_size) / 2
-        assert src_dist > src_half_min, "Source point should be beyond boundary"
-        assert tgt_dist > tgt_half_min, "Target point should be beyond boundary"
-
-    def test_gap_is_small(self) -> None:
-        """The gap should be small (a few pixels), not huge."""
+    def test_no_gap_by_default(self) -> None:
+        """With default parameters, both endpoints lie exactly on boundaries."""
         src_pos = (100.0, 50.0)
         src_size = (80.0, 54.0)
         tgt_pos = (100.0, 150.0)
         tgt_size = (80.0, 54.0)
 
         src_pt, tgt_pt = _route_edge_on_boundary(src_pos, src_size, tgt_pos, tgt_size)
+
+        tgt_top = tgt_pos[1] - tgt_size[1] / 2
+        gap = abs(tgt_top - tgt_pt.y)
+        assert gap < 0.5, f"Gap should be <0.5px, got {gap}"
+
+    def test_explicit_target_gap(self) -> None:
+        """When target_gap is set, the target endpoint is pulled inward."""
+        src_pos = (100.0, 50.0)
+        src_size = (80.0, 54.0)
+        tgt_pos = (100.0, 150.0)
+        tgt_size = (80.0, 54.0)
+
+        src_pt, tgt_pt = _route_edge_on_boundary(
+            src_pos, src_size, tgt_pos, tgt_size, target_gap=3.0,
+        )
 
         tgt_top = tgt_pos[1] - tgt_size[1] / 2
         gap = tgt_top - tgt_pt.y
