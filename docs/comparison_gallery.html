@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>pymermaid vs mermaid.js Comparison</title>
+<style>
+body { font-family: sans-serif; margin: 20px; background: #f5f5f5; }
+h1 { color: #333; }
+.pair { display: flex; gap: 20px; margin: 20px 0; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.pair img { max-width: 380px; border: 1px solid #ddd; background: white; }
+.label { font-weight: bold; margin-bottom: 5px; }
+.score { margin-top: 5px; font-size: 14px; }
+.score.good { color: #2a7; }
+.score.ok { color: #a80; }
+.score.bad { color: #c33; }
+.name { font-size: 18px; font-weight: bold; color: #555; margin-top: 20px; }
+table { border-collapse: collapse; margin: 20px 0; }
+th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+th { background: #f0f0f0; }
+</style>
+</head>
+<body>
+<h1>pymermaid vs mermaid.js Visual Comparison</h1>
+<table>
+<tr><th>Diagram</th><th>SSIM</th><th>Pixel Diff %</th><th>Rating</th></tr>
+<tr><td>subgraphs/subgraph_with_title</td><td>0.328</td><td>68.11%</td><td>Needs Work</td></tr>
+<tr><td>subgraphs/cross_boundary_edges</td><td>0.3421</td><td>67.89%</td><td>Needs Work</td></tr>
+<tr><td>basic/parallel_paths</td><td>0.4443</td><td>54.07%</td><td>Needs Work</td></tr>
+<tr><td>text/long_text</td><td>0.5255</td><td>39.17%</td><td>Needs Work</td></tr>
+<tr><td>direction/lr</td><td>0.541</td><td>36.22%</td><td>Needs Work</td></tr>
+<tr><td>direction/rl</td><td>0.5508</td><td>36.1%</td><td>Needs Work</td></tr>
+<tr><td>basic/self_loop</td><td>0.5588</td><td>44.3%</td><td>Needs Work</td></tr>
+<tr><td>basic/single_node</td><td>0.6293</td><td>35.96%</td><td>OK</td></tr>
+<tr><td>subgraphs/sibling_subgraphs</td><td>0.6439</td><td>46.23%</td><td>OK</td></tr>
+<tr><td>direction/bt</td><td>0.6606</td><td>33.94%</td><td>OK</td></tr>
+<tr><td>shapes/cylinder</td><td>0.6727</td><td>30.5%</td><td>OK</td></tr>
+<tr><td>text/special_chars</td><td>0.6731</td><td>25.64%</td><td>OK</td></tr>
+<tr><td>basic/two_nodes</td><td>0.682</td><td>31.95%</td><td>OK</td></tr>
+<tr><td>text/multiline</td><td>0.6872</td><td>28.31%</td><td>OK</td></tr>
+<tr><td>subgraphs/single_subgraph</td><td>0.6938</td><td>35.83%</td><td>OK</td></tr>
+<tr><td>subgraphs/subgraph_direction</td><td>0.6967</td><td>36.85%</td><td>OK</td></tr>
+<tr><td>styling/inline_style</td><td>0.6975</td><td>29.91%</td><td>OK</td></tr>
+<tr><td>text/short_text</td><td>0.6983</td><td>30.06%</td><td>OK</td></tr>
+<tr><td>styling/default_class</td><td>0.6988</td><td>49.9%</td><td>OK</td></tr>
+<tr><td>subgraphs/nested_subgraphs</td><td>0.6988</td><td>37.29%</td><td>OK</td></tr>
+<tr><td>edges/thick</td><td>0.7014</td><td>30.0%</td><td>OK</td></tr>
+<tr><td>direction/tb</td><td>0.7018</td><td>29.96%</td><td>OK</td></tr>
+<tr><td>direction/td</td><td>0.7018</td><td>29.96%</td><td>OK</td></tr>
+<tr><td>edges/arrow</td><td>0.7018</td><td>29.96%</td><td>OK</td></tr>
+<tr><td>scale/small</td><td>0.7018</td><td>29.96%</td><td>OK</td></tr>
+<tr><td>edges/cross_endpoint</td><td>0.702</td><td>30.03%</td><td>OK</td></tr>
+<tr><td>edges/circle_endpoint</td><td>0.7022</td><td>30.19%</td><td>OK</td></tr>
+<tr><td>edges/dotted</td><td>0.7028</td><td>29.93%</td><td>OK</td></tr>
+<tr><td>edges/open_link</td><td>0.706</td><td>29.57%</td><td>OK</td></tr>
+<tr><td>styling/classdef_single</td><td>0.7087</td><td>40.92%</td><td>OK</td></tr>
+<tr><td>shapes/rect</td><td>0.7093</td><td>25.36%</td><td>OK</td></tr>
+<tr><td>basic/linear_chain</td><td>0.7146</td><td>28.61%</td><td>OK</td></tr>
+<tr><td>edges/invisible</td><td>0.7146</td><td>29.14%</td><td>OK</td></tr>
+<tr><td>text/quoted_labels</td><td>0.7263</td><td>21.3%</td><td>OK</td></tr>
+<tr><td>styling/classdef_multiple</td><td>0.7285</td><td>47.66%</td><td>OK</td></tr>
+<tr><td>shapes/mixed_shapes</td><td>0.7395</td><td>23.51%</td><td>OK</td></tr>
+<tr><td>shapes/hexagon</td><td>0.7456</td><td>22.27%</td><td>OK</td></tr>
+<tr><td>shapes/rounded</td><td>0.7456</td><td>23.26%</td><td>OK</td></tr>
+<tr><td>basic/fan_out</td><td>0.7484</td><td>16.08%</td><td>OK</td></tr>
+<tr><td>shapes/trapezoid_alt</td><td>0.7501</td><td>21.47%</td><td>OK</td></tr>
+<tr><td>basic/fan_in</td><td>0.7528</td><td>15.72%</td><td>OK</td></tr>
+<tr><td>shapes/double_circle</td><td>0.7647</td><td>18.53%</td><td>OK</td></tr>
+<tr><td>shapes/diamond</td><td>0.7704</td><td>21.04%</td><td>OK</td></tr>
+<tr><td>edges/labeled_edges</td><td>0.7795</td><td>19.08%</td><td>OK</td></tr>
+<tr><td>shapes/subroutine</td><td>0.7853</td><td>17.14%</td><td>OK</td></tr>
+<tr><td>basic/diamond</td><td>0.7957</td><td>17.68%</td><td>OK</td></tr>
+<tr><td>styling/mixed_styled_unstyled</td><td>0.8005</td><td>23.23%</td><td>Good</td></tr>
+<tr><td>shapes/stadium</td><td>0.8039</td><td>16.76%</td><td>Good</td></tr>
+<tr><td>shapes/parallelogram</td><td>0.8095</td><td>14.75%</td><td>Good</td></tr>
+<tr><td>shapes/trapezoid</td><td>0.8113</td><td>15.42%</td><td>Good</td></tr>
+<tr><td>scale/large</td><td>0.8146</td><td>15.08%</td><td>Good</td></tr>
+<tr><td>shapes/parallelogram_alt</td><td>0.8152</td><td>14.15%</td><td>Good</td></tr>
+<tr><td>scale/medium</td><td>0.8434</td><td>12.06%</td><td>Good</td></tr>
+<tr><td>shapes/circle</td><td>0.8542</td><td>12.32%</td><td>Good</td></tr>
+</table>
+<div class="name">subgraphs/subgraph_with_title (SSIM: 0.328)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/subgraphs/subgraph_with_title_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/subgraphs/subgraph_with_title_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/subgraphs/subgraph_with_title_diff.png"></div>
+</div>
+<div class="name">subgraphs/cross_boundary_edges (SSIM: 0.3421)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/subgraphs/cross_boundary_edges_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/subgraphs/cross_boundary_edges_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/subgraphs/cross_boundary_edges_diff.png"></div>
+</div>
+<div class="name">basic/parallel_paths (SSIM: 0.4443)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/basic/parallel_paths_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/basic/parallel_paths_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/basic/parallel_paths_diff.png"></div>
+</div>
+<div class="name">text/long_text (SSIM: 0.5255)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/text/long_text_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/text/long_text_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/text/long_text_diff.png"></div>
+</div>
+<div class="name">direction/lr (SSIM: 0.541)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/direction/lr_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/direction/lr_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/direction/lr_diff.png"></div>
+</div>
+<div class="name">direction/rl (SSIM: 0.5508)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/direction/rl_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/direction/rl_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/direction/rl_diff.png"></div>
+</div>
+<div class="name">basic/self_loop (SSIM: 0.5588)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/basic/self_loop_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/basic/self_loop_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/basic/self_loop_diff.png"></div>
+</div>
+<div class="name">basic/single_node (SSIM: 0.6293)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/basic/single_node_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/basic/single_node_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/basic/single_node_diff.png"></div>
+</div>
+<div class="name">subgraphs/sibling_subgraphs (SSIM: 0.6439)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/subgraphs/sibling_subgraphs_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/subgraphs/sibling_subgraphs_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/subgraphs/sibling_subgraphs_diff.png"></div>
+</div>
+<div class="name">direction/bt (SSIM: 0.6606)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/direction/bt_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/direction/bt_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/direction/bt_diff.png"></div>
+</div>
+<div class="name">shapes/cylinder (SSIM: 0.6727)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/cylinder_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/cylinder_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/cylinder_diff.png"></div>
+</div>
+<div class="name">text/special_chars (SSIM: 0.6731)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/text/special_chars_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/text/special_chars_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/text/special_chars_diff.png"></div>
+</div>
+<div class="name">basic/two_nodes (SSIM: 0.682)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/basic/two_nodes_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/basic/two_nodes_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/basic/two_nodes_diff.png"></div>
+</div>
+<div class="name">text/multiline (SSIM: 0.6872)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/text/multiline_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/text/multiline_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/text/multiline_diff.png"></div>
+</div>
+<div class="name">subgraphs/single_subgraph (SSIM: 0.6938)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/subgraphs/single_subgraph_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/subgraphs/single_subgraph_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/subgraphs/single_subgraph_diff.png"></div>
+</div>
+<div class="name">subgraphs/subgraph_direction (SSIM: 0.6967)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/subgraphs/subgraph_direction_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/subgraphs/subgraph_direction_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/subgraphs/subgraph_direction_diff.png"></div>
+</div>
+<div class="name">styling/inline_style (SSIM: 0.6975)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/styling/inline_style_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/styling/inline_style_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/styling/inline_style_diff.png"></div>
+</div>
+<div class="name">text/short_text (SSIM: 0.6983)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/text/short_text_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/text/short_text_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/text/short_text_diff.png"></div>
+</div>
+<div class="name">styling/default_class (SSIM: 0.6988)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/styling/default_class_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/styling/default_class_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/styling/default_class_diff.png"></div>
+</div>
+<div class="name">subgraphs/nested_subgraphs (SSIM: 0.6988)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/subgraphs/nested_subgraphs_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/subgraphs/nested_subgraphs_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/subgraphs/nested_subgraphs_diff.png"></div>
+</div>
+<div class="name">edges/thick (SSIM: 0.7014)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/edges/thick_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/edges/thick_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/edges/thick_diff.png"></div>
+</div>
+<div class="name">direction/tb (SSIM: 0.7018)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/direction/tb_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/direction/tb_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/direction/tb_diff.png"></div>
+</div>
+<div class="name">direction/td (SSIM: 0.7018)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/direction/td_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/direction/td_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/direction/td_diff.png"></div>
+</div>
+<div class="name">edges/arrow (SSIM: 0.7018)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/edges/arrow_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/edges/arrow_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/edges/arrow_diff.png"></div>
+</div>
+<div class="name">scale/small (SSIM: 0.7018)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/scale/small_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/scale/small_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/scale/small_diff.png"></div>
+</div>
+<div class="name">edges/cross_endpoint (SSIM: 0.702)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/edges/cross_endpoint_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/edges/cross_endpoint_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/edges/cross_endpoint_diff.png"></div>
+</div>
+<div class="name">edges/circle_endpoint (SSIM: 0.7022)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/edges/circle_endpoint_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/edges/circle_endpoint_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/edges/circle_endpoint_diff.png"></div>
+</div>
+<div class="name">edges/dotted (SSIM: 0.7028)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/edges/dotted_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/edges/dotted_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/edges/dotted_diff.png"></div>
+</div>
+<div class="name">edges/open_link (SSIM: 0.706)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/edges/open_link_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/edges/open_link_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/edges/open_link_diff.png"></div>
+</div>
+<div class="name">styling/classdef_single (SSIM: 0.7087)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/styling/classdef_single_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/styling/classdef_single_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/styling/classdef_single_diff.png"></div>
+</div>
+<div class="name">shapes/rect (SSIM: 0.7093)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/rect_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/rect_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/rect_diff.png"></div>
+</div>
+<div class="name">basic/linear_chain (SSIM: 0.7146)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/basic/linear_chain_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/basic/linear_chain_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/basic/linear_chain_diff.png"></div>
+</div>
+<div class="name">edges/invisible (SSIM: 0.7146)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/edges/invisible_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/edges/invisible_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/edges/invisible_diff.png"></div>
+</div>
+<div class="name">text/quoted_labels (SSIM: 0.7263)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/text/quoted_labels_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/text/quoted_labels_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/text/quoted_labels_diff.png"></div>
+</div>
+<div class="name">styling/classdef_multiple (SSIM: 0.7285)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/styling/classdef_multiple_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/styling/classdef_multiple_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/styling/classdef_multiple_diff.png"></div>
+</div>
+<div class="name">shapes/mixed_shapes (SSIM: 0.7395)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/mixed_shapes_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/mixed_shapes_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/mixed_shapes_diff.png"></div>
+</div>
+<div class="name">shapes/hexagon (SSIM: 0.7456)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/hexagon_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/hexagon_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/hexagon_diff.png"></div>
+</div>
+<div class="name">shapes/rounded (SSIM: 0.7456)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/rounded_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/rounded_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/rounded_diff.png"></div>
+</div>
+<div class="name">basic/fan_out (SSIM: 0.7484)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/basic/fan_out_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/basic/fan_out_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/basic/fan_out_diff.png"></div>
+</div>
+<div class="name">shapes/trapezoid_alt (SSIM: 0.7501)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/trapezoid_alt_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/trapezoid_alt_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/trapezoid_alt_diff.png"></div>
+</div>
+<div class="name">basic/fan_in (SSIM: 0.7528)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/basic/fan_in_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/basic/fan_in_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/basic/fan_in_diff.png"></div>
+</div>
+<div class="name">shapes/double_circle (SSIM: 0.7647)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/double_circle_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/double_circle_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/double_circle_diff.png"></div>
+</div>
+<div class="name">shapes/diamond (SSIM: 0.7704)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/diamond_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/diamond_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/diamond_diff.png"></div>
+</div>
+<div class="name">edges/labeled_edges (SSIM: 0.7795)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/edges/labeled_edges_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/edges/labeled_edges_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/edges/labeled_edges_diff.png"></div>
+</div>
+<div class="name">shapes/subroutine (SSIM: 0.7853)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/subroutine_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/subroutine_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/subroutine_diff.png"></div>
+</div>
+<div class="name">basic/diamond (SSIM: 0.7957)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/basic/diamond_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/basic/diamond_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/basic/diamond_diff.png"></div>
+</div>
+<div class="name">styling/mixed_styled_unstyled (SSIM: 0.8005)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/styling/mixed_styled_unstyled_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/styling/mixed_styled_unstyled_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/styling/mixed_styled_unstyled_diff.png"></div>
+</div>
+<div class="name">shapes/stadium (SSIM: 0.8039)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/stadium_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/stadium_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/stadium_diff.png"></div>
+</div>
+<div class="name">shapes/parallelogram (SSIM: 0.8095)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/parallelogram_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/parallelogram_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/parallelogram_diff.png"></div>
+</div>
+<div class="name">shapes/trapezoid (SSIM: 0.8113)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/trapezoid_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/trapezoid_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/trapezoid_diff.png"></div>
+</div>
+<div class="name">scale/large (SSIM: 0.8146)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/scale/large_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/scale/large_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/scale/large_diff.png"></div>
+</div>
+<div class="name">shapes/parallelogram_alt (SSIM: 0.8152)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/parallelogram_alt_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/parallelogram_alt_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/parallelogram_alt_diff.png"></div>
+</div>
+<div class="name">scale/medium (SSIM: 0.8434)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/scale/medium_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/scale/medium_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/scale/medium_diff.png"></div>
+</div>
+<div class="name">shapes/circle (SSIM: 0.8542)</div>
+<div class="pair">
+  <div><div class="label">pymermaid</div><img src="comparisons/shapes/circle_pymermaid.png"></div>
+  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/shapes/circle_mmdc.png"></div>
+  <div><div class="label">Diff</div><img src="comparisons/shapes/circle_diff.png"></div>
+</div>
+</body></html>

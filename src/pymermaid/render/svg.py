@@ -129,7 +129,18 @@ def _render_text(
     cy: float,
     theme: Theme,
 ) -> None:
-    """Render a <text> element, handling multi-line labels with <tspan>."""
+    """Render a <text> element, handling multi-line labels with <tspan>.
+
+    When the label contains ``fa:fa-<name>`` icon tokens, the text element
+    is replaced by a mixed group of ``<text>`` and ``<g>`` (icon path)
+    elements positioned inline.
+    """
+    from pymermaid.icons import has_icons
+
+    if has_icons(label):
+        _render_text_with_icons(parent, label, cx, cy, theme)
+        return
+
     parts = label.split("<br/>")
     text_el = ET.SubElement(parent, "text")
     text_el.set("text-anchor", "middle")
@@ -154,6 +165,94 @@ def _render_text(
             else:
                 tspan.set("dy", f"{line_height}em")
             tspan.text = part
+
+
+def _render_text_with_icons(
+    parent: ET.Element,
+    label: str,
+    cx: float,
+    cy: float,
+    theme: Theme,
+) -> None:
+    """Render label text with inline Font Awesome icons.
+
+    Parses the label into text and icon segments, measures their widths,
+    and positions them centered around *cx*.
+    """
+    from pymermaid.icons import get_icon_path, parse_label
+
+    # Parse font size from theme (strip "px" suffix)
+    font_size_str = theme.node_font_size.replace("px", "")
+    try:
+        font_size = float(font_size_str)
+    except ValueError:
+        font_size = 16.0
+
+    segments = parse_label(label)
+
+    # Compute total width of all segments for centering
+    total_width = 0.0
+    segment_widths: list[float] = []
+    for seg in segments:
+        if seg.kind == "icon":
+            icon_data = get_icon_path(seg.value)
+            if icon_data is not None:
+                w = font_size + 2.0  # icon width + gap
+            else:
+                # Unknown icon: render name as text
+                w = len(seg.value) * font_size * 0.6
+        else:
+            w = len(seg.value) * font_size * 0.6
+        segment_widths.append(w)
+        total_width += w
+
+    # Starting x position (left edge of the first segment)
+    x_pos = cx - total_width / 2.0
+
+    text_color = theme.node_text_color
+
+    for seg, sw in zip(segments, segment_widths):
+        if seg.kind == "icon":
+            icon_data = get_icon_path(seg.value)
+            if icon_data is not None:
+                path_d, vb_w, vb_h = icon_data
+                # Scale icon to font_size, maintaining aspect ratio
+                scale = font_size / vb_h
+                icon_h = font_size
+                # Center icon vertically around cy
+                icon_x = x_pos + 1.0  # 1px gap
+                icon_y = cy - icon_h / 2.0
+                g = ET.SubElement(parent, "g")
+                g.set("class", "fa-icon")
+                g.set(
+                    "transform",
+                    f"translate({_round_coord(icon_x)},{_round_coord(icon_y)})"
+                    f" scale({_round_coord(scale)})",
+                )
+                path_el = ET.SubElement(g, "path")
+                path_el.set("d", path_d)
+                path_el.set("fill", text_color)
+            else:
+                # Unknown icon: render the name as text fallback
+                text_el = ET.SubElement(parent, "text")
+                text_el.set("x", _round_coord(x_pos + sw / 2.0))
+                text_el.set("y", _round_coord(cy))
+                text_el.set("text-anchor", "middle")
+                text_el.set("dominant-baseline", "central")
+                text_el.set("font-family", theme.font_family)
+                text_el.text = seg.value
+        else:
+            text_val = seg.value
+            if text_val:
+                text_el = ET.SubElement(parent, "text")
+                text_el.set("x", _round_coord(x_pos + sw / 2.0))
+                text_el.set("y", _round_coord(cy))
+                text_el.set("text-anchor", "middle")
+                text_el.set("dominant-baseline", "central")
+                text_el.set("font-family", theme.font_family)
+                text_el.text = text_val
+
+        x_pos += sw
 
 
 def _render_node(

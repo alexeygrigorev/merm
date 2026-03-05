@@ -65,8 +65,23 @@ def _char_width(ch: str, font_size: float) -> float:
 
 
 def _line_width(text: str, font_size: float) -> float:
-    """Return the estimated pixel width of a single line of text."""
-    return sum(_char_width(ch, font_size) for ch in text)
+    """Return the estimated pixel width of a single line of text.
+
+    Handles ``fa:fa-<name>`` icon tokens by treating each as a square
+    character whose width equals *font_size*, plus a small gap.
+    """
+    from pymermaid.icons import _FA_TOKEN_RE
+
+    # Replace icon tokens with a placeholder character, accumulating icon widths
+    icon_width = 0.0
+    clean = text
+    for m in _FA_TOKEN_RE.finditer(text):
+        # Each icon occupies font_size width + a small gap (2px)
+        icon_width += font_size + 2.0
+    # Remove icon tokens from text for character-width measurement
+    clean = _FA_TOKEN_RE.sub("", text)
+    char_w = sum(_char_width(ch, font_size) for ch in clean)
+    return char_w + icon_width
 
 
 @dataclass

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 283.6 382" width="283.6" height="382" style="background-color: white">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    </marker>
+    <marker id="circle-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+      <circle cx="5" cy="5" r="4" fill="#333333" />
+    </marker>
+    <marker id="cross-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+      <line x1="1" y1="1" x2="9" y2="9" stroke="#333333" stroke-width="2" />
+      <line x1="9" y1="1" x2="1" y2="9" stroke="#333333" stroke-width="2" />
+    </marker>
+    <marker id="arrow-reverse" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto-start-reverse" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    </marker>
+  </defs>
+  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 2; }
+.node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; }
+.edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; }
+.subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
+.subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; font-weight: bold; }
+</style>
+  <g class="subgraph" data-subgraph-id="title1">
+    <rect x="-20" y="98" width="196.4" height="244" rx="5" />
+    <text x="-12" y="112" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif">Database Layer</text>
+  </g>
+  <g class="subgraph" data-subgraph-id="title2">
+    <rect x="48" y="-36" width="195.6" height="244" rx="5" />
+    <text x="56" y="-22" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif">App Layer</text>
+  </g>
+  <g class="edge" data-edge-source="DB1" data-edge-target="DB2">
+    <path d="M60.7,188.0 L98.9,268.0" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="App1" data-edge-target="App2">
+    <path d="M126.47,54.0 L169.93,134.0" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="App1" data-edge-target="DB1">
+    <path d="M98.9,54.0 L60.7,134.0" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="node" data-node-id="DB1">
+    <rect x="0.0" y="134.0" width="95.6" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="47.8" y="161">Primary</text>
+  </g>
+  <g class="node" data-node-id="DB2">
+    <rect x="67.2" y="268.0" width="89.2" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="111.8" y="295">Replica</text>
+  </g>
+  <g class="node" data-node-id="App1">
+    <rect x="68.0" y="0.0" width="87.6" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="111.8" y="27">Server</text>
+  </g>
+  <g class="node" data-node-id="App2">
+    <rect x="145.6" y="134.0" width="78.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="184.6" y="161">Cache</text>
+  </g>
+</svg>

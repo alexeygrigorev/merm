@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 122 362" width="122" height="362" style="background-color: white">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    </marker>
+    <marker id="circle-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+      <circle cx="5" cy="5" r="4" fill="#333333" />
+    </marker>
+    <marker id="cross-end" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
+      <line x1="1" y1="1" x2="9" y2="9" stroke="#333333" stroke-width="2" />
+      <line x1="9" y1="1" x2="1" y2="9" stroke="#333333" stroke-width="2" />
+    </marker>
+    <marker id="arrow-reverse" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto-start-reverse" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#333333" />
+    </marker>
+  </defs>
+  <style>.node rect, .node polygon, .node circle, .node path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 2; }
+.node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; }
+.edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; }
+.subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
+.subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 12px; font-weight: bold; }
+.red { fill:#faa;stroke:#a00; }
+.blue { fill:#aaf;stroke:#00a; }
+.green { fill:#afa;stroke:#0a0; }
+</style>
+  <g class="edge" data-edge-source="A" data-edge-target="B">
+    <path d="M41.0,54.0 L41.0,134.0" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="B" data-edge-target="C">
+    <path d="M41.0,188.0 L41.0,268.0" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="node red" data-node-id="A">
+    <rect x="6.0" y="0.0" width="70.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="41" y="27">Start</text>
+  </g>
+  <g class="node blue blue" data-node-id="B">
+    <rect x="0.0" y="134.0" width="82.0" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="41" y="161">Middle</text>
+  </g>
+  <g class="node green" data-node-id="C">
+    <rect x="11.6" y="268.0" width="58.8" height="54.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif" x="41" y="295">End</text>
+  </g>
+</svg>

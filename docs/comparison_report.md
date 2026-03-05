@@ -1,0 +1,60 @@
+# pymermaid vs mermaid.js Visual Comparison Report
+
+**Average SSIM:** 0.6977
+
+| Diagram | SSIM | Pixel Diff % |
+|---------|------|--------------|
+| subgraphs/subgraph_with_title | 0.328 | 68.11% |
+| subgraphs/cross_boundary_edges | 0.3421 | 67.89% |
+| basic/parallel_paths | 0.4443 | 54.07% |
+| text/long_text | 0.5255 | 39.17% |
+| direction/lr | 0.541 | 36.22% |
+| direction/rl | 0.5508 | 36.1% |
+| basic/self_loop | 0.5588 | 44.3% |
+| basic/single_node | 0.6293 | 35.96% |
+| subgraphs/sibling_subgraphs | 0.6439 | 46.23% |
+| direction/bt | 0.6606 | 33.94% |
+| shapes/cylinder | 0.6727 | 30.5% |
+| text/special_chars | 0.6731 | 25.64% |
+| basic/two_nodes | 0.682 | 31.95% |
+| text/multiline | 0.6872 | 28.31% |
+| subgraphs/single_subgraph | 0.6938 | 35.83% |
+| subgraphs/subgraph_direction | 0.6967 | 36.85% |
+| styling/inline_style | 0.6975 | 29.91% |
+| text/short_text | 0.6983 | 30.06% |
+| styling/default_class | 0.6988 | 49.9% |
+| subgraphs/nested_subgraphs | 0.6988 | 37.29% |
+| edges/thick | 0.7014 | 30.0% |
+| direction/tb | 0.7018 | 29.96% |
+| direction/td | 0.7018 | 29.96% |
+| edges/arrow | 0.7018 | 29.96% |
+| scale/small | 0.7018 | 29.96% |
+| edges/cross_endpoint | 0.702 | 30.03% |
+| edges/circle_endpoint | 0.7022 | 30.19% |
+| edges/dotted | 0.7028 | 29.93% |
+| edges/open_link | 0.706 | 29.57% |
+| styling/classdef_single | 0.7087 | 40.92% |
+| shapes/rect | 0.7093 | 25.36% |
+| basic/linear_chain | 0.7146 | 28.61% |
+| edges/invisible | 0.7146 | 29.14% |
+| text/quoted_labels | 0.7263 | 21.3% |
+| styling/classdef_multiple | 0.7285 | 47.66% |
+| shapes/mixed_shapes | 0.7395 | 23.51% |
+| shapes/hexagon | 0.7456 | 22.27% |
+| shapes/rounded | 0.7456 | 23.26% |
+| basic/fan_out | 0.7484 | 16.08% |
+| shapes/trapezoid_alt | 0.7501 | 21.47% |
+| basic/fan_in | 0.7528 | 15.72% |
+| shapes/double_circle | 0.7647 | 18.53% |
+| shapes/diamond | 0.7704 | 21.04% |
+| edges/labeled_edges | 0.7795 | 19.08% |
+| shapes/subroutine | 0.7853 | 17.14% |
+| basic/diamond | 0.7957 | 17.68% |
+| styling/mixed_styled_unstyled | 0.8005 | 23.23% |
+| shapes/stadium | 0.8039 | 16.76% |
+| shapes/parallelogram | 0.8095 | 14.75% |
+| shapes/trapezoid | 0.8113 | 15.42% |
+| scale/large | 0.8146 | 15.08% |
+| shapes/parallelogram_alt | 0.8152 | 14.15% |
+| scale/medium | 0.8434 | 12.06% |
+| shapes/circle | 0.8542 | 12.32% |

@@ -16,7 +16,13 @@ png = ["Pillow"]
 pymermaid = "pymermaid.cli:main"
 
 [dependency-groups]
-dev = ["pytest", "ruff"]
+dev = [
+    "cairosvg>=2.8.2",
+    "pillow>=12.1.1",
+    "pytest",
+    "ruff",
+    "scikit-image>=0.25.2",
+]
 
 [tool.ruff]
 target-version = "py310"
