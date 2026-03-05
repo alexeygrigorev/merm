@@ -4,8 +4,6 @@ Positions participants horizontally and messages vertically on a timeline.
 Computes bounding boxes for activations, notes, and fragments.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass, field
 from typing import Callable
 
@@ -36,7 +34,6 @@ _FRAGMENT_HEADER_H = 25.0
 _FONT_SIZE = 14.0
 _BOTTOM_MARGIN = 20.0
 
-
 @dataclass
 class ParticipantLayout:
     """Positioned participant."""
@@ -50,7 +47,6 @@ class ParticipantLayout:
     box_w: float
     box_h: float
 
-
 @dataclass
 class MessageLayout:
     """Positioned message arrow."""
@@ -62,7 +58,6 @@ class MessageLayout:
     msg_type: str  # MessageType value string.
     is_self: bool = False
 
-
 @dataclass
 class ActivationLayout:
     """An activation rectangle on a lifeline."""
@@ -72,7 +67,6 @@ class ActivationLayout:
     y_end: float
     width: float = _ACTIVATION_WIDTH
     offset: int = 0  # For stacked activations.
-
 
 @dataclass
 class NoteLayout:
@@ -84,7 +78,6 @@ class NoteLayout:
     height: float
     text: str
 
-
 @dataclass
 class FragmentLayout:
     """Positioned fragment (loop/alt/opt) box."""
@@ -95,8 +88,7 @@ class FragmentLayout:
     y: float
     width: float
     height: float
-    sections: list[FragmentSection] = field(default_factory=list)
-
+    sections: list["FragmentSection"] = field(default_factory=list)
 
 @dataclass
 class FragmentSection:
@@ -104,7 +96,6 @@ class FragmentSection:
 
     label: str
     y: float  # Y position of section divider line.
-
 
 @dataclass
 class SequenceLayout:
@@ -119,7 +110,6 @@ class SequenceLayout:
     fragments: list[FragmentLayout]
     lifeline_bottom: float  # Y coordinate where lifelines end.
     origin_x: float = 0.0  # Leftmost x coordinate of content.
-
 
 def layout_sequence(
     diagram: SequenceDiagram,

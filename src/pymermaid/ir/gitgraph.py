@@ -3,7 +3,6 @@
 from dataclasses import dataclass
 from enum import Enum
 
-
 class CommitType(Enum):
     """Visual type for a commit node."""
 

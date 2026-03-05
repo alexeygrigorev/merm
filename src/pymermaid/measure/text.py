@@ -5,8 +5,6 @@ for estimating text dimensions using either heuristic character-width
 ratios or font-based glyph metrics.
 """
 
-from __future__ import annotations
-
 import re
 from dataclasses import dataclass
 
@@ -29,7 +27,6 @@ _MARKDOWN_RE = re.compile(
 # Multi-line delimiters
 _LINE_SPLIT_RE = re.compile(r"<br/>|\n")
 
-
 def _is_cjk(ch: str) -> bool:
     """Return True if the character is in a CJK Unicode range."""
     cp = ord(ch)
@@ -39,10 +36,8 @@ def _is_cjk(ch: str) -> bool:
         or 0xF900 <= cp <= 0xFAFF
     )
 
-
 # Zero-width joiners and variation selectors contribute no width.
 _ZERO_WIDTH = frozenset({0x200D, 0xFE0E, 0xFE0F})
-
 
 def _is_emoji(ch: str) -> bool:
     """Return True if the character is an emoji codepoint.
@@ -67,7 +62,6 @@ def _is_emoji(ch: str) -> bool:
         or 0x2190 <= cp <= 0x21FF  # Arrows
     )
 
-
 def _strip_markdown(text: str) -> str:
     """Remove markdown bold/italic markers, keeping the inner text."""
 
@@ -79,7 +73,6 @@ def _strip_markdown(text: str) -> str:
         return ""
 
     return _MARKDOWN_RE.sub(_replace, text)
-
 
 def _char_width(ch: str, font_size: float) -> float:
     """Return the estimated width of a single character."""
@@ -95,7 +88,6 @@ def _char_width(ch: str, font_size: float) -> float:
     if ch in _WIDE_CHARS:
         return font_size * 0.75
     return font_size * 0.6
-
 
 def _line_width(text: str, font_size: float) -> float:
     """Return the estimated pixel width of a single line of text.
@@ -115,7 +107,6 @@ def _line_width(text: str, font_size: float) -> float:
     clean = _FA_TOKEN_RE.sub("", text)
     char_w = sum(_char_width(ch, font_size) for ch in clean)
     return char_w + icon_width
-
 
 def _wrap_line(text: str, font_size: float, max_width: float) -> list[str]:
     """Wrap a single line of text into multiple lines to fit within *max_width*.
@@ -142,7 +133,6 @@ def _wrap_line(text: str, font_size: float, max_width: float) -> list[str]:
 
     lines.append(current_line)
     return lines
-
 
 @dataclass
 class TextMeasurer:
@@ -237,7 +227,6 @@ class TextMeasurer:
         """
         w, h = self.measure(text, font_size=font_size, font_family=font_family)
         return (w + 2 * self.padding_h, h + 2 * self.padding_v)
-
 
 def measure_text(
     text: str,

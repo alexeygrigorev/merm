@@ -6,7 +6,6 @@ import pytest
 
 from pymermaid.parser import parse_flowchart
 
-
 class TestHTMLEntityDecodingInNodeLabels:
     """Verify that standard HTML entities are decoded in node labels."""
 

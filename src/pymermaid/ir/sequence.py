@@ -7,7 +7,6 @@ and the top-level SequenceDiagram container.
 from dataclasses import dataclass
 from enum import Enum
 
-
 class MessageType(Enum):
     """Sequence diagram message/arrow types."""
 

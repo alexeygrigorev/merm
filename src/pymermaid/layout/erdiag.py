@@ -18,7 +18,6 @@ from pymermaid.layout.sugiyama import _NODE_PADDING_H, _NODE_PADDING_V, layout_d
 from pymermaid.layout.types import EdgeLayout, LayoutResult, NodeLayout, Point
 from pymermaid.render.erdiag import measure_er_entity_box
 
-
 def er_diagram_to_flowchart(diagram: ERDiagram) -> Diagram:
     """Convert an ERDiagram to a flowchart Diagram for layout."""
     nodes: list[Node] = []

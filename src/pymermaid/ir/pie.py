@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass
 
-
 @dataclass(frozen=True)
 class PieSlice:
     """A single slice in a pie chart."""

@@ -6,7 +6,6 @@ used throughout the pymermaid pipeline.
 
 from enum import Enum
 
-
 class DiagramType(Enum):
     """Supported diagram types."""
 

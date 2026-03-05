@@ -22,7 +22,6 @@ from pymermaid.render.classdiag import render_class_diagram
 from pymermaid.render.sequence import render_sequence_svg
 from pymermaid.render.statediag import render_state_svg
 
-
 def _get_version() -> str:
     """Return the version string for display."""
     try:

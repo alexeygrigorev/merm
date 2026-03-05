@@ -9,7 +9,6 @@ from typing import Callable
 
 from pymermaid.ir import Direction
 
-
 @dataclass
 class LayoutConfig:
     """Configuration for the layout engine."""

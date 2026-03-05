@@ -8,7 +8,6 @@ from dataclasses import dataclass, field
 
 from .enums import ArrowType, DiagramType, Direction, EdgeType, NodeShape
 
-
 def _hash_dict(d: dict | None) -> int:
     """Return a stable hash for a dict (or None) by converting to sorted items tuple."""
     if d is None:

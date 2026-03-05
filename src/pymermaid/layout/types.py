@@ -6,7 +6,6 @@ dataclasses used as input/output of the layout algorithm.
 
 from dataclasses import dataclass
 
-
 @dataclass(frozen=True)
 class Point:
     """A 2D point."""

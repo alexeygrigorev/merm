@@ -15,7 +15,6 @@ from pymermaid.ir.statediag import (
 )
 from pymermaid.parser.flowchart import ParseError
 
-
 def _strip_comment(line: str) -> str:
     """Remove %% comments from a line."""
     idx = line.find("%%")

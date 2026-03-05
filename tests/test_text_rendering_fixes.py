@@ -10,7 +10,6 @@ import xml.etree.ElementTree as ET
 
 from pymermaid import render_diagram
 
-
 def _parse_svg(svg_str: str) -> ET.Element:
     """Parse SVG string, stripping namespace for easier querying."""
     # Remove namespace for simpler xpath
