@@ -50,15 +50,12 @@ line-length = 88
 select = ["E", "F", "I", "W"]
 
 [tool.pytest.ini_options]
-markers = [
-    "comparison: marks tests that compare merm output against mmdc reference SVGs",
-]
 
 [tool.mutmut]
 paths_to_mutate = ["src/merm/render/svg.py", "src/merm/render/edges.py", "src/merm/render/shapes.py"]
 tests_dir = ["tests/"]
 also_copy = ["src/"]
-pytest_add_cli_args = ["-x", "-q", "--ignore=tests/test_cli.py", "--ignore=tests/test_comparison.py", "--ignore=tests/test_corpus.py", "--ignore=tests/test_corpus_rendering.py", "--ignore=tests/test_flowchart_parser.py", "--ignore=tests/test_mutation_killing.py", "--ignore=tests/test_lr_subgraph_layout.py"]
+pytest_add_cli_args = ["-x", "-q", "--ignore=tests/test_cli.py", "--ignore=tests/test_corpus.py", "--ignore=tests/test_corpus_rendering.py", "--ignore=tests/test_flowchart_parser.py", "--ignore=tests/test_mutation_killing.py", "--ignore=tests/test_lr_subgraph_layout.py"]
 
 [tool.hatch.version]
 path = "src/merm/__version__.py"

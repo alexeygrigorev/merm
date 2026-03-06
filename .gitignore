@@ -10,7 +10,5 @@ build/
 *.so
 .eggs/
 .tmp/
-docs/comparisons/
-docs/comparison_scores.json
 .mutmut-cache/
 mutants/

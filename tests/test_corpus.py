@@ -13,7 +13,7 @@ from merm.layout import layout_diagram
 from merm.measure import TextMeasurer
 from merm.parser import parse_flowchart
 from merm.render import render_svg
-from tests.comparison import (
+from tests.svg_utils import (
     BBox,
     _extract_direction_from_mmd,
     check_directionality,
