@@ -41,7 +41,7 @@ flowchart TD
 
 ### Flowchart with Font Awesome icons
 
-```mermaid
+```
 flowchart TD
     A[fa:fa-tree Christmas Tree] --> B[fa:fa-gift Presents]
     A --> C[fa:fa-star Star on Top]
@@ -55,7 +55,7 @@ flowchart TD
 
 ### Registration flow
 
-```mermaid
+```
 flowchart TD
     Start([User clicks Register]) --> Form[Display registration form]
     Form --> Submit[User submits form]
