@@ -32,7 +32,7 @@ _NOTE_PAD = 5.0
 _FRAGMENT_PAD = 10.0
 _FRAGMENT_HEADER_H = 25.0
 _FONT_SIZE = 14.0
-_BOTTOM_MARGIN = 20.0
+_BOTTOM_MARGIN = 10.0
 
 @dataclass
 class ParticipantLayout:
@@ -372,18 +372,28 @@ def layout_sequence(
 
     y_cursor = _process_items(diagram.items, y_cursor)
 
-    # Close any remaining activations.
+    # Compute actual content bottom (last message/note Y, not the post-advance cursor).
+    content_bottom = y_cursor - _MSG_GAP  # Undo the last advance past final item.
+    if messages_layout:
+        content_bottom = max(content_bottom, max(ml.y for ml in messages_layout))
+    if notes_layout:
+        content_bottom = max(content_bottom, max(nl.y + nl.height for nl in notes_layout))
+    if activations_layout:
+        content_bottom = max(content_bottom, max(al.y_end for al in activations_layout))
+
+    # Close any remaining activations at the last content position.
+    close_y = content_bottom + _MSG_GAP * 0.5
     for pid, stack in activation_stacks.items():
         while stack:
             y_start_act = stack.pop()
             activations_layout.append(ActivationLayout(
                 participant_cx=participant_cx[pid],
                 y_start=y_start_act,
-                y_end=y_cursor,
+                y_end=close_y,
                 offset=len(stack),
             ))
 
-    lifeline_bottom = y_cursor + _BOTTOM_MARGIN
+    lifeline_bottom = close_y + _BOTTOM_MARGIN
 
     # Total diagram dimensions.
     if participants_layout:

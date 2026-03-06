@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -20 881.6 890" width="881.6" height="890" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -20 881.6 850" width="881.6" height="850" style="background-color: white">
   <defs>
     <marker id="seq-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
       <polygon points="0 0, 10 3.5, 0 7" fill="#333333" />
@@ -27,11 +27,11 @@
 .seq-actor line, .seq-actor circle { stroke: #9370DB; stroke-width: 1; fill: none; }
 .seq-actor text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; }
 </style>
-  <line class="seq-lifeline" x1="70" y1="60" x2="70" y2="830" />
-  <line class="seq-lifeline" x1="294.6" y1="60" x2="294.6" y2="830" />
-  <line class="seq-lifeline" x1="471.6" y1="60" x2="471.6" y2="830" />
-  <line class="seq-lifeline" x1="621.6" y1="60" x2="621.6" y2="830" />
-  <line class="seq-lifeline" x1="771.6" y1="60" x2="771.6" y2="830" />
+  <line class="seq-lifeline" x1="70" y1="60" x2="70" y2="800" />
+  <line class="seq-lifeline" x1="294.6" y1="60" x2="294.6" y2="800" />
+  <line class="seq-lifeline" x1="471.6" y1="60" x2="471.6" y2="800" />
+  <line class="seq-lifeline" x1="621.6" y1="60" x2="621.6" y2="800" />
+  <line class="seq-lifeline" x1="771.6" y1="60" x2="771.6" y2="800" />
   <g class="seq-fragment">
     <rect x="10" y="260" width="821.6" height="435" />
     <rect x="10" y="260" width="34" height="20" fill="#e8e8e8" stroke="none" />
