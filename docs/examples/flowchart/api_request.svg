@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 387.2 606.4" width="387.2" height="606.4" style="background-color: white">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
+    </marker>
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="5" fill="#333333" />
+    </marker>
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
+    </marker>
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
+    </marker>
+  </defs>
+  <style>.node rect, .node polygon, .node circle, .node &gt; path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
+.node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 16px; }
+.edge path { fill: none; stroke: #333333; }
+.edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
+.subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
+.subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
+</style>
+  <g class="edge" data-edge-source="A" data-edge-target="B">
+    <path d="M189.0,42.0 L189.0,74.0" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="B" data-edge-target="C">
+    <path d="M189.0,124.0 L189.0,156.0" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="C" data-edge-target="D">
+    <path d="M159.99,224.8 L118.36,268.41" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="121.91" y="237.5" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="136.41" y="249.5">Yes</text>
+  </g>
+  <g class="edge" data-edge-source="C" data-edge-target="E">
+    <path d="M219.46,224.8 L253.88,259.15" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="228.5" y="232.8" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="239.5" y="244.8">No</text>
+  </g>
+  <g class="edge" data-edge-source="D" data-edge-target="F">
+    <path d="M92.8,316.2 L92.8,357.6" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="F" data-edge-target="G">
+    <path d="M100.12,426.4 L107.87,458.62" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="90.43" y="434.4" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="104.93" y="446.4">Yes</text>
+  </g>
+  <g class="edge" data-edge-source="F" data-edge-target="H">
+    <path d="M155.2,426.4 L230.11,462.9" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="185.25" y="434.4" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="196.25" y="446.4">No</text>
+  </g>
+  <g class="edge" data-edge-source="H" data-edge-target="I">
+    <path d="M280.4,508.4 L280.4,540.4" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="node" data-node-id="A">
+    <rect x="105" y="0.0" width="168.0" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="189" y="21">Receive Request</text>
+  </g>
+  <g class="node" data-node-id="B">
+    <rect x="113.8" y="82.0" width="150.4" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="189" y="103">Validate Input</text>
+  </g>
+  <g class="node" data-node-id="C">
+    <polygon points="189.0,164.0 254.6,194.4 189.0,224.8 123.4,194.4" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="189" y="194.4">Valid?</text>
+  </g>
+  <g class="node" data-node-id="D">
+    <rect x="6.8" y="274.2" width="172.0" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="92.8" y="295.2">Process Request</text>
+  </g>
+  <g class="node" data-node-id="E">
+    <rect x="208.8" y="264.8" width="162.4" height="60.8" style="fill:#f66;stroke:#900" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="290" y="284">
+      <tspan x="290" y="284">Return 400 Bad</tspan>
+      <tspan x="290" y="306.4">Request</tspan>
+    </text>
+  </g>
+  <g class="node" data-node-id="F">
+    <polygon points="92.8,365.6 185.6,396.0 92.8,426.4 0.0,396.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="92.8" y="396">Success?</text>
+  </g>
+  <g class="node" data-node-id="G">
+    <rect x="38.4" y="466.4" width="152.8" height="42.0" style="fill:#6f6;stroke:#090" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="114.8" y="487.4">Return 200 OK</text>
+  </g>
+  <g class="node" data-node-id="H">
+    <rect x="221.2" y="466.4" width="118.4" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="280.4" y="487.4">Log Error</text>
+  </g>
+  <g class="node" data-node-id="I">
+    <rect x="189.6" y="548.4" width="181.6" height="42.0" style="fill:#f66;stroke:#900" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="280.4" y="569.4">Return 500 Error</text>
+  </g>
+</svg>

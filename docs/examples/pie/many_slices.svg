@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 390" width="660" height="390">
+<style>
+.pie-title { font-family: sans-serif; font-size: 20px; font-weight: bold; text-anchor: middle; }
+.pie-label { font-family: sans-serif; font-size: 12px; text-anchor: middle; fill: #333; }
+.pie-legend { font-family: sans-serif; font-size: 14px; fill: #333; }
+.pie-slice { stroke: #fff; stroke-width: 2; }
+</style>
+<text x="200" y="25" class="pie-title">Monthly Budget</text>
+<path d="M 200 240 L 200.0000 90.0000 A 150 150 0 0 1 235.8973 385.6413 Z" fill="#4572A7" class="pie-slice" data-slice-label="Rent"/>
+<text x="368.76" y="219.51" class="pie-label">46.2%</text>
+<path d="M 200 240 L 235.8973 385.6413 A 150 150 0 0 1 100.5316 352.2766 Z" fill="#AA4643" class="pie-slice" data-slice-label="Food"/>
+<text x="159.32" y="405.06" class="pie-label">15.4%</text>
+<path d="M 200 240 L 100.5316 352.2766 A 150 150 0 0 1 67.1816 309.7085 Z" fill="#89A54E" class="pie-slice" data-slice-label="Transport"/>
+<text x="66.18" y="344.84" class="pie-label">5.8%</text>
+<path d="M 200 240 L 67.1816 309.7085 A 150 150 0 0 1 54.3587 275.8973 Z" fill="#80699B" class="pie-slice" data-slice-label="Utilities"/>
+<text x="41.05" y="300.28" class="pie-label">3.8%</text>
+<path d="M 200 240 L 54.3587 275.8973 A 150 150 0 0 1 50.1752 247.2470 Z" fill="#3D96AE" class="pie-slice" data-slice-label="Entertainment"/>
+<text x="31.78" y="264.56" class="pie-label">3.1%</text>
+<path d="M 200 240 L 50.1752 247.2470 A 150 150 0 0 1 83.0488 146.0722 Z" fill="#DB843D" class="pie-slice" data-slice-label="Savings"/>
+<text x="38.32" y="187.47" class="pie-label">11.5%</text>
+<path d="M 200 240 L 83.0488 146.0722 A 150 150 0 0 1 114.7903 116.5524 Z" fill="#92A8CD" class="pie-slice" data-slice-label="Insurance"/>
+<text x="84.23" y="115.51" class="pie-label">4.6%</text>
+<path d="M 200 240 L 114.7903 116.5524 A 150 150 0 0 1 133.5213 105.5360 Z" fill="#A47D7C" class="pie-slice" data-slice-label="Healthcare"/>
+<text x="113.82" y="93.47" class="pie-label">2.3%</text>
+<path d="M 200 240 L 133.5213 105.5360 A 150 150 0 0 1 150.2138 98.5032 Z" fill="#B5CA92" class="pie-slice" data-slice-label="Clothing"/>
+<text x="134.00" y="83.34" class="pie-label">1.9%</text>
+<path d="M 200 240 L 150.2138 98.5032 A 150 150 0 0 1 164.1027 94.3587 Z" fill="#5C6BC0" class="pie-slice" data-slice-label="Misc"/>
+<text x="151.39" y="77.10" class="pie-label">1.5%</text>
+<path d="M 200 240 L 164.1027 94.3587 A 150 150 0 0 1 200.0000 90.0000 Z" fill="#4572A7" class="pie-slice" data-slice-label="Education"/>
+<text x="179.51" y="71.24" class="pie-label">3.8%</text>
+<rect x="390" y="50" width="16" height="16" fill="#4572A7" class="pie-legend"/>
+<text x="412" y="63" class="pie-legend">Rent: 46.2%</text>
+<rect x="390" y="78" width="16" height="16" fill="#AA4643" class="pie-legend"/>
+<text x="412" y="91" class="pie-legend">Food: 15.4%</text>
+<rect x="390" y="106" width="16" height="16" fill="#89A54E" class="pie-legend"/>
+<text x="412" y="119" class="pie-legend">Transport: 5.8%</text>
+<rect x="390" y="134" width="16" height="16" fill="#80699B" class="pie-legend"/>
+<text x="412" y="147" class="pie-legend">Utilities: 3.8%</text>
+<rect x="390" y="162" width="16" height="16" fill="#3D96AE" class="pie-legend"/>
+<text x="412" y="175" class="pie-legend">Entertainment: 3.1%</text>
+<rect x="390" y="190" width="16" height="16" fill="#DB843D" class="pie-legend"/>
+<text x="412" y="203" class="pie-legend">Savings: 11.5%</text>
+<rect x="390" y="218" width="16" height="16" fill="#92A8CD" class="pie-legend"/>
+<text x="412" y="231" class="pie-legend">Insurance: 4.6%</text>
+<rect x="390" y="246" width="16" height="16" fill="#A47D7C" class="pie-legend"/>
+<text x="412" y="259" class="pie-legend">Healthcare: 2.3%</text>
+<rect x="390" y="274" width="16" height="16" fill="#B5CA92" class="pie-legend"/>
+<text x="412" y="287" class="pie-legend">Clothing: 1.9%</text>
+<rect x="390" y="302" width="16" height="16" fill="#5C6BC0" class="pie-legend"/>
+<text x="412" y="315" class="pie-legend">Misc: 1.5%</text>
+<rect x="390" y="330" width="16" height="16" fill="#4572A7" class="pie-legend"/>
+<text x="412" y="343" class="pie-legend">Education: 3.8%</text>
+</svg>

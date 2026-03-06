@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 297" width="810" height="297">
+<style>
+.gantt-title { font-family: sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+.gantt-section { font-family: sans-serif; font-size: 13px; font-weight: bold; fill: #555; }
+.gantt-label { font-family: sans-serif; font-size: 12px; fill: #333; }
+.gantt-bar-text { font-family: sans-serif; font-size: 11px; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+.gantt-tick { font-family: sans-serif; font-size: 10px; fill: #666; text-anchor: middle; }
+.gantt-grid { stroke: #e0e0e0; stroke-width: 0.5; }
+</style>
+<text x="405.0" y="35" class="gantt-title">Simple Project</text>
+<rect x="0" y="55" width="810" height="32" fill="#f0f0f0" data-section="Planning"/>
+<text x="10" y="75.0" class="gantt-section">Planning</text>
+<text x="170" y="107.0" class="gantt-label" text-anchor="end">Requirements</text>
+<rect x="180.00" y="92.0" width="123.53" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="a1" data-section="Planning"/>
+<text x="170" y="139.0" class="gantt-label" text-anchor="end">Design</text>
+<rect x="303.53" y="124.0" width="88.24" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="a2" data-section="Planning"/>
+<rect x="0" y="151" width="810" height="32" fill="#f0f0f0" data-section="Build"/>
+<text x="10" y="171.0" class="gantt-section">Build</text>
+<text x="170" y="203.0" class="gantt-label" text-anchor="end">Development</text>
+<rect x="391.76" y="188.0" width="264.71" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="b1" data-section="Build"/>
+<text x="170" y="235.0" class="gantt-label" text-anchor="end">Testing</text>
+<rect x="656.47" y="220.0" width="123.53" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="b2" data-section="Build"/>
+<line x1="180" y1="257" x2="780" y2="257" stroke="#333" stroke-width="1"/>
+<line x1="180.00" y1="257" x2="180.00" y2="263" stroke="#333" stroke-width="1"/>
+<line x1="180.00" y1="55" x2="180.00" y2="257" class="gantt-grid"/>
+<text x="180.00" y="273" class="gantt-tick">2024-01-01</text>
+<line x1="303.53" y1="257" x2="303.53" y2="263" stroke="#333" stroke-width="1"/>
+<line x1="303.53" y1="55" x2="303.53" y2="257" class="gantt-grid"/>
+<text x="303.53" y="273" class="gantt-tick">2024-01-15</text>
+<line x1="427.06" y1="257" x2="427.06" y2="263" stroke="#333" stroke-width="1"/>
+<line x1="427.06" y1="55" x2="427.06" y2="257" class="gantt-grid"/>
+<text x="427.06" y="273" class="gantt-tick">2024-01-29</text>
+<line x1="550.59" y1="257" x2="550.59" y2="263" stroke="#333" stroke-width="1"/>
+<line x1="550.59" y1="55" x2="550.59" y2="257" class="gantt-grid"/>
+<text x="550.59" y="273" class="gantt-tick">2024-02-12</text>
+<line x1="674.12" y1="257" x2="674.12" y2="263" stroke="#333" stroke-width="1"/>
+<line x1="674.12" y1="55" x2="674.12" y2="257" class="gantt-grid"/>
+<text x="674.12" y="273" class="gantt-tick">2024-02-26</text>
+<line x1="780.00" y1="257" x2="780.00" y2="263" stroke="#333" stroke-width="1"/>
+<line x1="780.00" y1="55" x2="780.00" y2="257" class="gantt-grid"/>
+<text x="780.00" y="273" class="gantt-tick">2024-03-09</text>
+</svg>

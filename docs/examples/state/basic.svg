@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 121.6 320.8" width="121.6" height="320.8" style="background-color: white">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
+    </marker>
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="5" fill="#333333" />
+    </marker>
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
+    </marker>
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
+    </marker>
+  </defs>
+  <style>.state rect, .state polygon, .state circle, .state line { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
+.state text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 16px; }
+.edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
+.composite rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
+.composite text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
+.note rect { fill: #ffa; stroke: #aa3; stroke-width: 1; }
+.note text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
+</style>
+  <g class="edge" data-edge-source="__start_0" data-edge-target="Idle">
+    <path d="M40.8,38.4 L40.8,70.4" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="Idle" data-edge-target="Active">
+    <path d="M40.8,120.4 L40.8,152.4" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="19.3" y="113.4" width="43.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="40.8" y="125.4">start</text>
+  </g>
+  <g class="edge" data-edge-source="Active" data-edge-target="Idle">
+    <path d="M40.8,160.4 L40.8,128.4" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="22.8" y="143.4" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="40.8" y="155.4">stop</text>
+  </g>
+  <g class="edge" data-edge-source="Active" data-edge-target="__end_0">
+    <path d="M40.8,202.4 L40.8,234.4" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="5.3" y="210.4" width="71.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="40.8" y="222.4">terminate</text>
+  </g>
+  <g class="state start">
+    <circle cx="40.8" cy="19.2" r="10" fill="black" stroke="black" />
+  </g>
+  <g class="state" data-state-id="Idle">
+    <rect x="5.8" y="78.4" width="70" height="42" rx="10" ry="10" />
+    <text x="40.8" y="99.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Idle</text>
+  </g>
+  <g class="state" data-state-id="Active">
+    <rect x="0" y="160.4" width="81.6" height="42" rx="10" ry="10" />
+    <text x="40.8" y="181.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Active</text>
+  </g>
+  <g class="state end">
+    <circle cx="40.8" cy="261.6" r="10" fill="none" stroke="black" stroke-width="2" />
+    <circle cx="40.8" cy="261.6" r="6" fill="black" stroke="black" />
+  </g>
+</svg>

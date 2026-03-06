@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 393" width="810" height="393">
+<style>
+.gantt-title { font-family: sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+.gantt-section { font-family: sans-serif; font-size: 13px; font-weight: bold; fill: #555; }
+.gantt-label { font-family: sans-serif; font-size: 12px; fill: #333; }
+.gantt-bar-text { font-family: sans-serif; font-size: 11px; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+.gantt-tick { font-family: sans-serif; font-size: 10px; fill: #666; text-anchor: middle; }
+.gantt-grid { stroke: #e0e0e0; stroke-width: 0.5; }
+</style>
+<text x="405.0" y="35" class="gantt-title">Release Pipeline</text>
+<rect x="0" y="55" width="810" height="32" fill="#f0f0f0" data-section="Phase 1"/>
+<text x="10" y="75.0" class="gantt-section">Phase 1</text>
+<text x="170" y="107.0" class="gantt-label" text-anchor="end">Research</text>
+<rect x="180.00" y="92.0" width="129.03" height="22" rx="3" ry="3" fill="#A0A0A0" data-task-id="r1" data-section="Phase 1"/>
+<text x="170" y="139.0" class="gantt-label" text-anchor="end">Prototype</text>
+<rect x="309.03" y="124.0" width="96.77" height="22" rx="3" ry="3" fill="#A0A0A0" data-task-id="p1" data-section="Phase 1"/>
+<rect x="0" y="151" width="810" height="32" fill="#f0f0f0" data-section="Phase 2"/>
+<text x="10" y="171.0" class="gantt-section">Phase 2</text>
+<text x="170" y="203.0" class="gantt-label" text-anchor="end">Development</text>
+<rect x="405.81" y="188.0" width="258.06" height="22" rx="3" ry="3" fill="#2ECC71" data-task-id="d1" data-section="Phase 2"/>
+<text x="170" y="235.0" class="gantt-label" text-anchor="end">Code Review</text>
+<rect x="663.87" y="220.0" width="32.26" height="22" rx="3" ry="3" fill="#E74C3C" data-task-id="cr1" data-section="Phase 2"/>
+<rect x="0" y="247" width="810" height="32" fill="#f0f0f0" data-section="Phase 3"/>
+<text x="10" y="267.0" class="gantt-section">Phase 3</text>
+<text x="170" y="299.0" class="gantt-label" text-anchor="end">QA</text>
+<rect x="696.13" y="284.0" width="64.52" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="q1" data-section="Phase 3"/>
+<text x="170" y="331.0" class="gantt-label" text-anchor="end">Release</text>
+<rect x="760.65" y="316.0" width="19.35" height="22" rx="3" ry="3" fill="#E74C3C" data-task-id="rel1" data-section="Phase 3"/>
+<line x1="180" y1="353" x2="780" y2="353" stroke="#333" stroke-width="1"/>
+<line x1="180.00" y1="353" x2="180.00" y2="359" stroke="#333" stroke-width="1"/>
+<line x1="180.00" y1="55" x2="180.00" y2="353" class="gantt-grid"/>
+<text x="180.00" y="369" class="gantt-tick">2024-01-01</text>
+<line x1="373.55" y1="353" x2="373.55" y2="359" stroke="#333" stroke-width="1"/>
+<line x1="373.55" y1="55" x2="373.55" y2="353" class="gantt-grid"/>
+<text x="373.55" y="369" class="gantt-tick">2024-01-31</text>
+<line x1="567.10" y1="353" x2="567.10" y2="359" stroke="#333" stroke-width="1"/>
+<line x1="567.10" y1="55" x2="567.10" y2="353" class="gantt-grid"/>
+<text x="567.10" y="369" class="gantt-tick">2024-03-01</text>
+<line x1="760.65" y1="353" x2="760.65" y2="359" stroke="#333" stroke-width="1"/>
+<line x1="760.65" y1="55" x2="760.65" y2="353" class="gantt-grid"/>
+<text x="760.65" y="369" class="gantt-tick">2024-03-31</text>
+<line x1="780.00" y1="353" x2="780.00" y2="359" stroke="#333" stroke-width="1"/>
+<line x1="780.00" y1="55" x2="780.00" y2="353" class="gantt-grid"/>
+<text x="780.00" y="369" class="gantt-tick">2024-04-03</text>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1771 1640" width="1771" height="1640">
+<style>
+.mindmap-node { cursor: pointer; }
+.mindmap-label { font-family: sans-serif; font-size: 14px; text-anchor: middle; dominant-baseline: middle; fill: #333; }
+.mindmap-branch { fill: none; }
+</style>
+<path d="M 822.3 789.3 Q 797.8 709.5 733.4 656.3" fill="none" stroke="#4572A7" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Phase_1"/>
+<path d="M 733.4 656.3 Q 652.5 522.2 511.1 454.8" fill="none" stroke="#4572A7" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Design"/>
+<path d="M 511.1 454.8 Q 329.6 314.1 100.6 296.5" fill="none" stroke="#4572A7" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Wireframes"/>
+<path d="M 511.1 454.8 Q 471.2 228.6 313.3 61.8" fill="none" stroke="#4572A7" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Mockups"/>
+<path d="M 733.4 656.3 Q 799.9 514.5 777.4 359.5" fill="none" stroke="#4572A7" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Review"/>
+<path d="M 822.3 789.3 Q 887.0 842.1 970.1 850.6" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Phase_2"/>
+<path d="M 970.1 850.6 Q 1126.7 852.3 1258.4 767.5" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Implementation"/>
+<path d="M 1258.4 767.5 Q 1449.6 640.2 1539.1 428.7" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Frontend"/>
+<path d="M 1258.4 767.5 Q 1488.1 770.0 1681.2 645.7" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Backend"/>
+<path d="M 1258.4 767.5 Q 1446.7 899.0 1676.3 905.0" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Database"/>
+<path d="M 970.1 850.6 Q 968.4 1007.1 1053.2 1138.8" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Testing"/>
+<path d="M 1053.2 1138.8 Q 1126.6 1356.4 1307.8 1497.7" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Unit_Tests"/>
+<path d="M 1053.2 1138.8 Q 974.9 1354.8 1028.5 1578.1" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Integration_Tests"/>
+<path d="M 822.3 789.3 Q 742.4 813.8 689.3 878.2" fill="none" stroke="#89A54E" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Phase_3"/>
+<path d="M 689.3 878.2 Q 559.3 965.6 498.9 1110.1" fill="none" stroke="#89A54E" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Deployment"/>
+<path d="M 689.3 878.2 Q 532.7 878.7 402.2 965.3" fill="none" stroke="#89A54E" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Monitoring"/>
+<circle cx="822.3" cy="789.3" r="65.2" fill="#f0f0f0" stroke="#333" stroke-width="2" class="mindmap-node" data-node-id="root"/>
+<text x="822.3" y="794.3" class="mindmap-label" data-node-id="root">Project Plan</text>
+<rect x="685.8" y="634.5" width="95.3" height="43.6" rx="6" ry="6" fill="#a2b8d3" stroke="#4572A7" stroke-width="2" class="mindmap-node" data-node-id="Phase_1"/>
+<text x="733.4" y="661.3" class="mindmap-label" data-node-id="Phase_1">Phase 1</text>
+<rect x="467.7" y="433.0" width="86.9" height="43.6" rx="6" ry="6" fill="#a2b8d3" stroke="#4572A7" stroke-width="2" class="mindmap-node" data-node-id="Design"/>
+<text x="511.1" y="459.8" class="mindmap-label" data-node-id="Design">Design</text>
+<rect x="40.0" y="274.7" width="121.2" height="43.6" rx="6" ry="6" fill="#a2b8d3" stroke="#4572A7" stroke-width="2" class="mindmap-node" data-node-id="Wireframes"/>
+<text x="100.6" y="301.5" class="mindmap-label" data-node-id="Wireframes">Wireframes</text>
+<rect x="262.8" y="40.0" width="100.9" height="43.6" rx="6" ry="6" fill="#a2b8d3" stroke="#4572A7" stroke-width="2" class="mindmap-node" data-node-id="Mockups"/>
+<text x="313.3" y="66.8" class="mindmap-label" data-node-id="Mockups">Mockups</text>
+<rect x="732.9" y="337.7" width="89.0" height="43.6" rx="6" ry="6" fill="#a2b8d3" stroke="#4572A7" stroke-width="2" class="mindmap-node" data-node-id="Review"/>
+<text x="777.4" y="364.5" class="mindmap-label" data-node-id="Review">Review</text>
+<rect x="920.7" y="828.8" width="98.8" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Phase_2"/>
+<text x="970.1" y="855.6" class="mindmap-label" data-node-id="Phase_2">Phase 2</text>
+<rect x="1184.5" y="745.7" width="147.8" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Implementation"/>
+<text x="1258.4" y="772.5" class="mindmap-label" data-node-id="Implementation">Implementation</text>
+<rect x="1487.3" y="406.9" width="103.7" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Frontend"/>
+<text x="1539.1" y="433.7" class="mindmap-label" data-node-id="Frontend">Frontend</text>
+<rect x="1631.8" y="623.9" width="98.8" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Backend"/>
+<text x="1681.2" y="650.7" class="mindmap-label" data-node-id="Backend">Backend</text>
+<rect x="1624.5" y="883.2" width="103.7" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Database"/>
+<text x="1676.3" y="910.0" class="mindmap-label" data-node-id="Database">Database</text>
+<rect x="1007.3" y="1117.0" width="91.8" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Testing"/>
+<text x="1053.2" y="1143.8" class="mindmap-label" data-node-id="Testing">Testing</text>
+<rect x="1251.0" y="1475.9" width="113.5" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Unit_Tests"/>
+<text x="1307.8" y="1502.7" class="mindmap-label" data-node-id="Unit_Tests">Unit Tests</text>
+<rect x="944.1" y="1556.3" width="168.8" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Integration_Tests"/>
+<text x="1028.5" y="1583.1" class="mindmap-label" data-node-id="Integration_Tests">Integration Tests</text>
+<rect x="639.9" y="856.4" width="98.8" height="43.6" rx="6" ry="6" fill="#c4d2a6" stroke="#89A54E" stroke-width="2" class="mindmap-node" data-node-id="Phase_3"/>
+<text x="689.3" y="883.2" class="mindmap-label" data-node-id="Phase_3">Phase 3</text>
+<rect x="439.4" y="1088.3" width="119.1" height="43.6" rx="6" ry="6" fill="#c4d2a6" stroke="#89A54E" stroke-width="2" class="mindmap-node" data-node-id="Deployment"/>
+<text x="498.9" y="1115.1" class="mindmap-label" data-node-id="Deployment">Deployment</text>
+<rect x="344.4" y="943.5" width="115.6" height="43.6" rx="6" ry="6" fill="#c4d2a6" stroke="#89A54E" stroke-width="2" class="mindmap-node" data-node-id="Monitoring"/>
+<text x="402.2" y="970.3" class="mindmap-label" data-node-id="Monitoring">Monitoring</text>
+</svg>

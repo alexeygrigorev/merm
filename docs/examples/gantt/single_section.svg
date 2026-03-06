@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 265" width="810" height="265">
+<style>
+.gantt-title { font-family: sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+.gantt-section { font-family: sans-serif; font-size: 13px; font-weight: bold; fill: #555; }
+.gantt-label { font-family: sans-serif; font-size: 12px; fill: #333; }
+.gantt-bar-text { font-family: sans-serif; font-size: 11px; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+.gantt-tick { font-family: sans-serif; font-size: 10px; fill: #666; text-anchor: middle; }
+.gantt-grid { stroke: #e0e0e0; stroke-width: 0.5; }
+</style>
+<text x="405.0" y="35" class="gantt-title">Weekly Tasks</text>
+<rect x="0" y="55" width="810" height="32" fill="#f0f0f0" data-section="This Week"/>
+<text x="10" y="75.0" class="gantt-section">This Week</text>
+<text x="170" y="107.0" class="gantt-label" text-anchor="end">Monday meeting</text>
+<rect x="180.00" y="92.0" width="100.00" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="m1" data-section="This Week"/>
+<text x="170" y="139.0" class="gantt-label" text-anchor="end">Write report</text>
+<rect x="180.00" y="124.0" width="300.00" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="m2" data-section="This Week"/>
+<text x="170" y="171.0" class="gantt-label" text-anchor="end">Review PRs</text>
+<rect x="480.00" y="156.0" width="200.00" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="m3" data-section="This Week"/>
+<text x="170" y="203.0" class="gantt-label" text-anchor="end">Deploy</text>
+<rect x="680.00" y="188.0" width="100.00" height="22" rx="3" ry="3" fill="#E74C3C" data-task-id="m4" data-section="This Week"/>
+<line x1="180" y1="225" x2="780" y2="225" stroke="#333" stroke-width="1"/>
+<line x1="180.00" y1="225" x2="180.00" y2="231" stroke="#333" stroke-width="1"/>
+<line x1="180.00" y1="55" x2="180.00" y2="225" class="gantt-grid"/>
+<text x="180.00" y="241" class="gantt-tick">2024-06-03</text>
+<line x1="380.00" y1="225" x2="380.00" y2="231" stroke="#333" stroke-width="1"/>
+<line x1="380.00" y1="55" x2="380.00" y2="225" class="gantt-grid"/>
+<text x="380.00" y="241" class="gantt-tick">2024-06-05</text>
+<line x1="580.00" y1="225" x2="580.00" y2="231" stroke="#333" stroke-width="1"/>
+<line x1="580.00" y1="55" x2="580.00" y2="225" class="gantt-grid"/>
+<text x="580.00" y="241" class="gantt-tick">2024-06-07</text>
+<line x1="780.00" y1="225" x2="780.00" y2="231" stroke="#333" stroke-width="1"/>
+<line x1="780.00" y1="55" x2="780.00" y2="225" class="gantt-grid"/>
+<text x="780.00" y="241" class="gantt-tick">2024-06-09</text>
+</svg>

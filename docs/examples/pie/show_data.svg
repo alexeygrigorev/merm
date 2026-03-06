@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 390" width="660" height="390">
+<style>
+.pie-title { font-family: sans-serif; font-size: 20px; font-weight: bold; text-anchor: middle; }
+.pie-label { font-family: sans-serif; font-size: 12px; text-anchor: middle; fill: #333; }
+.pie-legend { font-family: sans-serif; font-size: 14px; fill: #333; }
+.pie-slice { stroke: #fff; stroke-width: 2; }
+</style>
+<text x="200" y="25" class="pie-title">Project Time Allocation</text>
+<path d="M 200 240 L 200.0000 90.0000 A 150 150 0 0 1 246.3525 382.6585 Z" fill="#4572A7" class="pie-slice" data-slice-label="Development"/>
+<text x="367.91" y="213.41" class="pie-label">45.0%</text>
+<path d="M 200 240 L 246.3525 382.6585 A 150 150 0 0 1 57.3415 286.3525 Z" fill="#AA4643" class="pie-slice" data-slice-label="Testing"/>
+<text x="122.82" y="391.47" class="pie-label">25.0%</text>
+<path d="M 200 240 L 57.3415 286.3525 A 150 150 0 0 1 78.6475 151.8322 Z" fill="#89A54E" class="pie-slice" data-slice-label="Documentation"/>
+<text x="32.09" y="213.41" class="pie-label">15.0%</text>
+<path d="M 200 240 L 78.6475 151.8322 A 150 150 0 0 1 153.6475 97.3415 Z" fill="#80699B" class="pie-slice" data-slice-label="Meetings"/>
+<text x="100.08" y="102.47" class="pie-label">10.0%</text>
+<path d="M 200 240 L 153.6475 97.3415 A 150 150 0 0 1 200.0000 90.0000 Z" fill="#3D96AE" class="pie-slice" data-slice-label="Code Review"/>
+<text x="173.41" y="72.09" class="pie-label">5.0%</text>
+<rect x="390" y="50" width="16" height="16" fill="#4572A7" class="pie-legend"/>
+<text x="412" y="63" class="pie-legend">Development: 45.0% (45)</text>
+<rect x="390" y="78" width="16" height="16" fill="#AA4643" class="pie-legend"/>
+<text x="412" y="91" class="pie-legend">Testing: 25.0% (25)</text>
+<rect x="390" y="106" width="16" height="16" fill="#89A54E" class="pie-legend"/>
+<text x="412" y="119" class="pie-legend">Documentation: 15.0% (15)</text>
+<rect x="390" y="134" width="16" height="16" fill="#80699B" class="pie-legend"/>
+<text x="412" y="147" class="pie-legend">Meetings: 10.0% (10)</text>
+<rect x="390" y="162" width="16" height="16" fill="#3D96AE" class="pie-legend"/>
+<text x="412" y="175" class="pie-legend">Code Review: 5.0% (5)</text>
+</svg>

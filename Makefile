@@ -1,4 +1,4 @@
-.PHONY: test setup shell coverage publish-build publish-test publish publish-clean
+.PHONY: test setup shell coverage render-examples publish-build publish-test publish publish-clean
 
 test:
 	uv run pytest
@@ -11,6 +11,9 @@ shell:
 
 coverage:
 	uv run pytest --cov=merm --cov-report=term-missing
+
+render-examples:
+	uv run python scripts/render_examples.py
 
 publish-build:
 	uv run hatch build

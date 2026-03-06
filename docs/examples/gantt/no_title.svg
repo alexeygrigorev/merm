@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 198" width="810" height="198">
+<style>
+.gantt-title { font-family: sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+.gantt-section { font-family: sans-serif; font-size: 13px; font-weight: bold; fill: #555; }
+.gantt-label { font-family: sans-serif; font-size: 12px; fill: #333; }
+.gantt-bar-text { font-family: sans-serif; font-size: 11px; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+.gantt-tick { font-family: sans-serif; font-size: 10px; fill: #666; text-anchor: middle; }
+.gantt-grid { stroke: #e0e0e0; stroke-width: 0.5; }
+</style>
+<rect x="0" y="20" width="810" height="32" fill="#f0f0f0" data-section="Sprint 1"/>
+<text x="10" y="40.0" class="gantt-section">Sprint 1</text>
+<text x="170" y="72.0" class="gantt-label" text-anchor="end">Story A</text>
+<rect x="180.00" y="57.0" width="300.00" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="s1" data-section="Sprint 1"/>
+<text x="170" y="104.0" class="gantt-label" text-anchor="end">Story B</text>
+<rect x="180.00" y="89.0" width="600.00" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="s2" data-section="Sprint 1"/>
+<text x="170" y="136.0" class="gantt-label" text-anchor="end">Story C</text>
+<rect x="480.00" y="121.0" width="300.00" height="22" rx="3" ry="3" fill="#4572A7" data-task-id="s3" data-section="Sprint 1"/>
+<line x1="180" y1="158" x2="780" y2="158" stroke="#333" stroke-width="1"/>
+<line x1="180.00" y1="158" x2="180.00" y2="164" stroke="#333" stroke-width="1"/>
+<line x1="180.00" y1="20" x2="180.00" y2="158" class="gantt-grid"/>
+<text x="180.00" y="174" class="gantt-tick">2024-03-01</text>
+<line x1="265.71" y1="158" x2="265.71" y2="164" stroke="#333" stroke-width="1"/>
+<line x1="265.71" y1="20" x2="265.71" y2="158" class="gantt-grid"/>
+<text x="265.71" y="174" class="gantt-tick">2024-03-03</text>
+<line x1="351.43" y1="158" x2="351.43" y2="164" stroke="#333" stroke-width="1"/>
+<line x1="351.43" y1="20" x2="351.43" y2="158" class="gantt-grid"/>
+<text x="351.43" y="174" class="gantt-tick">2024-03-05</text>
+<line x1="437.14" y1="158" x2="437.14" y2="164" stroke="#333" stroke-width="1"/>
+<line x1="437.14" y1="20" x2="437.14" y2="158" class="gantt-grid"/>
+<text x="437.14" y="174" class="gantt-tick">2024-03-07</text>
+<line x1="522.86" y1="158" x2="522.86" y2="164" stroke="#333" stroke-width="1"/>
+<line x1="522.86" y1="20" x2="522.86" y2="158" class="gantt-grid"/>
+<text x="522.86" y="174" class="gantt-tick">2024-03-09</text>
+<line x1="608.57" y1="158" x2="608.57" y2="164" stroke="#333" stroke-width="1"/>
+<line x1="608.57" y1="20" x2="608.57" y2="158" class="gantt-grid"/>
+<text x="608.57" y="174" class="gantt-tick">2024-03-11</text>
+<line x1="694.29" y1="158" x2="694.29" y2="164" stroke="#333" stroke-width="1"/>
+<line x1="694.29" y1="20" x2="694.29" y2="158" class="gantt-grid"/>
+<text x="694.29" y="174" class="gantt-tick">2024-03-13</text>
+<line x1="780.00" y1="158" x2="780.00" y2="164" stroke="#333" stroke-width="1"/>
+<line x1="780.00" y1="20" x2="780.00" y2="158" class="gantt-grid"/>
+<text x="780.00" y="174" class="gantt-tick">2024-03-15</text>
+</svg>

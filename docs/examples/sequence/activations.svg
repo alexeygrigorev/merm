@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -20 240 180" width="240" height="180" style="background-color: white">
+  <defs>
+    <marker id="seq-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333333" />
+    </marker>
+    <marker id="seq-arrow-open" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+    <marker id="seq-cross" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <line x1="0" y1="0" x2="10" y2="10" stroke="#333333" stroke-width="2" />
+      <line x1="10" y1="0" x2="0" y2="10" stroke="#333333" stroke-width="2" />
+    </marker>
+    <marker id="seq-async" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+  </defs>
+  <style>.seq-participant rect { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
+.seq-participant text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; }
+.seq-lifeline { stroke: #9370DB; stroke-width: 1; stroke-dasharray: 5,5; }
+.seq-message line, .seq-message path { stroke: #333333; stroke-width: 2; }
+.seq-message text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
+.seq-activation { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
+.seq-note rect { fill: #ffffcc; stroke: #aaaa33; stroke-width: 1; }
+.seq-note text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
+.seq-fragment rect { fill: none; stroke: #9370DB; stroke-width: 1; stroke-dasharray: 3,3; }
+.seq-fragment text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 11px; font-weight: bold; }
+.seq-actor line, .seq-actor circle { stroke: #9370DB; stroke-width: 1; fill: none; }
+.seq-actor text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; }
+</style>
+</svg>

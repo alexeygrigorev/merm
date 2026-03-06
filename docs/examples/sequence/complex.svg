@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -20 780 890" width="780" height="890" style="background-color: white">
+  <defs>
+    <marker id="seq-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333333" />
+    </marker>
+    <marker id="seq-arrow-open" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+    <marker id="seq-cross" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <line x1="0" y1="0" x2="10" y2="10" stroke="#333333" stroke-width="2" />
+      <line x1="10" y1="0" x2="0" y2="10" stroke="#333333" stroke-width="2" />
+    </marker>
+    <marker id="seq-async" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+  </defs>
+  <style>.seq-participant rect { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
+.seq-participant text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; }
+.seq-lifeline { stroke: #9370DB; stroke-width: 1; stroke-dasharray: 5,5; }
+.seq-message line, .seq-message path { stroke: #333333; stroke-width: 2; }
+.seq-message text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
+.seq-activation { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
+.seq-note rect { fill: #ffffcc; stroke: #aaaa33; stroke-width: 1; }
+.seq-note text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
+.seq-fragment rect { fill: none; stroke: #9370DB; stroke-width: 1; stroke-dasharray: 3,3; }
+.seq-fragment text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 11px; font-weight: bold; }
+.seq-actor line, .seq-actor circle { stroke: #9370DB; stroke-width: 1; fill: none; }
+.seq-actor text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; }
+</style>
+  <line class="seq-lifeline" x1="70" y1="60" x2="70" y2="830" />
+  <line class="seq-lifeline" x1="220" y1="60" x2="220" y2="830" />
+  <line class="seq-lifeline" x1="370" y1="60" x2="370" y2="830" />
+  <line class="seq-lifeline" x1="520" y1="60" x2="520" y2="830" />
+  <line class="seq-lifeline" x1="670" y1="60" x2="670" y2="830" />
+  <g class="seq-fragment">
+    <rect x="10" y="260" width="720" height="435" />
+    <rect x="10" y="260" width="34" height="20" fill="#e8e8e8" stroke="none" />
+    <text x="15" y="274">ALT</text>
+    <text x="49" y="274">[Valid credentials]</text>
+  </g>
+  <g class="seq-fragment">
+    <rect x="10" y="695" width="720" height="115" />
+    <rect x="10" y="695" width="42" height="20" fill="#e8e8e8" stroke="none" />
+    <text x="15" y="709">ELSE</text>
+    <text x="57" y="709">[Invalid credentials]</text>
+  </g>
+  <g class="seq-message">
+    <line x1="70" y1="100" x2="220" y2="100" marker-end="url(#seq-arrow)" />
+    <text x="145" text-anchor="middle" y="95">POST /login</text>
+  </g>
+  <g class="seq-message">
+    <line x1="220" y1="140" x2="370" y2="140" marker-end="url(#seq-arrow)" />
+    <text x="295" text-anchor="middle" y="135">Validate credentials</text>
+  </g>
+  <g class="seq-message">
+    <line x1="370" y1="180" x2="670" y2="180" marker-end="url(#seq-arrow)" />
+    <text x="520" text-anchor="middle" y="175">Query user</text>
+  </g>
+  <g class="seq-message">
+    <line x1="670" y1="220" x2="370" y2="220" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="520" text-anchor="middle" y="215">User record</text>
+  </g>
+  <g class="seq-message">
+    <line x1="370" y1="285" x2="220" y2="285" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="295" text-anchor="middle" y="280">JWT token</text>
+  </g>
+  <g class="seq-message">
+    <line x1="220" y1="325" x2="70" y2="325" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="145" text-anchor="middle" y="320">200 OK + token</text>
+  </g>
+  <g class="seq-message">
+    <line x1="70" y1="365" x2="220" y2="365" marker-end="url(#seq-arrow)" />
+    <text x="145" text-anchor="middle" y="360">GET /data (Bearer token)</text>
+  </g>
+  <g class="seq-message">
+    <line x1="220" y1="405" x2="370" y2="405" marker-end="url(#seq-arrow)" />
+    <text x="295" text-anchor="middle" y="400">Verify token</text>
+  </g>
+  <g class="seq-message">
+    <line x1="370" y1="445" x2="220" y2="445" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="295" text-anchor="middle" y="440">Token valid</text>
+  </g>
+  <g class="seq-message">
+    <line x1="220" y1="485" x2="520" y2="485" marker-end="url(#seq-arrow)" />
+    <text x="370" text-anchor="middle" y="480">Forward request</text>
+  </g>
+  <g class="seq-message">
+    <line x1="520" y1="525" x2="670" y2="525" marker-end="url(#seq-arrow)" />
+    <text x="595" text-anchor="middle" y="520">SELECT data</text>
+  </g>
+  <g class="seq-message">
+    <line x1="670" y1="565" x2="520" y2="565" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="595" text-anchor="middle" y="560">Results</text>
+  </g>
+  <g class="seq-message">
+    <line x1="520" y1="605" x2="220" y2="605" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="370" text-anchor="middle" y="600">JSON response</text>
+  </g>
+  <g class="seq-message">
+    <line x1="220" y1="645" x2="70" y2="645" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="145" text-anchor="middle" y="640">200 OK + data</text>
+  </g>
+  <g class="seq-message">
+    <line x1="370" y1="720" x2="220" y2="720" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="295" text-anchor="middle" y="715">401 Unauthorized</text>
+  </g>
+  <g class="seq-message">
+    <line x1="220" y1="760" x2="70" y2="760" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="145" text-anchor="middle" y="755">401 Unauthorized</text>
+  </g>
+  <g class="seq-participant" data-participant-id="Client">
+    <rect x="20" y="20" width="100" height="40" rx="5" />
+    <text x="70" y="40" text-anchor="middle" dominant-baseline="central">Client</text>
+  </g>
+  <g class="seq-participant" data-participant-id="Gateway">
+    <rect x="170" y="20" width="100" height="40" rx="5" />
+    <text x="220" y="40" text-anchor="middle" dominant-baseline="central">Gateway</text>
+  </g>
+  <g class="seq-participant" data-participant-id="Auth">
+    <rect x="320" y="20" width="100" height="40" rx="5" />
+    <text x="370" y="40" text-anchor="middle" dominant-baseline="central">Auth</text>
+  </g>
+  <g class="seq-participant" data-participant-id="API">
+    <rect x="470" y="20" width="100" height="40" rx="5" />
+    <text x="520" y="40" text-anchor="middle" dominant-baseline="central">API</text>
+  </g>
+  <g class="seq-participant" data-participant-id="DB">
+    <rect x="620" y="20" width="100" height="40" rx="5" />
+    <text x="670" y="40" text-anchor="middle" dominant-baseline="central">DB</text>
+  </g>
+</svg>

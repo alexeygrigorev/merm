@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 140" width="680" height="140">
+<style>
+.gitgraph-label { font-family: sans-serif; font-size: 12px; fill: #333; }
+.gitgraph-branch-label { font-family: sans-serif; font-size: 14px; font-weight: bold; }
+.gitgraph-tag { font-family: sans-serif; font-size: 11px; fill: #333; }
+</style>
+<line x1="120.0" y1="40.0" x2="600.0" y2="40.0" stroke="#47d147" stroke-width="2" class="gitgraph-branch-line"/>
+<line x1="280.0" y1="90.0" x2="360.0" y2="90.0" stroke="#ff6666" stroke-width="2" class="gitgraph-branch-line"/>
+<line x1="120.0" y1="40.0" x2="200.0" y2="40.0" stroke="#47d147" stroke-width="3" class="gitgraph-branch-line"/>
+<line x1="200.0" y1="40.0" x2="440.0" y2="40.0" stroke="#47d147" stroke-width="3" class="gitgraph-branch-line"/>
+<line x1="440.0" y1="40.0" x2="520.0" y2="40.0" stroke="#47d147" stroke-width="3" class="gitgraph-branch-line"/>
+<line x1="520.0" y1="40.0" x2="600.0" y2="40.0" stroke="#47d147" stroke-width="3" class="gitgraph-branch-line"/>
+<line x1="280.0" y1="90.0" x2="360.0" y2="90.0" stroke="#ff6666" stroke-width="3" class="gitgraph-branch-line"/>
+<line x1="360.0" y1="90.0" x2="440.0" y2="40.0" stroke="#999" stroke-width="2" class="gitgraph-merge-line"/>
+<circle cx="120.0" cy="40.0" r="8" fill="#47d147" stroke="#47d147" stroke-width="2" class="gitgraph-commit"/>
+<circle cx="200.0" cy="40.0" r="8" fill="#47d147" stroke="#47d147" stroke-width="2" class="gitgraph-commit"/>
+<circle cx="280.0" cy="90.0" r="8" fill="#ff6666" stroke="#ff6666" stroke-width="2" class="gitgraph-commit"/>
+<circle cx="360.0" cy="90.0" r="8" fill="#ff6666" stroke="#ff6666" stroke-width="2" class="gitgraph-commit"/>
+<circle cx="440.0" cy="40.0" r="8" fill="#47d147" stroke="#47d147" stroke-width="2" class="gitgraph-commit"/>
+<circle cx="520.0" cy="40.0" r="8" fill="#47d147" stroke="#47d147" stroke-width="2" class="gitgraph-commit"/>
+<circle cx="600.0" cy="40.0" r="8" fill="#47d147" stroke="#47d147" stroke-width="2" class="gitgraph-commit"/>
+<text x="10.0" y="44.0" fill="#47d147" class="gitgraph-branch-label">main</text>
+<text x="10.0" y="94.0" fill="#ff6666" class="gitgraph-branch-label">develop</text>
+</svg>

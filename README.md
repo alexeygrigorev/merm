@@ -37,7 +37,141 @@ flowchart TD
 """)
 ```
 
-## Examples
+## Supported diagram types
+
+All examples below are rendered by merm. Browse all 131 rendered examples in [docs/examples/](docs/examples/).
+
+### Flowchart
+
+```
+flowchart LR
+    A[Hard] -->|Text| B(Round)
+    B --> C{Decision}
+    C -->|One| D[Result 1]
+    C -->|Two| E[Result 2]
+```
+
+<img src="docs/examples/flowchart/mermaid_readme.svg" alt="Flowchart" width="600">
+
+### Sequence diagram
+
+```
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    loop HealthCheck
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts!
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
+```
+
+<img src="docs/examples/sequence/mermaid_readme.svg" alt="Sequence diagram" width="500">
+
+### Class diagram
+
+```
+classDiagram
+    Class01 <|-- AveryLongClass : Cool
+    Class09 --> C2 : Where am I?
+    Class09 --* C3
+    Class09 --|> Class07
+    Class07 : equals()
+    Class07 : Object[] elementData
+    Class01 : size()
+    Class01 : int chimp
+    Class01 : int gorilla
+    class Class10 {
+        int id
+        size()
+    }
+```
+
+<img src="docs/examples/class/mermaid_readme.svg" alt="Class diagram" width="500">
+
+### State diagram
+
+```
+stateDiagram-v2
+    [*] --> Still
+    Still --> [*]
+    Still --> Moving
+    Moving --> Still
+    Moving --> Crash
+    Crash --> [*]
+```
+
+<img src="docs/examples/state/mermaid_readme.svg" alt="State diagram" width="300">
+
+### Entity relationship diagram
+
+```
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+```
+
+<img src="docs/examples/er/basic.svg" alt="ER diagram" width="500">
+
+### Gantt chart
+
+```
+gantt
+    section Section
+    Completed :done, des1, 2014-01-06, 2014-01-08
+    Active :active, des2, 2014-01-07, 3d
+    Parallel 1 : des3, after des1, 1d
+    Parallel 2 : des4, after des1, 1d
+    Parallel 3 : des5, after des3, 1d
+    Parallel 4 : des6, after des4, 1d
+```
+
+<img src="docs/examples/gantt/mermaid_readme.svg" alt="Gantt chart" width="600">
+
+### Pie chart
+
+```
+pie
+    "Dogs" : 386
+    "Cats" : 85.9
+    "Rats" : 15
+```
+
+<img src="docs/examples/pie/mermaid_readme.svg" alt="Pie chart" width="400">
+
+### Git graph
+
+```
+gitGraph
+    commit
+    commit
+    branch develop
+    checkout develop
+    commit
+    commit
+    checkout main
+    merge develop
+    commit
+    commit
+```
+
+<img src="docs/examples/gitgraph/mermaid_readme.svg" alt="Git graph" width="500">
+
+### Mindmap
+
+```
+mindmap
+    root((Central Topic))
+        Branch A
+            Leaf 1
+            Leaf 2
+        Branch B
+            Leaf 3
+```
+
+<img src="docs/examples/mindmap/basic.svg" alt="Mindmap" width="400">
 
 ### Flowchart with Font Awesome icons
 
@@ -53,40 +187,11 @@ flowchart TD
 
 <img src="docs/xmas_tree.svg" alt="Christmas tree flowchart" width="400">
 
-### Registration flow
-
-```
-flowchart TD
-    Start([User clicks Register]) --> Form[Display registration form]
-    Form --> Submit[User submits form]
-    Submit --> ValidateEmail{Email valid?}
-    ValidateEmail -->|No| EmailError[Show email error]
-    EmailError --> Form
-    ValidateEmail -->|Yes| CheckExists{User exists?}
-    CheckExists -->|Yes| ExistsError[Show already registered]
-    ExistsError --> Form
-    CheckExists -->|No| ValidatePassword{Password strong?}
-    ValidatePassword -->|No| PasswordError[Show password requirements]
-    PasswordError --> Form
-    ValidatePassword -->|Yes| CreateUser[(Save to database)]
-    CreateUser --> SendEmail[/Send verification email/]
-    SendEmail --> Success([Show success message])
-```
-
-<img src="docs/registration.svg" alt="Registration flow" width="500">
-
-## Supported diagram types
-
-- Flowchart (`graph` / `flowchart`) — all directions (TD, LR, BT, RL), subgraphs, shapes, edge labels
-- Sequence (`sequenceDiagram`) — participants, messages, loops, alt/opt/par fragments
-- Class (`classDiagram`) — classes, methods, attributes, relationships
-- State (`stateDiagram`) — states, transitions, composite states, forks/joins
-
 ## Features
 
 - Pure Python — no Node.js, no browser, no Puppeteer
 - ~200x faster than mermaid-cli (mmdc)
-- SVG output with clean markup
+- 10 diagram types: flowchart, sequence, class, state, ER, gantt, pie, mindmap, gitgraph
 - All flowchart shapes and edge types
 - Subgraph nesting and styling
 - Edge labels and arrow markers

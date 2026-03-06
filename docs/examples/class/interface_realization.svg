@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 326 316" width="326" height="316" style="background-color: white">
+  <defs>
+    <marker id="inherit-arrow" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="white" stroke="#333333" stroke-width="1" />
+    </marker>
+    <marker id="composition-arrow" viewBox="0 0 16 10" markerWidth="16" markerHeight="10" refX="16" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,5 L8,0 L16,5 L8,10 Z" fill="#333333" stroke="#333333" stroke-width="1" />
+    </marker>
+    <marker id="aggregation-arrow" viewBox="0 0 16 10" markerWidth="16" markerHeight="10" refX="16" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,5 L8,0 L16,5 L8,10 Z" fill="white" stroke="#333333" stroke-width="1" />
+    </marker>
+    <marker id="association-arrow" viewBox="0 0 10 7" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,3.5 L0,7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+    <marker id="dependency-arrow" viewBox="0 0 10 7" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,3.5 L0,7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+    <marker id="realization-arrow" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="white" stroke="#333333" stroke-width="1" />
+    </marker>
+  </defs>
+  <style>.class-node rect { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
+.class-node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; }
+.class-node line { stroke: #9370DB; }
+.class-edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.class-edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; }
+</style>
+  <g class="class-edge" data-edge-source="Duck" data-edge-target="Flyable">
+    <path d="M162.0,211.0 L66.0,106.0" fill="none" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#realization-arrow)" />
+  </g>
+  <g class="class-edge" data-edge-source="Duck" data-edge-target="Swimmable">
+    <path d="M224.0,146.0 L220.0,96.0" fill="none" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#realization-arrow)" />
+  </g>
+  <g class="class-edge" data-edge-source="Airplane" data-edge-target="Flyable">
+    <path d="M66.0,166.0 L66.0,106.0" fill="none" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#realization-arrow)" />
+  </g>
+  <g class="class-node" data-node-id="Flyable">
+    <rect x="4.0" y="0.0" width="124.0" height="106.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="66.0" y="14.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-style="italic" fill="#333333">&lt;&lt;interface&gt;&gt;</text>
+    <text x="66.0" y="36.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="14.0px" font-weight="bold" fill="#333333">Flyable</text>
+    <line x1="4.0" y1="46.0" x2="128.0" y2="46.0" stroke="#9370DB" stroke-width="1" />
+    <line x1="4.0" y1="66.0" x2="128.0" y2="66.0" stroke="#9370DB" stroke-width="1" />
+    <text x="14.0" y="76.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+fly()</text>
+    <text x="14.0" y="96.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+land()</text>
+  </g>
+  <g class="class-node" data-node-id="Swimmable">
+    <rect x="158.0" y="10.0" width="124.0" height="86.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="220.0" y="24.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-style="italic" fill="#333333">&lt;&lt;interface&gt;&gt;</text>
+    <text x="220.0" y="46.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="14.0px" font-weight="bold" fill="#333333">Swimmable</text>
+    <line x1="158.0" y1="56.0" x2="282.0" y2="56.0" stroke="#9370DB" stroke-width="1" />
+    <line x1="158.0" y1="76.0" x2="282.0" y2="76.0" stroke="#9370DB" stroke-width="1" />
+    <text x="168.0" y="86.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+swim()</text>
+  </g>
+  <g class="class-node" data-node-id="Duck">
+    <rect x="162.0" y="146.0" width="124.0" height="130.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="224.0" y="166.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="14.0px" font-weight="bold" fill="#333333">Duck</text>
+    <line x1="162.0" y1="176.0" x2="286.0" y2="176.0" stroke="#9370DB" stroke-width="1" />
+    <text x="172.0" y="186.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+name: string</text>
+    <line x1="162.0" y1="196.0" x2="286.0" y2="196.0" stroke="#9370DB" stroke-width="1" />
+    <text x="172.0" y="206.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+fly()</text>
+    <text x="172.0" y="226.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+land()</text>
+    <text x="172.0" y="246.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+swim()</text>
+    <text x="172.0" y="266.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+quack()</text>
+  </g>
+  <g class="class-node" data-node-id="Airplane">
+    <rect x="0.0" y="166.0" width="132.0" height="90.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="66.0" y="186.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="14.0px" font-weight="bold" fill="#333333">Airplane</text>
+    <line x1="0.0" y1="196.0" x2="132.0" y2="196.0" stroke="#9370DB" stroke-width="1" />
+    <text x="10.0" y="206.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+model: string</text>
+    <line x1="0.0" y1="216.0" x2="132.0" y2="216.0" stroke="#9370DB" stroke-width="1" />
+    <text x="10.0" y="226.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+fly()</text>
+    <text x="10.0" y="246.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+land()</text>
+  </g>
+</svg>

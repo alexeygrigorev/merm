@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 443 350" width="443" height="350">
+<style>
+.mindmap-node { cursor: pointer; }
+.mindmap-label { font-family: sans-serif; font-size: 14px; text-anchor: middle; dominant-baseline: middle; fill: #333; }
+.mindmap-branch { fill: none; }
+</style>
+<path d="M 223.5 174.9 Q 183.9 101.4 110.4 61.8" fill="none" stroke="#4572A7" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Rounded Node"/>
+<path d="M 223.5 174.9 Q 297.1 135.3 336.7 61.8" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Square Node"/>
+<path d="M 223.5 174.9 Q 263.1 248.5 336.7 288.1" fill="none" stroke="#89A54E" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Cloud Node"/>
+<path d="M 223.5 174.9 Q 150.0 214.5 110.4 288.1" fill="none" stroke="#80699B" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Default_Node"/>
+<circle cx="223.5" cy="174.9" r="67.2" fill="#f0f0f0" stroke="#333" stroke-width="2" class="mindmap-node" data-node-id="root"/>
+<text x="223.5" y="179.9" class="mindmap-label" data-node-id="root">Shapes Demo</text>
+<rect x="40.0" y="40.0" width="140.8" height="43.6" rx="12" ry="12" fill="#a2b8d3" stroke="#4572A7" stroke-width="2" class="mindmap-node" data-node-id="Rounded Node"/>
+<text x="110.4" y="66.8" class="mindmap-label" data-node-id="Rounded Node">Rounded Node</text>
+<rect x="270.5" y="40.0" width="132.4" height="43.6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Square Node"/>
+<text x="336.7" y="66.8" class="mindmap-label" data-node-id="Square Node">Square Node</text>
+<ellipse cx="336.7" cy="288.1" rx="68.2" ry="25.8" fill="#c4d2a6" stroke="#89A54E" stroke-width="2" stroke-dasharray="8,4" class="mindmap-node" data-node-id="Cloud Node"/>
+<text x="336.7" y="293.1" class="mindmap-label" data-node-id="Cloud Node">Cloud Node</text>
+<rect x="45.2" y="266.3" width="130.3" height="43.6" rx="6" ry="6" fill="#bfb4cd" stroke="#80699B" stroke-width="2" class="mindmap-node" data-node-id="Default_Node"/>
+<text x="110.4" y="293.1" class="mindmap-label" data-node-id="Default_Node">Default Node</text>
+</svg>

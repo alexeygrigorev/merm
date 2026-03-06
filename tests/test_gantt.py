@@ -460,6 +460,67 @@ class TestMultipleSections:
         t2 = chart.sections[1].tasks[0]
         assert t2.start_date == D(2024, 1, 6)
 
+class TestDateRangeFormat:
+    """Tasks specified with start_date, end_date instead of duration."""
+
+    def test_date_range_basic(self):
+        source = """gantt
+    section S
+        Task1 :t1, 2014-01-06, 2014-01-08
+"""
+        chart = parse_gantt(source)
+        task = chart.sections[0].tasks[0]
+        assert task.start_date == D(2014, 1, 6)
+        assert task.end_date == D(2014, 1, 8)
+        assert task.duration_days == 2
+
+    def test_date_range_with_modifiers(self):
+        source = """gantt
+    section S
+        Completed :done, des1, 2014-01-06, 2014-01-08
+"""
+        chart = parse_gantt(source)
+        task = chart.sections[0].tasks[0]
+        assert "done" in task.modifiers
+        assert task.id == "des1"
+        assert task.start_date == D(2014, 1, 6)
+        assert task.end_date == D(2014, 1, 8)
+
+    def test_mixed_duration_and_date_range(self):
+        """Same chart can mix duration and date-range formats."""
+        source = """gantt
+    section S
+        A :done, a1, 2014-01-06, 2014-01-08
+        B :active, b1, 2014-01-07, 3d
+        C :c1, after a1, 1d
+"""
+        chart = parse_gantt(source)
+        tasks = chart.sections[0].tasks
+        assert tasks[0].duration_days == 2
+        assert tasks[1].duration_days == 3
+        assert tasks[2].start_date == D(2014, 1, 8)
+
+    def test_mermaid_readme_example(self):
+        """The exact gantt example from mermaid.js README."""
+        source = (FIXTURES_DIR / "mermaid_readme.mmd").read_text()
+        chart = parse_gantt(source)
+        assert len(chart.sections) == 1
+        assert len(chart.sections[0].tasks) == 6
+        # First task uses date range format
+        t0 = chart.sections[0].tasks[0]
+        assert t0.start_date == D(2014, 1, 6)
+        assert t0.end_date == D(2014, 1, 8)
+
+    def test_date_range_renders(self):
+        source = """gantt
+    section S
+        Task1 :t1, 2024-01-01, 2024-01-15
+"""
+        svg = render_diagram(source)
+        assert "<svg" in svg
+        assert 'data-task-id="t1"' in svg
+
+
 class TestExcludesIgnored:
     def test_excludes_directive_ignored(self):
         source = """gantt

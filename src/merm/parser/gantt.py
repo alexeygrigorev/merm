@@ -158,25 +158,36 @@ def _parse_task_line(line: str, line_num: int) -> _RawTask:
             line=line_num,
         )
 
-    # Last field must be duration
+    # Last field is either a duration (e.g. "3d") or an end date (ISO format).
+    # If last two fields are both dates, treat as start_date, end_date.
     duration_match = _DURATION_RE.match(fields[-1])
-    if not duration_match:
+    end_date_match = _DATE_RE.match(fields[-1])
+
+    if duration_match:
+        duration_days = int(duration_match.group(1))
+        start_spec = fields[-2]
+        if not _DATE_RE.match(start_spec) and not _AFTER_RE.match(start_spec):
+            raise ParseError(
+                f"Invalid start specification '{start_spec}' in task line: {line}",
+                line=line_num,
+            )
+        prefix_end = -2
+    elif end_date_match and len(fields) >= 2 and _DATE_RE.match(fields[-2]):
+        # start_date, end_date format
+        start_spec = fields[-2]
+        end_iso = fields[-1]
+        start_d = date.fromisoformat(start_spec)
+        end_d = date.fromisoformat(end_iso)
+        duration_days = max((end_d - start_d).days, 1)
+        prefix_end = -2
+    else:
         raise ParseError(
             f"Malformed task line (missing or invalid duration): {line}",
             line=line_num,
         )
-    duration_days = int(duration_match.group(1))
-
-    # Second-to-last field must be start (date or 'after <id>')
-    start_spec = fields[-2]
-    if not _DATE_RE.match(start_spec) and not _AFTER_RE.match(start_spec):
-        raise ParseError(
-            f"Invalid start specification '{start_spec}' in task line: {line}",
-            line=line_num,
-        )
 
     # Remaining fields (before start) are modifiers and/or id
-    prefix_fields = fields[:-2]
+    prefix_fields = fields[:prefix_end]
     modifiers: set[str] = set()
     task_id: str | None = None
 

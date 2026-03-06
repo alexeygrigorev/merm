@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 987 1001" width="987" height="1001">
+<style>
+.mindmap-node { cursor: pointer; }
+.mindmap-label { font-family: sans-serif; font-size: 14px; text-anchor: middle; dominant-baseline: middle; fill: #333; }
+.mindmap-branch { fill: none; }
+</style>
+<path d="M 446.7 500.4 Q 427.5 419.1 366.7 361.8" fill="none" stroke="#4572A7" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Origins"/>
+<path d="M 366.7 361.8 Q 259.3 247.8 106.9 211.8" fill="none" stroke="#4572A7" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Long_history"/>
+<path d="M 366.7 361.8 Q 411.7 211.8 366.7 61.8" fill="none" stroke="#4572A7" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Popularized_by_Tony_Buzan"/>
+<path d="M 446.7 500.4 Q 526.7 524.4 606.7 500.4" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Research"/>
+<path d="M 606.7 500.4 Q 759.1 464.3 866.5 350.4" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="On_effectiveness"/>
+<path d="M 606.7 500.4 Q 714.1 614.3 866.5 650.4" fill="none" stroke="#AA4643" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="On_features"/>
+<path d="M 446.7 500.4 Q 385.9 557.6 366.7 638.9" fill="none" stroke="#89A54E" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Tools"/>
+<path d="M 366.7 638.9 Q 321.7 788.9 366.7 938.9" fill="none" stroke="#89A54E" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Pen_and_paper"/>
+<path d="M 366.7 638.9 Q 214.3 675.0 106.9 788.9" fill="none" stroke="#89A54E" stroke-width="2.5" stroke-linecap="round" class="mindmap-branch" data-node-id="Mermaid"/>
+<circle cx="446.7" cy="500.4" r="69.3" fill="#f0f0f0" stroke="#333" stroke-width="2" class="mindmap-node" data-node-id="root"/>
+<text x="446.7" y="505.4" class="mindmap-label" data-node-id="root">Central Topic</text>
+<rect x="320.8" y="340.0" width="91.8" height="43.6" rx="6" ry="6" fill="#a2b8d3" stroke="#4572A7" stroke-width="2" class="mindmap-node" data-node-id="Origins"/>
+<text x="366.7" y="366.8" class="mindmap-label" data-node-id="Origins">Origins</text>
+<rect x="40.0" y="190.0" width="133.8" height="43.6" rx="6" ry="6" fill="#a2b8d3" stroke="#4572A7" stroke-width="2" class="mindmap-node" data-node-id="Long_history"/>
+<text x="106.9" y="216.8" class="mindmap-label" data-node-id="Long_history">Long history</text>
+<rect x="245.2" y="40.0" width="243.0" height="43.6" rx="6" ry="6" fill="#a2b8d3" stroke="#4572A7" stroke-width="2" class="mindmap-node" data-node-id="Popularized_by_Tony_Buzan"/>
+<text x="366.7" y="66.8" class="mindmap-label" data-node-id="Popularized_by_Tony_Buzan">Popularized by Tony Buzan</text>
+<rect x="553.1" y="478.6" width="107.2" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="Research"/>
+<text x="606.7" y="505.4" class="mindmap-label" data-node-id="Research">Research</text>
+<rect x="786.3" y="328.6" width="160.4" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="On_effectiveness"/>
+<text x="866.5" y="355.4" class="mindmap-label" data-node-id="On_effectiveness">On effectiveness</text>
+<rect x="803.8" y="628.6" width="125.4" height="43.6" rx="6" ry="6" fill="#d4a2a1" stroke="#AA4643" stroke-width="2" class="mindmap-node" data-node-id="On_features"/>
+<text x="866.5" y="655.4" class="mindmap-label" data-node-id="On_features">On features</text>
+<rect x="327.5" y="617.1" width="78.5" height="43.6" rx="6" ry="6" fill="#c4d2a6" stroke="#89A54E" stroke-width="2" class="mindmap-node" data-node-id="Tools"/>
+<text x="366.7" y="643.9" class="mindmap-label" data-node-id="Tools">Tools</text>
+<rect x="292.1" y="917.1" width="149.2" height="43.6" rx="6" ry="6" fill="#c4d2a6" stroke="#89A54E" stroke-width="2" class="mindmap-node" data-node-id="Pen_and_paper"/>
+<text x="366.7" y="943.9" class="mindmap-label" data-node-id="Pen_and_paper">Pen and paper</text>
+<rect x="57.2" y="767.1" width="99.5" height="43.6" rx="6" ry="6" fill="#c4d2a6" stroke="#89A54E" stroke-width="2" class="mindmap-node" data-node-id="Mermaid"/>
+<text x="106.9" y="793.9" class="mindmap-label" data-node-id="Mermaid">Mermaid</text>
+</svg>

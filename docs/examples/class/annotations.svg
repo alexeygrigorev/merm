@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 518 272" width="518" height="272" style="background-color: white">
+  <defs>
+    <marker id="inherit-arrow" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="white" stroke="#333333" stroke-width="1" />
+    </marker>
+    <marker id="composition-arrow" viewBox="0 0 16 10" markerWidth="16" markerHeight="10" refX="16" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,5 L8,0 L16,5 L8,10 Z" fill="#333333" stroke="#333333" stroke-width="1" />
+    </marker>
+    <marker id="aggregation-arrow" viewBox="0 0 16 10" markerWidth="16" markerHeight="10" refX="16" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,5 L8,0 L16,5 L8,10 Z" fill="white" stroke="#333333" stroke-width="1" />
+    </marker>
+    <marker id="association-arrow" viewBox="0 0 10 7" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,3.5 L0,7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+    <marker id="dependency-arrow" viewBox="0 0 10 7" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,3.5 L0,7" fill="none" stroke="#333333" stroke-width="1.5" />
+    </marker>
+    <marker id="realization-arrow" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="white" stroke="#333333" stroke-width="1" />
+    </marker>
+  </defs>
+  <style>.class-node rect { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
+.class-node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; }
+.class-node line { stroke: #9370DB; }
+.class-edge path { fill: none; stroke: #333333; stroke-width: 2; }
+.class-edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; }
+</style>
+  <g class="class-edge" data-edge-source="AbstractShape" data-edge-target="Shape">
+    <path d="M86.0,146.0 L86.0,106.0" fill="none" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#realization-arrow)" />
+  </g>
+  <g class="class-node" data-node-id="Shape">
+    <rect x="0.0" y="0.0" width="172.0" height="106.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="86.0" y="14.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-style="italic" fill="#333333">&lt;&lt;interface&gt;&gt;</text>
+    <text x="86.0" y="36.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="14.0px" font-weight="bold" fill="#333333">Shape</text>
+    <line x1="0.0" y1="46.0" x2="172.0" y2="46.0" stroke="#9370DB" stroke-width="1" />
+    <line x1="0.0" y1="66.0" x2="172.0" y2="66.0" stroke="#9370DB" stroke-width="1" />
+    <text x="10.0" y="76.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+area() double</text>
+    <text x="10.0" y="96.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+perimeter() double</text>
+  </g>
+  <g class="class-node" data-node-id="Color">
+    <rect x="202.0" y="81.0" width="276.0" height="70.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="340.0" y="101.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="14.0px" font-weight="bold" fill="#333333">Color</text>
+    <line x1="202.0" y1="111.0" x2="478.0" y2="111.0" stroke="#9370DB" stroke-width="1" />
+    <text x="212.0" y="121.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+&lt;&lt;enumeration&gt;&gt;: RED GREEN BLUE</text>
+    <line x1="202.0" y1="131.0" x2="478.0" y2="131.0" stroke="#9370DB" stroke-width="1" />
+  </g>
+  <g class="class-node" data-node-id="AbstractShape">
+    <rect x="8.0" y="146.0" width="156.0" height="86.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="86.0" y="160.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-style="italic" fill="#333333">&lt;&lt;abstract&gt;&gt;</text>
+    <text x="86.0" y="182.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="14.0px" font-weight="bold" fill="#333333">AbstractShape</text>
+    <line x1="8.0" y1="192.0" x2="164.0" y2="192.0" stroke="#9370DB" stroke-width="1" />
+    <text x="18.0" y="202.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">#String: name</text>
+    <line x1="8.0" y1="212.0" x2="164.0" y2="212.0" stroke="#9370DB" stroke-width="1" />
+    <text x="18.0" y="222.0" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" fill="#333333">+getName() String</text>
+  </g>
+</svg>
