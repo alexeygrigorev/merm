@@ -22,7 +22,7 @@ _PADDING = 8
 _SVG_NS = "http://www.w3.org/2000/svg"
 
 # Shape selectors that share default fill/stroke.
-_SHAPE_SELECTORS = ".node rect, .node polygon, .node circle, .node path, .node line"
+_SHAPE_SELECTORS = ".node rect, .node polygon, .node circle, .node > path, .node line"
 
 _SUBGRAPH_PADDING = 20.0
 
@@ -231,9 +231,10 @@ def _render_text_with_icons(
             icon_data = get_icon_path(seg.value)
             if icon_data is not None:
                 path_d, vb_w, vb_h = icon_data
-                # Scale icon to font_size, maintaining aspect ratio
-                scale = font_size / vb_h
-                icon_h = font_size
+                # Scale icon larger than font_size for visibility
+                icon_target = font_size * 1.5
+                scale = icon_target / vb_h
+                icon_h = icon_target
                 # Center icon vertically around cy
                 icon_x = x_pos + 1.0  # 1px gap
                 icon_y = cy - icon_h / 2.0

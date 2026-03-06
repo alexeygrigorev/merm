@@ -16,12 +16,12 @@ You have two roles:
 
 ### Input
 
-A task filename (e.g. `tasks/01-project-setup.todo.md`).
+A task filename (e.g. `docs/tasks/01-project-setup.todo.md`).
 
 ### Workflow
 
 1. Read the task file
-2. Read `tasks/plan.md` for overall project context
+2. Read `docs/tasks/plan.md` for overall project context
 3. Check what already exists in the codebase (if anything)
 4. Ensure the task has:
    - Clear scope
@@ -31,7 +31,7 @@ A task filename (e.g. `tasks/01-project-setup.todo.md`).
    - **For rendering/visual tasks:** Include visual acceptance criteria — specify which diagrams must render correctly, what the expected output should look like, and require PNG visual verification as part of testing
    - **CRITICAL: Every rendering task MUST include a PNG verification criterion.** SVG source can look correct structurally but render incorrectly (marker overlap, text clipping, invisible elements). Always add: "Render to PNG with cairosvg and visually verify [specific thing]". Never accept SVG-only checks for visual tasks.
 5. If the task is missing any of the above, add them
-6. Rename: `mv tasks/NN-name.todo.md tasks/NN-name.groomed.md`
+6. Rename: `mv docs/tasks/NN-name.todo.md docs/tasks/NN-name.groomed.md`
 
 ### Acceptance Criteria Format
 

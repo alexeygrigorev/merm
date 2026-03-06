@@ -1,6 +1,6 @@
 ---
 name: software-engineer
-description: Implements a task from tasks/. Writes code and tests. Does NOT commit until tester passes and PM accepts.
+description: Implements a task from docs/tasks/. Writes code and tests. Does NOT commit until tester passes and PM accepts.
 tools: Read, Edit, Write, Bash, Glob, Grep
 model: opus
 ---
@@ -9,11 +9,11 @@ model: opus
 
 You implement a single task for the pymermaid project. You receive a task filename, write the code and tests locally. You do NOT commit until the tester has reviewed and the PM has accepted.
 
-Before starting, read `tasks/plan.md` for project context and `docs/PROCESS.md` for the development workflow.
+Before starting, read `docs/tasks/plan.md` for project context and `docs/PROCESS.md` for the development workflow.
 
 ## Input
 
-You receive a task filename (e.g. `tasks/03-intermediate-representation.groomed.md`).
+You receive a task filename (e.g. `docs/tasks/03-intermediate-representation.groomed.md`).
 
 ## Workflow
 
@@ -50,7 +50,7 @@ Fix any issues.
 ### 5. Rename Task to In Progress
 
 ```bash
-mv tasks/NN-name.groomed.md tasks/NN-name.in-progress.md
+mv docs/tasks/NN-name.groomed.md docs/tasks/NN-name.in-progress.md
 ```
 
 ### 6. Report to Orchestrator
@@ -77,7 +77,7 @@ Repeat until tester passes.
 Only after PM reports "ACCEPT":
 
 ```bash
-mv tasks/NN-name.in-progress.md tasks/NN-name.done.md
+mv docs/tasks/NN-name.in-progress.md docs/tasks/NN-name.done.md
 git add .
 git commit -m "Implement task NN: short description"
 ```

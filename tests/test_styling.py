@@ -160,7 +160,7 @@ class TestDefaultStyleBlock:
         assert ".node rect" in svg or ".node rect," in svg
         assert ".node polygon" in svg
         assert ".node circle" in svg
-        assert ".node path" in svg
+        assert ".node &gt; path" in svg or ".node > path" in svg
 
 # ===================================================================
 # Part B: Inline style application

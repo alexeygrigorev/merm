@@ -37,21 +37,60 @@ flowchart TD
 """)
 ```
 
+## Examples
+
+### Flowchart with Font Awesome icons
+
+```mermaid
+flowchart TD
+    A[fa:fa-tree Christmas Tree] --> B[fa:fa-gift Presents]
+    A --> C[fa:fa-star Star on Top]
+    B --> D[fa:fa-car Drive to Grandma]
+    C --> E[fa:fa-lightbulb Lights]
+    D --> F[fa:fa-home Grandma's House]
+    E --> F
+```
+
+<img src="docs/xmas_tree.svg" alt="Christmas tree flowchart" width="400">
+
+### Registration flow
+
+```mermaid
+flowchart TD
+    Start([User clicks Register]) --> Form[Display registration form]
+    Form --> Submit[User submits form]
+    Submit --> ValidateEmail{Email valid?}
+    ValidateEmail -->|No| EmailError[Show email error]
+    EmailError --> Form
+    ValidateEmail -->|Yes| CheckExists{User exists?}
+    CheckExists -->|Yes| ExistsError[Show already registered]
+    ExistsError --> Form
+    CheckExists -->|No| ValidatePassword{Password strong?}
+    ValidatePassword -->|No| PasswordError[Show password requirements]
+    PasswordError --> Form
+    ValidatePassword -->|Yes| CreateUser[(Save to database)]
+    CreateUser --> SendEmail[/Send verification email/]
+    SendEmail --> Success([Show success message])
+```
+
+<img src="docs/registration.svg" alt="Registration flow" width="500">
+
 ## Supported diagram types
 
-- **Flowchart** (`graph` / `flowchart`) — all directions (TD, LR, BT, RL), subgraphs, shapes, edge labels
-- **Sequence** (`sequenceDiagram`) — participants, messages, loops, alt/opt/par fragments
-- **Class** (`classDiagram`) — classes, methods, attributes, relationships
-- **State** (`stateDiagram`) — states, transitions, composite states, forks/joins
+- Flowchart (`graph` / `flowchart`) — all directions (TD, LR, BT, RL), subgraphs, shapes, edge labels
+- Sequence (`sequenceDiagram`) — participants, messages, loops, alt/opt/par fragments
+- Class (`classDiagram`) — classes, methods, attributes, relationships
+- State (`stateDiagram`) — states, transitions, composite states, forks/joins
 
 ## Features
 
 - Pure Python — no Node.js, no browser, no Puppeteer
-- Fast — ~200x faster than mermaid-cli (mmdc)
+- ~200x faster than mermaid-cli (mmdc)
 - SVG output with clean markup
 - All flowchart shapes and edge types
 - Subgraph nesting and styling
 - Edge labels and arrow markers
+- Font Awesome icons
 
 ## Performance
 
@@ -65,4 +104,4 @@ Benchmarked against mermaid-cli (mmdc) across 28 scenarios:
 
 ## License
 
-MIT
+WTFPL

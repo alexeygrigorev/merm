@@ -9,11 +9,11 @@ model: opus
 
 You review the software engineer's work for a specific task. The code is local and uncommitted. You verify it meets the acceptance criteria, find issues, and give concrete feedback. You iterate with the engineer until the task is complete.
 
-Before starting, read `tasks/plan.md` for project context and `docs/PROCESS.md` for the development workflow.
+Before starting, read `docs/tasks/plan.md` for project context and `docs/PROCESS.md` for the development workflow.
 
 ## Input
 
-You receive a task filename (e.g. `tasks/03-intermediate-representation.in-progress.md`) and a summary of what the engineer did.
+You receive a task filename (e.g. `docs/tasks/03-intermediate-representation.in-progress.md`) and a summary of what the engineer did.
 
 ## Workflow
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-We use file-based task tracking in `tasks/`. Four agents handle the lifecycle: PM grooms, Engineer implements, Tester verifies, PM accepts.
+We use file-based task tracking in `docs/tasks/`. Four agents handle the lifecycle: PM grooms, Engineer implements, Tester verifies, PM accepts.
 
 ## Task Lifecycle
 
@@ -64,7 +64,7 @@ The orchestrator (top-level Claude Code session) drives the process:
 
 ## How to Pick Tasks
 
-1. List `.groomed.md` files in `tasks/`
+1. List `.groomed.md` files in `docs/tasks/`
 2. Pick the lowest-numbered tasks first (lower = more foundational)
 3. Check dependencies — don't start until deps are `.done.md`
 4. Pick 2 independent tasks at a time for parallel implementation
@@ -119,7 +119,7 @@ Set up **blockedBy** dependencies so each step waits for the previous one. Mark 
 | `[SWE]` | Software Engineer | After grooming | Implements code + tests (TDD: failing test first). Renames .groomed → .in-progress |
 | `[QA]` | Tester | After implementation | Verifies acceptance criteria, renders to PNG and visually inspects. Pass/Fail |
 | `[PM accept]` | Product Manager | AFTER QA passes | Final review. Renders PNGs independently. Accept → .done + commit. Reject → back to SWE to finish |
-| `[Pull next]` | Orchestrator | AFTER commit | Check tasks/ for remaining .todo/.groomed files. Pick 2 lowest-numbered, create new batch in task list, repeat |
+| `[Pull next]` | Orchestrator | AFTER commit | Check docs/tasks/ for remaining .todo/.groomed files. Pick 2 lowest-numbered, create new batch in task list, repeat |
 
 **PM has two distinct roles:**
 1. **Before** engineering: groom the task (define what "done" looks like)
@@ -128,7 +128,7 @@ Set up **blockedBy** dependencies so each step waits for the previous one. Mark 
 ### Pull Next Work
 
 The last item in every batch is always **"Pull next 2 tasks from backlog"**. This ensures work continues automatically:
-1. Check `tasks/` for `.todo.md` or `.groomed.md` files
+1. Check `docs/tasks/` for `.todo.md` or `.groomed.md` files
 2. Pick the 2 lowest-numbered groomed tasks (groom first if only .todo.md)
 3. Create a new batch of task list items with dependencies
 4. Start the pipeline again

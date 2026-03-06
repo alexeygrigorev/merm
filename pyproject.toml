@@ -8,12 +8,12 @@ description = "Pure Python Mermaid diagram renderer"
 requires-python = ">=3.10"
 dynamic = ["version"]
 readme = "README.md"
-license = "MIT"
+license = {text = "WTFPL"}
 keywords = ["mermaid", "diagram", "svg", "flowchart", "sequence-diagram"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: Public Domain",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
