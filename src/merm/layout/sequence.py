@@ -272,6 +272,24 @@ def layout_sequence(
         rx = participant_cx.get(msg.receiver, 0)
         is_self = msg.sender == msg.receiver
 
+        # Offset arrow endpoints to activation bar edges when active.
+        half_act = _ACTIVATION_WIDTH / 2
+        if not is_self:
+            # Sender: arrow leaves from the side facing the receiver.
+            if activation_stacks.get(msg.sender):
+                if rx > sx:
+                    sx += half_act
+                else:
+                    sx -= half_act
+            # Receiver: arrow arrives at the side facing the sender.
+            # Note: for activate shorthand, the activation starts at this
+            # message, so we also offset if msg.activate is True.
+            if activation_stacks.get(msg.receiver) or msg.activate:
+                if sx > rx:
+                    rx += half_act
+                else:
+                    rx -= half_act
+
         messages_layout.append(MessageLayout(
             sender_x=sx,
             receiver_x=rx,

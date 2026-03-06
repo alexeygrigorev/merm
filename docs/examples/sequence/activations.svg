@@ -37,15 +37,15 @@
     <rect x="365" y="140" width="10" height="100" rx="2" />
   </g>
   <g class="seq-message">
-    <line x1="70" y1="100" x2="220" y2="100" marker-end="url(#seq-arrow)" />
-    <text x="145" text-anchor="middle" y="95">Hello Bob</text>
+    <line x1="70" y1="100" x2="215" y2="100" marker-end="url(#seq-arrow)" />
+    <text x="142.5" text-anchor="middle" y="95">Hello Bob</text>
   </g>
   <g class="seq-message">
-    <line x1="220" y1="140" x2="370" y2="140" marker-end="url(#seq-arrow)" />
+    <line x1="225" y1="140" x2="365" y2="140" marker-end="url(#seq-arrow)" />
     <text x="295" text-anchor="middle" y="135">Hi Charlie</text>
   </g>
   <g class="seq-message">
-    <line x1="370" y1="180" x2="220" y2="180" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <line x1="365" y1="180" x2="225" y2="180" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
     <text x="295" text-anchor="middle" y="175">Reply</text>
   </g>
   <g class="seq-message">
