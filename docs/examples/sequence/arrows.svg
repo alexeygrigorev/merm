@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -20 330 380" width="330" height="380" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -20 385 420" width="385" height="420" style="background-color: white">
   <defs>
-    <marker id="seq-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="seq-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
       <polygon points="0 0, 10 3.5, 0 7" fill="#333333" />
     </marker>
-    <marker id="seq-arrow-open" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="seq-arrow-open" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
       <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
     </marker>
-    <marker id="seq-cross" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+    <marker id="seq-cross" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <line x1="0" y1="0" x2="10" y2="10" stroke="#333333" stroke-width="2" />
       <line x1="10" y1="0" x2="0" y2="10" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="seq-async" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="seq-async" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
       <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
     </marker>
   </defs>
@@ -27,34 +27,38 @@
 .seq-actor line, .seq-actor circle { stroke: #9370DB; stroke-width: 1; fill: none; }
 .seq-actor text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; }
 </style>
-  <line class="seq-lifeline" x1="70" y1="60" x2="70" y2="320" />
-  <line class="seq-lifeline" x1="220" y1="60" x2="220" y2="320" />
+  <line class="seq-lifeline" x1="70" y1="60" x2="70" y2="360" />
+  <line class="seq-lifeline" x1="275" y1="60" x2="275" y2="360" />
   <g class="seq-message">
-    <line x1="70" y1="100" x2="220" y2="100" marker-end="url(#seq-arrow)" />
-    <text x="145" text-anchor="middle" y="95">Solid with arrowhead</text>
+    <line x1="70" y1="100" x2="275" y2="100" marker-end="url(#seq-arrow)" />
+    <text x="172.5" text-anchor="middle" y="95">Solid with arrowhead</text>
   </g>
   <g class="seq-message">
-    <line x1="220" y1="140" x2="70" y2="140" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
-    <text x="145" text-anchor="middle" y="135">Dotted with arrowhead</text>
+    <line x1="275" y1="140" x2="70" y2="140" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="172.5" text-anchor="middle" y="135">Dotted with arrowhead</text>
   </g>
   <g class="seq-message">
-    <line x1="70" y1="180" x2="220" y2="180" marker-end="url(#seq-cross)" />
-    <text x="145" text-anchor="middle" y="175">Solid with cross</text>
+    <line x1="70" y1="180" x2="275" y2="180" marker-end="url(#seq-cross)" />
+    <text x="172.5" text-anchor="middle" y="175">Solid with cross</text>
   </g>
   <g class="seq-message">
-    <line x1="220" y1="220" x2="70" y2="220" marker-end="url(#seq-cross)" stroke-dasharray="5,5" />
-    <text x="145" text-anchor="middle" y="215">Dotted with cross</text>
+    <line x1="275" y1="220" x2="70" y2="220" marker-end="url(#seq-cross)" stroke-dasharray="5,5" />
+    <text x="172.5" text-anchor="middle" y="215">Dotted with cross</text>
   </g>
   <g class="seq-message">
-    <line x1="70" y1="260" x2="220" y2="260" marker-end="url(#seq-async)" />
-    <text x="145" text-anchor="middle" y="255">Solid with open arrow</text>
+    <line x1="70" y1="260" x2="275" y2="260" marker-end="url(#seq-async)" />
+    <text x="172.5" text-anchor="middle" y="255">Solid with open arrow</text>
+  </g>
+  <g class="seq-message">
+    <line x1="275" y1="300" x2="70" y2="300" marker-end="url(#seq-async)" stroke-dasharray="5,5" />
+    <text x="172.5" text-anchor="middle" y="295">Dotted with open arrow</text>
   </g>
   <g class="seq-participant" data-participant-id="A">
     <rect x="20" y="20" width="100" height="40" rx="5" />
     <text x="70" y="40" text-anchor="middle" dominant-baseline="central">A</text>
   </g>
   <g class="seq-participant" data-participant-id="B">
-    <rect x="170" y="20" width="100" height="40" rx="5" />
-    <text x="220" y="40" text-anchor="middle" dominant-baseline="central">B</text>
+    <rect x="225" y="20" width="100" height="40" rx="5" />
+    <text x="275" y="40" text-anchor="middle" dominant-baseline="central">B</text>
   </g>
 </svg>
