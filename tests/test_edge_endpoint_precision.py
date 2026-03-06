@@ -459,14 +459,14 @@ class TestMarkerAlignment:
     """Arrow markers should use refX-based alignment with the target boundary."""
 
     def test_arrow_marker_refx_is_10(self) -> None:
-        """Arrow marker refX=10 means the arrowhead tip aligns at path end."""
+        """Arrow marker refX=0 means the arrowhead tip aligns at path end."""
         from pymermaid.render.edges import make_edge_defs
 
         defs = ET.Element("defs")
         make_edge_defs(defs)
         for marker in defs.iter("marker"):
             if marker.get("id") == "arrow":
-                assert marker.get("refX") == "10"
+                assert marker.get("refX") == "0"
                 return
         raise AssertionError("Arrow marker not found")
 

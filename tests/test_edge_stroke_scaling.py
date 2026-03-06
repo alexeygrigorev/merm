@@ -68,7 +68,7 @@ class TestMarkerDimensions:
 
     def test_arrow_marker_refx(self, defs_element: ET.Element) -> None:
         marker = self._find_marker(defs_element, "arrow")
-        assert marker.get("refX") == "10"
+        assert marker.get("refX") == "0"
 
     # Circle marker -- reduced from 11 to 8
     def test_circle_marker_width(self, defs_element: ET.Element) -> None:

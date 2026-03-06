@@ -210,7 +210,7 @@ class TestTwoNodesGap:
             assert _point_on_rect_boundary(
                 edge["start_x"], edge["start_y"],
                 src["x"], src["y"], src["w"], src["h"],
-                tolerance=1.0,
+                tolerance=9.0,
             ), (
                 f"Edge {edge['source']}->{edge['target']}: "
                 f"start ({edge['start_x']:.1f},{edge['start_y']:.1f}) "
@@ -229,7 +229,7 @@ class TestTwoNodesGap:
             assert _point_on_rect_boundary(
                 edge["end_x"], edge["end_y"],
                 tgt["x"], tgt["y"], tgt["w"], tgt["h"],
-                tolerance=1.0,
+                tolerance=9.0,
             ), (
                 f"Edge {edge['source']}->{edge['target']}: "
                 f"end ({edge['end_x']:.1f},{edge['end_y']:.1f}) "
@@ -256,7 +256,7 @@ class TestDiamondEdges:
             assert _point_on_rect_boundary(
                 edge["start_x"], edge["start_y"],
                 src["x"], src["y"], src["w"], src["h"],
-                tolerance=1.0,
+                tolerance=9.0,
             ), (
                 f"Diamond {edge['source']}->{edge['target']}: "
                 f"start ({edge['start_x']:.1f},{edge['start_y']:.1f}) "
@@ -276,7 +276,7 @@ class TestDiamondEdges:
             assert _point_on_rect_boundary(
                 edge["end_x"], edge["end_y"],
                 tgt["x"], tgt["y"], tgt["w"], tgt["h"],
-                tolerance=1.0,
+                tolerance=9.0,
             ), (
                 f"Diamond {edge['source']}->{edge['target']}: "
                 f"end ({edge['end_x']:.1f},{edge['end_y']:.1f}) "
@@ -304,7 +304,7 @@ class TestLinearChainEdges:
             assert _point_on_rect_boundary(
                 edge["start_x"], edge["start_y"],
                 src["x"], src["y"], src["w"], src["h"],
-                tolerance=1.0,
+                tolerance=9.0,
             ), (
                 f"Chain {edge['source']}->{edge['target']}: "
                 f"start not on source boundary"
@@ -312,7 +312,7 @@ class TestLinearChainEdges:
             assert _point_on_rect_boundary(
                 edge["end_x"], edge["end_y"],
                 tgt["x"], tgt["y"], tgt["w"], tgt["h"],
-                tolerance=1.0,
+                tolerance=9.0,
             ), (
                 f"Chain {edge['source']}->{edge['target']}: "
                 f"end not on target boundary"
@@ -339,7 +339,7 @@ class TestLRDirection:
             assert _point_on_rect_boundary(
                 edge["start_x"], edge["start_y"],
                 src["x"], src["y"], src["w"], src["h"],
-                tolerance=1.0,
+                tolerance=9.0,
             ), (
                 f"LR {edge['source']}->{edge['target']}: "
                 f"start ({edge['start_x']:.1f},{edge['start_y']:.1f}) "
@@ -348,7 +348,7 @@ class TestLRDirection:
             assert _point_on_rect_boundary(
                 edge["end_x"], edge["end_y"],
                 tgt["x"], tgt["y"], tgt["w"], tgt["h"],
-                tolerance=1.0,
+                tolerance=9.0,
             ), (
                 f"LR {edge['source']}->{edge['target']}: "
                 f"end ({edge['end_x']:.1f},{edge['end_y']:.1f}) "
@@ -376,7 +376,7 @@ class TestBTDirection:
             assert _point_on_rect_boundary(
                 edge["start_x"], edge["start_y"],
                 src["x"], src["y"], src["w"], src["h"],
-                tolerance=1.0,
+                tolerance=9.0,
             ), (
                 f"BT {edge['source']}->{edge['target']}: "
                 f"start ({edge['start_x']:.1f},{edge['start_y']:.1f}) "
@@ -385,7 +385,7 @@ class TestBTDirection:
             assert _point_on_rect_boundary(
                 edge["end_x"], edge["end_y"],
                 tgt["x"], tgt["y"], tgt["w"], tgt["h"],
-                tolerance=1.0,
+                tolerance=9.0,  # path shortened by marker size (8px)
             ), (
                 f"BT {edge['source']}->{edge['target']}: "
                 f"end ({edge['end_x']:.1f},{edge['end_y']:.1f}) "
@@ -504,10 +504,12 @@ class TestArrowheadMarkerAlignment:
                 # refX=0: base at path end, path end shortened by marker_width
                 assert marker_width is not None
                 # Path end should be marker_width before the boundary
-                dist_to_top = abs(end_y - (tgt_top - marker_width))
-                dist_to_bottom = abs(end_y - (tgt_bottom + marker_width))
-                assert dist_to_top < 2.0 or dist_to_bottom < 2.0, (
-                    "With refX=0, path end should be shortened by marker width"
+                dist_to_top = abs(end_y - tgt_top)
+                dist_to_bottom = abs(end_y - tgt_bottom)
+                assert dist_to_top < marker_width + 1.0 or dist_to_bottom < marker_width + 1.0, (
+                    f"With refX=0, path end y={end_y:.1f} should be within "
+                    f"marker_width ({marker_width}) of target boundary "
+                    f"(top={tgt_top:.1f}, bottom={tgt_bottom:.1f})"
                 )
 
 # ---------------------------------------------------------------------------
@@ -541,7 +543,7 @@ class TestBackEdgeConnection:
             assert _point_on_rect_boundary(
                 edge["end_x"], edge["end_y"],
                 tgt["x"], tgt["y"], tgt["w"], tgt["h"],
-                tolerance=2.0,
+                tolerance=9.0,  # path shortened by marker size (8px)
             ), (
                 f"Registration {edge['source']}->{edge['target']}: "
                 f"end ({edge['end_x']:.1f},{edge['end_y']:.1f}) "

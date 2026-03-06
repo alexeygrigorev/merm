@@ -1,5 +1,6 @@
 """Edge rendering: markers, line styles, path generation, and labels."""
 
+import math
 import xml.etree.ElementTree as ET
 
 from pymermaid.ir import ArrowType, Edge, EdgeType
@@ -7,6 +8,10 @@ from pymermaid.layout import EdgeLayout, Point
 
 # Default edge stroke colour (used as fallback).
 _DEFAULT_EDGE_STROKE = "#333333"
+
+# How far to pull the path endpoint back from the node border so the stroke
+# doesn't poke through the filled arrowhead.  Should equal markerWidth.
+_MARKER_SHORTEN = 8.0
 
 # ---------------------------------------------------------------------------
 # Marker definitions
@@ -44,7 +49,7 @@ def _marker_arrow(
     marker.set("viewBox", "0 0 10 10")
     marker.set("markerWidth", "8")
     marker.set("markerHeight", "8")
-    marker.set("refX", "10")
+    marker.set("refX", "0")
     marker.set("refY", "5")
     marker.set("orient", orient)
     marker.set("markerUnits", "userSpaceOnUse")
@@ -162,6 +167,34 @@ def _self_loop_path_d(points: list[Point]) -> str:
         f"C{p[7].x},{p[7].y} {p[8].x},{p[8].y} {p[9].x},{p[9].y} "
         f"C{p[10].x},{p[10].y} {p[11].x},{p[11].y} {p[12].x},{p[12].y}"
     )
+
+def _shorten_end(points: list[Point], amount: float) -> list[Point]:
+    """Pull the last point back along the final segment direction."""
+    if len(points) < 2:
+        return list(points)
+    p_prev, p_last = points[-2], points[-1]
+    dx = p_last.x - p_prev.x
+    dy = p_last.y - p_prev.y
+    length = math.hypot(dx, dy)
+    if length < 1e-6 or amount >= length:
+        return list(points)
+    ratio = amount / length
+    new_last = Point(p_last.x - dx * ratio, p_last.y - dy * ratio)
+    return list(points[:-1]) + [new_last]
+
+def _shorten_start(points: list[Point], amount: float) -> list[Point]:
+    """Pull the first point forward along the first segment direction."""
+    if len(points) < 2:
+        return list(points)
+    p_first, p_next = points[0], points[1]
+    dx = p_next.x - p_first.x
+    dy = p_next.y - p_first.y
+    length = math.hypot(dx, dy)
+    if length < 1e-6 or amount >= length:
+        return list(points)
+    ratio = amount / length
+    new_first = Point(p_first.x + dx * ratio, p_first.y + dy * ratio)
+    return [new_first] + list(points[1:])
 
 # ---------------------------------------------------------------------------
 # Edge style mapping
@@ -389,6 +422,18 @@ def render_edge(
         target_arrow = ArrowType.arrow
         source_arrow = ArrowType.none
 
+    # Determine which endpoints have markers so we can shorten the path
+    # to prevent the stroke from poking through the filled arrowhead.
+    has_end_marker = (
+        (edge_type in _ARROW_TYPES and _marker_end_url(target_arrow) is not None)
+        or (target_arrow not in (ArrowType.arrow, ArrowType.none)
+            and _marker_end_url(target_arrow) is not None)
+    )
+    has_start_marker = (
+        source_arrow != ArrowType.none
+        and _marker_start_url(source_arrow) is not None
+    )
+
     # Build the <path>.  Self-loops (source == target) use explicit cubic
     # Bezier curves so the loop stays compact.  Normal edges use Catmull-Rom.
     is_self_loop = edge_layout.source == edge_layout.target
@@ -396,7 +441,12 @@ def render_edge(
     if is_self_loop and len(edge_layout.points) >= 13:
         path.set("d", _self_loop_path_d(edge_layout.points))
     else:
-        path.set("d", points_to_path_d(edge_layout.points, smooth=smooth))
+        pts = list(edge_layout.points)
+        if has_end_marker:
+            pts = _shorten_end(pts, _MARKER_SHORTEN)
+        if has_start_marker:
+            pts = _shorten_start(pts, _MARKER_SHORTEN)
+        path.set("d", points_to_path_d(pts, smooth=smooth))
 
     # Apply line style
     style_attrs = _STYLE_MAP.get(edge_type, {})
