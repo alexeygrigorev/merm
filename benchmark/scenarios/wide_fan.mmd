@@ -1,0 +1,15 @@
+flowchart TD
+    Root --> A & B & C & D & E & F & G & H & I & J
+    A --> A1 & A2
+    B --> B1 & B2
+    C --> C1 & C2
+    D --> D1 & D2
+    E --> E1 & E2
+    F --> F1 & F2
+    G --> G1 & G2
+    H --> H1 & H2
+    I --> I1 & I2
+    J --> J1 & J2
+    A1 & A2 & B1 & B2 & C1 & C2 & D1 & D2 & E1 & E2 --> Mid1
+    F1 & F2 & G1 & G2 & H1 & H2 & I1 & I2 & J1 & J2 --> Mid2
+    Mid1 & Mid2 --> End

@@ -1,0 +1,13 @@
+flowchart TD
+    A([Start]) --> B[Process Input]
+    B --> C{Valid?}
+    C -->|Yes| D[(Database)]
+    C -->|No| E[[Error Handler]]
+    E --> F[/Log Error/]
+    F --> G[\Alert Admin\]
+    G --> B
+    D --> H{{Transform}}
+    H --> I[Output Queue]
+    I --> J((End))
+    D --> K[Backup]
+    K --> L[(Archive DB)]

@@ -1,0 +1,389 @@
+[
+  {
+    "name": "large_chain_50",
+    "category": "synthetic",
+    "lines": 11,
+    "pymermaid": {
+      "total_ms": 5.333880069665611,
+      "iterations": 100,
+      "peak_memory_bytes": 281230
+    },
+    "mmdc": {
+      "total_ms": 319.69087733887136,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "lr_complex",
+    "category": "synthetic",
+    "lines": 16,
+    "pymermaid": {
+      "total_ms": 1.9942238205112517,
+      "iterations": 100,
+      "peak_memory_bytes": 68270
+    },
+    "mmdc": {
+      "total_ms": 307.2864559944719,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "medium_branching",
+    "category": "synthetic",
+    "lines": 12,
+    "pymermaid": {
+      "total_ms": 1.7917862394824624,
+      "iterations": 100,
+      "peak_memory_bytes": 83083
+    },
+    "mmdc": {
+      "total_ms": 313.42721769275767,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "mixed_shapes",
+    "category": "synthetic",
+    "lines": 13,
+    "pymermaid": {
+      "total_ms": -1,
+      "error": "Line 10: Cannot parse node: 'I>Output Queue]'"
+    }
+  },
+  {
+    "name": "nested_subgraphs",
+    "category": "synthetic",
+    "lines": 28,
+    "pymermaid": {
+      "total_ms": 2.7947337203659117,
+      "iterations": 100,
+      "peak_memory_bytes": 111784
+    },
+    "mmdc": {
+      "total_ms": 308.6848243450125,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "small_linear",
+    "category": "synthetic",
+    "lines": 2,
+    "pymermaid": {
+      "total_ms": 0.5207408289425075,
+      "iterations": 100,
+      "peak_memory_bytes": 28511
+    },
+    "mmdc": {
+      "total_ms": 315.2862386777997,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "wide_fan",
+    "category": "synthetic",
+    "lines": 15,
+    "pymermaid": {
+      "total_ms": 3.7590351095423102,
+      "iterations": 100,
+      "peak_memory_bytes": 224991
+    },
+    "mmdc": {
+      "total_ms": 303.54048560063046,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/api_request",
+    "category": "real-world",
+    "lines": 12,
+    "pymermaid": {
+      "total_ms": 1.8009580508805811,
+      "iterations": 100,
+      "peak_memory_bytes": 61082
+    },
+    "mmdc": {
+      "total_ms": 311.2626076520731,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/ci_pipeline",
+    "category": "real-world",
+    "lines": 18,
+    "pymermaid": {
+      "total_ms": 1.5047383797354996,
+      "iterations": 100,
+      "peak_memory_bytes": 60098
+    },
+    "mmdc": {
+      "total_ms": 304.93407999165356,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/coffee_machine",
+    "category": "real-world",
+    "lines": 8,
+    "pymermaid": {
+      "total_ms": 1.9978579692542555,
+      "iterations": 100,
+      "peak_memory_bytes": 62990
+    },
+    "mmdc": {
+      "total_ms": 308.3937510382384,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/debug_loop",
+    "category": "real-world",
+    "lines": 8,
+    "pymermaid": {
+      "total_ms": 1.268647168762982,
+      "iterations": 100,
+      "peak_memory_bytes": 49977
+    },
+    "mmdc": {
+      "total_ms": 312.3126880576213,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/elt_bigquery",
+    "category": "real-world",
+    "lines": 16,
+    "pymermaid": {
+      "total_ms": 2.4777575908228755,
+      "iterations": 100,
+      "peak_memory_bytes": 80756
+    },
+    "mmdc": {
+      "total_ms": 314.96125537281233,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/emoji_workflow",
+    "category": "real-world",
+    "lines": 11,
+    "pymermaid": {
+      "total_ms": 1.6553847095929086,
+      "iterations": 100,
+      "peak_memory_bytes": 126545
+    },
+    "mmdc": {
+      "total_ms": 311.28941499628127,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/etl_postgres",
+    "category": "real-world",
+    "lines": 14,
+    "pymermaid": {
+      "total_ms": 3.075198500882834,
+      "iterations": 100,
+      "peak_memory_bytes": 80494
+    },
+    "mmdc": {
+      "total_ms": 319.18737936454517,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/etl_simple",
+    "category": "real-world",
+    "lines": 3,
+    "pymermaid": {
+      "total_ms": 0.9726030007004738,
+      "iterations": 100,
+      "peak_memory_bytes": 28818
+    },
+    "mmdc": {
+      "total_ms": 312.20492037634057,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/flink_late_event",
+    "category": "real-world",
+    "lines": 20,
+    "pymermaid": {
+      "total_ms": 0.86255659814924,
+      "iterations": 100,
+      "peak_memory_bytes": 43828
+    },
+    "mmdc": {
+      "total_ms": 310.5759166646749,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/flink_late_upsert",
+    "category": "real-world",
+    "lines": 23,
+    "pymermaid": {
+      "total_ms": 0.8381962892599404,
+      "iterations": 100,
+      "peak_memory_bytes": 45031
+    },
+    "mmdc": {
+      "total_ms": 302.7529603180786,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/rag_pipeline",
+    "category": "real-world",
+    "lines": 6,
+    "pymermaid": {
+      "total_ms": 0.9898566198535262,
+      "iterations": 100,
+      "peak_memory_bytes": 38959
+    },
+    "mmdc": {
+      "total_ms": 313.23193401719135,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/registration",
+    "category": "real-world",
+    "lines": 15,
+    "pymermaid": {
+      "total_ms": 3.005124218761921,
+      "iterations": 100,
+      "peak_memory_bytes": 91792
+    },
+    "mmdc": {
+      "total_ms": 320.62402499529225,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "github/xmas_tree",
+    "category": "real-world",
+    "lines": 7,
+    "pymermaid": {
+      "total_ms": 1.4321134611964226,
+      "iterations": 100,
+      "peak_memory_bytes": 51425
+    },
+    "mmdc": {
+      "total_ms": 305.12844771146774,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "corpus/sequence/complex",
+    "category": "corpus",
+    "lines": 26,
+    "pymermaid": {
+      "total_ms": 0.8641960192471743,
+      "iterations": 100,
+      "peak_memory_bytes": 59055
+    },
+    "mmdc": {
+      "total_ms": 318.4786743173997,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "corpus/class/complex",
+    "category": "corpus",
+    "lines": 23,
+    "pymermaid": {
+      "total_ms": 0.81689981976524,
+      "iterations": 100,
+      "peak_memory_bytes": 53122
+    },
+    "mmdc": {
+      "total_ms": 313.3027656779935,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "corpus/state/complex",
+    "category": "corpus",
+    "lines": 17,
+    "pymermaid": {
+      "total_ms": 1.6077816090546548,
+      "iterations": 100,
+      "peak_memory_bytes": 96088
+    },
+    "mmdc": {
+      "total_ms": 309.7063396902134,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "corpus/er/complex",
+    "category": "corpus",
+    "lines": 34,
+    "pymermaid": {
+      "total_ms": 0.8782000001519918,
+      "iterations": 100,
+      "peak_memory_bytes": 77806
+    },
+    "mmdc": {
+      "total_ms": 303.32993196013075,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "corpus/gantt/modifiers",
+    "category": "corpus",
+    "lines": 12,
+    "pymermaid": {
+      "total_ms": 0.14244901947677135,
+      "iterations": 100,
+      "peak_memory_bytes": 12916
+    },
+    "mmdc": {
+      "total_ms": 302.21926801217097,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "corpus/mindmap/deep_tree",
+    "category": "corpus",
+    "lines": 18,
+    "pymermaid": {
+      "total_ms": 0.540853701531887,
+      "iterations": 100,
+      "peak_memory_bytes": 30247
+    },
+    "mmdc": {
+      "total_ms": 310.67894600952667,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "corpus/gitgraph/complex",
+    "category": "corpus",
+    "lines": 17,
+    "pymermaid": {
+      "total_ms": 0.18466704990714788,
+      "iterations": 100,
+      "peak_memory_bytes": 15906
+    },
+    "mmdc": {
+      "total_ms": 301.8791369783382,
+      "iterations": 3
+    }
+  },
+  {
+    "name": "corpus/pie/many_slices",
+    "category": "corpus",
+    "lines": 12,
+    "pymermaid": {
+      "total_ms": 0.10793877067044377,
+      "iterations": 100,
+      "peak_memory_bytes": 12549
+    },
+    "mmdc": {
+      "total_ms": 312.2700430297603,
+      "iterations": 3
+    }
+  }
+]

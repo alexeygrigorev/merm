@@ -1,0 +1,16 @@
+flowchart LR
+    subgraph Input
+        A[File Upload] --> B[Validate]
+        C[API Call] --> B
+    end
+    subgraph Processing
+        B --> D[Parse]
+        D --> E[Transform]
+        E --> F[Enrich]
+    end
+    subgraph Output
+        F --> G[Store]
+        F --> H[Notify]
+        G --> I[Index]
+    end
+    Input --> Processing --> Output

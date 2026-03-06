@@ -1,0 +1,28 @@
+flowchart TD
+    subgraph Frontend
+        subgraph React
+            A[Components] --> B[Hooks]
+            B --> C[State]
+        end
+        subgraph Styling
+            D[CSS Modules] --> E[Themes]
+        end
+        React --> Styling
+    end
+    subgraph Backend
+        subgraph API
+            F[Routes] --> G[Controllers]
+            G --> H[Services]
+        end
+        subgraph Database
+            I[Models] --> J[Migrations]
+            J --> K[Seeds]
+        end
+        API --> Database
+    end
+    Frontend --> Backend
+    subgraph DevOps
+        L[Docker] --> M[CI/CD]
+        M --> N[Deploy]
+    end
+    Backend --> DevOps
