@@ -4,9 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name = "merm"
-version = "0.1.0"
 description = "Pure Python Mermaid diagram renderer"
 requires-python = ">=3.10"
+dynamic = ["version"]
 readme = "README.md"
 license = "MIT"
 keywords = ["mermaid", "diagram", "svg", "flowchart", "sequence-diagram"]
@@ -33,9 +33,11 @@ merm = "merm.cli:main"
 [dependency-groups]
 dev = [
     "cairosvg>=2.8.2",
+    "hatch",
     "mutmut>=3.5.0",
     "pillow>=12.1.1",
     "pytest",
+    "pytest-cov",
     "ruff",
     "scikit-image>=0.25.2",
 ]
@@ -57,6 +59,9 @@ paths_to_mutate = ["src/merm/render/svg.py", "src/merm/render/edges.py", "src/me
 tests_dir = ["tests/"]
 also_copy = ["src/"]
 pytest_add_cli_args = ["-x", "-q", "--ignore=tests/test_cli.py", "--ignore=tests/test_comparison.py", "--ignore=tests/test_corpus.py", "--ignore=tests/test_corpus_rendering.py", "--ignore=tests/test_flowchart_parser.py", "--ignore=tests/test_mutation_killing.py", "--ignore=tests/test_lr_subgraph_layout.py"]
+
+[tool.hatch.version]
+path = "src/merm/__version__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/merm"]

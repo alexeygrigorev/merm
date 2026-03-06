@@ -27,7 +27,8 @@ def _get_version() -> str:
     try:
         return f"merm {version('merm')}"
     except Exception:
-        return "merm 0.1.0"
+        from merm.__version__ import __version__
+        return f"merm {__version__}"
 
 def _build_parser() -> argparse.ArgumentParser:
     """Build and return the argument parser."""
