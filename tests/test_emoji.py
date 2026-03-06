@@ -2,13 +2,13 @@
 
 import pytest
 
-from pymermaid.measure.text import (
+from merm.measure.text import (
     TextMeasurer,
     _char_width,
     _is_cjk,
     _is_emoji,
 )
-from pymermaid.theme import DEFAULT_THEME
+from merm.theme import DEFAULT_THEME
 
 # ---------------------------------------------------------------------------
 # Unit: _is_emoji detection
@@ -151,14 +151,14 @@ class TestSvgEmojiRendering:
     """Verify SVG output includes emoji fonts and preserves emoji chars."""
 
     def test_svg_contains_emoji_font_in_css(self) -> None:
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         svg = render_diagram('graph TD\n    A["Deploy"] --> B["Done"]')
         assert "Apple Color Emoji" in svg
         assert "Segoe UI Emoji" in svg
 
     def test_svg_preserves_emoji_in_text(self) -> None:
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         svg = render_diagram(
             'graph TD\n    A["Deploy \U0001F680"]'
@@ -171,7 +171,7 @@ class TestSvgEmojiRendering:
         """Node with emoji should be wider than same text without emoji."""
         import re
 
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         svg_emoji = render_diagram('graph TD\n    A["Deploy \U0001F680"]')
         svg_plain = render_diagram('graph TD\n    A["Deploy X"]')

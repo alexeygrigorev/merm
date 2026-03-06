@@ -8,7 +8,7 @@ Covers three related issues:
 
 import xml.etree.ElementTree as ET
 
-from pymermaid import render_diagram
+from merm import render_diagram
 
 def _parse_svg(svg_str: str) -> ET.Element:
     """Parse SVG string, stripping namespace for easier querying."""

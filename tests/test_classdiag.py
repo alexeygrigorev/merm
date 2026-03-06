@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.ir.classdiag import (
+from merm.ir.classdiag import (
     ClassDiagram,
     ClassMember,
     ClassNode,
@@ -16,14 +16,14 @@ from pymermaid.ir.classdiag import (
     RelationType,
     Visibility,
 )
-from pymermaid.layout.classdiag import (
+from merm.layout.classdiag import (
     class_diagram_to_flowchart,
     layout_class_diagram,
 )
-from pymermaid.measure import TextMeasurer
-from pymermaid.parser.classdiag import parse_class_diagram
-from pymermaid.parser.flowchart import ParseError
-from pymermaid.render.classdiag import (
+from merm.measure import TextMeasurer
+from merm.parser.classdiag import parse_class_diagram
+from merm.parser.flowchart import ParseError
+from merm.render.classdiag import (
     measure_class_box,
     render_class_diagram,
 )
@@ -523,7 +523,7 @@ class TestRenderer:
         assert "realization-arrow" in svg
 
     def test_theme_colors_applied(self):
-        from pymermaid.theme import Theme
+        from merm.theme import Theme
 
         text = "classDiagram\n  class A"
         diag = parse_class_diagram(text)

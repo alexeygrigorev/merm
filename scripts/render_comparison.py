@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Render pymermaid vs mmdc SVGs to PNG and compute visual similarity scores.
+"""Render merm vs mmdc SVGs to PNG and compute visual similarity scores.
 
 mmdc references are stored as PNG (rendered directly by Puppeteer) because
 mmdc v11 uses <foreignObject> with HTML labels that cairosvg cannot render.
-pymermaid SVGs use plain <text> elements and convert cleanly with cairosvg.
+merm SVGs use plain <text> elements and convert cleanly with cairosvg.
 
 Usage:
     # First generate mmdc reference PNGs:
@@ -13,7 +13,7 @@ Usage:
     uv run python scripts/render_comparison.py
 
 Outputs:
-    docs/comparisons/<category>/<name>_pymermaid.png
+    docs/comparisons/<category>/<name>_merm.png
     docs/comparisons/<category>/<name>_mmdc.png  (copied from reference)
     docs/comparisons/<category>/<name>_diff.png
     docs/comparison_report.md
@@ -32,7 +32,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 CORPUS_DIR = PROJECT_ROOT / "tests" / "fixtures" / "corpus"
 REFERENCE_DIR = PROJECT_ROOT / "tests" / "reference" / "corpus"
 OUTPUT_DIR = PROJECT_ROOT / "docs" / "comparisons"
-PNG_WIDTH = 800  # render width for pymermaid SVG -> PNG
+PNG_WIDTH = 800  # render width for merm SVG -> PNG
 
 def svg_to_png(svg_content: str, png_path: Path, width: int = PNG_WIDTH) -> bool:
     """Convert SVG string to PNG using cairosvg."""
@@ -49,15 +49,15 @@ def svg_to_png(svg_content: str, png_path: Path, width: int = PNG_WIDTH) -> bool
         print(f"  Failed to convert SVG to PNG: {e}")
         return False
 
-def render_pymermaid(mmd_path: Path) -> str | None:
-    """Render a .mmd file with pymermaid, return SVG string."""
+def render_merm(mmd_path: Path) -> str | None:
+    """Render a .mmd file with merm, return SVG string."""
     try:
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = mmd_path.read_text()
         return render_diagram(source)
     except Exception as e:
-        print(f"  Failed to render {mmd_path.name} with pymermaid: {e}")
+        print(f"  Failed to render {mmd_path.name} with merm: {e}")
         return None
 
 def compute_ssim(img1_path: Path, img2_path: Path) -> float | None:
@@ -121,7 +121,7 @@ def generate_gallery(results: list[dict], output_path: Path) -> None:
     html = """<!DOCTYPE html>
 <html>
 <head>
-<title>pymermaid vs mermaid.js Comparison</title>
+<title>merm vs mermaid.js Comparison</title>
 <style>
 body { font-family: sans-serif; margin: 20px; background: #f5f5f5; }
 h1 { color: #333; }
@@ -139,7 +139,7 @@ th { background: #f0f0f0; }
 </style>
 </head>
 <body>
-<h1>pymermaid vs mermaid.js Visual Comparison</h1>
+<h1>merm vs mermaid.js Visual Comparison</h1>
 """
     ssim_scores = [r["ssim"] for r in results if r["ssim"] is not None]
     if ssim_scores:
@@ -175,7 +175,7 @@ th { background: #f0f0f0; }
         rel = r.get("rel_path", name)
         html += f'<div class="name">{name} (SSIM: {ssim})</div>\n'
         html += '<div class="pair">\n'
-        html += f'  <div><div class="label">pymermaid</div><img src="comparisons/{rel}_pymermaid.png"></div>\n'
+        html += f'  <div><div class="label">merm</div><img src="comparisons/{rel}_merm.png"></div>\n'
         html += f'  <div><div class="label">mermaid.js (mmdc)</div><img src="comparisons/{rel}_mmdc.png"></div>\n'
         html += f'  <div><div class="label">Diff</div><img src="comparisons/{rel}_diff.png"></div>\n'
         html += "</div>\n"
@@ -204,12 +204,12 @@ def main() -> None:
         out_dir = OUTPUT_DIR / category
         out_dir.mkdir(parents=True, exist_ok=True)
 
-        # Render pymermaid SVG -> PNG
-        svg = render_pymermaid(mmd_path)
+        # Render merm SVG -> PNG
+        svg = render_merm(mmd_path)
         if svg is None:
             continue
 
-        pm_png = out_dir / f"{stem}_pymermaid.png"
+        pm_png = out_dir / f"{stem}_merm.png"
         if not svg_to_png(svg, pm_png):
             continue
 
@@ -247,7 +247,7 @@ def main() -> None:
     docs_dir.mkdir(exist_ok=True)
     report_path = docs_dir / "comparison_report.md"
     with open(report_path, "w") as f:
-        f.write("# pymermaid vs mermaid.js Visual Comparison Report\n\n")
+        f.write("# merm vs mermaid.js Visual Comparison Report\n\n")
         if ssim_scores:
             f.write(f"**Average SSIM:** {avg:.4f}  \n")
             f.write(f"**Min SSIM:** {min(ssim_scores):.4f}  \n")

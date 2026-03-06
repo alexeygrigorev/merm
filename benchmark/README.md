@@ -1,6 +1,6 @@
-# pymermaid Benchmarks
+# merm Benchmarks
 
-Performance benchmarks comparing pymermaid (pure Python) against mmdc (mermaid-cli, Node.js + Puppeteer).
+Performance benchmarks comparing merm (pure Python) against mmdc (mermaid-cli, Node.js + Puppeteer).
 
 ## Running
 
@@ -8,7 +8,7 @@ Performance benchmarks comparing pymermaid (pure Python) against mmdc (mermaid-c
 # Full benchmark with mmdc comparison
 uv run benchmark/run_benchmark.py --save
 
-# pymermaid only (skip mmdc)
+# merm only (skip mmdc)
 uv run benchmark/run_benchmark.py --no-mmdc
 
 # Custom iterations

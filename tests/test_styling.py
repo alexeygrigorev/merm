@@ -2,7 +2,7 @@
 
 import xml.etree.ElementTree as ET
 
-from pymermaid.ir import (
+from merm.ir import (
     Diagram,
     Direction,
     Edge,
@@ -10,8 +10,8 @@ from pymermaid.ir import (
     NodeShape,
     StyleDef,
 )
-from pymermaid.layout import LayoutResult, NodeLayout
-from pymermaid.render import render_svg
+from merm.layout import LayoutResult, NodeLayout
+from merm.render import render_svg
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 
@@ -265,8 +265,8 @@ class TestIntegrationRoundTrip:
             ),
             edges=(Edge(source="A", target="B"),),
         )
-        from pymermaid.layout import layout_diagram
-        from pymermaid.measure import measure_text
+        from merm.layout import layout_diagram
+        from merm.measure import measure_text
 
         lr = layout_diagram(d, measure_text)
         svg = render_svg(d, lr)
@@ -286,8 +286,8 @@ class TestIntegrationRoundTrip:
             edges=(Edge(source="A", target="B"),),
             styles=(StyleDef("A", {"fill": "#f00"}),),
         )
-        from pymermaid.layout import layout_diagram
-        from pymermaid.measure import measure_text
+        from merm.layout import layout_diagram
+        from merm.measure import measure_text
 
         lr = layout_diagram(d, measure_text)
         svg = render_svg(d, lr)
@@ -306,8 +306,8 @@ class TestIntegrationRoundTrip:
             edges=(Edge(source="A", target="B"),),
             classes={"red": {"fill": "#f00"}},
         )
-        from pymermaid.layout import layout_diagram
-        from pymermaid.measure import measure_text
+        from merm.layout import layout_diagram
+        from merm.measure import measure_text
 
         lr = layout_diagram(d, measure_text)
         svg = render_svg(d, lr)

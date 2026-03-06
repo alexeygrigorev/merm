@@ -4,9 +4,9 @@ Verifies that multiple back-edges sharing layers are given distinct
 horizontal channels so they don't overlap into one thick line.
 """
 
-from pymermaid import render_diagram
-from pymermaid.ir import Diagram, DiagramType, Direction, Edge, Node
-from pymermaid.layout import EdgeLayout, Point, layout_diagram
+from merm import render_diagram
+from merm.ir import Diagram, DiagramType, Direction, Edge, Node
+from merm.layout import EdgeLayout, Point, layout_diagram
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -373,8 +373,8 @@ class TestRegistrationRendering:
 
     def test_registration_back_edges_separated(self):
         """The three back-edges in registration.mmd must have distinct paths."""
-        from pymermaid.measure import TextMeasurer
-        from pymermaid.parser import parse_flowchart
+        from merm.measure import TextMeasurer
+        from merm.parser import parse_flowchart
 
         with open("tests/fixtures/github/registration.mmd") as f:
             source = f.read()

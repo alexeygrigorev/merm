@@ -2,7 +2,7 @@
 
 import xml.etree.ElementTree as ET
 
-from pymermaid.ir import (
+from merm.ir import (
     ArrowType,
     Diagram,
     DiagramType,
@@ -11,9 +11,9 @@ from pymermaid.ir import (
     EdgeType,
     Node,
 )
-from pymermaid.layout import EdgeLayout, LayoutResult, NodeLayout, Point
-from pymermaid.render import render_svg
-from pymermaid.render.edges import make_edge_defs, points_to_path_d, render_edge
+from merm.layout import EdgeLayout, LayoutResult, NodeLayout, Point
+from merm.render import render_svg
+from merm.render.edges import make_edge_defs, points_to_path_d, render_edge
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 

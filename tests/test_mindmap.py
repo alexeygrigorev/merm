@@ -7,12 +7,12 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid import render_diagram
-from pymermaid.ir.mindmap import MindmapDiagram, MindmapNode, MindmapShape
-from pymermaid.layout.mindmap import layout_mindmap
-from pymermaid.parser.flowchart import ParseError
-from pymermaid.parser.mindmap import parse_mindmap
-from pymermaid.render.mindmap import render_mindmap_svg
+from merm import render_diagram
+from merm.ir.mindmap import MindmapDiagram, MindmapNode, MindmapShape
+from merm.layout.mindmap import layout_mindmap
+from merm.parser.flowchart import ParseError
+from merm.parser.mindmap import parse_mindmap
+from merm.render.mindmap import render_mindmap_svg
 
 FIXTURES = Path(__file__).parent / "fixtures" / "corpus" / "mindmap"
 

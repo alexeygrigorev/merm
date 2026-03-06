@@ -6,10 +6,10 @@ touch or penetrate node borders, across all directions and marker types.
 
 import xml.etree.ElementTree as ET
 
-from pymermaid import render_diagram
-from pymermaid.layout.sugiyama import _route_edge_on_boundary
-from pymermaid.layout.types import Point  # noqa: F401 (used by helper)
-from pymermaid.render.edges import make_edge_defs
+from merm import render_diagram
+from merm.layout.sugiyama import _route_edge_on_boundary
+from merm.layout.types import Point  # noqa: F401 (used by helper)
+from merm.render.edges import make_edge_defs
 
 # ---------------------------------------------------------------------------
 # Helper: assert a point lies on a rect boundary

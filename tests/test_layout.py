@@ -2,8 +2,8 @@
 
 import time
 
-from pymermaid.ir import Diagram, DiagramType, Direction, Edge, Node
-from pymermaid.layout import (
+from merm.ir import Diagram, DiagramType, Direction, Edge, Node
+from merm.layout import (
     LayoutConfig,
     NodeLayout,
     _assign_coordinates,

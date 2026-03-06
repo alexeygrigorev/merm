@@ -7,21 +7,21 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.ir.statediag import (
+from merm.ir.statediag import (
     State,
     StateDiagram,
     StateNote,
     StateType,
     Transition,
 )
-from pymermaid.layout.statediag import (
+from merm.layout.statediag import (
     layout_state_diagram,
     state_diagram_to_flowchart,
 )
-from pymermaid.measure import TextMeasurer
-from pymermaid.parser.flowchart import ParseError
-from pymermaid.parser.statediag import parse_state_diagram
-from pymermaid.render.statediag import render_state_svg
+from merm.measure import TextMeasurer
+from merm.parser.flowchart import ParseError
+from merm.parser.statediag import parse_state_diagram
+from merm.render.statediag import render_state_svg
 
 # -----------------------------------------------------------------------
 # IR dataclass tests
@@ -430,7 +430,7 @@ class TestRenderer:
         assert "go" in svg
 
     def test_theme_colors_applied(self):
-        from pymermaid.theme import Theme
+        from merm.theme import Theme
         text = "stateDiagram-v2\n  s1 --> s2"
         diagram = parse_state_diagram(text)
         measurer = TextMeasurer()

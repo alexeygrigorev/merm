@@ -7,7 +7,7 @@ properly sized, and the SVG viewBox encompasses all content.
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from pymermaid import render_diagram
+from merm import render_diagram
 
 _FIXTURES = Path(__file__).parent / "fixtures" / "corpus" / "sequence"
 _SVG_NS = "http://www.w3.org/2000/svg"

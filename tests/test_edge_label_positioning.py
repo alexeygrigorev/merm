@@ -2,9 +2,9 @@
 
 import xml.etree.ElementTree as ET
 
-from pymermaid.ir import Edge, EdgeType
-from pymermaid.layout import EdgeLayout, Point
-from pymermaid.render.edges import (
+from merm.ir import Edge, EdgeType
+from merm.layout import EdgeLayout, Point
+from merm.render.edges import (
     _label_bbox,
     _rects_overlap,
     render_edge,
@@ -193,7 +193,7 @@ def _find_children(parent: ET.Element, tag: str) -> list[ET.Element]:
 
 class TestLabeledEdgesIntegration:
     def test_no_overlapping_labels_in_svg(self) -> None:
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = (
             "graph TD\n"
@@ -243,7 +243,7 @@ class TestLabeledEdgesIntegration:
 
     def test_labels_have_background_rects(self) -> None:
         """Verify no regression: each label still has a background <rect>."""
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = (
             "graph TD\n"
@@ -268,7 +268,7 @@ class TestLabeledEdgesIntegration:
 
     def test_single_edge_label_at_midpoint(self) -> None:
         """A diagram with one labeled edge produces label at exact midpoint."""
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = "graph TD\n    A -->|only| B\n"
         svg = render_diagram(source)
@@ -283,7 +283,7 @@ class TestLabeledEdgesIntegration:
 
     def test_label_positions_close_to_midpoint(self) -> None:
         """Each label position remains within 40px of its edge midpoint."""
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = (
             "graph TD\n"

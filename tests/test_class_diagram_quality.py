@@ -13,11 +13,11 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid.ir.classdiag import ClassDiagram
-from pymermaid.layout.classdiag import layout_class_diagram
-from pymermaid.measure import TextMeasurer
-from pymermaid.parser.classdiag import parse_class_diagram
-from pymermaid.render.classdiag import render_class_diagram
+from merm.ir.classdiag import ClassDiagram
+from merm.layout.classdiag import layout_class_diagram
+from merm.measure import TextMeasurer
+from merm.parser.classdiag import parse_class_diagram
+from merm.render.classdiag import render_class_diagram
 
 _SVG_NS = {"svg": "http://www.w3.org/2000/svg"}
 
@@ -308,7 +308,7 @@ class TestPaddingConstants:
 
     def test_padding_matches_sugiyama(self):
         """The class measure function should subtract exact Sugiyama padding."""
-        from pymermaid.layout.sugiyama import _NODE_PADDING_H, _NODE_PADDING_V
+        from merm.layout.sugiyama import _NODE_PADDING_H, _NODE_PADDING_V
 
         # These are the values used in _class_measure
         assert _NODE_PADDING_H == 32.0
@@ -317,7 +317,7 @@ class TestPaddingConstants:
         # Verify the source code uses these constants (not hardcoded)
         import inspect
 
-        from pymermaid.layout.classdiag import layout_class_diagram
+        from merm.layout.classdiag import layout_class_diagram
         source = inspect.getsource(layout_class_diagram)
         assert "30.0" not in source, "Should not use hardcoded 30.0"
         assert "20.0" not in source, "Should not use hardcoded 20.0"

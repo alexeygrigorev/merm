@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.ir import (
+from merm.ir import (
     Diagram,
     DiagramType,
     Direction,
@@ -16,11 +16,11 @@ from pymermaid.ir import (
     Node,
     Subgraph,
 )
-from pymermaid.layout import layout_diagram
-from pymermaid.measure import measure_text
-from pymermaid.measure.text import _line_width
-from pymermaid.parser.flowchart import parse_flowchart
-from pymermaid.render import render_svg
+from merm.layout import layout_diagram
+from merm.measure import measure_text
+from merm.measure.text import _line_width
+from merm.parser.flowchart import parse_flowchart
+from merm.render import render_svg
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 

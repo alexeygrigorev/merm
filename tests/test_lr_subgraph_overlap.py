@@ -7,7 +7,7 @@ is critical.
 
 import pytest
 
-from pymermaid.ir import (
+from merm.ir import (
     Diagram,
     DiagramType,
     Direction,
@@ -15,13 +15,13 @@ from pymermaid.ir import (
     Node,
     Subgraph,
 )
-from pymermaid.layout import (
+from merm.layout import (
     LayoutResult,
     NodeLayout,
     SubgraphLayout,
     layout_diagram,
 )
-from pymermaid.parser.flowchart import parse_flowchart
+from merm.parser.flowchart import parse_flowchart
 
 # ---------------------------------------------------------------------------
 # Helpers

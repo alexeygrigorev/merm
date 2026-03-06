@@ -8,10 +8,10 @@ box.
 
 import xml.etree.ElementTree as ET
 
-from pymermaid import render_diagram
-from pymermaid.ir import Diagram, Direction, Node, NodeShape
-from pymermaid.layout.sugiyama import layout_diagram
-from pymermaid.measure.text import _line_width
+from merm import render_diagram
+from merm.ir import Diagram, Direction, Node, NodeShape
+from merm.layout.sugiyama import layout_diagram
+from merm.measure.text import _line_width
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 _DEFAULT_FONT_SIZE = 16.0

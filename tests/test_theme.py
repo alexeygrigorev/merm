@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.ir import (
+from merm.ir import (
     Diagram,
     DiagramType,
     Direction,
@@ -13,10 +13,10 @@ from pymermaid.ir import (
     Node,
     Subgraph,
 )
-from pymermaid.layout import EdgeLayout, LayoutResult, NodeLayout, Point, layout_diagram
-from pymermaid.measure import measure_text
-from pymermaid.render import render_svg
-from pymermaid.theme import DEFAULT_THEME, Theme
+from merm.layout import EdgeLayout, LayoutResult, NodeLayout, Point, layout_diagram
+from merm.measure import measure_text
+from merm.render import render_svg
+from merm.theme import DEFAULT_THEME, Theme
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 
@@ -266,7 +266,7 @@ class TestCoordinateRounding:
 class TestVisualQualityIntegration:
     def test_simple_flowchart_uses_theme_colors(self):
         """Render a simple flowchart and verify it uses mermaid theme colors."""
-        from pymermaid.parser import parse_flowchart
+        from merm.parser import parse_flowchart
 
         source = "graph TD\n    A[Start] --> B[End]"
         diagram = parse_flowchart(source)
@@ -280,7 +280,7 @@ class TestVisualQualityIntegration:
 
     def test_render_with_custom_theme(self):
         """Custom theme colors should appear in output."""
-        from pymermaid.parser import parse_flowchart
+        from merm.parser import parse_flowchart
 
         custom = Theme(
             node_fill="#abcdef",

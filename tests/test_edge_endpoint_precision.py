@@ -11,9 +11,9 @@ import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from pymermaid import render_diagram
-from pymermaid.layout.sugiyama import _boundary_point, _route_edge_on_boundary
-from pymermaid.layout.types import Point
+from merm import render_diagram
+from merm.layout.sugiyama import _boundary_point, _route_edge_on_boundary
+from merm.layout.types import Point
 
 FIXTURES = Path(__file__).parent / "fixtures"
 NS = "{http://www.w3.org/2000/svg}"
@@ -460,7 +460,7 @@ class TestMarkerAlignment:
 
     def test_arrow_marker_refx_is_10(self) -> None:
         """Arrow marker refX=0 means the arrowhead tip aligns at path end."""
-        from pymermaid.render.edges import make_edge_defs
+        from merm.render.edges import make_edge_defs
 
         defs = ET.Element("defs")
         make_edge_defs(defs)
@@ -471,7 +471,7 @@ class TestMarkerAlignment:
         raise AssertionError("Arrow marker not found")
 
     def test_circle_end_marker_refx(self) -> None:
-        from pymermaid.render.edges import make_edge_defs
+        from merm.render.edges import make_edge_defs
 
         defs = ET.Element("defs")
         make_edge_defs(defs)
@@ -482,7 +482,7 @@ class TestMarkerAlignment:
         raise AssertionError("circle-end marker not found")
 
     def test_cross_end_marker_refx(self) -> None:
-        from pymermaid.render.edges import make_edge_defs
+        from merm.render.edges import make_edge_defs
 
         defs = ET.Element("defs")
         make_edge_defs(defs)

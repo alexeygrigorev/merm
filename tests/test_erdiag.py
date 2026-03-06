@@ -8,8 +8,8 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid import render_diagram
-from pymermaid.ir.erdiag import (
+from merm import render_diagram
+from merm.ir.erdiag import (
     ERAttribute,
     ERAttributeKey,
     ERCardinality,
@@ -18,11 +18,11 @@ from pymermaid.ir.erdiag import (
     ERLineStyle,
     ERRelationship,
 )
-from pymermaid.layout.erdiag import er_diagram_to_flowchart, layout_er_diagram
-from pymermaid.measure import TextMeasurer
-from pymermaid.parser.erdiag import parse_er_diagram
-from pymermaid.parser.flowchart import ParseError
-from pymermaid.render.erdiag import measure_er_entity_box, render_er_diagram
+from merm.layout.erdiag import er_diagram_to_flowchart, layout_er_diagram
+from merm.measure import TextMeasurer
+from merm.parser.erdiag import parse_er_diagram
+from merm.parser.flowchart import ParseError
+from merm.render.erdiag import measure_er_entity_box, render_er_diagram
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures" / "corpus" / "er"
 

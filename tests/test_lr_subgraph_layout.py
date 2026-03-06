@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid import render_diagram
+from merm import render_diagram
 
 _SVG_NS = "{http://www.w3.org/2000/svg}"
 

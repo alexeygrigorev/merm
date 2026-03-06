@@ -4,8 +4,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.ir import EdgeType
-from pymermaid.render.edges import _STYLE_MAP, make_edge_defs
+from merm.ir import EdgeType
+from merm.render.edges import _STYLE_MAP, make_edge_defs
 
 # ---------------------------------------------------------------------------
 # Unit: _STYLE_MAP stroke-width values

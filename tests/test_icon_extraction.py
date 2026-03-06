@@ -1,6 +1,6 @@
 """Tests for task 57: icon SVG extraction to separate files."""
 
-from pymermaid.icons import (
+from merm.icons import (
     _ICONS_DIR,
     _icon_cache,
     _load_icon,

@@ -4,7 +4,7 @@ import dataclasses
 
 import pytest
 
-from pymermaid.ir import (
+from merm.ir import (
     ArrowType,
     Diagram,
     DiagramType,

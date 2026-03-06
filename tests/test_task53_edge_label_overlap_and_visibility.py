@@ -2,9 +2,9 @@
 
 import xml.etree.ElementTree as ET
 
-from pymermaid.ir import Edge, EdgeType
-from pymermaid.layout import EdgeLayout, Point
-from pymermaid.render.edges import (
+from merm.ir import Edge, EdgeType
+from merm.layout import EdgeLayout, Point
+from merm.render.edges import (
     _STYLE_MAP,
     _label_bbox,
     _rects_overlap,
@@ -150,7 +150,7 @@ class TestStyleMapValues:
 class TestLabeledEdgesIntegrationNoOverlap:
     def test_all_five_labels_present(self) -> None:
         """All 5 expected labels must be present in the rendered SVG."""
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = (
             "graph TD\n"
@@ -183,7 +183,7 @@ class TestLabeledEdgesIntegrationNoOverlap:
 
     def test_no_pairwise_rect_overlap(self) -> None:
         """No pair of label background rects should overlap."""
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = (
             "graph TD\n"
@@ -233,7 +233,7 @@ class TestLabeledEdgesIntegrationNoOverlap:
 class TestDottedEdgeVisibleDash:
     def test_dotted_edge_has_visible_dasharray(self) -> None:
         """The dotted edge C->D must have stroke-dasharray with components >= 5."""
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = (
             "graph TD\n"
@@ -270,7 +270,7 @@ class TestDottedEdgeVisibleDash:
 class TestThickEdgeVisibleStroke:
     def test_thick_edge_has_sufficient_stroke_width(self) -> None:
         """The thick edge D->E must have stroke-width >= 3.5."""
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = (
             "graph TD\n"

@@ -6,12 +6,12 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid import render_diagram
-from pymermaid.ir.gitgraph import CommitType, GitBranch, GitCommit, GitGraph
-from pymermaid.layout.gitgraph import layout_gitgraph
-from pymermaid.parser.flowchart import ParseError
-from pymermaid.parser.gitgraph import parse_gitgraph
-from pymermaid.render.gitgraph import render_gitgraph_svg
+from merm import render_diagram
+from merm.ir.gitgraph import CommitType, GitBranch, GitCommit, GitGraph
+from merm.layout.gitgraph import layout_gitgraph
+from merm.parser.flowchart import ParseError
+from merm.parser.gitgraph import parse_gitgraph
+from merm.render.gitgraph import render_gitgraph_svg
 
 FIXTURES = Path(__file__).parent / "fixtures" / "corpus" / "gitgraph"
 

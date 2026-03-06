@@ -1,4 +1,4 @@
-"""Tests for the pymermaid CLI."""
+"""Tests for the merm CLI."""
 
 import subprocess
 import sys
@@ -6,13 +6,13 @@ import tempfile
 from pathlib import Path
 
 # Helper to invoke the CLI as a subprocess.
-CLI = [sys.executable, "-m", "pymermaid.cli"]
+CLI = [sys.executable, "-m", "merm.cli"]
 
 def run_cli(
     args: list[str] | None = None,
     input_text: str | None = None,
 ) -> subprocess.CompletedProcess[str]:
-    """Run the pymermaid CLI and return the CompletedProcess."""
+    """Run the merm CLI and return the CompletedProcess."""
     cmd = CLI + (args or [])
     return subprocess.run(
         cmd,
@@ -126,7 +126,7 @@ def test_output_dir_not_found():
 # ---- Integration: pipe chain ----
 
 def test_pipe_chain():
-    """echo 'graph LR; A-->B' | pymermaid produces valid SVG."""
+    """echo 'graph LR; A-->B' | merm produces valid SVG."""
     result = subprocess.run(
         CLI,
         input="graph LR\n    A --> B",
@@ -141,9 +141,9 @@ def test_pipe_chain():
 # ---- Additional: entry point script works ----
 
 def test_entry_point_script():
-    """The installed 'pymermaid' script entry point works."""
+    """The installed 'merm' script entry point works."""
     result = subprocess.run(
-        ["uv", "run", "pymermaid", "--version"],
+        ["uv", "run", "merm", "--version"],
         capture_output=True,
         text=True,
         timeout=30,

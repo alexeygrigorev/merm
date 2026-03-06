@@ -6,11 +6,11 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid import render_diagram
-from pymermaid.ir.pie import PieChart, PieSlice
-from pymermaid.parser.flowchart import ParseError
-from pymermaid.parser.pie import parse_pie
-from pymermaid.render.pie import render_pie_svg
+from merm import render_diagram
+from merm.ir.pie import PieChart, PieSlice
+from merm.parser.flowchart import ParseError
+from merm.parser.pie import parse_pie
+from merm.render.pie import render_pie_svg
 
 FIXTURES = Path(__file__).parent / "fixtures" / "corpus" / "pie"
 

@@ -4,7 +4,7 @@ import time
 
 import pytest
 
-from pymermaid.measure import TextMeasurer, measure_text
+from merm.measure import TextMeasurer, measure_text
 
 # ---------- Heuristic single-line measurement ----------
 

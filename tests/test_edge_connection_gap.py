@@ -8,9 +8,9 @@ import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from pymermaid import render_diagram
-from pymermaid.layout.sugiyama import _route_edge_on_boundary
-from pymermaid.render.edges import make_edge_defs
+from merm import render_diagram
+from merm.layout.sugiyama import _route_edge_on_boundary
+from merm.render.edges import make_edge_defs
 
 FIXTURES = Path(__file__).parent / "fixtures"
 NS = "{http://www.w3.org/2000/svg}"

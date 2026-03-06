@@ -2,10 +2,10 @@
 
 import xml.etree.ElementTree as ET
 
-from pymermaid import render_diagram
-from pymermaid.layout import layout_diagram
-from pymermaid.measure import measure_text
-from pymermaid.parser.flowchart import parse_flowchart
+from merm import render_diagram
+from merm.layout import layout_diagram
+from merm.measure import measure_text
+from merm.parser.flowchart import parse_flowchart
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 

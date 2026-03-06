@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.parser import parse_flowchart
+from merm.parser import parse_flowchart
 
 class TestHTMLEntityDecodingInNodeLabels:
     """Verify that standard HTML entities are decoded in node labels."""
@@ -57,7 +57,7 @@ class TestHTMLEntityDecodingInEdgeLabels:
 
     def test_decode_entities_on_edge_label_text(self):
         """Test entity decoding on edge label text via direct function call."""
-        from pymermaid.parser.flowchart import _decode_entities
+        from merm.parser.flowchart import _decode_entities
 
         assert _decode_entities("&amp; link") == "& link"
         assert _decode_entities("&lt;tag&gt;") == "<tag>"
@@ -78,9 +78,9 @@ class TestSVGOutputCorrectness:
 
     def test_ampersand_in_svg_output(self):
         """An & in a label should appear as &amp; in SVG source (single escape)."""
-        from pymermaid.layout import layout_diagram
-        from pymermaid.measure import measure_text
-        from pymermaid.render import render_svg
+        from merm.layout import layout_diagram
+        from merm.measure import measure_text
+        from merm.render import render_svg
 
         d = parse_flowchart('graph TD\n  A["Ampersand & stuff"]')
         measurer = measure_text
@@ -104,9 +104,9 @@ class TestSVGOutputCorrectness:
 
     def test_angle_brackets_in_svg_output(self):
         """< and > in a label should appear as &lt; and &gt; in SVG source."""
-        from pymermaid.layout import layout_diagram
-        from pymermaid.measure import measure_text
-        from pymermaid.render import render_svg
+        from merm.layout import layout_diagram
+        from merm.measure import measure_text
+        from merm.render import render_svg
 
         d = parse_flowchart('graph TD\n  A["Angle < > brackets"]')
         measurer = measure_text
@@ -124,9 +124,9 @@ class TestPNGRendering:
     """Integration test: render special_chars.mmd to SVG and PNG."""
 
     def test_special_chars_renders_without_error(self):
-        from pymermaid.layout import layout_diagram
-        from pymermaid.measure import measure_text
-        from pymermaid.render import render_svg
+        from merm.layout import layout_diagram
+        from merm.measure import measure_text
+        from merm.render import render_svg
 
         mmd_path = "tests/fixtures/corpus/text/special_chars.mmd"
         with open(mmd_path) as f:
@@ -152,9 +152,9 @@ class TestPNGRendering:
     def test_special_chars_png_rendering(self):
         """Render to PNG via cairosvg -- confirms SVG is valid for rasterization."""
         cairosvg = pytest.importorskip("cairosvg")
-        from pymermaid.layout import layout_diagram
-        from pymermaid.measure import measure_text
-        from pymermaid.render import render_svg
+        from merm.layout import layout_diagram
+        from merm.measure import measure_text
+        from merm.render import render_svg
 
         mmd_path = "tests/fixtures/corpus/text/special_chars.mmd"
         with open(mmd_path) as f:

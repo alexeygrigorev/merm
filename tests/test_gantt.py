@@ -6,11 +6,11 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid import render_diagram
-from pymermaid.ir.gantt import GanttChart, GanttSection, GanttTask
-from pymermaid.parser.flowchart import ParseError
-from pymermaid.parser.gantt import parse_gantt
-from pymermaid.render.gantt import render_gantt_svg
+from merm import render_diagram
+from merm.ir.gantt import GanttChart, GanttSection, GanttTask
+from merm.parser.flowchart import ParseError
+from merm.parser.gantt import parse_gantt
+from merm.render.gantt import render_gantt_svg
 
 FIXTURES_DIR = (
     Path(__file__).parent / "fixtures" / "corpus" / "gantt"

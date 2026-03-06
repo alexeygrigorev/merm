@@ -4,14 +4,14 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.icons import (
+from merm.icons import (
     LabelSegment,
     get_icon_path,
     has_icons,
     icon_count,
     parse_label,
 )
-from pymermaid.measure.text import TextMeasurer, measure_text
+from merm.measure.text import TextMeasurer, measure_text
 
 # ---------------------------------------------------------------------------
 # Icon registry tests
@@ -162,7 +162,7 @@ class TestSVGRenderingWithIcons:
     """Tests for SVG output when labels contain FA icons."""
 
     def _render_flowchart(self, source: str) -> str:
-        from pymermaid import render_diagram
+        from merm import render_diagram
         return render_diagram(source)
 
     def test_icon_renders_path_element(self):
@@ -238,7 +238,7 @@ class TestIntegration:
     """Full pipeline integration tests with icon labels."""
 
     def test_flowchart_with_icons_full_pipeline(self):
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = """graph LR
     A["fa:fa-home Home"] --> B["fa:fa-cog Settings"]
@@ -254,7 +254,7 @@ class TestIntegration:
         assert len(icon_groups) == 3
 
     def test_mixed_icon_and_plain_nodes(self):
-        from pymermaid import render_diagram
+        from merm import render_diagram
 
         source = """graph TD
     A["fa:fa-car Car"] --> B["Plain text"]
@@ -270,9 +270,9 @@ class TestIntegration:
 
     def test_node_sizing_with_icon(self):
         """Nodes with icons should be sized appropriately (not too small)."""
-        from pymermaid.ir import Diagram, DiagramType, Direction, Node, NodeShape
-        from pymermaid.layout import layout_diagram
-        from pymermaid.measure.text import TextMeasurer
+        from merm.ir import Diagram, DiagramType, Direction, Node, NodeShape
+        from merm.layout import layout_diagram
+        from merm.measure.text import TextMeasurer
 
         diagram = Diagram(
             type=DiagramType.flowchart,

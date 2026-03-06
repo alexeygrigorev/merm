@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Benchmark pymermaid rendering performance vs mmdc (mermaid-cli).
+Benchmark merm rendering performance vs mmdc (mermaid-cli).
 
-Measures parse time, layout time, render time, and total time for pymermaid,
+Measures parse time, layout time, render time, and total time for merm,
 and compares with mmdc end-to-end time. Runs across multiple scenarios of
 varying complexity.
 
@@ -25,10 +25,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from pymermaid import render_diagram
-from pymermaid.parser.flowchart import parse_flowchart
-from pymermaid.layout.sugiyama import layout_diagram
-from pymermaid.render.svg import render_svg
+from merm import render_diagram
+from merm.parser.flowchart import parse_flowchart
+from merm.layout.sugiyama import layout_diagram
+from merm.render.svg import render_svg
 
 SCENARIOS_DIR = Path(__file__).parent / "scenarios"
 FIXTURES_DIR = Path(__file__).parent.parent / "tests" / "fixtures"
@@ -135,8 +135,8 @@ def collect_scenarios() -> list[dict]:
 # Benchmark runners
 # ---------------------------------------------------------------------------
 
-def bench_pymermaid(source: str, iterations: int) -> dict:
-    """Benchmark pymermaid rendering, returning timing breakdown."""
+def bench_merm(source: str, iterations: int) -> dict:
+    """Benchmark merm rendering, returning timing breakdown."""
     # Total end-to-end
     _, total_elapsed, total_per = measure_time(
         render_diagram, source, iterations=iterations,
@@ -221,11 +221,11 @@ def run_benchmark(iterations: int = 100, mmdc_iterations: int = 3,
                   skip_mmdc: bool = False) -> list[dict]:
     scenarios = collect_scenarios()
     print(f"Collected {len(scenarios)} scenarios")
-    print(f"pymermaid iterations: {iterations}, mmdc iterations: {mmdc_iterations}")
+    print(f"merm iterations: {iterations}, mmdc iterations: {mmdc_iterations}")
     print()
 
     # Header
-    print(f"{'Scenario':<45} {'pymermaid':>10} {'mmdc':>10} {'Speedup':>10} {'Memory':>10}")
+    print(f"{'Scenario':<45} {'merm':>10} {'mmdc':>10} {'Speedup':>10} {'Memory':>10}")
     print("-" * 90)
 
     results = []
@@ -234,9 +234,9 @@ def run_benchmark(iterations: int = 100, mmdc_iterations: int = 3,
         source = sc["source"]
         lines = len(source.strip().split("\n"))
 
-        # pymermaid
+        # merm
         try:
-            pm = bench_pymermaid(source, iterations)
+            pm = bench_merm(source, iterations)
         except Exception as e:
             pm = {"total_ms": -1, "error": str(e)}
 
@@ -261,7 +261,7 @@ def run_benchmark(iterations: int = 100, mmdc_iterations: int = 3,
             "name": name,
             "category": sc["category"],
             "lines": lines,
-            "pymermaid": pm,
+            "merm": pm,
         }
         if mm:
             result["mmdc"] = mm
@@ -270,9 +270,9 @@ def run_benchmark(iterations: int = 100, mmdc_iterations: int = 3,
     # Summary
     print()
     print("=" * 90)
-    pm_times = [r["pymermaid"]["total_ms"] for r in results if r["pymermaid"].get("total_ms", -1) > 0]
+    pm_times = [r["merm"]["total_ms"] for r in results if r["merm"].get("total_ms", -1) > 0]
     if pm_times:
-        print(f"pymermaid  avg: {sum(pm_times)/len(pm_times):.2f} ms  "
+        print(f"merm  avg: {sum(pm_times)/len(pm_times):.2f} ms  "
               f"min: {min(pm_times):.2f} ms  max: {max(pm_times):.2f} ms  "
               f"({len(pm_times)} scenarios)")
 
@@ -289,9 +289,9 @@ def run_benchmark(iterations: int = 100, mmdc_iterations: int = 3,
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Benchmark pymermaid vs mmdc")
+    parser = argparse.ArgumentParser(description="Benchmark merm vs mmdc")
     parser.add_argument("--iterations", type=int, default=100,
-                        help="pymermaid iterations per scenario (default: 100)")
+                        help="merm iterations per scenario (default: 100)")
     parser.add_argument("--mmdc-iterations", type=int, default=3,
                         help="mmdc iterations per scenario (default: 3)")
     parser.add_argument("--no-mmdc", action="store_true",

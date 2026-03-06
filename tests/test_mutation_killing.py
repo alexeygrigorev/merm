@@ -16,15 +16,15 @@ After adding these tests:
 
 import pytest
 
-from pymermaid.ir import Direction, EdgeType
-from pymermaid.measure.text import (
+from merm.ir import Direction, EdgeType
+from merm.measure.text import (
     TextMeasurer,
     _is_emoji,
     _line_width,
     _wrap_line,
     measure_text,
 )
-from pymermaid.parser.flowchart import ParseError, parse_flowchart
+from merm.parser.flowchart import ParseError, parse_flowchart
 
 # ---------------------------------------------------------------------------
 # Measure module: _is_emoji boundary tests

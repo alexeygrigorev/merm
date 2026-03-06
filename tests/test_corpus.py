@@ -9,18 +9,18 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid.layout import layout_diagram
-from pymermaid.measure import TextMeasurer
-from pymermaid.parser import parse_flowchart
-from pymermaid.render import render_svg
+from merm.layout import layout_diagram
+from merm.measure import TextMeasurer
+from merm.parser import parse_flowchart
+from merm.render import render_svg
 from tests.comparison import (
     BBox,
     _extract_direction_from_mmd,
     check_directionality,
     check_no_overlaps,
     check_subgraph_containment,
-    parse_pymermaid_svg_edges,
-    parse_pymermaid_svg_nodes,
+    parse_merm_svg_edges,
+    parse_merm_svg_nodes,
 )
 
 CORPUS_DIR = Path(__file__).parent / "fixtures" / "corpus"
@@ -84,7 +84,7 @@ class TestCorpusRenders:
         mmd_text = mmd_file.read_text()
         diagram = parse_flowchart(mmd_text)
         svg = _render_mmd(mmd_text)
-        svg_nodes = parse_pymermaid_svg_nodes(svg)
+        svg_nodes = parse_merm_svg_nodes(svg)
         assert len(svg_nodes) == len(diagram.nodes), (
             f"Expected {len(diagram.nodes)} nodes, "
             f"found {len(svg_nodes)} in SVG"
@@ -95,7 +95,7 @@ class TestCorpusRenders:
         mmd_text = mmd_file.read_text()
         diagram = parse_flowchart(mmd_text)
         svg = _render_mmd(mmd_text)
-        svg_edges = parse_pymermaid_svg_edges(svg)
+        svg_edges = parse_merm_svg_edges(svg)
         assert len(svg_edges) == len(diagram.edges), (
             f"Expected {len(diagram.edges)} edges, "
             f"found {len(svg_edges)} in SVG"
@@ -106,7 +106,7 @@ class TestCorpusRenders:
         mmd_text = mmd_file.read_text()
         diagram = parse_flowchart(mmd_text)
         svg = _render_mmd(mmd_text)
-        svg_nodes = parse_pymermaid_svg_nodes(svg)
+        svg_nodes = parse_merm_svg_nodes(svg)
         svg_node_ids = {n.node_id for n in svg_nodes}
         for node in diagram.nodes:
             assert node.id in svg_node_ids, f"Node {node.id!r} missing from SVG"
@@ -396,5 +396,5 @@ def test_existing_simple_flowchart() -> None:
     mmd_text = fixture.read_text()
     svg = _render_mmd(mmd_text)
     assert "<svg" in svg
-    nodes = parse_pymermaid_svg_nodes(svg)
+    nodes = parse_merm_svg_nodes(svg)
     assert len(nodes) == 3

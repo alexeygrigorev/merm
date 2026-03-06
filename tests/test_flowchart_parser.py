@@ -7,14 +7,14 @@ styling, comments/special characters, and error handling.
 
 import pytest
 
-from pymermaid.ir import (
+from merm.ir import (
     ArrowType,
     DiagramType,
     Direction,
     EdgeType,
     NodeShape,
 )
-from pymermaid.parser import ParseError, parse_flowchart
+from merm.parser import ParseError, parse_flowchart
 
 # ---------- Diagram declaration ----------
 

@@ -6,8 +6,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.ir import NodeShape
-from pymermaid.render.shapes import (
+from merm.ir import NodeShape
+from merm.render.shapes import (
     SHAPE_REGISTRY,
     ShapeRenderer,
     get_shape_renderer,

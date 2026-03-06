@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.ir.sequence import (
+from merm.ir.sequence import (
     Fragment,
     FragmentType,
     Message,
@@ -14,14 +14,14 @@ from pymermaid.ir.sequence import (
     Participant,
     SequenceDiagram,
 )
-from pymermaid.layout.sequence import (
+from merm.layout.sequence import (
     SequenceLayout,
     layout_sequence,
 )
-from pymermaid.parser.flowchart import ParseError
-from pymermaid.parser.sequence import parse_sequence
-from pymermaid.render.sequence import render_sequence_svg
-from pymermaid.theme import DEFAULT_THEME
+from merm.parser.flowchart import ParseError
+from merm.parser.sequence import parse_sequence
+from merm.render.sequence import render_sequence_svg
+from merm.theme import DEFAULT_THEME
 
 # ============================================================
 # Parser tests
@@ -505,7 +505,7 @@ class TestSequenceIntegration:
 
     def test_render_via_top_level(self):
         """Test the top-level render_diagram() auto-detect function."""
-        from pymermaid import render_diagram
+        from merm import render_diagram
         svg = render_diagram("sequenceDiagram\nA->>B: Hello")
         assert "<svg" in svg
         assert "Hello" in svg

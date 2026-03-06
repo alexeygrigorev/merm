@@ -1,4 +1,4 @@
-"""SVG structural comparison utilities for pymermaid test infrastructure.
+"""SVG structural comparison utilities for merm test infrastructure.
 
 This module provides functions to parse mermaid-generated SVGs and compare
 their structure (nodes, edges, labels) against reference renderings.
@@ -306,7 +306,7 @@ def structural_compare(our_svg: str, reference_svg: str) -> SVGDiff:
     rendered SVG and the reference (mmdc) SVG.
 
     Args:
-        our_svg: SVG content from pymermaid renderer.
+        our_svg: SVG content from merm renderer.
         reference_svg: SVG content from mermaid-cli (mmdc).
 
     Returns:
@@ -339,12 +339,12 @@ def structural_compare(our_svg: str, reference_svg: str) -> SVGDiff:
     )
 
 # ---------------------------------------------------------------------------
-# pymermaid-native SVG parsing
+# merm-native SVG parsing
 # ---------------------------------------------------------------------------
 
 @dataclass
 class PymermaidNodeInfo:
-    """Node extracted from pymermaid SVG using data-node-id."""
+    """Node extracted from merm SVG using data-node-id."""
 
     node_id: str
     labels: list[str] = field(default_factory=list)
@@ -352,7 +352,7 @@ class PymermaidNodeInfo:
 
 @dataclass
 class PymermaidEdgeInfo:
-    """Edge extracted from pymermaid SVG using data-edge-source/target."""
+    """Edge extracted from merm SVG using data-edge-source/target."""
 
     source: str
     target: str
@@ -360,7 +360,7 @@ class PymermaidEdgeInfo:
 
 @dataclass
 class PymermaidSubgraphInfo:
-    """Subgraph extracted from pymermaid SVG using data-subgraph-id."""
+    """Subgraph extracted from merm SVG using data-subgraph-id."""
 
     subgraph_id: str
     title: str | None = None
@@ -439,10 +439,10 @@ def _parse_node_bbox(group: ET.Element) -> BBox | None:
         return bbox
     return _parse_bbox_from_polygon(group)
 
-def parse_pymermaid_svg_nodes(svg_text: str) -> list[PymermaidNodeInfo]:
-    """Parse nodes from pymermaid SVG format.
+def parse_merm_svg_nodes(svg_text: str) -> list[PymermaidNodeInfo]:
+    """Parse nodes from merm SVG format.
 
-    pymermaid uses data-node-id on <g class="node"> elements
+    merm uses data-node-id on <g class="node"> elements
     and <text> elements for labels.
     """
     if not svg_text or not svg_text.strip():
@@ -475,10 +475,10 @@ def parse_pymermaid_svg_nodes(svg_text: str) -> list[PymermaidNodeInfo]:
 
     return nodes
 
-def parse_pymermaid_svg_edges(svg_text: str) -> list[PymermaidEdgeInfo]:
-    """Parse edges from pymermaid SVG format.
+def parse_merm_svg_edges(svg_text: str) -> list[PymermaidEdgeInfo]:
+    """Parse edges from merm SVG format.
 
-    pymermaid uses data-edge-source and data-edge-target on <g class="edge">.
+    merm uses data-edge-source and data-edge-target on <g class="edge">.
     """
     if not svg_text or not svg_text.strip():
         return []
@@ -510,10 +510,10 @@ def parse_pymermaid_svg_edges(svg_text: str) -> list[PymermaidEdgeInfo]:
 
     return edges
 
-def parse_pymermaid_svg_subgraphs(svg_text: str) -> list[PymermaidSubgraphInfo]:
-    """Parse subgraphs from pymermaid SVG format.
+def parse_merm_svg_subgraphs(svg_text: str) -> list[PymermaidSubgraphInfo]:
+    """Parse subgraphs from merm SVG format.
 
-    pymermaid uses data-subgraph-id on <g class="subgraph">.
+    merm uses data-subgraph-id on <g class="subgraph">.
     """
     if not svg_text or not svg_text.strip():
         return []
@@ -557,7 +557,7 @@ def check_no_overlaps(svg_text: str) -> list[tuple[str, str]]:
 
     Returns a list of overlapping node ID pairs. Empty list means no overlaps.
     """
-    nodes = parse_pymermaid_svg_nodes(svg_text)
+    nodes = parse_merm_svg_nodes(svg_text)
     overlaps = []
     for i in range(len(nodes)):
         for j in range(i + 1, len(nodes)):
@@ -577,8 +577,8 @@ def check_directionality(svg_text: str, direction: str) -> list[str]:
 
     Returns a list of violation descriptions. Empty list means all edges comply.
     """
-    nodes = parse_pymermaid_svg_nodes(svg_text)
-    edges = parse_pymermaid_svg_edges(svg_text)
+    nodes = parse_merm_svg_nodes(svg_text)
+    edges = parse_merm_svg_edges(svg_text)
 
     node_map: dict[str, PymermaidNodeInfo] = {n.node_id: n for n in nodes}
     violations = []
@@ -633,8 +633,8 @@ def check_subgraph_containment(svg_text: str) -> list[str]:
     if it is spatially inside the subgraph bbox. Returns a list of violation
     descriptions.
     """
-    nodes = parse_pymermaid_svg_nodes(svg_text)
-    subgraphs = parse_pymermaid_svg_subgraphs(svg_text)
+    nodes = parse_merm_svg_nodes(svg_text)
+    subgraphs = parse_merm_svg_subgraphs(svg_text)
 
     violations = []
     for sg in subgraphs:

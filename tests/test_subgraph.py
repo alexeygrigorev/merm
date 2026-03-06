@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid.ir import (
+from merm.ir import (
     Diagram,
     DiagramType,
     Direction,
@@ -12,14 +12,14 @@ from pymermaid.ir import (
     Node,
     Subgraph,
 )
-from pymermaid.layout import (
+from merm.layout import (
     NodeLayout,
     SubgraphLayout,
     layout_diagram,
 )
-from pymermaid.measure import measure_text
-from pymermaid.parser.flowchart import ParseError, parse_flowchart
-from pymermaid.render import render_svg
+from merm.measure import measure_text
+from merm.parser.flowchart import ParseError, parse_flowchart
+from merm.render import render_svg
 
 _SVG_NS = "http://www.w3.org/2000/svg"
 
@@ -124,7 +124,7 @@ class TestParserSubgraph:
 
 class TestSubgraphLayoutDataclass:
     def test_subgraph_layout_importable(self):
-        from pymermaid.layout import SubgraphLayout
+        from merm.layout import SubgraphLayout
         assert SubgraphLayout is not None
 
     def test_subgraph_layout_fields(self):

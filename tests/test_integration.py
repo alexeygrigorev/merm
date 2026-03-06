@@ -5,10 +5,10 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid.layout import layout_diagram
-from pymermaid.measure import TextMeasurer
-from pymermaid.parser import parse_flowchart
-from pymermaid.render import render_svg
+from merm.layout import layout_diagram
+from merm.measure import TextMeasurer
+from merm.parser import parse_flowchart
+from merm.render import render_svg
 
 # ---------------------------------------------------------------------------
 # Helpers

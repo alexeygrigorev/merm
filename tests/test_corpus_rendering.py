@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from pymermaid import render_diagram
+from merm import render_diagram
 
 CORPUS_DIR = Path(__file__).parent / "fixtures" / "corpus"
 

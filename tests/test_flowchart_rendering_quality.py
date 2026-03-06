@@ -15,9 +15,9 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from pymermaid import render_diagram
-from pymermaid.ir import Diagram, DiagramType, Direction, Edge, Node, NodeShape
-from pymermaid.layout import EdgeLayout, LayoutResult, Point, layout_diagram
+from merm import render_diagram
+from merm.ir import Diagram, DiagramType, Direction, Edge, Node, NodeShape
+from merm.layout import EdgeLayout, LayoutResult, Point, layout_diagram
 
 NS = {"svg": "http://www.w3.org/2000/svg"}
 
@@ -349,8 +349,8 @@ class TestParentChildAlignment:
     def test_registration_start_form_submit_aligned(self):
         """Start, Form, Submit in registration.mmd share center-x within 5px."""
         # Extract center-x from layout for Start, Form, Submit
-        from pymermaid.measure import TextMeasurer
-        from pymermaid.parser import parse_flowchart
+        from merm.measure import TextMeasurer
+        from merm.parser import parse_flowchart
 
         source = _load_registration_mmd()
         diagram = parse_flowchart(source)
@@ -589,8 +589,8 @@ class TestConsistentVerticalSpacing:
 
     def test_registration_consecutive_layer_gaps(self):
         """Start->Form->Submit vertical gaps consistent within 5px."""
-        from pymermaid.measure import TextMeasurer
-        from pymermaid.parser import parse_flowchart
+        from merm.measure import TextMeasurer
+        from merm.parser import parse_flowchart
 
         source = _load_registration_mmd()
         diagram = parse_flowchart(source)
