@@ -124,8 +124,8 @@ class TestIconDataIntegrity:
         assert path_d.startswith("M135.2")
 
     def test_icon_count_unchanged(self):
-        """Should have exactly 61 icons (same as original registry)."""
-        assert icon_count() == 61
+        """Should have exactly 62 icons."""
+        assert icon_count() == 62
 
     def test_all_svg_files_loadable(self):
         """Every SVG file should be loadable through _load_icon."""
