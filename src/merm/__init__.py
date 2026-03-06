@@ -4,6 +4,7 @@ import re
 
 from merm.render import render_svg
 
+
 def render_diagram(source: str) -> str:
     """Auto-detect diagram type from source text and render to SVG.
 

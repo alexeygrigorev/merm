@@ -506,7 +506,10 @@ class TestArrowheadMarkerAlignment:
                 # Path end should be marker_width before the boundary
                 dist_to_top = abs(end_y - tgt_top)
                 dist_to_bottom = abs(end_y - tgt_bottom)
-                assert dist_to_top < marker_width + 1.0 or dist_to_bottom < marker_width + 1.0, (
+                assert (
+                    dist_to_top < marker_width + 1.0
+                    or dist_to_bottom < marker_width + 1.0
+                ), (
                     f"With refX=0, path end y={end_y:.1f} should be within "
                     f"marker_width ({marker_width}) of target boundary "
                     f"(top={tgt_top:.1f}, bottom={tgt_bottom:.1f})"

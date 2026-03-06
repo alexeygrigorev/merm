@@ -17,6 +17,7 @@ from merm.ir import (
     Subgraph,
 )
 
+
 class ParseError(Exception):
     """Raised when the parser encounters invalid Mermaid syntax."""
 

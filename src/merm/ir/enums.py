@@ -6,6 +6,7 @@ used throughout the merm pipeline.
 
 from enum import Enum
 
+
 class DiagramType(Enum):
     """Supported diagram types."""
 

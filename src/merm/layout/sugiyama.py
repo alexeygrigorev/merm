@@ -283,11 +283,19 @@ def _assign_coordinates(
     node_sizes: dict[str, tuple[float, float]],
     rank_sep: float,
     node_sep: float,
+    *,
+    horizontal: bool = False,
 ) -> dict[str, tuple[float, float]]:
     """Assign (x, y) coordinates for TB direction.
 
     Layers go top-to-bottom (y axis), nodes within a layer go left-to-right (x axis).
     Returns dict of node_id -> (center_x, center_y).
+
+    When *horizontal* is True (for LR/RL layouts), the rank spacing between
+    layers uses the maximum node **width** in each layer instead of the
+    maximum node height.  After the LR/RL coordinate swap, the y-axis
+    becomes the x-axis, so rank spacing must accommodate node widths to
+    prevent horizontal overlap.
     """
     positions: dict[str, tuple[float, float]] = {}
 
@@ -312,6 +320,17 @@ def _assign_coordinates(
         # Compute max height in this layer
         max_h = max(node_sizes.get(n, (40.0, 30.0))[1] for n in layer_nodes)
 
+        # For horizontal (LR/RL) layouts, the rank dimension (y in TB)
+        # becomes horizontal after the coordinate swap.  Use the max node
+        # width in the layer for rank spacing so nodes don't overlap
+        # horizontally after the swap.
+        if horizontal:
+            max_rank_dim = max(
+                node_sizes.get(n, (40.0, 30.0))[0] for n in layer_nodes
+            )
+        else:
+            max_rank_dim = max_h
+
         # Center this layer horizontally
         lw = layer_widths[li]
         x_start = (max_width - lw) / 2.0
@@ -320,11 +339,11 @@ def _assign_coordinates(
         for node in layer_nodes:
             w, h = node_sizes.get(node, (40.0, 30.0))
             cx = x + w / 2.0
-            cy = y + max_h / 2.0
+            cy = y + max_rank_dim / 2.0
             positions[node] = (cx, cy)
             x += w + node_sep
 
-        y += max_h + rank_sep
+        y += max_rank_dim + rank_sep
 
     return positions
 
@@ -1439,21 +1458,11 @@ def layout_diagram(
     if not node_ids:
         return LayoutResult(nodes={}, edges=[], width=0.0, height=0.0)
 
-    # For LR/RL, adjust rank_sep: after the coordinate swap, inter-rank
-    # spacing becomes horizontal.  We need to account for the difference
-    # between node width (post-swap horizontal dimension) and node height
-    # (pre-swap vertical dimension which determines layer spacing).
-    # The goal is rank_sep gap between node EDGES, regardless of direction.
+    # For LR/RL layouts, coordinate assignment uses per-layer max width
+    # for rank spacing (via the horizontal flag) instead of max height,
+    # so we no longer need an average-based rank_sep adjustment.
     effective_rank_sep = config.rank_sep
-    if direction in (Direction.LR, Direction.RL):
-        # In TB layout, inter-rank center distance = max_layer_height + rank_sep.
-        # After LR swap, this becomes horizontal distance.  But nodes are wider
-        # than tall, so we need extra space: add (avg_width - avg_height).
-        if node_sizes:
-            avg_w = sum(s[0] for s in node_sizes.values()) / len(node_sizes)
-            avg_h = sum(s[1] for s in node_sizes.values()) / len(node_sizes)
-            extra = max(0.0, avg_w - avg_h)
-            effective_rank_sep = config.rank_sep + extra
+    is_horizontal = direction in (Direction.LR, Direction.RL)
 
     # Find connected components
     all_edges_for_components = normal_edges + self_loops
@@ -1502,6 +1511,7 @@ def layout_diagram(
         # Step 4: Coordinate assignment (in TB space)
         positions = _assign_coordinates(
             layer_lists, all_node_sizes, effective_rank_sep, config.node_sep,
+            horizontal=is_horizontal,
         )
 
         # Step 4b: Offset back-edge dummy nodes so overlapping back-edges

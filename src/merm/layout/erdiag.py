@@ -18,6 +18,7 @@ from merm.layout.sugiyama import _NODE_PADDING_H, _NODE_PADDING_V, layout_diagra
 from merm.layout.types import EdgeLayout, LayoutResult, NodeLayout, Point
 from merm.render.erdiag import measure_er_entity_box
 
+
 def er_diagram_to_flowchart(diagram: ERDiagram) -> Diagram:
     """Convert an ERDiagram to a flowchart Diagram for layout."""
     nodes: list[Node] = []

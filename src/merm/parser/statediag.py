@@ -15,6 +15,7 @@ from merm.ir.statediag import (
 )
 from merm.parser.flowchart import ParseError
 
+
 def _strip_comment(line: str) -> str:
     """Remove %% comments from a line."""
     idx = line.find("%%")

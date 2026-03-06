@@ -8,12 +8,6 @@ import xml.etree.ElementTree as ET
 
 from merm import render_diagram
 from merm.layout.config import LayoutConfig
-from merm.layout.sugiyama import (
-    _NODE_MIN_HEIGHT,
-    _NODE_MIN_WIDTH,
-    _NODE_PADDING_H,
-    _NODE_PADDING_V,
-)
 from merm.theme import DEFAULT_THEME, Theme
 
 _SVG_NS = "http://www.w3.org/2000/svg"

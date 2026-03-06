@@ -7,6 +7,7 @@ used by the state diagram parser, layout, and renderer.
 from dataclasses import dataclass
 from enum import Enum
 
+
 class StateType(Enum):
     """Type of state node."""
 

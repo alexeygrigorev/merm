@@ -128,17 +128,80 @@ def layout_sequence(
         def measure_fn(text: str, size: float) -> tuple[float, float]:
             return (len(text) * size * 0.6, size * 1.2)
 
-    # --- 1. Position participants horizontally ---
+    # --- 1. Position participants horizontally with dynamic spacing ---
     participants_layout: list[ParticipantLayout] = []
     participant_cx: dict[str, float] = {}
+
+    # Build participant index map for gap computation.
+    _p_index: dict[str, int] = {
+        p.id: i for i, p in enumerate(diagram.participants)
+    }
+    n_participants = len(diagram.participants)
+
+    # Compute minimum gap between each adjacent pair based on message labels.
+    # gap_widths[i] = required center-to-center distance between participant i and i+1.
+    gap_widths: list[float] = [_PARTICIPANT_GAP] * max(n_participants - 1, 0)
+
+    # Collect all messages and notes recursively (including inside fragments).
+    def _collect_items(items: tuple) -> list:
+        result = []
+        for item in items:
+            result.append(item)
+            if isinstance(item, Fragment):
+                result.extend(_collect_items(item.items))
+        return result
+
+    _label_pad = 30.0  # Padding around label text to prevent clipping.
+
+    all_items = _collect_items(diagram.items)
+    for item in all_items:
+        if isinstance(item, Message):
+            if item.sender == item.receiver:
+                continue  # Self-messages don't need inter-participant gap.
+            if not item.text:
+                continue
+            idx_s = _p_index.get(item.sender)
+            idx_r = _p_index.get(item.receiver)
+            if idx_s is None or idx_r is None:
+                continue
+            lo, hi = sorted((idx_s, idx_r))
+            # Measure the label width.
+            msg_lines = item.text.split("<br/>")
+            line_widths = [measure_fn(line, _FONT_SIZE)[0] for line in msg_lines]
+            label_w = max(line_widths) if line_widths else 0
+            required = label_w + _label_pad
+            # Distribute required width across the (hi - lo) gaps spanned.
+            n_gaps = hi - lo
+            per_gap = required / n_gaps
+            for g in range(lo, hi):
+                if per_gap > gap_widths[g]:
+                    gap_widths[g] = per_gap
+        elif isinstance(item, Note) and item.position == NotePosition.OVER:
+            # "Note over X" notes centered on a single participant need space
+            # so they don't overlap message arrows on adjacent lifelines.
+            if len(item.participants) == 1:
+                lines = item.text.split("<br/>")
+                line_widths = [measure_fn(line, _FONT_SIZE)[0] for line in lines]
+                note_w = max(max(line_widths) if line_widths else 0, _NOTE_WIDTH)
+                note_w += 2 * _NOTE_PAD
+                half_w = note_w / 2 + _label_pad / 2
+                idx = _p_index.get(item.participants[0])
+                if idx is not None:
+                    # Expand gap to the left.
+                    if idx > 0 and half_w > gap_widths[idx - 1]:
+                        gap_widths[idx - 1] = half_w
+                    # Expand gap to the right.
+                    if idx < n_participants - 1 and half_w > gap_widths[idx]:
+                        gap_widths[idx] = half_w
 
     for i, p in enumerate(diagram.participants):
         text_w, text_h = measure_fn(p.label, _FONT_SIZE)
         box_w = max(_PARTICIPANT_BOX_W, text_w + 20)
         box_h = _ACTOR_H if p.is_actor else _PARTICIPANT_BOX_H
-        cx = _TOP_MARGIN + box_w / 2 + i * (_PARTICIPANT_GAP + box_w)
-        # Adjust: use fixed gap between centers for simplicity.
-        cx = _TOP_MARGIN + _PARTICIPANT_BOX_W / 2 + i * _PARTICIPANT_GAP
+        if i == 0:
+            cx = _TOP_MARGIN + box_w / 2
+        else:
+            cx = participant_cx[diagram.participants[i - 1].id] + gap_widths[i - 1]
 
         participant_cx[p.id] = cx
         participants_layout.append(ParticipantLayout(
@@ -267,7 +330,9 @@ def layout_sequence(
         notes_layout.append(NoteLayout(
             x=nx, y=y, width=nw, height=nh, text=note.text,
         ))
-        return y + nh + _NOTE_PAD
+        # Add enough vertical space after the note so the next message's
+        # label (rendered above the arrow) does not overlap the note box.
+        return y + nh + max(_NOTE_PAD, _FONT_SIZE)
 
     def _process_fragment(frag: Fragment, y: float) -> float:
         """Layout a fragment box and return next y."""

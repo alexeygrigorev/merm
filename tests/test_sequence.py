@@ -153,7 +153,7 @@ class TestParseSequenceActivations:
 
     def test_activate_shorthand(self):
         text = """sequenceDiagram
-            A->>B+: activate
+            A->>+B: activate
         """
         d = parse_sequence(text)
         msg = d.items[0]
@@ -162,7 +162,7 @@ class TestParseSequenceActivations:
 
     def test_deactivate_shorthand(self):
         text = """sequenceDiagram
-            A->>B-: deactivate
+            A->>-B: deactivate
         """
         d = parse_sequence(text)
         msg = d.items[0]

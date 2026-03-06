@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from merm.ir.mindmap import MindmapDiagram, MindmapNode
 from merm.layout.config import MeasureFn
 
+
 @dataclass(frozen=True)
 class MindmapNodeLayout:
     """Position and size of a single mindmap node."""

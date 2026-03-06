@@ -24,6 +24,7 @@ _ARROW_PATTERNS: list[tuple[str, MessageType]] = [
     ("->>", MessageType.SOLID_ARROW),
     ("--x", MessageType.DASHED_CROSS),
     ("-x", MessageType.SOLID_CROSS),
+    ("--)", MessageType.DASHED_ASYNC),
     ("-->", MessageType.DASHED_OPEN),
     ("->", MessageType.SOLID_OPEN),
     ("-)", MessageType.ASYNC),
@@ -34,7 +35,7 @@ _ARROW_PATTERNS: list[tuple[str, MessageType]] = [
 _MESSAGE_RE = re.compile(
     r"^(?P<sender>[A-Za-z_][\w]*)"
     r"\s*"
-    r"(?P<arrow>-->>|->>|--x|-x|-->|->|-\))"
+    r"(?P<arrow>-->>|->>|--x|-x|--\)|-->|->|-\))"
     r"\s*"
     r"(?P<activate>\+?)"
     r"(?P<deactivate>-?)"
@@ -44,16 +45,16 @@ _MESSAGE_RE = re.compile(
     r"(?::\s*(?P<text>.*))?$"
 )
 
-# Alternative: activate/deactivate shorthand after receiver
+# Alternative: activate/deactivate shorthand before receiver (Mermaid syntax: ->>+Bob)
 _MESSAGE_RE2 = re.compile(
     r"^(?P<sender>[A-Za-z_][\w]*)"
     r"\s*"
-    r"(?P<arrow>-->>|->>|--x|-x|-->|->|-\))"
-    r"\s*"
-    r"(?P<receiver>[A-Za-z_][\w]*)"
+    r"(?P<arrow>-->>|->>|--x|-x|--\)|-->|->|-\))"
     r"\s*"
     r"(?P<activate>\+?)"
     r"(?P<deactivate>-?)"
+    r"\s*"
+    r"(?P<receiver>[A-Za-z_][\w]*)"
     r"\s*"
     r"(?::\s*(?P<text>.*))?$"
 )

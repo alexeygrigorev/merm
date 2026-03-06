@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from datetime import date
 
+
 @dataclass(frozen=True)
 class GanttTask:
     """A single task in a Gantt chart."""

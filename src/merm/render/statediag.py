@@ -175,6 +175,33 @@ def _render_normal_state(
     text_el.set("font-family", theme.font_family)
     text_el.text = state.label
 
+def _render_composite_state(
+    parent: ET.Element,
+    state: State,
+    nl: NodeLayout,
+    child_layouts: dict[str, NodeLayout],
+    theme: Theme,
+) -> None:
+    """Render a composite state (state with children) as a container box."""
+    g = ET.SubElement(parent, "g")
+    g.set("class", "composite")
+    g.set("data-state-id", state.id)
+    rect = ET.SubElement(g, "rect")
+    rect.set("x", _round_coord(nl.x))
+    rect.set("y", _round_coord(nl.y))
+    rect.set("width", _round_coord(nl.width))
+    rect.set("height", _round_coord(nl.height))
+    rect.set("rx", "10")
+    rect.set("ry", "10")
+
+    # Title label at top of composite state
+    text_el = ET.SubElement(g, "text")
+    text_el.set("x", _round_coord(nl.x + 10))
+    text_el.set("y", _round_coord(nl.y + 18))
+    text_el.set("font-family", theme.font_family)
+    text_el.text = state.label
+
+
 def _render_state_node(
     parent: ET.Element,
     state: State,

@@ -7,6 +7,7 @@ matches mermaid.js's default theme (purple nodes, yellow subgraphs).
 
 from dataclasses import dataclass, replace
 
+
 @dataclass(frozen=True)
 class Theme:
     """All visual styling values for diagram rendering.

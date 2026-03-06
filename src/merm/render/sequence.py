@@ -39,6 +39,7 @@ def _build_defs(svg: ET.Element, theme: Theme) -> None:
     m.set("refX", "10")
     m.set("refY", "3.5")
     m.set("orient", "auto")
+    m.set("markerUnits", "userSpaceOnUse")
     poly = ET.SubElement(m, "polygon")
     poly.set("points", "0 0, 10 3.5, 0 7")
     poly.set("fill", stroke)
@@ -51,6 +52,7 @@ def _build_defs(svg: ET.Element, theme: Theme) -> None:
     m2.set("refX", "10")
     m2.set("refY", "3.5")
     m2.set("orient", "auto")
+    m2.set("markerUnits", "userSpaceOnUse")
     pl = ET.SubElement(m2, "polyline")
     pl.set("points", "0 0, 10 3.5, 0 7")
     pl.set("fill", "none")
@@ -65,6 +67,7 @@ def _build_defs(svg: ET.Element, theme: Theme) -> None:
     m3.set("refX", "5")
     m3.set("refY", "5")
     m3.set("orient", "auto")
+    m3.set("markerUnits", "userSpaceOnUse")
     l1 = ET.SubElement(m3, "line")
     l1.set("x1", "0")
     l1.set("y1", "0")
@@ -88,6 +91,7 @@ def _build_defs(svg: ET.Element, theme: Theme) -> None:
     m4.set("refX", "10")
     m4.set("refY", "3.5")
     m4.set("orient", "auto")
+    m4.set("markerUnits", "userSpaceOnUse")
     pl2 = ET.SubElement(m4, "polyline")
     pl2.set("points", "0 0, 10 3.5, 0 7")
     pl2.set("fill", "none")
@@ -231,6 +235,8 @@ def _get_marker(msg_type_str: str) -> tuple[str, bool]:
             return "url(#seq-cross)", True
         case MessageType.ASYNC:
             return "url(#seq-async)", False
+        case MessageType.DASHED_ASYNC:
+            return "url(#seq-async)", True
 
 def _render_message(parent: ET.Element, ml: MessageLayout) -> None:
     """Render a message arrow."""

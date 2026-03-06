@@ -425,7 +425,9 @@ class TestIntegrationSubgraph:
             assert len(paths) >= 1
             assert paths[0].get("d", "").startswith("M")
 
-    @pytest.mark.skip(reason="Per-subgraph direction override not yet implemented in layout")
+    @pytest.mark.skip(
+        reason="Per-subgraph direction override not yet implemented in layout",
+    )
     def test_subgraph_direction_override_lr_in_td(self):
         """A subgraph with direction LR inside a TD diagram should lay out
         its nodes horizontally (same or similar y, different x)."""

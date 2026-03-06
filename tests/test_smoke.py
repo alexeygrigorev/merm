@@ -2,6 +2,7 @@
 
 import subprocess
 
+
 class TestCLI:
     """Test CLI entry point."""
 

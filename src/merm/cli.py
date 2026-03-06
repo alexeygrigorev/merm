@@ -22,6 +22,7 @@ from merm.render.classdiag import render_class_diagram
 from merm.render.sequence import render_sequence_svg
 from merm.render.statediag import render_state_svg
 
+
 def _get_version() -> str:
     """Return the version string for display."""
     try:

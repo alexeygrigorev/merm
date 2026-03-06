@@ -7,6 +7,7 @@ and the top-level SequenceDiagram container.
 from dataclasses import dataclass
 from enum import Enum
 
+
 class MessageType(Enum):
     """Sequence diagram message/arrow types."""
 
@@ -17,6 +18,7 @@ class MessageType(Enum):
     SOLID_CROSS = "solid_cross"       # -x
     DASHED_CROSS = "dashed_cross"     # --x
     ASYNC = "async"                   # -)
+    DASHED_ASYNC = "dashed_async"     # --)
 
 class NotePosition(Enum):
     """Position of a note relative to participant lifelines."""
