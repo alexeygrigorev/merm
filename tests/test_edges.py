@@ -477,14 +477,20 @@ class TestIntegrationRenderSvg:
         d = _simple_diagram(label="Yes")
         lr = _simple_layout()
         root = _parse(render_svg(d, lr))
+        # Edge labels are rendered in separate edge-label groups.
+        # Search all groups with data-edge-source for the label.
         edge_groups = root.findall(".//*[@data-edge-source]")
-        g = edge_groups[0]
-        rects = _find_rects(g)
-        texts = _find_texts(g)
-        assert len(rects) >= 1
-        assert len(texts) >= 1
-        all_text = "".join(el.text or "" for el in g.iter())
-        assert "Yes" in all_text
+        # Find the group that contains the label (rect + text with "Yes")
+        found_label = False
+        for g in edge_groups:
+            rects = _find_rects(g)
+            texts = _find_texts(g)
+            if rects and texts:
+                all_text = "".join(el.text or "" for el in g.iter())
+                if "Yes" in all_text:
+                    found_label = True
+                    break
+        assert found_label, "Edge label 'Yes' not found in any edge group"
 
     def test_old_arrowhead_marker_replaced(self):
         d = _simple_diagram()

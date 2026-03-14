@@ -38,6 +38,7 @@ dev = [
     "mutmut>=3.5.0",
     "pillow>=12.1.1",
     "pytest",
+    "pytest-benchmark>=5.2.3",
     "pytest-cov",
     "ruff",
     "scikit-image>=0.25.2",

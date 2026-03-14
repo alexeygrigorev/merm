@@ -13,15 +13,16 @@ def _parse_svg(svg_str: str) -> ET.Element:
     return ET.fromstring(svg_str)
 
 def _find_edge_groups(root: ET.Element) -> list[ET.Element]:
-    """Find all <g class='edge'> elements."""
+    """Find all <g class='edge'> and <g class='edge-label'> elements."""
+    edge_classes = {"edge", "edge-label"}
     groups = []
     for g in root.iter(f"{{{_SVG_NS}}}g"):
-        if g.get("class") == "edge":
+        if g.get("class") in edge_classes:
             groups.append(g)
     # Also check without namespace (in case SVG doesn't use namespace prefix)
     if not groups:
         for g in root.iter("g"):
-            if g.get("class") == "edge":
+            if g.get("class") in edge_classes:
                 groups.append(g)
     return groups
 
@@ -200,28 +201,29 @@ class TestSelfLoopLabel:
     def test_label_text_present(self):
         svg = render_diagram("graph TD\n    A -->|loop text| A")
         root = _parse_svg(svg)
-        g = _find_self_loop_group(root)
-        assert g is not None
-
-        # Find text element with "loop text"
+        # Labels are in separate edge-label groups now; search all groups
+        # where source == target for the label text.
         found = False
-        for text_el in g.iter(f"{{{_SVG_NS}}}text"):
-            if text_el.text and "loop text" in text_el.text:
-                found = True
-                break
-        if not found:
-            for text_el in g.iter("text"):
+        for g in _find_edge_groups(root):
+            if g.get("data-edge-source") != g.get("data-edge-target"):
+                continue
+            for text_el in g.iter(f"{{{_SVG_NS}}}text"):
                 if text_el.text and "loop text" in text_el.text:
                     found = True
                     break
+            if not found:
+                for text_el in g.iter("text"):
+                    if text_el.text and "loop text" in text_el.text:
+                        found = True
+                        break
+            if found:
+                break
         assert found, "Label 'loop text' not found in self-loop SVG"
 
     def test_label_below_node(self):
         """The label y-coordinate should be below the node bottom edge."""
         svg = render_diagram("graph TD\n    A -->|loop text| A")
         root = _parse_svg(svg)
-        g = _find_self_loop_group(root)
-        assert g is not None
 
         # Get node bottom edge from layout
         diagram = parse_flowchart("graph TD\n    A -->|loop text| A")
@@ -229,19 +231,24 @@ class TestSelfLoopLabel:
         nl = layout.nodes["A"]
         node_bottom = nl.y + nl.height
 
-        # Find text y position
+        # Find text y position in any self-loop edge/edge-label group
         text_y = None
-        for text_el in g.iter(f"{{{_SVG_NS}}}text"):
-            y_str = text_el.get("y")
-            if y_str:
-                text_y = float(y_str)
-                break
-        if text_y is None:
-            for text_el in g.iter("text"):
+        for g in _find_edge_groups(root):
+            if g.get("data-edge-source") != g.get("data-edge-target"):
+                continue
+            for text_el in g.iter(f"{{{_SVG_NS}}}text"):
                 y_str = text_el.get("y")
                 if y_str:
                     text_y = float(y_str)
                     break
+            if text_y is None:
+                for text_el in g.iter("text"):
+                    y_str = text_el.get("y")
+                    if y_str:
+                        text_y = float(y_str)
+                        break
+            if text_y is not None:
+                break
 
         assert text_y is not None, "Could not find label y coordinate"
         assert text_y > node_bottom, (

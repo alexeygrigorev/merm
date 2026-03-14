@@ -33,13 +33,14 @@ def _make_ir_edge(
     return Edge(source=source, target=target, label=label, edge_type=edge_type)
 
 def _iter_edge_groups(root: ET.Element) -> list[ET.Element]:
-    """Find all <g class="edge"> elements, handling SVG namespace."""
+    """Find all <g class="edge"> and <g class="edge-label"> elements."""
+    edge_classes = {"edge", "edge-label"}
     results = []
     for g in root.iter(f"{{{_NS}}}g"):
-        if g.get("class") == "edge":
+        if g.get("class") in edge_classes:
             results.append(g)
     for g in root.iter("g"):
-        if g.get("class") == "edge" and g not in results:
+        if g.get("class") in edge_classes and g not in results:
             results.append(g)
     return results
 

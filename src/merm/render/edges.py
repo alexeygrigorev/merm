@@ -400,12 +400,15 @@ def render_edge(
     smooth: bool = True,
     edge_label_bg: str = "rgba(232,232,232,0.8)",
     label_pos: tuple[float, float] | None = None,
+    skip_label: bool = False,
 ) -> None:
     """Render a single edge with correct style, markers, and optional label.
 
     Args:
         label_pos: If provided, use this ``(cx, cy)`` for the label instead
             of computing the edge midpoint.
+        skip_label: If True, skip rendering the label (for two-pass rendering
+            where labels are rendered separately on top of nodes).
     """
     g = ET.SubElement(parent, "g")
     g.set("class", "edge")
@@ -473,13 +476,14 @@ def render_edge(
             path.set("marker-start", url)
 
     # Edge label
-    label = ir_edge.label if ir_edge else None
-    if label:
-        if label_pos is not None:
-            mx, my = label_pos
-        else:
-            mx, my = _edge_midpoint(edge_layout.points)
-        _render_edge_label(g, label, mx, my, edge_label_bg)
+    if not skip_label:
+        label = ir_edge.label if ir_edge else None
+        if label:
+            if label_pos is not None:
+                mx, my = label_pos
+            else:
+                mx, my = _edge_midpoint(edge_layout.points)
+            _render_edge_label(g, label, mx, my, edge_label_bg)
 
 def _render_edge_label(
     parent: ET.Element,
@@ -518,6 +522,11 @@ def _render_edge_label(
         text_el.set("y", str(cy))
         text_el.text = parts[0]
     else:
+        # Set base position on the <text> element so tspan dy offsets
+        # are relative to the label center, not the SVG origin.
+        text_el.set("x", str(cx))
+        text_el.set("y", str(cy))
+
         line_height = 1.2  # em
         total_height = line_height * (len(parts) - 1)
         start_offset = -total_height / 2.0
@@ -531,9 +540,39 @@ def _render_edge_label(
                 tspan.set("dy", f"{line_height}em")
             tspan.text = part
 
+def render_edge_label_only(
+    parent: ET.Element,
+    edge_layout: EdgeLayout,
+    ir_edge: Edge | None,
+    edge_label_bg: str = "rgba(232,232,232,0.8)",
+    label_pos: tuple[float, float] | None = None,
+) -> None:
+    """Render only the label for an edge (without the path/markers).
+
+    Used in two-pass rendering where edge paths are drawn first,
+    then nodes, then edge labels on top so labels are not obscured
+    by node backgrounds.
+    """
+    label = ir_edge.label if ir_edge else None
+    if not label:
+        return
+
+    g = ET.SubElement(parent, "g")
+    g.set("class", "edge-label")
+    g.set("data-edge-source", edge_layout.source)
+    g.set("data-edge-target", edge_layout.target)
+
+    if label_pos is not None:
+        mx, my = label_pos
+    else:
+        mx, my = _edge_midpoint(edge_layout.points)
+    _render_edge_label(g, label, mx, my, edge_label_bg)
+
+
 __all__ = [
     "make_edge_defs",
     "points_to_path_d",
     "render_edge",
+    "render_edge_label_only",
     "resolve_label_positions",
 ]

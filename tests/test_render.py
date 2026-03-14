@@ -223,9 +223,12 @@ class TestEdgeLabels:
         d = _simple_diagram(edges=[("A", "B", "yes")])
         lr = _simple_layout()
         root = _parse(render_svg(d, lr))
+        # Edge path and label are in separate groups (two-pass rendering).
         edge_groups = root.findall(".//*[@data-edge-source='A']")
-        assert len(edge_groups) == 1
-        all_text = "".join(el.text or "" for el in edge_groups[0].iter())
+        assert len(edge_groups) >= 1
+        all_text = "".join(
+            el.text or "" for g in edge_groups for el in g.iter()
+        )
         assert "yes" in all_text
 
     def test_edge_without_label_no_extra_text(self):

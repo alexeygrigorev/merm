@@ -10,7 +10,13 @@ import xml.etree.ElementTree as ET
 
 from merm.ir import Diagram, Edge, Node, Subgraph
 from merm.layout import EdgeLayout, LayoutResult, NodeLayout, SubgraphLayout
-from merm.render.edges import make_edge_defs, render_edge, resolve_label_positions
+from merm.render.edges import (
+    _label_bbox,
+    make_edge_defs,
+    render_edge,
+    render_edge_label_only,
+    resolve_label_positions,
+)
 from merm.render.shapes import get_shape_renderer
 from merm.theme import DEFAULT_THEME, Theme
 
@@ -309,9 +315,25 @@ def _render_edge_delegate(
     ir_edge: Edge | None,
     theme: Theme,
     label_pos: tuple[float, float] | None = None,
+    skip_label: bool = False,
 ) -> None:
     """Delegate edge rendering to the edges module."""
     render_edge(
+        parent, el, ir_edge,
+        edge_label_bg=theme.edge_label_bg,
+        label_pos=label_pos,
+        skip_label=skip_label,
+    )
+
+def _render_edge_label_delegate(
+    parent: ET.Element,
+    el: EdgeLayout,
+    ir_edge: Edge | None,
+    theme: Theme,
+    label_pos: tuple[float, float] | None = None,
+) -> None:
+    """Delegate edge label rendering to the edges module."""
+    render_edge_label_only(
         parent, el, ir_edge,
         edge_label_bg=theme.edge_label_bg,
         label_pos=label_pos,
@@ -422,11 +444,51 @@ def render_svg(
     if theme is None:
         theme = DEFAULT_THEME
 
-    # Compute viewBox with padding
-    vb_x = -_PADDING
-    vb_y = -_PADDING
-    vb_w = layout.width + 2 * _PADDING
-    vb_h = layout.height + 2 * _PADDING
+    # Build lookup from IR nodes by id.
+    node_map: dict[str, Node] = {n.id: n for n in diagram.nodes}
+
+    # Build inline style lookup from diagram.styles
+    inline_styles = _build_style_lookup(diagram)
+
+    # Build edge lookup for labels
+    edge_lookup = _build_edge_lookup(diagram)
+
+    # Resolve label positions to avoid overlapping labels and back-edge paths.
+    labeled_edges: list[tuple[EdgeLayout, Edge]] = []
+    obstacle_edges: list[EdgeLayout] = []
+    for el in layout.edges:
+        ir_edge = edge_lookup.get((el.source, el.target))
+        if ir_edge is not None and ir_edge.label:
+            labeled_edges.append((el, ir_edge))
+        # Detect back-edges: they go upward (or have > 4 points indicating
+        # they route through dummies) and their last point y < first point y.
+        if len(el.points) >= 3:
+            if el.points[-1].y < el.points[0].y:
+                obstacle_edges.append(el)
+    label_positions = resolve_label_positions(labeled_edges, obstacle_edges)
+
+    # Compute viewBox with padding, expanding for edge label overflow.
+    min_x = 0.0
+    min_y = 0.0
+    max_x = layout.width
+    max_y = layout.height
+    for el, ir_edge in labeled_edges:
+        lpos = label_positions.get((el.source, el.target))
+        if lpos is not None:
+            cx, cy = lpos
+        else:
+            from merm.render.edges import _edge_midpoint
+            cx, cy = _edge_midpoint(el.points)
+        lx, ly, lw, lh = _label_bbox(ir_edge.label, cx, cy)
+        min_x = min(min_x, lx)
+        min_y = min(min_y, ly)
+        max_x = max(max_x, lx + lw)
+        max_y = max(max_y, ly + lh)
+
+    vb_x = min_x - _PADDING
+    vb_y = min_y - _PADDING
+    vb_w = (max_x - min_x) + 2 * _PADDING
+    vb_h = (max_y - min_y) + 2 * _PADDING
 
     # Ensure minimum dimensions
     vb_w = max(vb_w, 1.0)
@@ -443,48 +505,29 @@ def render_svg(
     _make_defs(svg, theme)
     _make_style(svg, diagram, theme)
 
-    # Build lookup from IR nodes by id.
-    node_map: dict[str, Node] = {n.id: n for n in diagram.nodes}
-
-    # Build inline style lookup from diagram.styles
-    inline_styles = _build_style_lookup(diagram)
-
-    # Build edge lookup for labels
-    edge_lookup = _build_edge_lookup(diagram)
-
     # Render subgraphs first (background), recursively
     sg_layouts = layout.subgraphs or {}
     for sg in diagram.subgraphs:
         _render_subgraph_recursive(svg, sg, sg_layouts, layout.nodes, theme)
 
-    # Resolve label positions to avoid overlapping labels and back-edge paths.
-    labeled_edges: list[tuple[EdgeLayout, Edge]] = []
-    # Identify back-edges as obstacle paths for label positioning.
-    # Back-edges go "upward" in TB layout (last point y < first point y)
-    # and have intermediate waypoints.
-    obstacle_edges: list[EdgeLayout] = []
-    for el in layout.edges:
-        ir_edge = edge_lookup.get((el.source, el.target))
-        if ir_edge is not None and ir_edge.label:
-            labeled_edges.append((el, ir_edge))
-        # Detect back-edges: they go upward (or have > 4 points indicating
-        # they route through dummies) and their last point y < first point y.
-        if len(el.points) >= 3:
-            if el.points[-1].y < el.points[0].y:
-                obstacle_edges.append(el)
-    label_positions = resolve_label_positions(labeled_edges, obstacle_edges)
-
-    # Render edges
+    # Pass 1: Render edge paths (without labels)
     for el in layout.edges:
         ir_edge = edge_lookup.get((el.source, el.target))
         lpos = label_positions.get((el.source, el.target))
-        _render_edge_delegate(svg, el, ir_edge, theme, label_pos=lpos)
+        _render_edge_delegate(
+            svg, el, ir_edge, theme, label_pos=lpos, skip_label=True,
+        )
 
-    # Render nodes (on top of edges)
+    # Render nodes (on top of edge paths)
     for node_id, nl in layout.nodes.items():
-        # Get the IR node; fall back to a plain rect node if not in diagram.
         ir_node = node_map.get(node_id, Node(id=node_id, label=node_id))
         _render_node(svg, ir_node, nl, inline_styles, theme)
+
+    # Pass 2: Render edge labels (on top of nodes)
+    for el in layout.edges:
+        ir_edge = edge_lookup.get((el.source, el.target))
+        lpos = label_positions.get((el.source, el.target))
+        _render_edge_label_delegate(svg, el, ir_edge, theme, label_pos=lpos)
 
     # Pretty-print
     ET.indent(svg)
