@@ -349,8 +349,8 @@ def layout_sequence(
             x=nx, y=y, width=nw, height=nh, text=note.text,
         ))
         # Add enough vertical space after the note so the next message's
-        # label (rendered above the arrow) does not overlap the note box.
-        return y + nh + max(_NOTE_PAD, _FONT_SIZE)
+        # label (rendered above the arrow at y-5) does not overlap the note box.
+        return y + nh + _FONT_SIZE + _MSG_GAP * 0.5
 
     def _process_fragment(frag: Fragment, y: float) -> float:
         """Layout a fragment box and return next y."""

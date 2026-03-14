@@ -7,23 +7,23 @@ A pure Python library that renders Mermaid diagram syntax directly to SVG withou
 ## Architecture
 
 ```
-┌─────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
 │   Parser     │───>│  IR (Graph)  │───>│   Layout     │───>│ SVG Renderer │
 │ .mmd -> AST  │    │ Nodes/Edges  │    │ Positions    │    │ XML output   │
-└─────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
-                                             │
-                                       ┌─────┴─────┐
-                                       │   Text     │
-                                       │ Measurement│
-                                       └───────────┘
+└──────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
+                                               │
+                                        ┌──────┴──────┐
+                                        │    Text     │
+                                        │ Measurement │
+                                        └─────────────┘
 ```
 
 ### Pipeline
 
-1. **Parse** - Mermaid syntax -> intermediate representation (nodes, edges, labels, styles)
-2. **Measure** - Calculate text dimensions using font metrics or heuristic widths
-3. **Layout** - Position nodes and route edges using layered graph layout (Sugiyama)
-4. **Render** - Generate SVG XML from positioned elements
+1. Parse - Mermaid syntax -> intermediate representation (nodes, edges, labels, styles)
+2. Measure - Calculate text dimensions using font metrics or heuristic widths
+3. Layout - Position nodes and route edges using layered graph layout (Sugiyama)
+4. Render - Generate SVG XML from positioned elements
 
 ## Comparison Testing Strategy
 
@@ -125,9 +125,9 @@ end
 
 Two modes (following mermaid-rs-renderer's proven approach):
 
-1. **Font-based mode** (default): Use `fonttools` to parse TTF/OTF font files, extract glyph advance widths, cache them. Provides accurate measurements.
+1. Font-based mode (default): Use `fonttools` to parse TTF/OTF font files, extract glyph advance widths, cache them. Provides accurate measurements.
 
-2. **Heuristic mode** (fast, zero font dependencies): Use calibrated ratio of `font_size * 0.6` per character width. Good enough for most diagrams.
+2. Heuristic mode (fast, zero font dependencies): Use calibrated ratio of `font_size * 0.6` per character width. Good enough for most diagrams.
 
 Height estimation: `font_size * 1.2` (standard line-height).
 
@@ -137,11 +137,11 @@ Height estimation: `font_size * 1.2` (standard line-height).
 
 For flowcharts, implement the classic Sugiyama algorithm:
 
-1. **Cycle removal** - Break cycles with edge reversal
-2. **Layer assignment** - Assign each node to a layer (rank)
-3. **Crossing minimization** - Reorder nodes within layers to minimize edge crossings
-4. **Coordinate assignment** - Assign x,y positions respecting spacing constraints
-5. **Edge routing** - Route edges between positioned nodes (orthogonal or polyline)
+1. Cycle removal - Break cycles with edge reversal
+2. Layer assignment - Assign each node to a layer (rank)
+3. Crossing minimization - Reorder nodes within layers to minimize edge crossings
+4. Coordinate assignment - Assign x,y positions respecting spacing constraints
+5. Edge routing - Route edges between positioned nodes (orthogonal or polyline)
 
 ---
 
