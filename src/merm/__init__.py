@@ -1,8 +1,30 @@
 """PyMermaid - Pure Python Mermaid diagram renderer."""
 
-import re
+from __future__ import annotations
 
+import re
+from pathlib import Path
+
+from merm.parser import (
+    ParseError,
+    parse_class_diagram,
+    parse_flowchart,
+    parse_state_diagram,
+)
+from merm.parser.sequence import parse_sequence
 from merm.render import render_svg
+
+_SUPPORTED_TYPES = [
+    "flowchart / graph",
+    "sequenceDiagram",
+    "classDiagram",
+    "stateDiagram",
+    "erDiagram",
+    "pie",
+    "mindmap",
+    "gantt",
+    "gitGraph",
+]
 
 
 def render_diagram(source: str) -> str:
@@ -11,13 +33,15 @@ def render_diagram(source: str) -> str:
     Convenience function that handles the full pipeline:
     parse -> measure -> layout -> render.
     """
+    if not source or not source.strip():
+        raise ValueError("Empty diagram source")
+
     from merm.measure import TextMeasurer
 
     measurer = TextMeasurer()
 
     if re.match(r"^\s*sequenceDiagram", source, re.MULTILINE):
         from merm.layout.sequence import layout_sequence
-        from merm.parser.sequence import parse_sequence
         from merm.render.sequence import render_sequence_svg
 
         diagram = parse_sequence(source)
@@ -26,7 +50,6 @@ def render_diagram(source: str) -> str:
 
     if re.match(r"^\s*classDiagram", source, re.MULTILINE):
         from merm.layout.classdiag import layout_class_diagram
-        from merm.parser import parse_class_diagram
         from merm.render.classdiag import render_class_diagram
 
         diagram = parse_class_diagram(source)
@@ -67,7 +90,6 @@ def render_diagram(source: str) -> str:
 
     if re.match(r"^\s*stateDiagram", source, re.MULTILINE):
         from merm.layout.statediag import layout_state_diagram
-        from merm.parser import parse_state_diagram
         from merm.render.statediag import render_state_svg
 
         diagram = parse_state_diagram(source)
@@ -85,10 +107,80 @@ def render_diagram(source: str) -> str:
 
     # Default: flowchart
     from merm.layout import layout_diagram
-    from merm.parser import parse_flowchart
 
     diagram = parse_flowchart(source)
     layout = layout_diagram(diagram, measure_fn=measurer.measure)
     return render_svg(diagram, layout)
 
-__all__ = ["render_diagram", "render_svg"]
+
+def render_to_file(source: str, path: str | Path) -> None:
+    """Render a Mermaid diagram to a file.
+
+    The output format is auto-detected from the file extension:
+    - ``.png`` -- renders SVG then converts to PNG via cairosvg
+    - ``.svg`` (or any other extension) -- writes SVG text
+
+    Args:
+        source: Mermaid diagram source text.
+        path: Output file path. Parent directory must exist.
+
+    Raises:
+        FileNotFoundError: If the parent directory does not exist.
+        ImportError: If cairosvg is not installed and a ``.png`` path is given.
+        ValueError: If source is empty or whitespace-only.
+    """
+    path = Path(path)
+    if not path.parent.exists():
+        raise FileNotFoundError(
+            f"Parent directory does not exist: {path.parent}"
+        )
+
+    svg = render_diagram(source)
+
+    if path.suffix.lower() == ".png":
+        png_bytes = _svg_to_png(svg)
+        path.write_bytes(png_bytes)
+    else:
+        path.write_text(svg, encoding="utf-8")
+
+
+def render_to_png(source: str) -> bytes:
+    """Render a Mermaid diagram to PNG bytes.
+
+    Args:
+        source: Mermaid diagram source text.
+
+    Returns:
+        PNG image as bytes.
+
+    Raises:
+        ImportError: If cairosvg is not installed.
+        ValueError: If source is empty or whitespace-only.
+    """
+    svg = render_diagram(source)
+    return _svg_to_png(svg)
+
+
+def _svg_to_png(svg: str) -> bytes:
+    """Convert SVG string to PNG bytes using cairosvg."""
+    try:
+        import cairosvg
+    except ImportError:
+        raise ImportError(
+            "cairosvg is required for PNG rendering. "
+            "Install it with: pip install cairosvg"
+        ) from None
+    return cairosvg.svg2png(bytestring=svg.encode("utf-8"))
+
+
+__all__ = [
+    "ParseError",
+    "parse_class_diagram",
+    "parse_flowchart",
+    "parse_sequence",
+    "parse_state_diagram",
+    "render_diagram",
+    "render_svg",
+    "render_to_file",
+    "render_to_png",
+]

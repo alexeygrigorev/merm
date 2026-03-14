@@ -1,26 +1,11 @@
 """Command-line interface for merm."""
 
 import argparse
-import re
 import sys
 from importlib.metadata import version
 
-from merm.layout import layout_diagram
-from merm.layout.classdiag import layout_class_diagram
-from merm.layout.sequence import layout_sequence
-from merm.layout.statediag import layout_state_diagram
-from merm.measure import TextMeasurer
-from merm.parser import (
-    ParseError,
-    parse_class_diagram,
-    parse_flowchart,
-    parse_state_diagram,
-)
-from merm.parser.sequence import parse_sequence
-from merm.render import render_svg
-from merm.render.classdiag import render_class_diagram
-from merm.render.sequence import render_sequence_svg
-from merm.render.statediag import render_state_svg
+from merm import render_diagram
+from merm.parser import ParseError
 
 
 def _get_version() -> str:
@@ -31,23 +16,38 @@ def _get_version() -> str:
         from merm.__version__ import __version__
         return f"merm {__version__}"
 
+
 def _build_parser() -> argparse.ArgumentParser:
     """Build and return the argument parser."""
     parser = argparse.ArgumentParser(
         prog="merm",
-        description="Render Mermaid diagrams to SVG from the command line.",
+        description="Render Mermaid diagrams to SVG or PNG from the command line.",
+    )
+    parser.add_argument(
+        "input_file",
+        nargs="?",
+        default=None,
+        help="Input .mmd file path (reads from stdin if not provided)",
     )
     parser.add_argument(
         "-i",
         "--input",
         default=None,
-        help="Input .mmd file path (reads from stdin if not provided)",
+        help="Input .mmd file path (alternative to positional argument)",
     )
     parser.add_argument(
         "-o",
         "--output",
         default=None,
-        help="Output SVG file path (writes to stdout if not provided)",
+        help="Output file path (writes to stdout if not provided)",
+    )
+    parser.add_argument(
+        "-f",
+        "--format",
+        default=None,
+        choices=["svg", "png"],
+        help="Output format: svg or png "
+        "(auto-detected from -o extension, defaults to svg)",
     )
     parser.add_argument(
         "--version",
@@ -56,22 +56,65 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     return parser
 
+
+def _resolve_input(args: argparse.Namespace) -> str | None:
+    """Resolve the input file path from positional or -i arguments.
+
+    Returns the file path, or None if stdin should be used.
+    Exits with an error if both positional and -i are provided.
+    """
+    if args.input_file is not None and args.input is not None:
+        print(
+            "Error: cannot specify both positional input and -i/--input",
+            file=sys.stderr,
+        )
+        sys.exit(2)
+    return args.input_file if args.input_file is not None else args.input
+
+
+def _resolve_format(args: argparse.Namespace) -> str:
+    """Resolve the output format from -f or output file extension.
+
+    Returns 'svg' or 'png'.
+    """
+    if args.format is not None:
+        return args.format
+    if args.output is not None and args.output.lower().endswith(".png"):
+        return "png"
+    return "svg"
+
+
+def _convert_to_png(svg_str: str) -> bytes:
+    """Convert SVG string to PNG bytes using cairosvg."""
+    try:
+        import cairosvg
+    except ImportError:
+        print(
+            "Error: PNG output requires cairosvg. Install it with: uv add cairosvg",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return cairosvg.svg2png(bytestring=svg_str.encode("utf-8"))
+
+
 def main() -> None:
     """Entry point for the merm CLI."""
     parser = _build_parser()
     args = parser.parse_args()
 
-    # --- Read input ---
-    if args.input is not None:
+    # --- Resolve input source ---
+    input_path = _resolve_input(args)
+
+    if input_path is not None:
         try:
-            with open(args.input) as f:
+            with open(input_path) as f:
                 source = f.read()
         except FileNotFoundError:
-            print(f"Error: file not found: {args.input}", file=sys.stderr)
+            print(f"Error: file not found: {input_path}", file=sys.stderr)
             sys.exit(2)
         except PermissionError:
             print(
-                f"Error: permission denied: {args.input}", file=sys.stderr
+                f"Error: permission denied: {input_path}", file=sys.stderr
             )
             sys.exit(2)
         except OSError as exc:
@@ -80,53 +123,29 @@ def main() -> None:
     else:
         source = sys.stdin.read()
 
-    # --- Detect diagram type ---
-    is_class = bool(
-        re.match(r"^\s*classDiagram", source, re.MULTILINE)
-    )
-    is_state = bool(
-        re.match(r"^\s*stateDiagram", source, re.MULTILINE)
-    )
-    is_sequence = bool(
-        re.match(r"^\s*sequenceDiagram", source, re.MULTILINE)
-    )
-
-    # --- Parse ---
-    measurer = TextMeasurer()
+    # --- Render SVG ---
     try:
-        if is_sequence:
-            seq_diagram = parse_sequence(source)
-            seq_layout = layout_sequence(
-                seq_diagram, measure_fn=measurer.measure,
-            )
-            svg_output = render_sequence_svg(seq_diagram, seq_layout)
-        elif is_class:
-            class_diag = parse_class_diagram(source)
-            layout = layout_class_diagram(
-                class_diag, measure_fn=measurer.measure,
-            )
-            svg_output = render_class_diagram(class_diag, layout)
-        elif is_state:
-            state_diagram = parse_state_diagram(source)
-            layout = layout_state_diagram(
-                state_diagram, measure_fn=measurer.measure,
-            )
-            svg_output = render_state_svg(state_diagram, layout)
-        else:
-            diagram = parse_flowchart(source)
-            layout = layout_diagram(
-                diagram, measure_fn=measurer.measure,
-            )
-            svg_output = render_svg(diagram, layout)
+        svg_output = render_diagram(source)
     except ParseError as exc:
         print(f"Parse error: {exc}", file=sys.stderr)
         sys.exit(1)
 
+    # --- Resolve output format ---
+    output_format = _resolve_format(args)
+
+    # --- Convert to PNG if needed ---
+    if output_format == "png":
+        png_data = _convert_to_png(svg_output)
+
     # --- Write output ---
     if args.output is not None:
         try:
-            with open(args.output, "w") as f:
-                f.write(svg_output)
+            if output_format == "png":
+                with open(args.output, "wb") as f:
+                    f.write(png_data)
+            else:
+                with open(args.output, "w") as f:
+                    f.write(svg_output)
         except FileNotFoundError:
             print(
                 f"Error: output directory does not exist: {args.output}",
@@ -143,7 +162,10 @@ def main() -> None:
             print(f"Error: cannot write file: {exc}", file=sys.stderr)
             sys.exit(2)
     else:
-        print(svg_output)
+        if output_format == "png":
+            sys.stdout.buffer.write(png_data)
+        else:
+            print(svg_output)
 
 if __name__ == "__main__":
     main()
