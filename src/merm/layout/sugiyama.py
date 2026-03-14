@@ -525,10 +525,16 @@ def _route_edge_on_boundary(
     *,
     source_gap: float = 0.0,
     target_gap: float = 0.0,
+    src_shape: NodeShape = NodeShape.rect,
+    tgt_shape: NodeShape = NodeShape.rect,
 ) -> tuple[Point, Point]:
-    """Compute edge endpoints on the node boundaries (rectangular approximation).
+    """Compute edge endpoints on the node boundaries.
 
     Positions are centers; sizes are (width, height).
+
+    For diamond-shaped nodes the boundary is computed using the diamond
+    polygon (vertices at side midpoints) rather than the rectangular
+    bounding box.
 
     *source_gap* pulls the source endpoint inward (away from the source node
     boundary) along the edge direction.  Typically 0 so the edge starts
@@ -553,9 +559,9 @@ def _route_edge_on_boundary(
         return Point(sx, sy + sh / 2 + source_gap), Point(tx, ty - th / 2 - target_gap)
 
     # Source exit point
-    src_point = _boundary_point(sx, sy, sw, sh, dx, dy)
+    src_point = _boundary_point(sx, sy, sw, sh, dx, dy, shape=src_shape)
     # Target entry point (reverse direction)
-    tgt_point = _boundary_point(tx, ty, tw, th, -dx, -dy)
+    tgt_point = _boundary_point(tx, ty, tw, th, -dx, -dy, shape=tgt_shape)
 
     # Apply gaps along the edge direction
     total_gap = source_gap + target_gap
@@ -577,10 +583,58 @@ def _route_edge_on_boundary(
 
     return src_point, tgt_point
 
-def _boundary_point(
+def _diamond_boundary_point(
     cx: float, cy: float, w: float, h: float, dx: float, dy: float,
 ) -> Point:
-    """Find ray-rectangle intersection point."""
+    """Find ray-diamond intersection point.
+
+    The diamond vertices are at the midpoints of the bounding box sides:
+    top (cx, cy - h/2), right (cx + w/2, cy), bottom (cx, cy + h/2),
+    left (cx - w/2, cy).
+    """
+    hw, hh = w / 2.0, h / 2.0
+
+    # Diamond vertices: top, right, bottom, left
+    vertices = [
+        (cx, cy - hh),      # top
+        (cx + hw, cy),       # right
+        (cx, cy + hh),       # bottom
+        (cx - hw, cy),       # left
+    ]
+
+    # Use ray-polygon intersection (same algorithm as shapes.py)
+    best_t: float | None = None
+    best_point = Point(cx + dx, cy + dy)
+
+    n = len(vertices)
+    for i in range(n):
+        x1, y1 = vertices[i]
+        x2, y2 = vertices[(i + 1) % n]
+        # Edge direction
+        ex, ey = x2 - x1, y2 - y1
+        denom = dx * ey - dy * ex
+        if abs(denom) < 1e-12:
+            continue
+        t = ((x1 - cx) * ey - (y1 - cy) * ex) / denom
+        s = ((x1 - cx) * dy - (y1 - cy) * dx) / denom
+        if t > 1e-9 and -1e-9 <= s <= 1.0 + 1e-9:
+            if best_t is None or t < best_t:
+                best_t = t
+                best_point = Point(cx + dx * t, cy + dy * t)
+    return best_point
+
+def _boundary_point(
+    cx: float, cy: float, w: float, h: float, dx: float, dy: float,
+    *, shape: NodeShape = NodeShape.rect,
+) -> Point:
+    """Find ray-shape intersection point.
+
+    For diamond shapes, uses the diamond polygon boundary.
+    For all other shapes, uses the rectangular bounding box.
+    """
+    if shape == NodeShape.diamond:
+        return _diamond_boundary_point(cx, cy, w, h, dx, dy)
+
     hw, hh = w / 2.0, h / 2.0
 
     if abs(dx) < 1e-9:
@@ -687,8 +741,12 @@ def _route_edges(
     self_loops: list[tuple[str, str, int]],
     ir_edges: list[tuple[str, str]],
     direction: Direction = Direction.TD,
+    node_shapes: dict[str, NodeShape] | None = None,
 ) -> list[EdgeLayout]:
     """Route all edges, collecting polylines through dummy nodes."""
+    if node_shapes is None:
+        node_shapes = {}
+
     # Group dummy edges by original edge index to reconstruct paths
     # For each original edge, collect the chain of nodes (source -> dummies -> target)
     edge_chains: dict[int, list[str]] = {}
@@ -777,7 +835,11 @@ def _route_edges(
                 if next_node in positions:
                     next_pos = positions[next_node]
                     next_size = node_sizes.get(next_node, (40.0, 30.0))
-                    src_pt, _ = _route_edge_on_boundary(pos, size, next_pos, next_size)
+                    src_pt, _ = _route_edge_on_boundary(
+                        pos, size, next_pos, next_size,
+                        src_shape=node_shapes.get(node, NodeShape.rect),
+                        tgt_shape=node_shapes.get(next_node, NodeShape.rect),
+                    )
                     points.append(src_pt)
                 else:
                     points.append(Point(pos[0], pos[1]))
@@ -787,7 +849,11 @@ def _route_edges(
                 if prev_node in positions:
                     prev_pos = positions[prev_node]
                     prev_size = node_sizes.get(prev_node, (40.0, 30.0))
-                    _, tgt_pt = _route_edge_on_boundary(prev_pos, prev_size, pos, size)
+                    _, tgt_pt = _route_edge_on_boundary(
+                        prev_pos, prev_size, pos, size,
+                        src_shape=node_shapes.get(prev_node, NodeShape.rect),
+                        tgt_shape=node_shapes.get(node, NodeShape.rect),
+                    )
                     points.append(tgt_pt)
                 else:
                     points.append(Point(pos[0], pos[1]))
@@ -1620,6 +1686,7 @@ def layout_diagram(
             data["comp_self_loops"],
             ir_edges,
             direction=direction,
+            node_shapes=node_shapes,
         )
         all_edge_layouts.extend(edge_layouts)
 
