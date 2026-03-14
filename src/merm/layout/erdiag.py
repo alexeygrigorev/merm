@@ -73,7 +73,11 @@ def layout_er_diagram(
         return measure_fn(text, font_size)
 
     if config is None:
-        config = LayoutConfig(direction=Direction.TB)
+        config = LayoutConfig(
+            direction=Direction.TB,
+            rank_sep=25.0,
+            node_sep=20.0,
+        )
 
     result = layout_diagram(flowchart, measure_fn=_entity_measure, config=config)
 
