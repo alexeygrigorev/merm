@@ -50,6 +50,12 @@ def _build_parser() -> argparse.ArgumentParser:
         "(auto-detected from -o extension, defaults to svg)",
     )
     parser.add_argument(
+        "--theme",
+        default=None,
+        choices=["default", "dark", "forest", "neutral"],
+        help="Built-in theme name (default, dark, forest, neutral)",
+    )
+    parser.add_argument(
         "--version",
         action="version",
         version=_get_version(),
@@ -125,7 +131,7 @@ def main() -> None:
 
     # --- Render SVG ---
     try:
-        svg_output = render_diagram(source)
+        svg_output = render_diagram(source, theme=args.theme)
     except ParseError as exc:
         print(f"Parse error: {exc}", file=sys.stderr)
         sys.exit(1)

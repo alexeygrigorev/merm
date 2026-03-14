@@ -13,6 +13,7 @@ from merm.parser import (
 )
 from merm.parser.sequence import parse_sequence
 from merm.render import render_svg
+from merm.theme import DEFAULT_THEME, Theme, get_theme
 
 _SUPPORTED_TYPES = [
     "flowchart / graph",
@@ -26,15 +27,71 @@ _SUPPORTED_TYPES = [
     "gitGraph",
 ]
 
+# Regex matching %%{init: {'theme': '...'}}%% or %%{init: {"theme": "..."}}%%
+_INIT_DIRECTIVE_RE = re.compile(
+    r"""^\s*%%\{\s*init\s*:\s*\{[^}]*['"]theme['"]\s*:\s*['"](\w+)['"]\s*[^}]*\}\s*\}%%\s*$""",
+    re.MULTILINE,
+)
 
-def render_diagram(source: str) -> str:
+
+def _extract_theme_directive(source: str) -> tuple[str | None, str]:
+    """Extract theme name from %%{init}%% directive and strip the directive.
+
+    Returns:
+        A tuple of (theme_name_or_None, cleaned_source).
+    """
+    match = _INIT_DIRECTIVE_RE.search(source)
+    if match is None:
+        return None, source
+    theme_name = match.group(1)
+    cleaned = source[:match.start()] + source[match.end():]
+    # Remove the blank line left behind if directive was on its own line
+    cleaned = cleaned.lstrip("\n")
+    return theme_name, cleaned
+
+
+def _resolve_theme(
+    theme_arg: Theme | str | None,
+    source: str,
+) -> tuple[Theme, str]:
+    """Resolve the effective theme and clean source.
+
+    Priority: explicit theme_arg > %%{init}%% directive > DEFAULT_THEME.
+
+    Returns:
+        (resolved_theme, cleaned_source)
+    """
+    directive_name, cleaned_source = _extract_theme_directive(source)
+
+    if theme_arg is not None:
+        if isinstance(theme_arg, str):
+            return get_theme(theme_arg), cleaned_source
+        return theme_arg, cleaned_source
+
+    if directive_name is not None:
+        return get_theme(directive_name), cleaned_source
+
+    return DEFAULT_THEME, cleaned_source
+
+
+def render_diagram(source: str, *, theme: Theme | str | None = None) -> str:
     """Auto-detect diagram type from source text and render to SVG.
 
     Convenience function that handles the full pipeline:
     parse -> measure -> layout -> render.
+
+    Args:
+        source: Mermaid diagram source text.
+        theme: Optional theme. Can be a Theme instance, a theme name string
+            (one of "default", "dark", "forest", "neutral"), or None.
+            If None, the theme is auto-detected from a ``%%{init}%%``
+            directive in the source, falling back to the default theme.
+            An explicit theme argument always overrides the directive.
     """
     if not source or not source.strip():
         raise ValueError("Empty diagram source")
+
+    resolved_theme, source = _resolve_theme(theme, source)
 
     from merm.measure import TextMeasurer
 
@@ -46,7 +103,7 @@ def render_diagram(source: str) -> str:
 
         diagram = parse_sequence(source)
         layout = layout_sequence(diagram, measure_fn=measurer.measure)
-        return render_sequence_svg(diagram, layout)
+        return render_sequence_svg(diagram, layout, theme=resolved_theme)
 
     if re.match(r"^\s*classDiagram", source, re.MULTILINE):
         from merm.layout.classdiag import layout_class_diagram
@@ -54,7 +111,7 @@ def render_diagram(source: str) -> str:
 
         diagram = parse_class_diagram(source)
         layout = layout_class_diagram(diagram, measure_fn=measurer.measure)
-        return render_class_diagram(diagram, layout)
+        return render_class_diagram(diagram, layout, theme=resolved_theme)
 
     if re.match(r"^\s*erDiagram", source, re.MULTILINE):
         from merm.layout.erdiag import layout_er_diagram
@@ -63,14 +120,14 @@ def render_diagram(source: str) -> str:
 
         diagram = parse_er_diagram(source)
         layout = layout_er_diagram(diagram, measure_fn=measurer.measure)
-        return render_er_diagram(diagram, layout)
+        return render_er_diagram(diagram, layout, theme=resolved_theme)
 
     if re.match(r"^\s*pie\b", source, re.MULTILINE):
         from merm.parser.pie import parse_pie
         from merm.render.pie import render_pie_svg
 
         chart = parse_pie(source)
-        return render_pie_svg(chart)
+        return render_pie_svg(chart, theme=resolved_theme)
 
     if re.match(r"^\s*mindmap", source, re.MULTILINE):
         from merm.layout.mindmap import layout_mindmap
@@ -79,14 +136,14 @@ def render_diagram(source: str) -> str:
 
         diagram = parse_mindmap(source)
         layout = layout_mindmap(diagram, measure_fn=measurer.measure)
-        return render_mindmap_svg(diagram, layout)
+        return render_mindmap_svg(diagram, layout, theme=resolved_theme)
 
     if re.match(r"^\s*gantt\b", source, re.MULTILINE):
         from merm.parser.gantt import parse_gantt
         from merm.render.gantt import render_gantt_svg
 
         chart = parse_gantt(source)
-        return render_gantt_svg(chart)
+        return render_gantt_svg(chart, theme=resolved_theme)
 
     if re.match(r"^\s*stateDiagram", source, re.MULTILINE):
         from merm.layout.statediag import layout_state_diagram
@@ -94,7 +151,7 @@ def render_diagram(source: str) -> str:
 
         diagram = parse_state_diagram(source)
         layout = layout_state_diagram(diagram, measure_fn=measurer.measure)
-        return render_state_svg(diagram, layout)
+        return render_state_svg(diagram, layout, theme=resolved_theme)
 
     if re.match(r"^\s*gitGraph", source, re.MULTILINE):
         from merm.layout.gitgraph import layout_gitgraph
@@ -103,6 +160,7 @@ def render_diagram(source: str) -> str:
 
         graph = parse_gitgraph(source)
         layout = layout_gitgraph(graph, measure_fn=measurer.measure)
+        # render_gitgraph_svg does not accept a theme parameter
         return render_gitgraph_svg(graph, layout)
 
     # Default: flowchart
@@ -110,10 +168,15 @@ def render_diagram(source: str) -> str:
 
     diagram = parse_flowchart(source)
     layout = layout_diagram(diagram, measure_fn=measurer.measure)
-    return render_svg(diagram, layout)
+    return render_svg(diagram, layout, theme=resolved_theme)
 
 
-def render_to_file(source: str, path: str | Path) -> None:
+def render_to_file(
+    source: str,
+    path: str | Path,
+    *,
+    theme: Theme | str | None = None,
+) -> None:
     """Render a Mermaid diagram to a file.
 
     The output format is auto-detected from the file extension:
@@ -123,6 +186,7 @@ def render_to_file(source: str, path: str | Path) -> None:
     Args:
         source: Mermaid diagram source text.
         path: Output file path. Parent directory must exist.
+        theme: Optional theme (Theme instance, name string, or None).
 
     Raises:
         FileNotFoundError: If the parent directory does not exist.
@@ -135,7 +199,7 @@ def render_to_file(source: str, path: str | Path) -> None:
             f"Parent directory does not exist: {path.parent}"
         )
 
-    svg = render_diagram(source)
+    svg = render_diagram(source, theme=theme)
 
     if path.suffix.lower() == ".png":
         png_bytes = _svg_to_png(svg)
@@ -144,11 +208,16 @@ def render_to_file(source: str, path: str | Path) -> None:
         path.write_text(svg, encoding="utf-8")
 
 
-def render_to_png(source: str) -> bytes:
+def render_to_png(
+    source: str,
+    *,
+    theme: Theme | str | None = None,
+) -> bytes:
     """Render a Mermaid diagram to PNG bytes.
 
     Args:
         source: Mermaid diagram source text.
+        theme: Optional theme (Theme instance, name string, or None).
 
     Returns:
         PNG image as bytes.
@@ -157,7 +226,7 @@ def render_to_png(source: str) -> bytes:
         ImportError: If cairosvg is not installed.
         ValueError: If source is empty or whitespace-only.
     """
-    svg = render_diagram(source)
+    svg = render_diagram(source, theme=theme)
     return _svg_to_png(svg)
 
 
