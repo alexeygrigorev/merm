@@ -38,7 +38,7 @@ _CHAR_WIDTH = 6.0  # approximate character width at 12px
 _FONT_SIZE = 12.0
 _SMALL_FONT_SIZE = 10.0
 _MIN_BOX_WIDTH = 50.0
-_MIN_BOX_HEIGHT = 36.0
+_MIN_BOX_HEIGHT = 26.0
 
 # ---------------------------------------------------------------------------
 # Entity box size measurement
@@ -244,11 +244,13 @@ def _render_er_entity(
     rect.set("stroke", theme.node_stroke)
     rect.set("stroke-width", theme.node_stroke_width)
 
-    # Entity name (header)
+    # Entity name — centered in header area, or fully centered if no attributes
+    name_y = y + h / 2 if not entity.attributes else y + 15
     name_el = ET.SubElement(g, "text")
     name_el.set("x", str(round(x + w / 2, 2)))
-    name_el.set("y", str(round(y + 15, 2)))
+    name_el.set("y", str(round(name_y, 2)))
     name_el.set("text-anchor", "middle")
+    name_el.set("dominant-baseline", "central")
     name_el.set("font-family", theme.font_family)
     name_el.set("font-size", f"{_FONT_SIZE}px")
     name_el.set("font-weight", "bold")
