@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -20 881.6 850" width="881.6" height="850" style="background-color: white">
   <defs>
-    <marker id="seq-arrow" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
-      <polygon points="0 0, 6 2, 0 4" fill="#333333" />
+    <marker id="seq-arrow" markerWidth="4" markerHeight="3" refX="4" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0 0, 4 1.5, 0 3" fill="#333333" />
     </marker>
-    <marker id="seq-arrow-open" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
-      <polyline points="0 0, 6 2, 0 4" fill="none" stroke="#333333" stroke-width="1.5" />
+    <marker id="seq-arrow-open" markerWidth="4" markerHeight="3" refX="4" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
+      <polyline points="0 0, 4 1.5, 0 3" fill="none" stroke="#333333" stroke-width="1" />
     </marker>
-    <marker id="seq-cross" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto" markerUnits="userSpaceOnUse">
-      <line x1="0" y1="0" x2="6" y2="6" stroke="#333333" stroke-width="1.5" />
-      <line x1="6" y1="0" x2="0" y2="6" stroke="#333333" stroke-width="1.5" />
+    <marker id="seq-cross" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto" markerUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="4" y2="4" stroke="#333333" stroke-width="1" />
+      <line x1="4" y1="0" x2="0" y2="4" stroke="#333333" stroke-width="1" />
     </marker>
-    <marker id="seq-async" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
-      <polyline points="0 0, 6 2, 0 4" fill="none" stroke="#333333" stroke-width="1.5" />
+    <marker id="seq-async" markerWidth="4" markerHeight="3" refX="4" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
+      <polyline points="0 0, 4 1.5, 0 3" fill="none" stroke="#333333" stroke-width="1" />
     </marker>
   </defs>
   <style>.seq-participant rect { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
 .seq-participant text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; }
 .seq-lifeline { stroke: #9370DB; stroke-width: 1; stroke-dasharray: 5,5; }
-.seq-message line, .seq-message path { stroke: #333333; stroke-width: 2; }
+.seq-message line, .seq-message path { stroke: #333333; stroke-width: 1; }
 .seq-message text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
 .seq-activation { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
 .seq-note rect { fill: #ffffcc; stroke: #aaaa33; stroke-width: 1; }

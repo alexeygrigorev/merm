@@ -21,25 +21,25 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M140.8,42.0 L140.8,74.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M140.8,42.0 L140.8,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M120.7,138.46 L91.38,176.47" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M120.7,138.46 L86.5,182.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="D">
-    <path d="M153.04,140.16 L168.61,175.48" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M153.04,140.16 L171.84,182.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="E">
-    <path d="M181.1,224.8 L181.1,256.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M181.1,224.8 L181.1,264.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="E" data-edge-target="F">
-    <path d="M181.1,306.8 L181.1,338.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M181.1,306.8 L181.1,346.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="F" data-edge-target="B">
-    <path d="M205.3,346.8 C217.02,336.63 267.88,309.63 275.6,285.8 C283.32,261.97 268.17,227.84 251.6,203.8 C235.03,179.76 188.75,151.95 176.18,141.58" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M205.3,346.8 C217.02,336.63 267.88,309.63 275.6,285.8 C283.32,261.97 269.2,228.68 251.6,203.8 C234,178.92 183.61,147.71 170.01,136.49" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="G">
-    <path d="M70.3,224.8 L70.3,256.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M70.3,224.8 L70.3,264.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <rect x="104.8" y="0.0" width="72.0" height="42.0" />

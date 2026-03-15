@@ -24,10 +24,10 @@
 .green { fill:#afa;stroke:#0a0; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M42.0,42.0 L42.0,74.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M42.0,42.0 L42.0,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M42.0,124.0 L42.0,156.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M42.0,124.0 L42.0,164.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node red" data-node-id="A">
     <rect x="6.0" y="0.0" width="72.0" height="42.0" />

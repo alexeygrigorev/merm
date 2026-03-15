@@ -21,7 +21,7 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M41.53,70.42 L41.53,102.42" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M41.53,70.42 L41.53,110.42" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <circle cx="41.53" cy="35.21" r="35.21" />

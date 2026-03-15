@@ -21,7 +21,7 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M52.4,78.4 L52.4,110.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M52.4,78.4 L52.4,118.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <path d="M 2.0,10.0 A 50.4,10.0 0 0 1 102.8,10.0 L 102.8,68.4 A 50.4,10.0 0 0 1 2.0,68.4 L 2.0,10.0 M 2.0,10.0 A 50.4,10.0 0 0 0 102.8,10.0" />

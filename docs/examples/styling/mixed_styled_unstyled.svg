@@ -22,13 +22,13 @@
 .highlight { fill:#ff0;stroke:#000; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M118.6,42.0 L118.6,74.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M118.6,42.0 L118.6,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M104.31,124.0 L81.59,157.39" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M104.31,124.0 L77.09,164.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="D">
-    <path d="M138.52,124.0 L170.97,158.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M138.52,124.0 L176.48,164.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node highlight" data-node-id="A">
     <rect x="77.8" y="0.0" width="81.6" height="42.0" />

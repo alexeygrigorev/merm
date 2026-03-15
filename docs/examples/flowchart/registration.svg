@@ -21,46 +21,46 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="Start" data-edge-target="Form">
-    <path d="M271.3,42.0 L271.3,74.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M271.3,42.0 L271.3,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Form" data-edge-target="Submit">
-    <path d="M271.3,142.8 L271.3,174.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M271.3,142.8 L271.3,182.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Submit" data-edge-target="ValidateEmail">
-    <path d="M271.3,224.8 L271.3,256.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M271.3,224.8 L271.3,264.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="ValidateEmail" data-edge-target="EmailError">
-    <path d="M296.66,319.04 L350.34,369.52" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M296.66,319.04 L356.17,375.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="EmailError" data-edge-target="Form">
-    <path d="M377.23,375.0 C376.42,361.7 377.14,323.73 372.4,295.2 C367.66,266.67 362.39,228.28 348.8,203.8 C335.21,179.32 300.51,157.58 290.86,148.33" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M377.23,375.0 C376.42,361.7 377.14,323.73 372.4,295.2 C367.66,266.67 363.35,229.2 348.8,203.8 C334.25,178.4 295.7,152.97 285.08,142.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="ValidateEmail" data-edge-target="CheckExists">
-    <path d="M240.69,317.69 L171.52,368.51" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M240.69,317.69 L165.07,373.24" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="CheckExists" data-edge-target="ExistsError">
-    <path d="M186.73,413.41 L358.4,470.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M186.73,413.41 L366.0,472.72" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="ExistsError" data-edge-target="Form">
-    <path d="M466.21,466.4 C476.8,454.67 540.34,424.53 529.7,396.0 C519.06,367.47 427.55,327.23 402.4,295.2 C377.25,263.17 393.68,228.34 378.8,203.8 C363.92,179.26 324.09,157.29 313.15,147.98" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M466.21,466.4 C476.8,454.67 540.34,424.53 529.7,396.0 C519.06,367.47 427.55,327.23 402.4,295.2 C377.25,263.17 394.69,229.2 378.8,203.8 C362.91,178.4 319.01,152.97 307.05,142.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="CheckExists" data-edge-target="ValidatePassword">
-    <path d="M143.54,424.07 L155.81,460.56" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M143.54,424.07 L158.36,468.14" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="ValidatePassword" data-edge-target="PasswordError">
-    <path d="M210.81,519.45 L310.59,572.26" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M210.81,519.45 L317.66,576" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="PasswordError" data-edge-target="Form">
-    <path d="M437.92,576 C465.2,562.8 581.3,526.8 601.6,496.8 C621.9,466.8 587.9,429.6 559.7,396.0 C531.5,362.4 457.55,327.23 432.4,295.2 C407.25,263.17 424.97,228.39 408.8,203.8 C392.63,179.21 347.62,157.02 335.39,147.66" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M437.92,576 C465.2,562.8 581.3,526.8 601.6,496.8 C621.9,466.8 587.9,429.6 559.7,396.0 C531.5,362.4 457.55,327.23 432.4,295.2 C407.25,263.17 426.03,229.2 408.8,203.8 C391.57,178.4 342.33,152.97 329.03,142.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="ValidatePassword" data-edge-target="CreateUser">
-    <path d="M170.05,526.83 L172.27,559.22" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M170.05,526.83 L172.82,567.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="CreateUser" data-edge-target="SendEmail">
-    <path d="M175.5,645.6 L175.5,677.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M175.5,645.6 L175.5,685.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="SendEmail" data-edge-target="Success">
-    <path d="M175.5,727.6 L175.5,759.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M175.5,727.6 L175.5,767.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="Start">
     <rect x="157.3" y="0.0" width="228.0" height="42.0" rx="21.0" ry="21.0" />

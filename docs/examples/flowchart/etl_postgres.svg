@@ -23,34 +23,34 @@
 .green { fill:#32CD32;stroke:#000;stroke-width:1px;color:#000; }
 </style>
   <g class="edge" data-edge-source="Start" data-edge-target="SetLabel">
-    <path d="M204.8,231.4 L236.8,231.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M204.8,231.4 L244.8,231.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="SetLabel" data-edge-target="Extract">
-    <path d="M364.8,231.4 L396.8,231.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M364.8,231.4 L404.8,231.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Extract" data-edge-target="YellowFinalTable">
-    <path d="M534.05,210.4 L648.17,153.95" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M534.05,210.4 L655.35,150.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Extract" data-edge-target="GreenFinalTable">
-    <path d="M533.3,252.4 L649.28,310.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M533.3,252.4 L656.43,314.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="YellowFinalTable" data-edge-target="YellowMonthlyTable">
-    <path d="M815.2,120 L847.2,120" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M815.2,120 L855.2,120" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="GreenFinalTable" data-edge-target="GreenMonthlyTable">
-    <path d="M813.2,344.8 L849.2,344.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M813.2,344.8 L857.2,344.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="YellowMonthlyTable" data-edge-target="YellowCopyIn">
-    <path d="M1073.6,120 L1105.6,120" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1073.6,120 L1113.6,120" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="GreenMonthlyTable" data-edge-target="GreenCopyIn">
-    <path d="M1071.6,344.8 L1105.6,344.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1071.6,344.8 L1113.6,344.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="YellowCopyIn" data-edge-target="YellowMerge">
-    <path d="M1324.0,120 L1356.0,120" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1324.0,120 L1364.0,120" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="GreenCopyIn" data-edge-target="GreenMerge">
-    <path d="M1324.0,344.8 L1358.0,344.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1324.0,344.8 L1366.0,344.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="Start">
     <rect x="0.0" y="210.4" width="204.8" height="42.0" />

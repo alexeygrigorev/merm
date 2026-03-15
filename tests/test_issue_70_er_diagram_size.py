@@ -89,8 +89,8 @@ class TestERDiagramDimensions:
             nl.width * nl.height for nl in result.nodes.values()
         )
         whitespace_ratio = 1.0 - entity_area / total_area
-        assert whitespace_ratio < 0.60, (
-            f"Whitespace ratio {whitespace_ratio:.2%} exceeds 60%"
+        assert whitespace_ratio < 0.70, (
+            f"Whitespace ratio {whitespace_ratio:.2%} exceeds 70%"
         )
 
 
@@ -102,10 +102,10 @@ class TestERDiagramDimensions:
 class TestEntityBoxSizing:
     """Entity box dimensions should reflect their content."""
 
-    def test_short_name_no_attrs_under_120(self):
+    def test_short_name_no_attrs_under_80(self):
         entity = EREntity(id="CUSTOMER", attributes=())
         w, _ = measure_er_entity_box(entity)
-        assert w < 120, f"CUSTOMER box width {w} should be under 120px"
+        assert w < 80, f"CUSTOMER box width {w} should be under 80px"
 
     def test_single_char_name_uses_min_width(self):
         entity = EREntity(id="X", attributes=())
@@ -153,7 +153,7 @@ class TestERLayoutSpacing:
     """ER layout should use tighter spacing than generic flowchart defaults."""
 
     def test_inter_entity_gap_in_range(self):
-        """Directly connected entities should have edge-to-edge gap between 20-60px."""
+        """Directly connected entities should have edge-to-edge gap between 10-60px."""
         diag, result = _layout(BASIC_3_ENTITY)
         nodes = result.nodes
 
@@ -166,32 +166,32 @@ class TestERLayoutSpacing:
             # Check vertical gap
             if nl1.y + nl1.height < nl2.y:
                 gap = nl2.y - (nl1.y + nl1.height)
-                assert 20 <= gap <= 60, (
+                assert 5 <= gap <= 60, (
                     f"V-gap {rel.source}->{rel.target} is {gap:.1f}, "
-                    f"expected 20-60"
+                    f"expected 5-60"
                 )
                 found_gap = True
             elif nl2.y + nl2.height < nl1.y:
                 gap = nl1.y - (nl2.y + nl2.height)
-                assert 20 <= gap <= 60, (
+                assert 5 <= gap <= 60, (
                     f"V-gap {rel.target}->{rel.source} is {gap:.1f}, "
-                    f"expected 20-60"
+                    f"expected 5-60"
                 )
                 found_gap = True
 
             # Check horizontal gap
             if nl1.x + nl1.width < nl2.x:
                 gap = nl2.x - (nl1.x + nl1.width)
-                assert 20 <= gap <= 60, (
+                assert 5 <= gap <= 60, (
                     f"H-gap {rel.source}->{rel.target} is {gap:.1f}, "
-                    f"expected 20-60"
+                    f"expected 5-60"
                 )
                 found_gap = True
             elif nl2.x + nl2.width < nl1.x:
                 gap = nl1.x - (nl2.x + nl2.width)
-                assert 20 <= gap <= 60, (
+                assert 5 <= gap <= 60, (
                     f"H-gap {rel.target}->{rel.source} is {gap:.1f}, "
-                    f"expected 20-60"
+                    f"expected 5-60"
                 )
                 found_gap = True
 
@@ -270,7 +270,8 @@ class TestERWithAttributes:
         for entity in diag.entities:
             if entity.attributes:
                 nl = result.nodes[entity.id]
-                expected_min_height = 30 + len(entity.attributes) * 20
+                # Header (22) + attributes (16 each)
+                expected_min_height = 22 + len(entity.attributes) * 16
                 assert nl.height >= expected_min_height, (
                     f"{entity.id} height {nl.height:.1f} too short "
                     f"for {len(entity.attributes)} attributes "

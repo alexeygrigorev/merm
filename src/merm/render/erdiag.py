@@ -28,17 +28,17 @@ from merm.theme import DEFAULT_THEME, Theme
 _SVG_NS = "http://www.w3.org/2000/svg"
 
 # Padding around viewBox
-_PADDING = 20
+_PADDING = 10
 
 # Entity box layout constants
-_HEADER_HEIGHT = 30.0
-_ATTR_LINE_HEIGHT = 20.0
+_HEADER_HEIGHT = 22.0
+_ATTR_LINE_HEIGHT = 16.0
 _BOX_PADDING_H = 10.0
-_CHAR_WIDTH = 7.0  # approximate character width at 14px
-_FONT_SIZE = 14.0
-_SMALL_FONT_SIZE = 12.0
-_MIN_BOX_WIDTH = 100.0
-_MIN_BOX_HEIGHT = 50.0
+_CHAR_WIDTH = 6.0  # approximate character width at 12px
+_FONT_SIZE = 12.0
+_SMALL_FONT_SIZE = 10.0
+_MIN_BOX_WIDTH = 50.0
+_MIN_BOX_HEIGHT = 36.0
 
 # ---------------------------------------------------------------------------
 # Entity box size measurement
@@ -244,7 +244,7 @@ def _render_er_entity(
     # Entity name (header)
     name_el = ET.SubElement(g, "text")
     name_el.set("x", str(round(x + w / 2, 2)))
-    name_el.set("y", str(round(y + 20, 2)))
+    name_el.set("y", str(round(y + 15, 2)))
     name_el.set("text-anchor", "middle")
     name_el.set("font-family", theme.font_family)
     name_el.set("font-size", f"{_FONT_SIZE}px")

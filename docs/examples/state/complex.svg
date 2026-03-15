@@ -23,66 +23,66 @@
 .note text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
 </style>
   <g class="edge" data-edge-source="__start_0" data-edge-target="Placed">
-    <path d="M127.4,29.2 L127.4,70.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M127.4,29.2 L127.4,78.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Placed" data-edge-target="Confirmed">
-    <path d="M127.4,120.4 L127.4,152.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M127.4,120.4 L127.4,160.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="91.57" y="128.4" width="57.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="120.07" y="140.4">confirm</text>
   </g>
   <g class="edge" data-edge-source="Confirmed" data-edge-target="Preparing">
-    <path d="M109.42,202.4 L80.38,236.32" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M109.42,202.4 L75.18,242.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="53.3" y="210.4" width="78.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="92.3" y="222.4">start prep</text>
   </g>
   <g class="edge" data-edge-source="Preparing" data-edge-target="Ready">
-    <path d="M57.2,284.4 L57.2,316.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M57.2,284.4 L57.2,324.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="21.7" y="292.4" width="71.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="57.2" y="304.4">prep done</text>
   </g>
   <g class="edge" data-edge-source="Ready" data-edge-target="Shipped">
-    <path d="M57.2,366.4 L57.2,398.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M57.2,366.4 L57.2,406.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="39.2" y="374.4" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="57.2" y="386.4">ship</text>
   </g>
   <g class="edge" data-edge-source="Shipped" data-edge-target="Delivered">
-    <path d="M57.2,448.4 L57.2,480.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M57.2,448.4 L57.2,488.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="28.7" y="456.4" width="57.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="57.2" y="468.4">deliver</text>
   </g>
   <g class="edge" data-edge-source="Delivered" data-edge-target="__end_0">
-    <path d="M57.92,530.4 L59.39,573.41" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M57.92,530.4 L59.66,581.41" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Placed" data-edge-target="Cancelled">
-    <path d="M145.69,120.4 C154.54,130.57 189.86,162.4 198.8,181.4 C207.74,200.4 199.23,225.57 199.32,234.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M145.69,120.4 C154.54,130.57 189.85,161.07 198.8,181.4 C207.75,201.73 199.3,232.23 199.4,242.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="154.57" y="138.9" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="179.57" y="150.9">cancel</text>
   </g>
   <g class="edge" data-edge-source="Confirmed" data-edge-target="Cancelled">
-    <path d="M145.89,202.4 L175.82,236.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M145.89,202.4 L181.11,242.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="138.5" y="210.4" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="163.5" y="222.4">cancel</text>
   </g>
   <g class="edge" data-edge-source="Cancelled" data-edge-target="__end_1">
-    <path d="M199.6,284.4 L199.6,327.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M199.6,284.4 L199.6,335.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Shipped" data-edge-target="Returned">
-    <path d="M93.16,448.4 C110.56,458.57 184.12,490.29 197.6,509.4 C211.08,528.51 177.96,554.13 174.04,563.07" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M93.16,448.4 C110.56,458.57 184.66,489.07 197.6,509.4 C210.54,529.73 175.28,560.23 170.82,570.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="120.38" y="466.9" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="145.38" y="478.9">return</text>
   </g>
   <g class="edge" data-edge-source="Delivered" data-edge-target="Returned">
-    <path d="M83.94,530.4 L128.57,565.46" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M83.94,530.4 L134.86,570.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="84.4" y="538.4" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="109.4" y="550.4">return</text>
   </g>
   <g class="edge" data-edge-source="Returned" data-edge-target="Refunded">
-    <path d="M161.6,612.4 L161.6,644.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M161.6,612.4 L161.6,652.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="108.6" y="620.4" width="106.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="161.6" y="632.4">process refund</text>
   </g>
   <g class="edge" data-edge-source="Refunded" data-edge-target="__end_2">
-    <path d="M161.6,694.4 L161.6,735.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M161.6,694.4 L161.6,743.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="state start">
     <circle cx="127.4" cy="19.2" r="10" fill="black" stroke="black" />

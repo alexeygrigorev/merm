@@ -9,9 +9,9 @@ from merm.layout import EdgeLayout, Point
 # Default edge stroke colour (used as fallback).
 _DEFAULT_EDGE_STROKE = "#333333"
 
-# How far to pull the path endpoint back from the node border so the stroke
-# doesn't poke through the filled arrowhead.  Should equal markerWidth.
-_MARKER_SHORTEN = 8.0
+# How far to pull the path endpoint back from the node border.
+# Set to 0 so arrowheads touch the node boundary with no visible gap.
+_MARKER_SHORTEN = 0
 
 # ---------------------------------------------------------------------------
 # Marker definitions

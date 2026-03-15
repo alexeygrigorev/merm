@@ -29,13 +29,13 @@
     <text x="67" y="18" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">App Layer</text>
   </g>
   <g class="edge" data-edge-source="DB1" data-edge-target="DB2">
-    <path d="M68.8,304.0 L68.8,336.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M68.8,304.0 L68.8,344.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="App1" data-edge-target="App2">
-    <path d="M140.14,86.0 L166.35,119.69" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M140.14,86.0 L171.26,126.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="App1" data-edge-target="DB1">
-    <path d="M118.5,86.0 L76.06,254.24" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M118.5,86.0 L74.1,262.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="DB1">
     <rect x="20.0" y="262.0" width="97.6" height="42.0" />

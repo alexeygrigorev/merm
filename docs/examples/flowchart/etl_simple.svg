@@ -21,10 +21,10 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="Extract" data-edge-target="Transform">
-    <path d="M217.6,108.8 L249.6,108.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M217.6,108.8 L257.6,108.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Transform" data-edge-target="Query">
-    <path d="M443.2,108.8 L475.2,108.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M443.2,108.8 L483.2,108.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="Extract">
     <rect x="0.0" y="78.4" width="217.6" height="60.8" />

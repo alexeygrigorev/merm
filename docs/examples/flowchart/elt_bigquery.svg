@@ -23,40 +23,40 @@
 .green { fill:#32CD32;stroke:#000;stroke-width:1px;color:#000; }
 </style>
   <g class="edge" data-edge-source="SetLabel" data-edge-target="Extract">
-    <path d="M120.0,222.2 L152.0,222.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M120.0,222.2 L160.0,222.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Extract" data-edge-target="UploadToGCS">
-    <path d="M333.6,222.2 L365.6,222.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M333.6,222.2 L373.6,222.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="UploadToGCS" data-edge-target="BQYellowTripdata">
-    <path d="M513.07,201.2 L641.26,138.71" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M513.07,201.2 L648.45,135.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="UploadToGCS" data-edge-target="BQGreenTripdata">
-    <path d="M512.35,243.2 L642.32,307.65" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M512.35,243.2 L649.49,311.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQYellowTripdata" data-edge-target="BQYellowTableExt">
-    <path d="M815.2,104.8 L847.2,104.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M815.2,104.8 L855.2,104.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQGreenTripdata" data-edge-target="BQGreenTableExt">
-    <path d="M813.2,341.6 L847.2,341.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M813.2,341.6 L855.2,341.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQYellowTableExt" data-edge-target="BQYellowTableTmp">
-    <path d="M1009.6,104.8 L1041.6,104.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1009.6,104.8 L1049.6,104.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQGreenTableExt" data-edge-target="BQGreenTableTmp">
-    <path d="M1009.6,341.6 L1041.6,341.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1009.6,341.6 L1049.6,341.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQYellowTableTmp" data-edge-target="BQYellowMerge">
-    <path d="M1196.8,104.8 L1228.8,104.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1196.8,104.8 L1236.8,104.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQGreenTableTmp" data-edge-target="BQGreenMerge">
-    <path d="M1196.8,341.33 L1228.8,341.21" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1196.8,341.33 L1236.8,341.18" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQYellowMerge" data-edge-target="PurgeFiles">
-    <path d="M1377.68,125.8 L1504.55,197.27" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1377.68,125.8 L1511.52,201.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQGreenMerge" data-edge-target="PurgeFiles">
-    <path d="M1377.3,319.8 L1504.95,247.16" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1377.3,319.8 L1511.9,243.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="SetLabel">
     <rect x="0.0" y="201.2" width="120.0" height="42.0" />

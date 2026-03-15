@@ -21,7 +21,7 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M83.2,42.0 L83.2,74.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M83.2,42.0 L83.2,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <polygon points="41.6,0.0 124.8,0.0 166.4,21.0 124.8,42.0 41.6,42.0 0.0,21.0" />

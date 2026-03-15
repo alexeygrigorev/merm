@@ -29,13 +29,13 @@
     <text x="28" y="138" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Inner</text>
   </g>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M75.0,206.0 L75.0,238.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M75.0,206.0 L75.0,246.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="A">
-    <path d="M75.0,124.0 L75.0,156.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M75.0,124.0 L75.0,164.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="C">
-    <path d="M75.0,42.0 L75.0,74.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M75.0,42.0 L75.0,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <rect x="40.0" y="164.0" width="70.0" height="42.0" />

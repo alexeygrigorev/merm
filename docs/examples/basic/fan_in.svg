@@ -21,19 +21,19 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="Z">
-    <path d="M70.0,35.35 L192.6,85.62" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M70.0,35.35 L200.0,88.65" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="Z">
-    <path d="M160.61,42.0 L203.2,76.93" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M160.61,42.0 L209.39,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="Z">
-    <path d="M235.0,42.0 L235.0,74.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M235.0,42.0 L235.0,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="Z">
-    <path d="M309.39,42.0 L266.8,76.93" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M309.39,42.0 L260.61,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="E" data-edge-target="Z">
-    <path d="M400.0,35.35 L277.4,85.62" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M400.0,35.35 L270.0,88.65" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <rect x="0.0" y="0.0" width="70.0" height="42.0" />

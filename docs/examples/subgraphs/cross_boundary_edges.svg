@@ -29,16 +29,16 @@
     <text x="58" y="236" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Group 2</text>
   </g>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M92.2,86.0 L71.97,119.17" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M92.2,86.0 L67.8,126.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="D">
-    <path d="M142.2,304.0 L121.97,337.17" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M142.2,304.0 L117.8,344.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="A" data-edge-target="C">
-    <path d="M109.82,86.0 L148.4,254.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M109.82,86.0 L150.18,262.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="D">
-    <path d="M59.82,168.0 L98.4,336.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M59.82,168.0 L100.18,344.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <rect x="70.0" y="44.0" width="70.0" height="42.0" />

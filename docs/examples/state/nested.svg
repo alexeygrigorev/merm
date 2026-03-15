@@ -27,26 +27,26 @@
     <text x="115.2" y="16" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Active</text>
   </g>
   <g class="edge" data-edge-source="__start_0" data-edge-target="Active">
-    <path d="M47.6,34.0 L47.6,75.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M47.6,34.0 L47.6,83.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Active" data-edge-target="Stopped">
-    <path d="M47.6,125.2 L47.6,157.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M47.6,125.2 L47.6,165.2" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="29.6" y="133.2" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="47.6" y="145.2">stop</text>
   </g>
   <g class="edge" data-edge-source="Stopped" data-edge-target="__end_0">
-    <path d="M47.6,207.2 L47.6,248.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M47.6,207.2 L47.6,256.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="__start_1" data-edge-target="Running">
-    <path d="M172.8,73.2 L172.8,114.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M172.8,73.2 L172.8,122.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Running" data-edge-target="Paused">
-    <path d="M172.8,164.4 L172.8,196.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M172.8,164.4 L172.8,204.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="151.3" y="157.4" width="43.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="172.8" y="169.4">pause</text>
   </g>
   <g class="edge" data-edge-source="Paused" data-edge-target="Running">
-    <path d="M172.8,204.4 L172.8,172.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M172.8,204.4 L172.8,164.4" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="147.8" y="187.4" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="172.8" y="199.4">resume</text>
   </g>

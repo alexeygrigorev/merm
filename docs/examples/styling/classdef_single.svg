@@ -22,7 +22,7 @@
 .highlight { fill:#ff0;stroke:#000; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M36.0,42.0 L36.0,74.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M36.0,42.0 L36.0,82.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node highlight" data-node-id="A">
     <rect x="0.0" y="0.0" width="72.0" height="42.0" />

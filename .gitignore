@@ -11,4 +11,5 @@ build/
 .eggs/
 .tmp/
 .mutmut-cache/
+.hypothesis/
 mutants/
