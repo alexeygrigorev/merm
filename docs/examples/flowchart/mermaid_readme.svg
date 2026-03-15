@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 556.8 214.2" width="556.8" height="214.2" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 556.8 214.2" width="556.8" height="214.2" style="background-color: white">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
@@ -22,21 +22,15 @@
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
     <path d="M70.4,113.8 L102.4,113.8" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="72.4" y="101.8" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="90.4" y="113.8">Text</text>
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
     <path d="M190.4,113.8 L222.4,113.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="D">
-    <path d="M396.64,83.4 L434.51,69.26" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="404.82" y="62.93" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="419.32" y="74.93">One</text>
+    <path d="M356.74,98.29 L434.51,69.26" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="E">
-    <path d="M399.21,144.2 L432.48,156.24" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="405.1" y="139.58" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="419.6" y="151.58">Two</text>
+    <path d="M357.4,129.07 L432.48,156.24" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <rect x="0.0" y="92.8" width="70.4" height="42.0" />
@@ -57,5 +51,17 @@
   <g class="node" data-node-id="E">
     <rect x="440.0" y="156.2" width="100.8" height="42.0" />
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="490.4" y="177.2">Result 2</text>
+  </g>
+  <g class="edge-label" data-edge-source="A" data-edge-target="B">
+    <rect x="72.4" y="101.8" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="90.4" y="113.8">Text</text>
+  </g>
+  <g class="edge-label" data-edge-source="C" data-edge-target="D">
+    <rect x="384.87" y="70.38" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="399.37" y="82.38">One</text>
+  </g>
+  <g class="edge-label" data-edge-source="C" data-edge-target="E">
+    <rect x="384.2" y="132.02" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="398.7" y="144.02">Two</text>
   </g>
 </svg>

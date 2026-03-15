@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 320.4 322.8" width="320.4" height="322.8" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 320.4 322.8" width="320.4" height="322.8" style="background-color: white">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
@@ -24,17 +24,13 @@
     <path d="M152.2,42.0 L152.2,74.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M122.33,142.8 L88.64,177.09" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="88.18" y="150.8" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="102.68" y="162.8">Yes</text>
+    <path d="M127.49,137.55 L88.64,177.09" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="D">
-    <path d="M177.94,142.8 L206.65,176.69" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="183.88" y="150.8" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="194.88" y="162.8">No</text>
+    <path d="M174.02,138.17 L206.65,176.69" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="B">
-    <path d="M211.82,182.8 L183.11,148.91" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M211.82,182.8 L179.19,144.27" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="E">
     <path d="M62.4,224.8 L62.4,256.8" stroke-width="2" marker-end="url(#arrow)" />
@@ -58,5 +54,13 @@
   <g class="node" data-node-id="E">
     <rect x="2.0" y="264.8" width="120.8" height="42.0" />
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="62.4" y="285.8">🎉 Release</text>
+  </g>
+  <g class="edge-label" data-edge-source="B" data-edge-target="C">
+    <rect x="90.76" y="148.18" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="105.26" y="160.18">Yes</text>
+  </g>
+  <g class="edge-label" data-edge-source="B" data-edge-target="D">
+    <rect x="181.92" y="148.48" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="192.92" y="160.48">No</text>
   </g>
 </svg>

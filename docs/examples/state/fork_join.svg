@@ -27,7 +27,7 @@
     <text x="144" y="54" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Processing</text>
   </g>
   <g class="edge" data-edge-source="__start_0" data-edge-target="Ready">
-    <path d="M62.0,38.4 L62.0,70.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M62.0,29.2 L62.0,70.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Ready" data-edge-target="Processing">
     <path d="M62.0,120.4 L62.0,152.4" stroke-width="2" marker-end="url(#arrow)" />
@@ -36,19 +36,19 @@
     <path d="M62.0,202.4 L62.0,234.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Done" data-edge-target="__end_2">
-    <path d="M62.0,284.4 L62.0,316.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M62.0,284.4 L62.0,325.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="__start_1" data-edge-target="TaskA">
-    <path d="M194.0,120.4 L194.0,152.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M194.0,111.2 L194.0,152.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="TaskA" data-edge-target="__end_0">
-    <path d="M194.0,202.4 L194.0,234.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M194.0,202.4 L194.0,243.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="__start_2" data-edge-target="TaskB">
-    <path d="M304.0,120.4 L304.0,152.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M304.0,111.2 L304.0,152.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="TaskB" data-edge-target="__end_1">
-    <path d="M304.0,202.4 L304.0,234.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M304.0,202.4 L304.0,243.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="state start">
     <circle cx="62" cy="19.2" r="10" fill="black" stroke="black" />

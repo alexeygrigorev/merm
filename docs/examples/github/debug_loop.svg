@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 297.6 404.8" width="297.6" height="404.8" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 297.6 404.8" width="297.6" height="404.8" style="background-color: white">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
@@ -24,14 +24,10 @@
     <path d="M140.8,42.0 L140.8,74.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M117.35,142.8 L91.38,176.47" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="87.42" y="150.8" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="101.92" y="162.8">Yes</text>
+    <path d="M120.7,138.46 L91.38,176.47" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="D">
-    <path d="M154.2,142.8 L168.61,175.48" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="152.02" y="150.8" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="163.02" y="162.8">No</text>
+    <path d="M153.04,140.16 L168.61,175.48" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="E">
     <path d="M181.1,224.8 L181.1,256.8" stroke-width="2" marker-end="url(#arrow)" />
@@ -40,7 +36,7 @@
     <path d="M181.1,306.8 L181.1,338.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="F" data-edge-target="B">
-    <path d="M205.3,346.8 C217.02,336.63 267.88,309.63 275.6,285.8 C283.32,261.97 266.9,226.78 251.6,203.8 C236.3,180.82 195.12,157.21 183.82,147.89" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M205.3,346.8 C217.02,336.63 267.88,309.63 275.6,285.8 C283.32,261.97 268.17,227.84 251.6,203.8 C235.03,179.76 188.75,151.95 176.18,141.58" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="G">
     <path d="M70.3,224.8 L70.3,256.8" stroke-width="2" marker-end="url(#arrow)" />
@@ -72,5 +68,13 @@
   <g class="node" data-node-id="G">
     <rect x="27.5" y="264.8" width="85.6" height="42.0" />
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="70.3" y="285.8">Deploy</text>
+  </g>
+  <g class="edge-label" data-edge-source="B" data-edge-target="C">
+    <rect x="89.1" y="148.63" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="103.6" y="160.63">Yes</text>
+  </g>
+  <g class="edge-label" data-edge-source="B" data-edge-target="D">
+    <rect x="142.01" y="149.48" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="153.01" y="161.48">No</text>
   </g>
 </svg>

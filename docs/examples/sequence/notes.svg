@@ -1,17 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -20 330 378" width="330" height="378" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -20 330 418" width="330" height="418" style="background-color: white">
   <defs>
-    <marker id="seq-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#333333" />
+    <marker id="seq-arrow" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0 0, 6 2, 0 4" fill="#333333" />
     </marker>
-    <marker id="seq-arrow-open" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
+    <marker id="seq-arrow-open" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
+      <polyline points="0 0, 6 2, 0 4" fill="none" stroke="#333333" stroke-width="1.5" />
     </marker>
-    <marker id="seq-cross" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
-      <line x1="0" y1="0" x2="10" y2="10" stroke="#333333" stroke-width="2" />
-      <line x1="10" y1="0" x2="0" y2="10" stroke="#333333" stroke-width="2" />
+    <marker id="seq-cross" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="6" y2="6" stroke="#333333" stroke-width="1.5" />
+      <line x1="6" y1="0" x2="0" y2="6" stroke="#333333" stroke-width="1.5" />
     </marker>
-    <marker id="seq-async" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
+    <marker id="seq-async" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
+      <polyline points="0 0, 6 2, 0 4" fill="none" stroke="#333333" stroke-width="1.5" />
     </marker>
   </defs>
   <style>.seq-participant rect { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
@@ -27,27 +27,27 @@
 .seq-actor line, .seq-actor circle { stroke: #9370DB; stroke-width: 1; fill: none; }
 .seq-actor text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; }
 </style>
-  <line class="seq-lifeline" x1="70" y1="60" x2="70" y2="328" />
-  <line class="seq-lifeline" x1="220" y1="60" x2="220" y2="328" />
+  <line class="seq-lifeline" x1="70" y1="60" x2="70" y2="368" />
+  <line class="seq-lifeline" x1="220" y1="60" x2="220" y2="368" />
   <g class="seq-message">
-    <line x1="70" y1="144" x2="220" y2="144" marker-end="url(#seq-arrow)" />
-    <text x="145" text-anchor="middle" y="139">Hello</text>
+    <line x1="70" y1="164" x2="220" y2="164" marker-end="url(#seq-arrow)" />
+    <text x="145" text-anchor="middle" y="159">Hello</text>
   </g>
   <g class="seq-message">
-    <line x1="220" y1="228" x2="70" y2="228" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
-    <text x="145" text-anchor="middle" y="223">Reply</text>
+    <line x1="220" y1="268" x2="70" y2="268" marker-end="url(#seq-arrow)" stroke-dasharray="5,5" />
+    <text x="145" text-anchor="middle" y="263">Reply</text>
   </g>
   <g class="seq-note">
     <rect x="80" y="100" width="120" height="30" rx="3" />
     <text text-anchor="middle" x="140" y="115" dominant-baseline="central">Alice starts</text>
   </g>
   <g class="seq-note">
-    <rect x="60" y="184" width="170" height="30" rx="3" />
-    <text text-anchor="middle" x="145" y="199" dominant-baseline="central">Shared note</text>
+    <rect x="60" y="204" width="170" height="30" rx="3" />
+    <text text-anchor="middle" x="145" y="219" dominant-baseline="central">Shared note</text>
   </g>
   <g class="seq-note">
-    <rect x="90" y="268" width="120" height="30" rx="3" />
-    <text text-anchor="middle" x="150" y="283" dominant-baseline="central">Bob replies</text>
+    <rect x="90" y="308" width="120" height="30" rx="3" />
+    <text text-anchor="middle" x="150" y="323" dominant-baseline="central">Bob replies</text>
   </g>
   <g class="seq-participant" data-participant-id="Alice">
     <rect x="20" y="20" width="100" height="40" rx="5" />

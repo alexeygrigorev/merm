@@ -23,7 +23,7 @@
 .note text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
 </style>
   <g class="edge" data-edge-source="__start_0" data-edge-target="Evaluating">
-    <path d="M100.7,38.4 L100.7,70.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M100.7,29.2 L100.7,70.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Evaluating" data-edge-target="Pass">
     <path d="M83.93,120.4 L56.97,154.15" stroke-width="2" marker-end="url(#arrow)" />
@@ -36,7 +36,7 @@
     <text text-anchor="middle" dominant-baseline="central" x="118.05" y="155.4">score &lt; 70</text>
   </g>
   <g class="edge" data-edge-source="Pass" data-edge-target="__end_0">
-    <path d="M35.2,202.4 L35.2,236.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M35.2,202.4 L35.2,245.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Fail" data-edge-target="Retry">
     <path d="M135.27,202.4 L135.08,234.4" stroke-width="2" marker-end="url(#arrow)" />

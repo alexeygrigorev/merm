@@ -13,28 +13,45 @@ pip install merm
 ### Command line
 
 ```bash
-# File to file
-merm -i diagram.mmd -o diagram.svg
+# File to file (SVG)
+merm diagram.mmd -o diagram.svg
+
+# PNG output
+merm diagram.mmd -o diagram.png
 
 # Pipe
 echo 'graph LR
     A --> B --> C' | merm > diagram.svg
 
+# With a theme
+merm diagram.mmd --theme dark -o diagram.svg
+
 # With uvx (no install needed)
-uvx merm -i diagram.mmd -o diagram.svg
+uvx merm diagram.mmd -o diagram.svg
 ```
 
 ### Python API
 
 ```python
-from merm import render_diagram
+from merm import render_diagram, render_to_file, render_to_png
 
+# Render to SVG string
 svg = render_diagram("""
 flowchart TD
     A[Start] --> B{Decision}
     B -->|Yes| C[OK]
     B -->|No| D[End]
 """)
+
+# Render directly to file (format auto-detected from extension)
+render_to_file("flowchart TD\n    A --> B", "diagram.svg")
+render_to_file("flowchart TD\n    A --> B", "diagram.png")
+
+# Render to PNG bytes
+png_bytes = render_to_png("flowchart TD\n    A --> B")
+
+# With a theme
+svg = render_diagram("flowchart TD\n    A --> B", theme="dark")
 ```
 
 ## Supported diagram types
@@ -191,11 +208,15 @@ flowchart TD
 
 - Pure Python — no Node.js, no browser, no Puppeteer
 - ~200x faster than mermaid-cli (mmdc)
-- 10 diagram types: flowchart, sequence, class, state, ER, gantt, pie, mindmap, gitgraph
+- SVG and PNG output
+- 4 built-in themes: default, dark, forest, neutral
+- Theme directives: `%%{init: {'theme': 'dark'}}%%`
+- 9 diagram types: flowchart, sequence, class, state, ER, gantt, pie, mindmap, gitgraph
 - All flowchart shapes and edge types
 - Subgraph nesting and styling
 - Edge labels and arrow markers
 - Font Awesome icons
+- CLI tool with stdin/stdout piping
 
 ## Performance
 

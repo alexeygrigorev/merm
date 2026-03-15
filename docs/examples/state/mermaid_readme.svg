@@ -23,10 +23,10 @@
 .note text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
 </style>
   <g class="edge" data-edge-source="__start_0" data-edge-target="Still">
-    <path d="M78.2,38.4 L78.2,70.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M78.2,29.2 L78.2,70.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Still" data-edge-target="__end_0">
-    <path d="M63.09,120.4 L37.69,155.71" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M63.09,120.4 L29.71,166.79" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Still" data-edge-target="Moving">
     <path d="M86.96,120.4 L100.56,153.02" stroke-width="2" marker-end="url(#arrow)" />
@@ -38,7 +38,7 @@
     <path d="M112.4,202.4 L112.4,234.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Crash" data-edge-target="__end_1">
-    <path d="M112.4,284.4 L112.4,316.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M112.4,284.4 L112.4,325.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="state start">
     <circle cx="78.2" cy="19.2" r="10" fill="black" stroke="black" />

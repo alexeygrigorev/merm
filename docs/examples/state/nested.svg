@@ -27,7 +27,7 @@
     <text x="115.2" y="16" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Active</text>
   </g>
   <g class="edge" data-edge-source="__start_0" data-edge-target="Active">
-    <path d="M47.6,43.2 L47.6,75.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M47.6,34.0 L47.6,75.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Active" data-edge-target="Stopped">
     <path d="M47.6,125.2 L47.6,157.2" stroke-width="2" marker-end="url(#arrow)" />
@@ -35,10 +35,10 @@
     <text text-anchor="middle" dominant-baseline="central" x="47.6" y="145.2">stop</text>
   </g>
   <g class="edge" data-edge-source="Stopped" data-edge-target="__end_0">
-    <path d="M47.6,207.2 L47.6,239.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M47.6,207.2 L47.6,248.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="__start_1" data-edge-target="Running">
-    <path d="M172.8,82.4 L172.8,114.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M172.8,73.2 L172.8,114.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Running" data-edge-target="Paused">
     <path d="M172.8,164.4 L172.8,196.4" stroke-width="2" marker-end="url(#arrow)" />

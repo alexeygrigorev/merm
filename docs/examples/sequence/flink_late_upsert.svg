@@ -1,17 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-92.55000000000001 -20 1073.3 727.6" width="1073.3" height="727.6" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-92.55000000000001 -20 1073.3 827.6" width="1073.3" height="827.6" style="background-color: white">
   <defs>
-    <marker id="seq-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#333333" />
+    <marker id="seq-arrow" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0 0, 6 2, 0 4" fill="#333333" />
     </marker>
-    <marker id="seq-arrow-open" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
+    <marker id="seq-arrow-open" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
+      <polyline points="0 0, 6 2, 0 4" fill="none" stroke="#333333" stroke-width="1.5" />
     </marker>
-    <marker id="seq-cross" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
-      <line x1="0" y1="0" x2="10" y2="10" stroke="#333333" stroke-width="2" />
-      <line x1="10" y1="0" x2="0" y2="10" stroke="#333333" stroke-width="2" />
+    <marker id="seq-cross" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="6" y2="6" stroke="#333333" stroke-width="1.5" />
+      <line x1="6" y1="0" x2="0" y2="6" stroke="#333333" stroke-width="1.5" />
     </marker>
-    <marker id="seq-async" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#333333" stroke-width="1.5" />
+    <marker id="seq-async" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
+      <polyline points="0 0, 6 2, 0 4" fill="none" stroke="#333333" stroke-width="1.5" />
     </marker>
   </defs>
   <style>.seq-participant rect { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
@@ -27,10 +27,10 @@
 .seq-actor line, .seq-actor circle { stroke: #9370DB; stroke-width: 1; fill: none; }
 .seq-actor text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; }
 </style>
-  <line class="seq-lifeline" x1="70" y1="60" x2="70" y2="677.6" />
-  <line class="seq-lifeline" x1="342.9" y1="60" x2="342.9" y2="677.6" />
-  <line class="seq-lifeline" x1="520.05" y1="60" x2="520.05" y2="677.6" />
-  <line class="seq-lifeline" x1="854.55" y1="60" x2="854.55" y2="677.6" />
+  <line class="seq-lifeline" x1="70" y1="60" x2="70" y2="777.6" />
+  <line class="seq-lifeline" x1="342.9" y1="60" x2="342.9" y2="777.6" />
+  <line class="seq-lifeline" x1="520.05" y1="60" x2="520.05" y2="777.6" />
+  <line class="seq-lifeline" x1="854.55" y1="60" x2="854.55" y2="777.6" />
   <g class="seq-message">
     <line x1="70" y1="100" x2="342.9" y2="100" marker-end="url(#seq-arrow)" />
     <text x="206.45" text-anchor="middle" y="95">Event A (ts=14:00:07, on time)</text>
@@ -40,50 +40,50 @@
     <text x="431.47" text-anchor="middle" y="135">Event A</text>
   </g>
   <g class="seq-message">
-    <line x1="520.05" y1="287.2" x2="854.55" y2="287.2" marker-end="url(#seq-arrow)" />
-    <text x="687.3" text-anchor="middle" y="282.2">INSERT (window=00:00, PU=79, trips=1)</text>
+    <line x1="520.05" y1="327.2" x2="854.55" y2="327.2" marker-end="url(#seq-arrow)" />
+    <text x="687.3" text-anchor="middle" y="322.2">INSERT (window=00:00, PU=79, trips=1)</text>
   </g>
   <g class="seq-message">
-    <line x1="70" y1="415.2" x2="342.9" y2="415.2" marker-end="url(#seq-arrow)" />
-    <text x="206.45" text-anchor="middle" y="410.2">Event B (ts=14:00:04, 20s late)</text>
+    <line x1="70" y1="495.2" x2="342.9" y2="495.2" marker-end="url(#seq-arrow)" />
+    <text x="206.45" text-anchor="middle" y="490.2">Event B (ts=14:00:04, 20s late)</text>
   </g>
   <g class="seq-message">
-    <line x1="342.9" y1="455.2" x2="520.05" y2="455.2" marker-end="url(#seq-arrow)" />
-    <text x="431.47" text-anchor="middle" y="450.2">Event B</text>
+    <line x1="342.9" y1="535.2" x2="520.05" y2="535.2" marker-end="url(#seq-arrow)" />
+    <text x="431.47" text-anchor="middle" y="530.2">Event B</text>
   </g>
   <g class="seq-message">
-    <line x1="520.05" y1="558.4" x2="854.55" y2="558.4" marker-end="url(#seq-arrow)" />
-    <text x="687.3" text-anchor="middle" y="553.4">UPDATE (window=00:00, PU=79, trips=2)</text>
+    <line x1="520.05" y1="658.4" x2="854.55" y2="658.4" marker-end="url(#seq-arrow)" />
+    <text x="687.3" text-anchor="middle" y="653.4">UPDATE (window=00:00, PU=79, trips=2)</text>
   </g>
   <g class="seq-note">
     <rect x="383.8" y="180" width="272.5" height="30" rx="3" />
     <text text-anchor="middle" x="520.05" y="195" dominant-baseline="central">A added to window [00:00, 00:10)</text>
   </g>
   <g class="seq-note">
-    <rect x="419.85" y="224" width="200.4" height="49.2" rx="3" />
-    <text text-anchor="middle" x="520.05" y="240.6" dominant-baseline="central">
+    <rect x="419.85" y="244" width="200.4" height="49.2" rx="3" />
+    <text text-anchor="middle" x="520.05" y="260.6" dominant-baseline="central">
       <tspan x="520.05" dy="0">watermark reaches 00:10</tspan>
       <tspan x="520.05" dy="16">time to publish</tspan>
     </text>
   </g>
   <g class="seq-note">
-    <rect x="768.35" y="327.2" width="172.4" height="30" rx="3" />
-    <text text-anchor="middle" x="854.55" y="342.2" dominant-baseline="central">published with trips=1</text>
+    <rect x="768.35" y="367.2" width="172.4" height="30" rx="3" />
+    <text text-anchor="middle" x="854.55" y="382.2" dominant-baseline="central">published with trips=1</text>
   </g>
   <g class="seq-note">
-    <rect x="-72.55" y="371.2" width="285.1" height="30" rx="3" />
-    <text text-anchor="middle" x="70" y="386.2" dominant-baseline="central">20 seconds later, phone reconnects</text>
+    <rect x="-72.55" y="431.2" width="285.1" height="30" rx="3" />
+    <text text-anchor="middle" x="70" y="446.2" dominant-baseline="central">20 seconds later, phone reconnects</text>
   </g>
   <g class="seq-note">
-    <rect x="357.9" y="495.2" width="324.3" height="49.2" rx="3" />
-    <text text-anchor="middle" x="520.05" y="511.8" dominant-baseline="central">
+    <rect x="357.9" y="575.2" width="324.3" height="49.2" rx="3" />
+    <text text-anchor="middle" x="520.05" y="591.8" dominant-baseline="central">
       <tspan x="520.05" dy="0">window [00:00, 00:10) already published</tspan>
       <tspan x="520.05" dy="16">but B still belongs to it</tspan>
     </text>
   </g>
   <g class="seq-note">
-    <rect x="759.6" y="598.4" width="189.9" height="49.2" rx="3" />
-    <text text-anchor="middle" x="854.55" y="615" dominant-baseline="central">
+    <rect x="759.6" y="698.4" width="189.9" height="49.2" rx="3" />
+    <text text-anchor="middle" x="854.55" y="715" dominant-baseline="central">
       <tspan x="854.55" dy="0">upsert via PRIMARY KEY</tspan>
       <tspan x="854.55" dy="16">corrected from 1 to 2</tspan>
     </text>
