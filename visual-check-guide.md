@@ -2,67 +2,70 @@
 
 Known visual issues to watch for when making rendering changes. Each item describes what correct rendering looks like and what the broken version looks like. Use this as a regression checklist.
 
-## 1. Arrowhead tip must touch target node (no gap)
+## 1. Arrowhead must be a sharp, pointy triangle
 
-**Correct:** The pointed tip of the arrowhead triangle touches the target node's border with no visible gap.
+**Correct:** The arrowhead is a clean, sharp triangle — wide at the base, narrowing to a fine point at the tip. The path stroke line stops at the arrowhead base and does NOT continue through the triangle body. The arrowhead alone bridges the gap between the stroke line and the node border.
 
-**Broken (refX=0):** The arrowhead BASE is at the node border and the TIP floats 8px away in space. This was the original bug — `refX` must equal the tip x-coordinate in the viewBox (refX=10 for polygon `M 0 0 L 10 5 L 0 10 z`).
+**Broken (stroke bleed-through):** The path stroke (2px wide) extends all the way through the arrowhead to the node border. Because the arrowhead triangle narrows to a point but the stroke stays 2px wide, the tip looks **blunt/stubby** — like a funnel with a rectangular stem poking out, instead of a sharp point. This is most visible when zoomed in.
 
-**Diagrams affected:** All (flowchart, state, class, ER, sequence).
+**Root cause:** `_MARKER_SHORTEN=0` in `edges.py` means the path isn't pulled back before the arrowhead. The stroke line and arrowhead overlap, and the stroke is wider than the triangle at the tip.
 
-**How to check:** Zoom in 6x on any arrowhead. The pointed tip should visually touch the node border.
+**Fix:** `_MARKER_SHORTEN=8` (matching markerWidth) pulls the path back so the stroke stops at the arrowhead base. Combined with `refX=0` (base at path endpoint), the arrowhead extends forward from the stroke end to the node border.
 
-## 2. Path stroke must not extend through arrowhead tip
+**How to check:** Zoom in 6x on any arrowhead. It should be a clean triangle with a sharp point — no rectangular stem at the tip.
 
-**Correct:** The edge path line stops at the arrowhead BASE. Only the filled arrowhead triangle reaches the node border. The arrowhead is a clean triangle shape.
+## 2. Arrowhead tip must touch target node (no gap)
 
-**Broken (_MARKER_SHORTEN=0):** The path stroke (2px wide) extends all the way through the arrowhead to the node border. At the narrow arrowhead tip, the 2px stroke is wider than the triangle, creating a visible rectangular "stem" that pokes through the arrowhead and into the node. Most visible on vertical/diagonal arrows at >2x zoom.
+**Correct:** The pointed tip of the arrowhead triangle touches the target node's border. No visible gap between the arrowhead and the node.
 
-**Diagrams affected:** All (flowchart, state, class, ER).
+**Broken (gap):** The arrowhead floats in space, disconnected from the target node. This happens when the path is shortened but the marker refX doesn't compensate, or when refX is set incorrectly.
 
-**How to check:** Zoom in 6x on any arrowhead. The path line should stop at the wide base of the arrowhead, not continue through to the tip.
+**How to check:** Zoom in 6x on any arrowhead where it meets a node. The sharp point should touch the node border.
 
-**Fix:** Set `_MARKER_SHORTEN` in `edges.py` to the marker width (8) so the path is pulled back by the arrowhead length.
+## 3. Edge line must touch source node (no gap at start)
 
-## 3. ER diagram must be compact (not oversized)
+**Correct:** The edge path starts right at the source node's border. The line begins at the node edge — no gap between the node and the start of the line.
+
+**Broken:** The line starts a few pixels away from the source node, leaving a visible gap. This can happen if `_shorten_start` is applied when there is no start marker, or if the layout computes incorrect start positions.
+
+**How to check:** Look at where edges leave their source node. The line should begin flush with the node border.
+
+## 4. Marker refX/refY must match the rendering approach
+
+**Current approach:** `refX=0` (base at path endpoint) + `_MARKER_SHORTEN=8` (path pulled back by marker width). The arrowhead extends FORWARD from the shortened path end. The tip reaches the node boundary.
+
+**Broken configurations:**
+- `refX=10` + `_MARKER_SHORTEN=0`: Tip at endpoint, but stroke bleeds through arrowhead (blunt tip).
+- `refX=10` + `_MARKER_SHORTEN=8`: Tip pulled back 8px from node (gap).
+- `refX=0` + `_MARKER_SHORTEN=0`: Base at node boundary, tip extends 8px past the node (overshoots).
+
+**How to check:** Verify in `edges.py` that `_MARKER_SHORTEN` equals `markerWidth` and `refX="0"` for arrow markers.
+
+## 5. ER diagram must be compact (not oversized)
 
 **Correct:** A 3-entity ER diagram (CUSTOMER, ORDER, LINE-ITEM) should fit in roughly 400x300px with entity boxes sized proportionally to their text content.
 
 **Broken:** Entity boxes are 200px+ wide for short names, with excessive whitespace between entities. The diagram is 800x800+.
 
-**Diagrams affected:** ER diagrams.
-
 **How to check:** Render the basic 3-entity ER diagram. Total area should be under 400k px². Entity box width for "CUSTOMER" (no attributes) should be under 120px.
 
-## 4. Edge labels must not overlap nodes or other labels
+## 6. Edge labels must not overlap nodes or other labels
 
 **Correct:** Edge labels (e.g. `|Text|` on flowchart edges) are positioned at the midpoint of the edge with a small background rectangle, and do not overlap with source/target nodes.
 
 **Broken:** Labels overlap with node borders or sit on top of other labels, making text unreadable.
 
-**Diagrams affected:** Flowchart (especially LR direction), class diagrams.
-
 **How to check:** Render `flowchart LR` with edge labels. Labels should be clearly readable between nodes.
 
-## 5. Sequence diagram arrowheads must be reasonably sized
+## 7. Sequence diagram arrowheads must be reasonably sized
 
-**Correct:** Sequence diagram arrowhead markers are 8x8 with `markerUnits="userSpaceOnUse"`, matching flowchart arrow size. refX=10 so tips touch lifelines.
+**Correct:** Sequence diagram arrowhead markers are 8x8 with `markerUnits="userSpaceOnUse"`, matching flowchart arrow size.
 
 **Broken (oversized):** Markers at 10x7 or larger look disproportionate on sequence message lines. **Broken (tiny):** Markers at 4x3 are barely visible.
 
-**Diagrams affected:** Sequence diagrams.
-
 **How to check:** Render a basic sequence diagram. Arrowheads should be visible but proportional to the line thickness.
 
-## 6. Marker refX/refY must match polygon geometry
-
-**Correct:** `refX` equals the x-coordinate of the arrowhead tip in the viewBox coordinate system. For polygon `M 0 0 L 10 5 L 0 10 z`, refX=10, refY=5. This places the tip at the path endpoint.
-
-**Broken:** refX=0 places the base at the path endpoint (arrowhead floating). refX=5 places the midpoint at the path endpoint (arrowhead half-penetrating node).
-
-**How to check:** In the SVG `<marker>` element, verify refX equals `max(x-coords)` of the polygon points, and refY equals `viewBox_height / 2`.
-
-## 7. State diagram [*] start/end nodes must be visually distinct
+## 8. State diagram [*] start/end nodes must be visually distinct
 
 **Correct:** Start state `[*]` is a filled black circle (r=10). End state `[*]` is a double circle (outer ring + inner filled circle).
 
@@ -70,7 +73,7 @@ Known visual issues to watch for when making rendering changes. Each item descri
 
 **How to check:** Render a state diagram with both `[*] --> X` and `X --> [*]`. Verify start is solid black circle, end is bullseye (ring + filled center).
 
-## 8. Bidirectional edges should not overlap
+## 9. Bidirectional edges should not overlap
 
 **Correct:** When two states have edges in both directions (e.g. `Still --> Moving` and `Moving --> Still`), the two edges should be drawn as separate parallel paths so both arrowheads are visible.
 
