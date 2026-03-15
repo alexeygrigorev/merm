@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 389.3 587.6" width="389.3" height="587.6" style="background-color: white">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
     <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
@@ -9,7 +9,7 @@
     <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>

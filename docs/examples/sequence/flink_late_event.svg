@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-87.65 -20 1056.85 782.4" width="1056.85" height="782.4" style="background-color: white">
   <defs>
-    <marker id="seq-arrow" markerWidth="4" markerHeight="3" refX="4" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
-      <polygon points="0 0, 4 1.5, 0 3" fill="#333333" />
+    <marker id="seq-arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0 0, 10 5, 0 10" fill="#333333" />
     </marker>
-    <marker id="seq-arrow-open" markerWidth="4" markerHeight="3" refX="4" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
-      <polyline points="0 0, 4 1.5, 0 3" fill="none" stroke="#333333" stroke-width="1" />
+    <marker id="seq-arrow-open" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <polyline points="0 0, 10 5, 0 10" fill="none" stroke="#333333" stroke-width="1.5" />
     </marker>
-    <marker id="seq-cross" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto" markerUnits="userSpaceOnUse">
-      <line x1="0" y1="0" x2="4" y2="4" stroke="#333333" stroke-width="1" />
-      <line x1="4" y1="0" x2="0" y2="4" stroke="#333333" stroke-width="1" />
+    <marker id="seq-cross" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="10" y2="10" stroke="#333333" stroke-width="1.5" />
+      <line x1="10" y1="0" x2="0" y2="10" stroke="#333333" stroke-width="1.5" />
     </marker>
-    <marker id="seq-async" markerWidth="4" markerHeight="3" refX="4" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
-      <polyline points="0 0, 4 1.5, 0 3" fill="none" stroke="#333333" stroke-width="1" />
+    <marker id="seq-async" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <polyline points="0 0, 10 5, 0 10" fill="none" stroke="#333333" stroke-width="1.5" />
     </marker>
   </defs>
   <style>.seq-participant rect { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
