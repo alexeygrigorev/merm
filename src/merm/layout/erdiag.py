@@ -75,8 +75,8 @@ def layout_er_diagram(
     if config is None:
         config = LayoutConfig(
             direction=Direction.TB,
-            rank_sep=20.0,
-            node_sep=35.0,
+            rank_sep=40.0,
+            node_sep=50.0,
         )
 
     result = layout_diagram(flowchart, measure_fn=_entity_measure, config=config)

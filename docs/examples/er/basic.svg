@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -10 94 186" width="94" height="186" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -10 94 226" width="94" height="226" style="background-color: white">
   <defs>
     <marker id="er-exactly-one" viewBox="0 0 12 12" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
       <line x1="9" y1="2" x2="9" y2="10" stroke="#333333" stroke-width="1.5" />
@@ -23,26 +23,23 @@
 .er-relationship text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; }
 </style>
   <g class="er-relationship" data-edge-source="CUSTOMER" data-edge-target="ORDER">
-    <path d="M37.0,40.0 L37.0,64.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-exactly-one)" marker-end="url(#er-zero-or-more)" />
-    <text x="37.0" y="44.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">places</text>
+    <path d="M37.0,39.0 L37.0,85.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-exactly-one)" marker-end="url(#er-zero-or-more)" />
+    <text x="37.0" y="54.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">places</text>
   </g>
   <g class="er-relationship" data-edge-source="ORDER" data-edge-target="LINE-ITEM">
-    <path d="M37.0,102.0 L37.0,126.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-exactly-one)" marker-end="url(#er-one-or-more)" />
-    <text x="37.0" y="106.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">contains</text>
+    <path d="M37.0,121.0 L37.0,167.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-exactly-one)" marker-end="url(#er-one-or-more)" />
+    <text x="37.0" y="136.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">contains</text>
   </g>
   <g class="er-entity" data-entity-id="CUSTOMER">
-    <rect x="3.0" y="2.0" width="68.0" height="38.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
-    <text x="37.0" y="17.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-weight="bold" fill="#333333">CUSTOMER</text>
-    <line x1="3.0" y1="24.0" x2="71.0" y2="24.0" stroke="#9370DB" stroke-width="1" />
+    <rect x="3.0" y="3.0" width="68.0" height="36.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="37.0" y="18.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-weight="bold" fill="#333333">CUSTOMER</text>
   </g>
   <g class="er-entity" data-entity-id="ORDER">
-    <rect x="12.0" y="64.0" width="50.0" height="38.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
-    <text x="37.0" y="79.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-weight="bold" fill="#333333">ORDER</text>
-    <line x1="12.0" y1="86.0" x2="62.0" y2="86.0" stroke="#9370DB" stroke-width="1" />
+    <rect x="12.0" y="85.0" width="50.0" height="36.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="37.0" y="100.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-weight="bold" fill="#333333">ORDER</text>
   </g>
   <g class="er-entity" data-entity-id="LINE-ITEM">
-    <rect x="0.0" y="126.0" width="74.0" height="38.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
-    <text x="37.0" y="141.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-weight="bold" fill="#333333">LINE-ITEM</text>
-    <line x1="0.0" y1="148.0" x2="74.0" y2="148.0" stroke="#9370DB" stroke-width="1" />
+    <rect x="0.0" y="167.0" width="74.0" height="36.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />
+    <text x="37.0" y="182.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="12.0px" font-weight="bold" fill="#333333">LINE-ITEM</text>
   </g>
 </svg>

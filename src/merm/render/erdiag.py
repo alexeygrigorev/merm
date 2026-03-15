@@ -54,8 +54,11 @@ def measure_er_entity_box(entity: EREntity) -> tuple[float, float]:
     # Header height
     header_h = _HEADER_HEIGHT
 
-    # Attributes height
-    attrs_h = max(len(entity.attributes) * _ATTR_LINE_HEIGHT, _ATTR_LINE_HEIGHT)
+    # Attributes height — no empty row when there are no attributes
+    if entity.attributes:
+        attrs_h = len(entity.attributes) * _ATTR_LINE_HEIGHT
+    else:
+        attrs_h = 0
 
     total_h = max(header_h + attrs_h, _MIN_BOX_HEIGHT)
 
@@ -252,7 +255,10 @@ def _render_er_entity(
     name_el.set("fill", theme.node_text_color)
     name_el.text = entity.id
 
-    # Divider line after header
+    # Divider line and attributes only when entity has attributes
+    if not entity.attributes:
+        return
+
     div_y = y + _HEADER_HEIGHT
     line_el = ET.SubElement(g, "line")
     line_el.set("x1", str(round(x, 2)))
