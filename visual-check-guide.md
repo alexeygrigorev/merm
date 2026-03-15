@@ -141,6 +141,15 @@ for name, text in diagrams.items():
 
 ### Step 2: Inspect each PNG with the Read tool
 
+Use the Read tool to view each PNG. Important context window considerations:
+
+- 6x renders of complex diagrams can be very large (2000+ pixels). Only use 6x for simple
+  diagrams (2-4 nodes) or when you need to verify a specific arrowhead.
+- For most checks, 2x is sufficient. Use 1x for layout checks and 2x for quality checks.
+- When checking many diagrams (e.g. 15+ gallery samples), use 2x only and reserve 6x for
+  a single simple diagram to spot-check arrowhead sharpness.
+- Read images in batches of 3-4 at a time to avoid overloading context.
+
 For each diagram, check:
 
 At 1x scale (overall layout):
@@ -155,7 +164,7 @@ At 2x scale (general quality):
 - [ ] Edge lines connect flush to source nodes (no gap at start)
 - [ ] Arrowhead tips touch target nodes (no gap at end)
 
-At 6x scale (arrowhead detail):
+At 6x scale (arrowhead detail — use sparingly, only on simple diagrams):
 - [ ] Arrowheads are sharp, pointy triangles — no blunt/stubby tips
 - [ ] No rectangular "stem" visible at the arrowhead tip
 - [ ] The stroke line stops at the arrowhead base, not at the tip
@@ -184,3 +193,41 @@ Verify:
 - Arrow markers have `refX="0"` (base at path endpoint)
 - `_MARKER_SHORTEN` in `edges.py` equals `markerWidth` (currently 8)
 - Edge path endpoints are shortened (not on node boundary)
+
+---
+
+## What to Check
+
+### README examples
+
+Render and inspect all diagram types shown in the README:
+1. Flowchart (TD) — the Christmas shopping example
+2. Sequence diagram — Alice/John
+3. Class diagram — Animal/Duck/Fish
+4. State diagram — Still/Moving/Crash
+5. ER diagram — Customer/Order/Line-Item
+6. Gantt chart
+7. Pie chart
+8. Git graph
+9. Mindmap
+
+### Gallery samples
+
+Sample 15 diverse fixtures from `tests/fixtures/corpus/` covering different diagram types,
+directions, edge styles, and complexity levels. Good candidates:
+
+- `basic/diamond.mmd` — fan-out/fan-in pattern
+- `basic/parallel_paths.mmd` — parallel edges
+- `edges/open_link.mmd` — open (no-arrow) edges
+- `flowchart/coffee_machine.mmd` — real-world flowchart
+- `flowchart/etl_simple.mmd` — ETL pipeline
+- `class/inheritance.mmd` — class inheritance
+- `er/dashed_lines.mmd` — ER with dashed relationships
+- `sequence/flink_late_upsert.mmd` — complex sequence
+- `state/` — any state diagram fixture
+- `mindmap/deep_tree.mmd` — deep mindmap
+- `shapes/hexagon.mmd` — hexagon node shape
+- `shapes/circle.mmd` — circle node shape
+- `subgraphs/` — any subgraph fixture
+- `styling/default_class.mmd` — styled nodes
+- `text/multiline.mmd` — multiline text in nodes
