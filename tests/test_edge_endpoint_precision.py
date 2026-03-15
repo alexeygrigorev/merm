@@ -459,36 +459,39 @@ class TestMarkerAlignment:
     """Arrow markers should use refX-based alignment with the target boundary."""
 
     def test_arrow_marker_refx_is_10(self) -> None:
-        """Arrow marker refX=10: tip (at x=10 in viewBox) aligns at path end."""
+        """Arrow marker refX=0: base at path end; combined with _MARKER_SHORTEN=8,
+        the path is pulled back so the arrowhead tip touches the node boundary."""
         from merm.render.edges import make_edge_defs
 
         defs = ET.Element("defs")
         make_edge_defs(defs)
         for marker in defs.iter("marker"):
             if marker.get("id") == "arrow":
-                assert marker.get("refX") == "10"
+                assert marker.get("refX") == "0"
                 return
         raise AssertionError("Arrow marker not found")
 
     def test_circle_end_marker_refx(self) -> None:
+        """Circle-end marker refX=5 centers the circle on the path endpoint."""
         from merm.render.edges import make_edge_defs
 
         defs = ET.Element("defs")
         make_edge_defs(defs)
         for marker in defs.iter("marker"):
             if marker.get("id") == "circle-end":
-                assert marker.get("refX") == "10"
+                assert marker.get("refX") == "5"
                 return
         raise AssertionError("circle-end marker not found")
 
     def test_cross_end_marker_refx(self) -> None:
+        """Cross-end marker refX=5.5 centers the cross on the path endpoint."""
         from merm.render.edges import make_edge_defs
 
         defs = ET.Element("defs")
         make_edge_defs(defs)
         for marker in defs.iter("marker"):
             if marker.get("id") == "cross-end":
-                assert marker.get("refX") == "10"
+                assert marker.get("refX") == "5.5"
                 return
         raise AssertionError("cross-end marker not found")
 

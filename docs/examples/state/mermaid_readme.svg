@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 196.4 402.8" width="196.4" height="402.8" style="background-color: white">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="5.5" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>
@@ -23,22 +23,22 @@
 .note text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
 </style>
   <g class="edge" data-edge-source="__start_0" data-edge-target="Still">
-    <path d="M78.2,29.2 L78.2,78.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M78.2,29.2 L78.2,70.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Still" data-edge-target="__end_0">
-    <path d="M63.09,120.4 L25.04,173.28" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M63.09,120.4 L29.71,166.79" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Still" data-edge-target="Moving">
-    <path d="M86.96,120.4 L103.64,160.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M86.96,120.4 L100.56,153.02" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Moving" data-edge-target="Still">
-    <path d="M103.64,160.4 L86.96,120.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M103.64,160.4 L90.04,127.78" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Moving" data-edge-target="Crash">
-    <path d="M112.4,202.4 L112.4,242.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M112.4,202.4 L112.4,234.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Crash" data-edge-target="__end_1">
-    <path d="M112.4,284.4 L112.4,333.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M112.4,284.4 L112.4,325.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="state start">
     <circle cx="78.2" cy="19.2" r="10" fill="black" stroke="black" />

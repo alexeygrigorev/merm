@@ -10,8 +10,9 @@ from merm.layout import EdgeLayout, Point
 _DEFAULT_EDGE_STROKE = "#333333"
 
 # How far to pull the path endpoint back from the node border.
-# Set to 0 so arrowheads touch the node boundary with no visible gap.
-_MARKER_SHORTEN = 0
+# Must match the markerWidth so the path stroke stops at the arrowhead
+# base and only the filled triangle reaches the node boundary.
+_MARKER_SHORTEN = 8
 
 # ---------------------------------------------------------------------------
 # Marker definitions
@@ -49,7 +50,11 @@ def _marker_arrow(
     marker.set("viewBox", "0 0 10 10")
     marker.set("markerWidth", "8")
     marker.set("markerHeight", "8")
-    marker.set("refX", "10")
+    # refX=0 places the triangle BASE at the path endpoint.
+    # Combined with _MARKER_SHORTEN=8, the path stops 8px before the
+    # node boundary and the arrowhead fills the gap, so the TIP touches
+    # the node while the stroke line stops cleanly at the arrowhead base.
+    marker.set("refX", "0")
     marker.set("refY", "5")
     marker.set("orient", orient)
     marker.set("markerUnits", "userSpaceOnUse")
@@ -63,7 +68,9 @@ def _marker_circle(parent: ET.Element, fill: str) -> None:
     marker.set("viewBox", "0 0 10 10")
     marker.set("markerWidth", "8")
     marker.set("markerHeight", "8")
-    marker.set("refX", "10")
+    # refX=5 centers the circle at the endpoint (after shortening,
+    # the circle straddles the gap between path end and node border).
+    marker.set("refX", "5")
     marker.set("refY", "5")
     marker.set("orient", "auto")
     marker.set("markerUnits", "userSpaceOnUse")
@@ -79,7 +86,8 @@ def _marker_cross(parent: ET.Element, stroke: str) -> None:
     marker.set("viewBox", "0 0 11 11")
     marker.set("markerWidth", "8")
     marker.set("markerHeight", "8")
-    marker.set("refX", "10")
+    # refX=5.5 centers the cross at the endpoint.
+    marker.set("refX", "5.5")
     marker.set("refY", "5.5")
     marker.set("orient", "auto")
     marker.set("markerUnits", "userSpaceOnUse")

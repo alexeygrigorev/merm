@@ -495,10 +495,19 @@ class TestArrowheadMarkerAlignment:
             end_y = edge["end_y"]
 
             if arrow_refx >= 9.0:
-                # refX=10: tip at path end, path end should be on boundary
-                assert abs(end_y - tgt_top) < 1.5 or abs(end_y - tgt_bottom) < 1.5, (
-                    f"With refX=10, path end y={end_y:.1f} should be on "
-                    f"target boundary (top={tgt_top:.1f}, bottom={tgt_bottom:.1f})"
+                # refX=10: tip at path end. Path is shortened by marker
+                # width so the stroke stops at the arrowhead base.
+                # Path end should be approximately marker_width before boundary.
+                assert marker_width is not None
+                dist_to_top = abs(end_y - tgt_top)
+                dist_to_bottom = abs(end_y - tgt_bottom)
+                assert (
+                    dist_to_top < marker_width + 2.0
+                    or dist_to_bottom < marker_width + 2.0
+                ), (
+                    f"With refX=10, path end y={end_y:.1f} should be within "
+                    f"~{marker_width}px of target boundary "
+                    f"(top={tgt_top:.1f}, bottom={tgt_bottom:.1f})"
                 )
             else:
                 # refX=0: base at path end, path end shortened by marker_width

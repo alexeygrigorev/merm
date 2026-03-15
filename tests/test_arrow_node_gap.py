@@ -57,20 +57,22 @@ class TestMarkerRefX:
     """Arrow marker refX should align the triangle tip with the path endpoint."""
 
     def test_arrow_refx_at_tip(self) -> None:
-        """Arrow refX=10: tip at path end, so arrowhead visibly touches node."""
-        assert _get_marker_refx("arrow") == "10"
+        """Arrow refX=0: base at path end; combined with _MARKER_SHORTEN=8,
+        the path is pulled back so the arrowhead tip touches the node boundary."""
+        assert _get_marker_refx("arrow") == "0"
 
     def test_arrow_reverse_refx_at_tip(self) -> None:
-        """Reverse arrow refX=10: tip at path end for reverse arrows too."""
-        assert _get_marker_refx("arrow-reverse") == "10"
+        """Reverse arrow refX=0: base at path end, path shortened so tip
+        touches the node boundary."""
+        assert _get_marker_refx("arrow-reverse") == "0"
 
     def test_circle_end_refx(self) -> None:
-        """Circle-end refX=0 places the rightmost edge at the path end."""
-        assert _get_marker_refx("circle-end") == "10"
+        """Circle-end refX=5 centers the circle marker on the path endpoint."""
+        assert _get_marker_refx("circle-end") == "5"
 
     def test_cross_end_refx(self) -> None:
-        """Cross-end refX=0 places the rightmost X stroke at path end."""
-        assert _get_marker_refx("cross-end") == "10"
+        """Cross-end refX=5.5 centers the cross marker on the path endpoint."""
+        assert _get_marker_refx("cross-end") == "5.5"
 
 # ---------------------------------------------------------------------------
 # Unit: Edge endpoint offset (gap from node border)

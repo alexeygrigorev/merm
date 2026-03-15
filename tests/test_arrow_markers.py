@@ -133,19 +133,16 @@ class TestFlowchartArrowMarkers:
         assert "arrow" in markers, "Missing 'arrow' marker definition"
 
     def test_arrow_refx_equals_tip(self, markers):
-        """refX must equal the arrow tip's x-coordinate.
+        """refX=0 places the triangle base at the path endpoint.
 
-        With polygon 'M 0 0 L 10 5 L 0 10 z', the tip is at x=10.
-        refX must be 10 so the TIP (not the base) sits at the path endpoint.
-        If refX=0, the arrowhead base sits at the endpoint and the tip
-        extends into/under the target node, creating a visible gap.
+        Combined with _MARKER_SHORTEN=8, the path is pulled back 8px so
+        the arrowhead fills the gap and the tip touches the node boundary.
         """
         marker = markers["arrow"]
-        tip_x = _get_arrow_tip_x(marker)
         ref_x = _get_refx(marker)
-        assert ref_x == tip_x, (
-            f"Arrow marker refX={ref_x} but tip is at x={tip_x}. "
-            f"refX must equal tip x so the arrowhead tip touches the node boundary."
+        assert ref_x == 0.0, (
+            f"Arrow marker refX={ref_x} but expected 0. "
+            f"refX=0 with path shortening places the arrowhead tip on the node boundary."
         )
 
     def test_arrow_reverse_refx_is_zero(self, markers):
@@ -259,13 +256,16 @@ class TestStateArrowMarkers:
         assert "arrow" in markers, "State diagram missing 'arrow' marker"
 
     def test_arrow_refx_equals_tip(self, markers):
-        """Same refX check as flowchart - tip must be at path endpoint."""
+        """refX=0 places the triangle base at the path endpoint.
+
+        Combined with _MARKER_SHORTEN=8, the path is pulled back 8px so
+        the arrowhead fills the gap and the tip touches the node boundary.
+        """
         marker = markers["arrow"]
-        tip_x = _get_arrow_tip_x(marker)
         ref_x = _get_refx(marker)
-        assert ref_x == tip_x, (
-            f"State arrow refX={ref_x} but tip at x={tip_x}. "
-            f"Arrowheads must touch target nodes (circles and rectangles)."
+        assert ref_x == 0.0, (
+            f"State arrow refX={ref_x} but expected 0. "
+            f"refX=0 with path shortening places the arrowhead tip on the node boundary."
         )
 
     def test_arrow_adequate_size(self, markers):

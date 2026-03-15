@@ -130,7 +130,7 @@ erDiagram
     CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
 ```
 
-<img src="docs/examples/er/basic.svg" alt="ER diagram" width="500">
+<img src="docs/examples/er/basic.svg" alt="ER diagram" width="250">
 
 ### Gantt chart
 
