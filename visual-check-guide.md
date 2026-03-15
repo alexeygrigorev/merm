@@ -2,117 +2,185 @@
 
 Known visual issues to watch for when making rendering changes. Each item describes what correct rendering looks like and what the broken version looks like. Use this as a regression checklist.
 
-## 1. Arrowhead must be a sharp, pointy triangle
+These rules apply to all diagram types unless noted otherwise.
 
-**Correct:** The arrowhead is a clean, sharp triangle — wide at the base, narrowing to a fine point at the tip. The path stroke line stops at the arrowhead base and does NOT continue through the triangle body. The arrowhead alone bridges the gap between the stroke line and the node border.
+## 1. Arrowheads must be sharp and pointy
 
-**Broken (stroke bleed-through):** The path stroke (2px wide) extends all the way through the arrowhead to the node border. Because the arrowhead triangle narrows to a point but the stroke stays 2px wide, the tip looks **blunt/stubby** — like a funnel with a rectangular stem poking out, instead of a sharp point. This is most visible when zoomed in.
+The arrowhead is a clean, sharp triangle — wide at the base, narrowing to a fine point at the tip. The path stroke line stops at the arrowhead base and does NOT continue through the triangle body.
 
-**Root cause:** `_MARKER_SHORTEN=0` in `edges.py` means the path isn't pulled back before the arrowhead. The stroke line and arrowhead overlap, and the stroke is wider than the triangle at the tip.
+Broken: The stroke extends through the arrowhead, making the tip look blunt/stubby — like a funnel with a rectangular stem instead of a sharp point. Most visible when zoomed in.
 
-**Fix:** `_MARKER_SHORTEN=8` (matching markerWidth) pulls the path back so the stroke stops at the arrowhead base. Combined with `refX=0` (base at path endpoint), the arrowhead extends forward from the stroke end to the node border.
+How to check: Zoom in 6x on any arrowhead. It should be a clean triangle with a sharp point — no rectangular stem at the tip.
 
-**How to check:** Zoom in 6x on any arrowhead. It should be a clean triangle with a sharp point — no rectangular stem at the tip.
+## 2. Arrowhead tip must touch target node
 
-## 2. Arrowhead tip must touch target node (no gap)
+The pointed tip of the arrowhead touches the target node's border. No visible gap between the arrowhead and the node.
 
-**Correct:** The pointed tip of the arrowhead triangle touches the target node's border. No visible gap between the arrowhead and the node.
+Broken: The arrowhead floats in space, disconnected from the target node.
 
-**Broken (gap):** The arrowhead floats in space, disconnected from the target node. This happens when the path is shortened but the marker refX doesn't compensate, or when refX is set incorrectly.
+How to check: Zoom in 6x on any arrowhead where it meets a node. The sharp point should touch the node border.
 
-**How to check:** Zoom in 6x on any arrowhead where it meets a node. The sharp point should touch the node border.
+## 3. Edge line must touch source node
 
-## 3. Edge line must touch source node (no gap at start)
+The edge path starts right at the source node's border. No gap between the node and the start of the line.
 
-**Correct:** The edge path starts right at the source node's border. The line begins at the node edge — no gap between the node and the start of the line.
+Broken: The line starts a few pixels away from the source node, leaving a visible gap.
 
-**Broken:** The line starts a few pixels away from the source node, leaving a visible gap. This can happen if `_shorten_start` is applied when there is no start marker, or if the layout computes incorrect start positions.
+How to check: Look at where edges leave their source node. The line should begin flush with the node border.
 
-**How to check:** Look at where edges leave their source node. The line should begin flush with the node border.
+## 4. Arrowheads must be proportionally sized
 
-## 4. Marker refX/refY must match the rendering approach
+Arrowheads should be large enough to be clearly visible, but small enough to look proportional to the stroke width and overall diagram scale. They should not dominate the diagram or be barely visible.
 
-**Current approach:** `refX=0` (base at path endpoint) + `_MARKER_SHORTEN=8` (path pulled back by marker width). The arrowhead extends FORWARD from the shortened path end. The tip reaches the node boundary.
+Broken (too large): Arrowheads dwarf the connecting lines, looking cartoonishly oversized.
+Broken (too small): Arrowheads are tiny specks, barely distinguishable from the line end.
 
-**Broken configurations:**
-- `refX=10` + `_MARKER_SHORTEN=0`: Tip at endpoint, but stroke bleeds through arrowhead (blunt tip).
-- `refX=10` + `_MARKER_SHORTEN=8`: Tip pulled back 8px from node (gap).
-- `refX=0` + `_MARKER_SHORTEN=0`: Base at node boundary, tip extends 8px past the node (overshoots).
+How to check: Render any diagram at 1x scale. Arrowheads should be noticeable but not distracting — roughly 3-5x the stroke width.
 
-**How to check:** Verify in `edges.py` that `_MARKER_SHORTEN` equals `markerWidth` and `refX="0"` for arrow markers.
+## 5. Diagram must be compact and reasonably sized
 
-## 5. ER diagram must be compact (not oversized)
+Diagrams should fit within a reasonable bounding box without excessive whitespace. Node boxes should be sized proportionally to their text content — short labels get small boxes, long labels get wider boxes.
 
-**Correct:** A 3-entity ER diagram (CUSTOMER, ORDER, LINE-ITEM) should fit in roughly 400x300px with entity boxes sized proportionally to their text content.
+Broken: Nodes are hundreds of pixels wide for short labels, or the diagram has huge empty gaps between elements, making the total area much larger than necessary.
 
-**Broken:** Entity boxes are 200px+ wide for short names, with excessive whitespace between entities. The diagram is 800x800+.
-
-**How to check:** Render the basic 3-entity ER diagram. Total area should be under 400k px². Entity box width for "CUSTOMER" (no attributes) should be under 120px.
+How to check: Render a simple diagram (3-5 nodes). The result should look compact and balanced, not stretched out with wasted space.
 
 ## 6. Edge labels must not overlap nodes or other labels
 
-**Correct:** Edge labels (e.g. `|Text|` on flowchart edges) are positioned at the midpoint of the edge with a small background rectangle, and do not overlap with source/target nodes.
+Edge labels are positioned at the midpoint of the edge with a small background rectangle. They should not overlap with source/target nodes or other labels.
 
-**Broken:** Labels overlap with node borders or sit on top of other labels, making text unreadable.
+Broken: Labels overlap with node borders or sit on top of other labels, making text unreadable.
 
-**How to check:** Render `flowchart LR` with edge labels. Labels should be clearly readable between nodes.
+How to check: Render a diagram with edge labels. Labels should be clearly readable between nodes, not clipped or overlapping.
 
-## 7. Sequence diagram arrowheads must be reasonably sized
+## 7. Nodes and text must not overlap each other
 
-**Correct:** Sequence diagram arrowhead markers are 8x8 with `markerUnits="userSpaceOnUse"`, matching flowchart arrow size.
+Nodes should be spaced far enough apart that they don't overlap. Text inside nodes should fit within the node boundaries.
 
-**Broken (oversized):** Markers at 10x7 or larger look disproportionate on sequence message lines. **Broken (tiny):** Markers at 4x3 are barely visible.
+Broken: Two nodes overlap visually, or text extends past the node border.
 
-**How to check:** Render a basic sequence diagram. Arrowheads should be visible but proportional to the line thickness.
+How to check: Render a diagram with several nodes. All nodes should have clear separation and all text should fit inside its container.
 
-## 8. State diagram [*] start/end nodes must be visually distinct
+## 8. Start/end markers must be visually distinct
 
-**Correct:** Start state `[*]` is a filled black circle (r=10). End state `[*]` is a double circle (outer ring + inner filled circle).
+Special nodes like state diagram `[*]` start/end states should be visually distinct from regular nodes and from each other.
 
-**Broken:** Start and end states look identical, or are rendered as regular state boxes.
+Broken: Start and end states look identical, or are rendered as regular boxes instead of circles.
 
-**How to check:** Render a state diagram with both `[*] --> X` and `X --> [*]`. Verify start is solid black circle, end is bullseye (ring + filled center).
+How to check: Render a diagram with start/end markers. They should be immediately recognizable as different from normal nodes.
 
-## 9. Bidirectional edges should not overlap
+## 9. Bidirectional edges should be distinguishable
 
-**Correct:** When two states have edges in both directions (e.g. `Still --> Moving` and `Moving --> Still`), the two edges should be drawn as separate parallel paths so both arrowheads are visible.
+When two nodes have edges in both directions, both arrows should be visually distinguishable — ideally drawn as separate parallel paths.
 
-**Known limitation:** Currently both paths are drawn on the same line, causing visual overlap. Both arrowheads are present but the edges share the same path. This is acceptable for now but should be improved in the future.
+Known limitation: Currently both paths may overlap on the same line. Both arrowheads are present but hard to see. Acceptable for now.
 
 ---
 
-## Quick Visual Regression Test
+## How to Run the Visual Check
 
-Render these diagrams and inspect at 2x and 6x zoom:
+### Step 1: Render test diagrams to PNG at multiple zoom levels
 
-```
-stateDiagram-v2
+```python
+from merm import render_diagram
+import cairosvg
+
+diagrams = {
+    "state": """stateDiagram-v2
     [*] --> Still
     Still --> [*]
     Still --> Moving
     Moving --> Still
     Moving --> Crash
     Crash --> [*]
-```
-
-```
-flowchart LR
+""",
+    "flowchart_lr": """flowchart LR
     A[Hard] -->|Text| B(Round)
     B --> C{Decision}
     C -->|One| D[Result 1]
     C -->|Two| E[Result 2]
-```
-
-```
-erDiagram
+""",
+    "flowchart_tb": """flowchart TB
+    A[Start] --> B[Process]
+    B --> C{Decision}
+    C -->|Yes| D[End]
+    C -->|No| B
+""",
+    "er": """erDiagram
     CUSTOMER ||--o{ ORDER : places
     ORDER ||--|{ LINE-ITEM : contains
     CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
-```
-
-```
-sequenceDiagram
+""",
+    "sequence": """sequenceDiagram
     Alice->>John: Hello John, how are you?
     John-->>Alice: Great!
     Alice-)John: See you later!
+""",
+    "class": """classDiagram
+    Animal <|-- Duck
+    Animal <|-- Fish
+    Animal : +int age
+    Animal: +isMammal()
+    Duck : +swim()
+    Fish : +canEat()
+""",
+}
+
+for name, text in diagrams.items():
+    svg = render_diagram(text)
+    # Normal scale (1x) — for overall layout check
+    cairosvg.svg2png(bytestring=svg.encode(),
+                     write_to=f".tmp/check/{name}_1x.png", scale=1)
+    # 2x — for general visual check
+    cairosvg.svg2png(bytestring=svg.encode(),
+                     write_to=f".tmp/check/{name}_2x.png", scale=2)
+    # 6x — for arrowhead detail check
+    cairosvg.svg2png(bytestring=svg.encode(),
+                     write_to=f".tmp/check/{name}_6x.png", scale=6)
 ```
+
+### Step 2: Inspect each PNG with the Read tool
+
+For each diagram, check:
+
+At 1x scale (overall layout):
+- [ ] Diagram is compact, no excessive whitespace
+- [ ] Nodes don't overlap each other
+- [ ] Text fits inside nodes
+- [ ] Edge labels are readable and don't overlap nodes
+- [ ] Start/end markers (if any) are visually distinct
+
+At 2x scale (general quality):
+- [ ] Arrowheads are clearly visible and proportional to line thickness
+- [ ] Edge lines connect flush to source nodes (no gap at start)
+- [ ] Arrowhead tips touch target nodes (no gap at end)
+
+At 6x scale (arrowhead detail):
+- [ ] Arrowheads are sharp, pointy triangles — no blunt/stubby tips
+- [ ] No rectangular "stem" visible at the arrowhead tip
+- [ ] The stroke line stops at the arrowhead base, not at the tip
+- [ ] The arrowhead tip touches the node border cleanly
+
+### Step 3: Check SVG structure (optional, for debugging)
+
+If a visual issue is found, inspect the SVG source:
+
+```python
+import xml.etree.ElementTree as ET
+
+svg = render_diagram(diagram_text)
+root = ET.fromstring(svg)
+
+# Check marker definitions
+for marker in root.iter("{http://www.w3.org/2000/svg}marker"):
+    print(f"id={marker.get('id')} refX={marker.get('refX')} "
+          f"markerWidth={marker.get('markerWidth')}")
+
+# Check diagram dimensions
+print(f"width={root.get('width')} height={root.get('height')}")
+```
+
+Verify:
+- Arrow markers have `refX="0"` (base at path endpoint)
+- `_MARKER_SHORTEN` in `edges.py` equals `markerWidth` (currently 8)
+- Edge path endpoints are shortened (not on node boundary)
