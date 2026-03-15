@@ -56,12 +56,13 @@ def _get_marker_refx(marker_id: str) -> str:
 class TestMarkerRefX:
     """Arrow marker refX should align the triangle tip with the path endpoint."""
 
-    def test_arrow_refx_at_base(self) -> None:
-        """Arrow refX=0: base at path end, tip extends forward into node."""
-        assert _get_marker_refx("arrow") == "0"
+    def test_arrow_refx_at_tip(self) -> None:
+        """Arrow refX=10: tip at path end, so arrowhead visibly touches node."""
+        assert _get_marker_refx("arrow") == "10"
 
-    def test_arrow_reverse_refx_at_base(self) -> None:
-        assert _get_marker_refx("arrow-reverse") == "0"
+    def test_arrow_reverse_refx_at_tip(self) -> None:
+        """Reverse arrow refX=10: tip at path end for reverse arrows too."""
+        assert _get_marker_refx("arrow-reverse") == "10"
 
     def test_circle_end_refx(self) -> None:
         """Circle-end refX=0 places the rightmost edge at the path end."""

@@ -45,26 +45,24 @@ class TestArrowMarkerDimensions:
         m = _get_marker(root, "seq-arrow")
         w = float(m.get("markerWidth"))
         h = float(m.get("markerHeight"))
-        assert w <= 8, f"seq-arrow markerWidth={w} should be <= 8"
-        assert h <= 6, f"seq-arrow markerHeight={h} should be <= 6"
-        assert w < 10, "seq-arrow markerWidth must be less than old value 10"
-        assert h < 7, "seq-arrow markerHeight must be less than old value 7"
+        assert w == 8, f"seq-arrow markerWidth={w} should be 8 (same as flowchart)"
+        assert h == 8, f"seq-arrow markerHeight={h} should be 8 (same as flowchart)"
 
     def test_seq_arrow_open_dimensions(self):
         root = _render_fixture("basic.mmd")
         m = _get_marker(root, "seq-arrow-open")
         w = float(m.get("markerWidth"))
         h = float(m.get("markerHeight"))
-        assert w <= 8, f"seq-arrow-open markerWidth={w} should be <= 8"
-        assert h <= 6, f"seq-arrow-open markerHeight={h} should be <= 6"
+        assert w == 8, f"seq-arrow-open markerWidth={w} should be 8"
+        assert h == 8, f"seq-arrow-open markerHeight={h} should be 8"
 
     def test_seq_async_dimensions(self):
         root = _render_fixture("basic.mmd")
         m = _get_marker(root, "seq-async")
         w = float(m.get("markerWidth"))
         h = float(m.get("markerHeight"))
-        assert w <= 8, f"seq-async markerWidth={w} should be <= 8"
-        assert h <= 6, f"seq-async markerHeight={h} should be <= 6"
+        assert w == 8, f"seq-async markerWidth={w} should be 8"
+        assert h == 8, f"seq-async markerHeight={h} should be 8"
 
     def test_seq_cross_dimensions(self):
         root = _render_fixture("basic.mmd")
@@ -81,51 +79,62 @@ class TestMarkerGeometryConsistency:
     """Verify refX/refY match the polygon/polyline geometry."""
 
     def test_seq_arrow_refx_matches_tip(self):
-        """refX should equal the x-coord of the arrowhead tip (rightmost point)."""
+        """refX should equal the x-coord of the arrowhead tip in viewBox coords."""
         root = _render_fixture("basic.mmd")
         m = _get_marker(root, "seq-arrow")
         ref_x = float(m.get("refX"))
-        marker_w = float(m.get("markerWidth"))
-        # The tip of the arrow should be at refX = markerWidth
-        assert ref_x == marker_w, (
-            f"seq-arrow refX={ref_x} should equal markerWidth={marker_w}"
+        # The tip of the polygon "0 0, 10 5, 0 10" is at x=10 in viewBox coords
+        # refX must match so the tip aligns with the path endpoint
+        poly = m.find(f"{{{_SVG_NS}}}polygon")
+        assert poly is not None
+        points_str = poly.get("points")
+        xs = [float(pair.strip().split()[0]) for pair in points_str.split(",")]
+        tip_x = max(xs)
+        assert ref_x == tip_x, (
+            f"seq-arrow refX={ref_x} should equal polygon tip x={tip_x}"
         )
 
     def test_seq_arrow_refy_centered(self):
-        """refY should be half the markerHeight (vertically centered)."""
+        """refY should be half the viewBox height (vertically centered)."""
         root = _render_fixture("basic.mmd")
         m = _get_marker(root, "seq-arrow")
         ref_y = float(m.get("refY"))
-        marker_h = float(m.get("markerHeight"))
-        assert ref_y == marker_h / 2, (
-            f"seq-arrow refY={ref_y} should equal markerHeight/2={marker_h / 2}"
+        # viewBox "0 0 10 10" -> center y = 5
+        vb = m.get("viewBox", "0 0 10 10")
+        vb_h = float(vb.split()[3])
+        assert ref_y == vb_h / 2, (
+            f"seq-arrow refY={ref_y} should equal viewBox height/2={vb_h / 2}"
         )
 
-    def test_seq_arrow_polygon_within_bounds(self):
-        """Polygon points should fit within markerWidth x markerHeight."""
+    def test_seq_arrow_polygon_within_viewbox(self):
+        """Polygon points should fit within viewBox dimensions."""
         root = _render_fixture("basic.mmd")
         m = _get_marker(root, "seq-arrow")
-        marker_w = float(m.get("markerWidth"))
-        marker_h = float(m.get("markerHeight"))
+        vb = m.get("viewBox", "0 0 10 10")
+        vb_parts = vb.split()
+        vb_w = float(vb_parts[2])
+        vb_h = float(vb_parts[3])
         poly = m.find(f"{{{_SVG_NS}}}polygon")
         assert poly is not None, "seq-arrow must contain a polygon"
         points_str = poly.get("points")
         for pair in points_str.split(","):
             coords = pair.strip().split()
             x, y = float(coords[0]), float(coords[1])
-            assert 0 <= x <= marker_w, f"polygon x={x} out of bounds [0, {marker_w}]"
-            assert 0 <= y <= marker_h, f"polygon y={y} out of bounds [0, {marker_h}]"
+            assert 0 <= x <= vb_w, f"polygon x={x} out of bounds [0, {vb_w}]"
+            assert 0 <= y <= vb_h, f"polygon y={y} out of bounds [0, {vb_h}]"
 
     def test_seq_cross_ref_centered(self):
-        """Cross marker refX/refY should be centered."""
+        """Cross marker refX/refY should be centered in viewBox coords."""
         root = _render_fixture("basic.mmd")
         m = _get_marker(root, "seq-cross")
         ref_x = float(m.get("refX"))
         ref_y = float(m.get("refY"))
-        marker_w = float(m.get("markerWidth"))
-        marker_h = float(m.get("markerHeight"))
-        assert ref_x == marker_w / 2
-        assert ref_y == marker_h / 2
+        vb = m.get("viewBox", "0 0 10 10")
+        vb_parts = vb.split()
+        vb_w = float(vb_parts[2])
+        vb_h = float(vb_parts[3])
+        assert ref_x == vb_w / 2
+        assert ref_y == vb_h / 2
 
     def test_all_markers_use_user_space_on_use(self):
         root = _render_fixture("basic.mmd")

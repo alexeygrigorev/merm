@@ -49,7 +49,7 @@ def _marker_arrow(
     marker.set("viewBox", "0 0 10 10")
     marker.set("markerWidth", "8")
     marker.set("markerHeight", "8")
-    marker.set("refX", "0")
+    marker.set("refX", "10")
     marker.set("refY", "5")
     marker.set("orient", orient)
     marker.set("markerUnits", "userSpaceOnUse")
