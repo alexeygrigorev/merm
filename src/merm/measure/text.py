@@ -101,8 +101,8 @@ def _line_width(text: str, font_size: float) -> float:
     icon_width = 0.0
     clean = text
     for m in _FA_TOKEN_RE.finditer(text):
-        # Each icon occupies 1.5x font_size width + a small gap (2px)
-        icon_width += font_size * 1.5 + 2.0
+        # Each icon occupies 1.5x font_size width + a 5px gap
+        icon_width += font_size * 1.5 + 5.0
     # Remove icon tokens from text for character-width measurement
     clean = _FA_TOKEN_RE.sub("", text)
     char_w = sum(_char_width(ch, font_size) for ch in clean)
