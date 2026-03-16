@@ -74,10 +74,10 @@ def state_diagram_to_flowchart(
             composite_ids.add(state.id)
             child_ids: list[str] = []
 
-            # Find an internal start pseudo-state for entry
+            # Find an internal start/fork pseudo-state for entry
             entry_id: str | None = None
             for child in state.children:
-                if child.state_type == StateType.START:
+                if child.state_type in (StateType.START, StateType.FORK):
                     entry_id = child.id
                     break
             if entry_id is None and state.children:
@@ -86,12 +86,17 @@ def state_diagram_to_flowchart(
             if entry_id is not None:
                 composite_entry[state.id] = entry_id
 
-            # Find a suitable exit node: last non-start child
+            # Find a suitable exit node: prefer JOIN/END, else last non-start child
             exit_id: str | None = None
             for child in reversed(state.children):
-                if child.state_type != StateType.START:
+                if child.state_type in (StateType.JOIN, StateType.END):
                     exit_id = child.id
                     break
+            if exit_id is None:
+                for child in reversed(state.children):
+                    if child.state_type not in (StateType.START, StateType.FORK):
+                        exit_id = child.id
+                        break
             if exit_id is None and state.children:
                 exit_id = state.children[-1].id
 
