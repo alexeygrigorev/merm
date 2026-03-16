@@ -90,11 +90,15 @@ class TestMarkerShortenValues:
     def test_arrow_shorten_is_8(self):
         assert _marker_shorten(ArrowType.arrow) == 8.0
 
-    def test_circle_shorten_is_5(self):
-        assert _marker_shorten(ArrowType.circle) == 5.0
+    def test_circle_shorten_accounts_for_marker_scaling(self):
+        # Circle marker: viewBox 10x10, markerWidth=8, refX=5
+        # Forward extent = (10 - 5) * (8/10) = 4.0px
+        assert _marker_shorten(ArrowType.circle) == 4.0
 
-    def test_cross_shorten_is_5_5(self):
-        assert _marker_shorten(ArrowType.cross) == 5.5
+    def test_cross_shorten_accounts_for_marker_scaling(self):
+        # Cross marker: viewBox 11x11, markerWidth=8, refX=5.5
+        # Forward extent = (11 - 5.5) * (8/11) = 4.0px
+        assert _marker_shorten(ArrowType.cross) == 4.0
 
     def test_none_shorten_is_0(self):
         assert _marker_shorten(ArrowType.none) == 0.0
@@ -118,18 +122,18 @@ class TestMarkerShortenValues:
 class TestShortenEndPerMarker:
     """_shorten_end with per-marker amounts produces correct offsets."""
 
-    def test_shorten_end_by_5_circle(self):
-        """Circle marker: path shortened by 5px, not 8px."""
+    def test_shorten_end_by_4_circle(self):
+        """Circle marker: path shortened by 4px (accounting for marker scaling)."""
         pts = [Point(100, 0), Point(100, 100)]
-        shortened = _shorten_end(pts, 5.0)
-        # Last point should be at y=95 (100 - 5)
-        assert abs(shortened[-1].y - 95.0) < 0.01
+        shortened = _shorten_end(pts, 4.0)
+        # Last point should be at y=96 (100 - 4)
+        assert abs(shortened[-1].y - 96.0) < 0.01
 
-    def test_shorten_end_by_5_5_cross(self):
-        """Cross marker: path shortened by 5.5px."""
+    def test_shorten_end_by_4_cross(self):
+        """Cross marker: path shortened by 4px (accounting for marker scaling)."""
         pts = [Point(100, 0), Point(100, 100)]
-        shortened = _shorten_end(pts, 5.5)
-        assert abs(shortened[-1].y - 94.5) < 0.01
+        shortened = _shorten_end(pts, 4.0)
+        assert abs(shortened[-1].y - 96.0) < 0.01
 
     def test_shorten_end_by_8_arrow(self):
         """Arrow marker: path shortened by 8px (unchanged behavior)."""
@@ -147,7 +151,7 @@ class TestCircleEndpointTouchesNode:
     """Circle endpoint (--o) must touch the target node, not leave a gap."""
 
     def test_circle_endpoint_near_node(self):
-        """Path endpoint with circle marker should be ~5px from node (not ~8px)."""
+        """Path endpoint with circle marker should be ~4px from node."""
         svg = render_diagram("graph TD\n    A --o B")
         edges = _get_edge_paths(svg)
         nodes = _get_node_bounds(svg)
@@ -161,12 +165,10 @@ class TestCircleEndpointTouchesNode:
                 continue
             ex, ey = _parse_path_endpoint(edge["d"])
             dist = _dist_to_rect_boundary(ex, ey, target)
-            # With circle shorten=5, dist should be ~5, not ~8
-            # Allow some tolerance but ensure it's closer than arrow (8)
-            assert dist < 7, (
+            # Circle: forward extent = 5 * (8/10) = 4.0, so shorten=4, dist~=4
+            assert dist < 5, (
                 f"Circle endpoint ({ex:.1f}, {ey:.1f}) is {dist:.1f}px from "
-                f"target node — should be ~5px (circle marker refX=5). "
-                f"A gap > 7px means the old constant shortening is still used."
+                f"target node — should be ~4px after accounting for marker scaling."
             )
 
 
@@ -174,7 +176,7 @@ class TestCrossEndpointTouchesNode:
     """Cross endpoint (--x) must touch the target node, not leave a gap."""
 
     def test_cross_endpoint_near_node(self):
-        """Path endpoint with cross marker should be ~5.5px from node."""
+        """Path endpoint with cross marker should be ~4px from node."""
         svg = render_diagram("graph TD\n    A --x B")
         edges = _get_edge_paths(svg)
         nodes = _get_node_bounds(svg)
@@ -188,9 +190,9 @@ class TestCrossEndpointTouchesNode:
                 continue
             ex, ey = _parse_path_endpoint(edge["d"])
             dist = _dist_to_rect_boundary(ex, ey, target)
-            assert dist < 7, (
+            assert dist < 5, (
                 f"Cross endpoint ({ex:.1f}, {ey:.1f}) is {dist:.1f}px from "
-                f"target node — should be ~5.5px (cross marker refX=5.5)."
+                f"target node — should be ~4px after accounting for marker scaling."
             )
 
 
@@ -236,9 +238,9 @@ class TestMultipleMarkerTypes:
             ex, ey = _parse_path_endpoint(edge["d"])
             dist = _dist_to_rect_boundary(ex, ey, target)
             if "circle" in edge["marker_end"]:
-                assert dist < 7, (
+                assert dist < 5, (
                     f"Circle edge {edge['source']}->{edge['target']}: "
-                    f"gap is {dist:.1f}px, should be ~5px"
+                    f"gap is {dist:.1f}px, should be ~4px"
                 )
             elif "arrow" in edge["marker_end"]:
                 assert dist >= 4, (

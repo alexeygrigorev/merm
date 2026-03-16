@@ -10,14 +10,15 @@ from merm.layout import EdgeLayout, Point
 _DEFAULT_EDGE_STROKE = "#333333"
 
 # How far to pull the path endpoint back from the node border per marker type.
-# Arrow: markerWidth=8, refX=0 => shorten by 8 (triangle fills the gap)
-# Circle-end: refX=5 => shorten by 5 (circle center at path end)
-# Cross-end: refX=5.5 => shorten by 5.5 (cross center at path end)
+# Must account for marker scaling: markerWidth / viewBox ratio.
+# Arrow: viewBox 10x10, markerWidth=8, refX=0 => forward extent = 10*(8/10) = 8.0
+# Circle: viewBox 10x10, markerWidth=8, refX=5 => forward extent = 5*(8/10) = 4.0
+# Cross:  viewBox 11x11, markerWidth=8, refX=5.5 => forward extent = 5.5*(8/11) = 4.0
 # No marker / none: shorten by 0
 _MARKER_SHORTEN_BY_ARROW: dict[ArrowType, float] = {
     ArrowType.arrow: 8.0,
-    ArrowType.circle: 5.0,
-    ArrowType.cross: 5.5,
+    ArrowType.circle: 4.0,
+    ArrowType.cross: 4.0,
     ArrowType.none: 0.0,
 }
 
