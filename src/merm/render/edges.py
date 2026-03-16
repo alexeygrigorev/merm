@@ -258,6 +258,44 @@ def _edge_midpoint(points: list[Point]) -> tuple[float, float]:
     p2 = points[mid_idx]
     return ((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0)
 
+
+def _point_along_polyline(points: list[Point], fraction: float) -> tuple[float, float]:
+    """Return the point at *fraction* (0..1) of the total polyline length.
+
+    Used to bias label positions away from diamond nodes whose diagonal
+    borders extend further than rectangular borders.
+    """
+    if len(points) == 0:
+        return (0.0, 0.0)
+    if len(points) == 1:
+        return (points[0].x, points[0].y)
+
+    # Compute cumulative segment lengths.
+    seg_lengths: list[float] = []
+    for i in range(1, len(points)):
+        seg_lengths.append(math.hypot(
+            points[i].x - points[i - 1].x,
+            points[i].y - points[i - 1].y,
+        ))
+    total = sum(seg_lengths)
+    if total < 1e-6:
+        return (points[0].x, points[0].y)
+
+    target_dist = fraction * total
+    cumulative = 0.0
+    for i, seg_len in enumerate(seg_lengths):
+        if cumulative + seg_len >= target_dist:
+            # Interpolate within this segment.
+            remaining = target_dist - cumulative
+            t = remaining / seg_len if seg_len > 1e-6 else 0.0
+            px = points[i].x + t * (points[i + 1].x - points[i].x)
+            py = points[i].y + t * (points[i + 1].y - points[i].y)
+            return (px, py)
+        cumulative += seg_len
+
+    # Fallback: return last point.
+    return (points[-1].x, points[-1].y)
+
 def _label_bbox(
     label: str, cx: float, cy: float,
 ) -> tuple[float, float, float, float]:
@@ -301,6 +339,7 @@ def _edge_path_bbox(el: EdgeLayout) -> tuple[float, float, float, float]:
 def resolve_label_positions(
     labeled_edges: list[tuple[EdgeLayout, Edge]],
     obstacle_edges: list[EdgeLayout] | None = None,
+    diamond_node_ids: set[str] | None = None,
 ) -> dict[tuple[str, str], tuple[float, float]]:
     """Compute adjusted label positions so no two label bounding boxes overlap.
 
@@ -311,6 +350,9 @@ def resolve_label_positions(
             that have labels.
         obstacle_edges: Optional list of edge layouts whose paths should be
             avoided by labels (e.g. back-edges).
+        diamond_node_ids: Optional set of node IDs that are diamond-shaped.
+            When an edge's source or target is a diamond, the label is
+            biased away from it to avoid overlapping the diagonal border.
 
     Returns:
         A dict mapping ``(source, target)`` to the adjusted ``(cx, cy)``
@@ -319,11 +361,25 @@ def resolve_label_positions(
     if not labeled_edges:
         return {}
 
-    # Compute initial positions from edge midpoints.
+    diamonds = diamond_node_ids or set()
+
+    # Compute initial positions from edge midpoints, biasing away from
+    # diamond-shaped source/target nodes whose diagonal borders extend
+    # further than rectangular borders.
     entries: list[tuple[tuple[str, str], str, float, float]] = []
     for el, ir_edge in labeled_edges:
         key = (el.source, el.target)
-        cx, cy = _edge_midpoint(el.points)
+        src_diamond = el.source in diamonds
+        tgt_diamond = el.target in diamonds
+        if src_diamond and not tgt_diamond:
+            # Bias toward target (away from source diamond).
+            cx, cy = _point_along_polyline(el.points, 0.65)
+        elif tgt_diamond and not src_diamond:
+            # Bias toward source (away from target diamond).
+            cx, cy = _point_along_polyline(el.points, 0.35)
+        else:
+            # Both or neither are diamonds -- use standard midpoint.
+            cx, cy = _edge_midpoint(el.points)
         entries.append((key, ir_edge.label, cx, cy))
 
     # Sort by y then x for deterministic processing.

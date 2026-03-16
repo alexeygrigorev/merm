@@ -1657,7 +1657,10 @@ def layout_diagram(
                 direction=direction,
             )
 
-        # Normalize: shift everything so min position is >= 0
+        # Normalize: shift everything so min node edge is at 0.
+        # After direction transform (e.g. LR swaps axes), node centers
+        # may be offset from the origin even though they aren't negative,
+        # leading to excessive whitespace on one side.
         all_min_x = float("inf")
         all_min_y = float("inf")
         for nid, (cx, cy) in all_positions.items():
@@ -1665,9 +1668,9 @@ def layout_diagram(
             all_min_x = min(all_min_x, cx - w / 2.0)
             all_min_y = min(all_min_y, cy - h / 2.0)
 
-        if all_min_x < 0 or all_min_y < 0:
-            dx = max(0.0, -all_min_x)
-            dy = max(0.0, -all_min_y)
+        if all_min_x != 0.0 or all_min_y != 0.0:
+            dx = -all_min_x
+            dy = -all_min_y
             all_positions = {
                 n: (x + dx, y + dy)
                 for n, (x, y) in all_positions.items()

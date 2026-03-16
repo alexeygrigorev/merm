@@ -9,6 +9,7 @@ import re
 import xml.etree.ElementTree as ET
 
 from merm.ir import Diagram, Edge, Node, Subgraph
+from merm.ir.enums import NodeShape
 from merm.layout import EdgeLayout, LayoutResult, NodeLayout, SubgraphLayout
 from merm.render.edges import (
     _label_bbox,
@@ -465,7 +466,10 @@ def render_svg(
         if len(el.points) >= 3:
             if el.points[-1].y < el.points[0].y:
                 obstacle_edges.append(el)
-    label_positions = resolve_label_positions(labeled_edges, obstacle_edges)
+    diamond_ids = {n.id for n in diagram.nodes if n.shape == NodeShape.diamond}
+    label_positions = resolve_label_positions(
+        labeled_edges, obstacle_edges, diamond_node_ids=diamond_ids,
+    )
 
     # Compute viewBox with padding, expanding for edge label overflow.
     min_x = 0.0
