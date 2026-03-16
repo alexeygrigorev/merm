@@ -458,7 +458,7 @@ class TestSVGEdgeEndpoints:
 class TestMarkerAlignment:
     """Arrow markers should use refX-based alignment with the target boundary."""
 
-    def test_arrow_marker_refx_is_10(self) -> None:
+    def test_arrow_marker_refx_is_zero(self) -> None:
         """Arrow marker refX=0: base at path end; combined with _MARKER_SHORTEN=8,
         the path is pulled back so the arrowhead tip touches the node boundary."""
         from merm.render.edges import make_edge_defs

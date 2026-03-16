@@ -222,22 +222,26 @@ class TestRenderWithGap:
                     nodes[nid] = {"x": x, "y": y, "w": w, "h": h}
         return nodes
 
-    def test_td_arrows_have_gap(self) -> None:
+    def test_td_renders_edge_paths(self) -> None:
+        """TD flowchart produces at least 2 edge paths for A-->B-->C."""
         source = "flowchart TD\n    A --> B --> C"
         paths = self._render_and_get_edge_paths(source)
         assert len(paths) >= 2, "Expected at least 2 edge paths"
 
-    def test_lr_arrows_have_gap(self) -> None:
+    def test_lr_renders_edge_paths(self) -> None:
+        """LR flowchart produces at least 2 edge paths for A-->B-->C."""
         source = "flowchart LR\n    A --> B --> C"
         paths = self._render_and_get_edge_paths(source)
         assert len(paths) >= 2
 
-    def test_bt_arrows_have_gap(self) -> None:
+    def test_bt_renders_edge_paths(self) -> None:
+        """BT flowchart produces at least 2 edge paths for A-->B-->C."""
         source = "flowchart BT\n    A --> B --> C"
         paths = self._render_and_get_edge_paths(source)
         assert len(paths) >= 2
 
-    def test_rl_arrows_have_gap(self) -> None:
+    def test_rl_renders_edge_paths(self) -> None:
+        """RL flowchart produces at least 2 edge paths for A-->B-->C."""
         source = "flowchart RL\n    A --> B --> C"
         paths = self._render_and_get_edge_paths(source)
         assert len(paths) >= 2
