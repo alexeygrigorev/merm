@@ -202,7 +202,7 @@ flowchart TD
     E --> F
 ```
 
-<img src="docs/xmas_tree.svg" alt="Christmas tree flowchart" width="400">
+<img src="docs/xmas_tree.svg" alt="Christmas tree flowchart" width="300">
 
 ## Features
 
