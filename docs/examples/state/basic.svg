@@ -41,7 +41,7 @@
     <text text-anchor="middle" dominant-baseline="central" x="40.8" y="227.0">terminate</text>
   </g>
   <g class="state start">
-    <circle cx="40.8" cy="19.2" r="10" fill="black" stroke="black" />
+    <circle cx="40.8" cy="19.2" r="10" style="fill: black; stroke: black" />
   </g>
   <g class="state" data-state-id="Idle">
     <rect x="5.8" y="78.4" width="70" height="42" rx="10" ry="10" />
@@ -52,7 +52,7 @@
     <text x="40.8" y="181.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Active</text>
   </g>
   <g class="state end">
-    <circle cx="40.8" cy="261.6" r="10" fill="none" stroke="black" stroke-width="2" />
-    <circle cx="40.8" cy="261.6" r="6" fill="black" stroke="black" />
+    <circle cx="40.8" cy="261.6" r="10" style="fill: none; stroke: black; stroke-width: 2" />
+    <circle cx="40.8" cy="261.6" r="6" style="fill: black; stroke: black" />
   </g>
 </svg>

@@ -95,8 +95,7 @@ def _render_start_state(
     circle.set("cx", _round_coord(cx))
     circle.set("cy", _round_coord(cy))
     circle.set("r", _round_coord(r))
-    circle.set("fill", "black")
-    circle.set("stroke", "black")
+    circle.set("style", "fill: black; stroke: black")
 
 def _render_end_state(
     parent: ET.Element, nl: NodeLayout,
@@ -112,15 +111,12 @@ def _render_end_state(
     outer.set("cx", _round_coord(cx))
     outer.set("cy", _round_coord(cy))
     outer.set("r", _round_coord(r_outer))
-    outer.set("fill", "none")
-    outer.set("stroke", "black")
-    outer.set("stroke-width", "2")
+    outer.set("style", "fill: none; stroke: black; stroke-width: 2")
     inner = ET.SubElement(g, "circle")
     inner.set("cx", _round_coord(cx))
     inner.set("cy", _round_coord(cy))
     inner.set("r", _round_coord(r_inner))
-    inner.set("fill", "black")
-    inner.set("stroke", "black")
+    inner.set("style", "fill: black; stroke: black")
 
 def _render_fork_join_state(
     parent: ET.Element, nl: NodeLayout,

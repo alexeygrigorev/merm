@@ -47,11 +47,11 @@
   <g class="edge" data-edge-source="__join_Processing" data-edge-target="Done">
     <path d="M115.0,386.4 L115.0,398.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
-  <g class="edge" data-edge-source="Done" data-edge-target="__end_2">
+  <g class="edge" data-edge-source="Done" data-edge-target="__end_0">
     <path d="M115.0,448.4 L115.0,489.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="state start">
-    <circle cx="115" cy="19.2" r="10" fill="black" stroke="black" />
+    <circle cx="115" cy="19.2" r="10" style="fill: black; stroke: black" />
   </g>
   <g class="state" data-state-id="Ready">
     <rect x="75" y="78.4" width="80" height="42" rx="10" ry="10" />
@@ -76,7 +76,7 @@
     <text x="115" y="427.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Done</text>
   </g>
   <g class="state end">
-    <circle cx="115" cy="507.6" r="10" fill="none" stroke="black" stroke-width="2" />
-    <circle cx="115" cy="507.6" r="6" fill="black" stroke="black" />
+    <circle cx="115" cy="507.6" r="10" style="fill: none; stroke: black; stroke-width: 2" />
+    <circle cx="115" cy="507.6" r="6" style="fill: black; stroke: black" />
   </g>
 </svg>

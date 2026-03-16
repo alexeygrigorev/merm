@@ -45,7 +45,7 @@
     <path d="M151.8,242.4 C159.99,232.23 204.11,200.89 200.9,181.4 C197.69,161.91 143.94,134.79 132.55,125.47" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="state start">
-    <circle cx="100.7" cy="19.2" r="10" fill="black" stroke="black" />
+    <circle cx="100.7" cy="19.2" r="10" style="fill: black; stroke: black" />
   </g>
   <g class="state" data-state-id="Evaluating">
     <rect x="42.7" y="78.4" width="116" height="42" rx="10" ry="10" />
@@ -60,8 +60,8 @@
     <text x="135.4" y="181.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Fail</text>
   </g>
   <g class="state end">
-    <circle cx="35.2" cy="263.4" r="10" fill="none" stroke="black" stroke-width="2" />
-    <circle cx="35.2" cy="263.4" r="6" fill="black" stroke="black" />
+    <circle cx="35.2" cy="263.4" r="10" style="fill: none; stroke: black; stroke-width: 2" />
+    <circle cx="35.2" cy="263.4" r="6" style="fill: black; stroke: black" />
   </g>
   <g class="state" data-state-id="Retry">
     <rect x="96.9" y="242.4" width="76" height="42" rx="10" ry="10" />

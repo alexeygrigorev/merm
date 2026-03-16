@@ -102,23 +102,42 @@ def _resolve_pseudo_state(
     state_id: str, is_source: bool, pstate: _ParserState,
     states: dict[str, _StateInfo],
 ) -> str:
-    """Resolve [*] pseudo-state references to unique start/end state IDs."""
+    """Resolve [*] pseudo-state references to start/end state IDs.
+
+    At the top level, all ``[*]`` references as source map to a single
+    START node and all as target map to a single END node (UML convention:
+    one start circle, one end circle).
+
+    Inside composite states, each ``[*]`` gets a unique ID so that
+    multiple parallel entries/exits can be merged into fork/join bars
+    by ``_merge_parallel_pseudo_states``.
+    """
     if state_id != "[*]":
         return state_id
 
+    in_composite = bool(pstate.composite_stack)
+
     if is_source:
-        # [*] as source = start state
-        real_id = f"__start_{pstate.start_count}"
-        pstate.start_count += 1
+        if in_composite:
+            # Inside composite: unique IDs for fork/join merge
+            real_id = f"__start_{pstate.start_count}"
+            pstate.start_count += 1
+        else:
+            # Top level: single canonical start node
+            real_id = "__start_0"
         if real_id not in states:
             states[real_id] = _StateInfo(
                 id=real_id, label="", state_type=StateType.START,
             )
         return real_id
     else:
-        # [*] as target = end state
-        real_id = f"__end_{pstate.end_count}"
-        pstate.end_count += 1
+        if in_composite:
+            # Inside composite: unique IDs for fork/join merge
+            real_id = f"__end_{pstate.end_count}"
+            pstate.end_count += 1
+        else:
+            # Top level: single canonical end node
+            real_id = "__end_0"
         if real_id not in states:
             states[real_id] = _StateInfo(
                 id=real_id, label="", state_type=StateType.END,

@@ -347,7 +347,8 @@ class TestRenderer:
         # Should have a circle with fill=black
         circles = list(start_groups[0].iter("{http://www.w3.org/2000/svg}circle"))
         assert len(circles) >= 1
-        assert circles[0].get("fill") == "black"
+        style = circles[0].get("style") or ""
+        assert "fill: black" in style or "fill:black" in style or circles[0].get("fill") == "black"
 
     def test_end_state_renders_bulls_eye(self):
         svg = self._make_svg("stateDiagram-v2\n  s1 --> [*]")

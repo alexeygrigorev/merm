@@ -51,7 +51,7 @@
     <text text-anchor="middle" dominant-baseline="central" x="57.2" y="468.4">deliver</text>
   </g>
   <g class="edge" data-edge-source="Delivered" data-edge-target="__end_0">
-    <path d="M57.92,530.4 L59.39,573.41" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M53.95,530.4 C52.37,540.57 46.07,567.57 44.5,591.4 C42.93,615.23 42.85,649.33 44.5,673.4 C46.15,697.47 52.74,725.42 54.38,735.82" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Placed" data-edge-target="Cancelled">
     <path d="M145.69,120.4 C154.54,130.57 189.86,162.4 198.8,181.4 C207.74,200.4 199.23,225.57 199.32,234.4" stroke-width="2" marker-end="url(#arrow)" />
@@ -63,29 +63,29 @@
     <rect x="138.5" y="210.4" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="163.5" y="222.4">cancel</text>
   </g>
-  <g class="edge" data-edge-source="Cancelled" data-edge-target="__end_1">
-    <path d="M199.6,284.4 L199.6,327.4" stroke-width="2" marker-end="url(#arrow)" />
+  <g class="edge" data-edge-source="Cancelled" data-edge-target="__end_0">
+    <path d="M195.2,284.4 C193.06,294.57 183.27,321.57 182.4,345.4 C181.53,369.23 184.88,400.07 190.0,427.4 C195.12,454.73 209.72,482.07 213.1,509.4 C216.48,536.73 210.77,564.07 210.3,591.4 C209.83,618.73 233.16,647.76 210.3,673.4 C187.44,699.04 96,733.27 73.14,745.25" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Shipped" data-edge-target="Returned">
-    <path d="M93.16,448.4 C110.56,458.57 184.12,490.29 197.6,509.4 C211.08,528.51 177.96,554.13 174.04,563.07" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="120.38" y="466.9" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="145.38" y="478.9">return</text>
+    <path d="M89.19,448.4 C104.67,458.57 180.99,489.8 182.1,509.4 C183.21,529 110.25,556.57 95.87,566.01" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="110.64" y="466.9" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="135.64" y="478.9">return</text>
   </g>
   <g class="edge" data-edge-source="Delivered" data-edge-target="Returned">
-    <path d="M83.94,530.4 L128.57,565.46" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="84.4" y="538.4" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="109.4" y="550.4">return</text>
+    <path d="M57.2,530.4 L57.2,562.4" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="32.2" y="538.4" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="57.2" y="550.4">return</text>
   </g>
   <g class="edge" data-edge-source="Returned" data-edge-target="Refunded">
-    <path d="M161.6,612.4 L161.6,644.4" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="108.6" y="620.4" width="106.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="161.6" y="632.4">process refund</text>
+    <path d="M57.2,612.4 L57.2,644.4" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="4.2" y="620.4" width="106.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="57.2" y="632.4">process refund</text>
   </g>
-  <g class="edge" data-edge-source="Refunded" data-edge-target="__end_2">
-    <path d="M161.6,694.4 L161.6,735.6" stroke-width="2" marker-end="url(#arrow)" />
+  <g class="edge" data-edge-source="Refunded" data-edge-target="__end_0">
+    <path d="M57.2,694.4 L57.2,735.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="state start">
-    <circle cx="127.4" cy="19.2" r="10" fill="black" stroke="black" />
+    <circle cx="127.4" cy="19.2" r="10" style="fill: black; stroke: black" />
   </g>
   <g class="state" data-state-id="Placed">
     <rect x="84.6" y="78.4" width="85.6" height="42" rx="10" ry="10" />
@@ -112,27 +112,19 @@
     <text x="57.2" y="509.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Delivered</text>
   </g>
   <g class="state end">
-    <circle cx="60" cy="591.4" r="10" fill="none" stroke="black" stroke-width="2" />
-    <circle cx="60" cy="591.4" r="6" fill="black" stroke="black" />
+    <circle cx="57.2" cy="753.6" r="10" style="fill: none; stroke: black; stroke-width: 2" />
+    <circle cx="57.2" cy="753.6" r="6" style="fill: black; stroke: black" />
   </g>
   <g class="state" data-state-id="Cancelled">
     <rect x="144.4" y="242.4" width="110.4" height="42" rx="10" ry="10" />
     <text x="199.6" y="263.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Cancelled</text>
   </g>
-  <g class="state end">
-    <circle cx="199.6" cy="345.4" r="10" fill="none" stroke="black" stroke-width="2" />
-    <circle cx="199.6" cy="345.4" r="6" fill="black" stroke="black" />
-  </g>
   <g class="state" data-state-id="Returned">
-    <rect x="109.2" y="570.4" width="104.8" height="42" rx="10" ry="10" />
-    <text x="161.6" y="591.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Returned</text>
+    <rect x="4.8" y="570.4" width="104.8" height="42" rx="10" ry="10" />
+    <text x="57.2" y="591.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Returned</text>
   </g>
   <g class="state" data-state-id="Refunded">
-    <rect x="109.2" y="652.4" width="104.8" height="42" rx="10" ry="10" />
-    <text x="161.6" y="673.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Refunded</text>
-  </g>
-  <g class="state end">
-    <circle cx="161.6" cy="753.6" r="10" fill="none" stroke="black" stroke-width="2" />
-    <circle cx="161.6" cy="753.6" r="6" fill="black" stroke="black" />
+    <rect x="4.8" y="652.4" width="104.8" height="42" rx="10" ry="10" />
+    <text x="57.2" y="673.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Refunded</text>
   </g>
 </svg>
