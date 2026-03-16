@@ -1294,6 +1294,130 @@ def _separate_subgraphs(
 
     return positions
 
+def _apply_subgraph_directions(
+    positions: dict[str, tuple[float, float]],
+    node_sizes: dict[str, tuple[float, float]],
+    subgraphs: tuple[Subgraph, ...],
+    diagram_direction: Direction,
+) -> dict[str, tuple[float, float]]:
+    """Apply per-subgraph direction overrides.
+
+    When a subgraph specifies its own ``direction`` (e.g. ``direction LR``
+    inside a ``flowchart TD``), the nodes belonging to that subgraph need a
+    local coordinate transform so they flow in the requested direction.
+
+    The layout engine works entirely in TB space until the final global
+    direction transform.  This function computes a *pre-transform* for
+    each subgraph so that, after the global direction transform is
+    applied, the subgraph ends up in its declared direction.
+
+    The pre-transform is: ``inverse(global_transform) . subgraph_transform``
+    applied to local coordinates centred on the subgraph bounding box.
+
+    Returns an updated *positions* dict.
+    """
+
+    def _norm(d: Direction) -> Direction:
+        """Normalise TB to TD."""
+        return Direction.TD if d == Direction.TB else d
+
+    def _dir_transform(
+        d: Direction, lx: float, ly: float,
+    ) -> tuple[float, float]:
+        """Apply the direction transform for *d* to local coords (lx, ly).
+
+        TD = identity, LR = swap, RL = swap+flip x, BT = flip y.
+        """
+        match d:
+            case Direction.TB | Direction.TD:
+                return (lx, ly)
+            case Direction.LR:
+                return (ly, lx)
+            case Direction.RL:
+                return (-ly, lx)
+            case Direction.BT:
+                return (lx, -ly)
+
+    def _inv_dir_transform(
+        d: Direction, lx: float, ly: float,
+    ) -> tuple[float, float]:
+        """Apply the *inverse* direction transform for *d*.
+
+        inv(TD) = identity, inv(LR) = swap, inv(RL) = flip y + swap,
+        inv(BT) = flip y.
+        """
+        match d:
+            case Direction.TB | Direction.TD:
+                return (lx, ly)
+            case Direction.LR:
+                return (ly, lx)
+            case Direction.RL:
+                # inv of (swap + flip x) = swap + flip y
+                return (ly, -lx)
+            case Direction.BT:
+                return (lx, -ly)
+
+    positions = dict(positions)
+
+    norm_diag = _norm(diagram_direction)
+
+    def _apply_local_transform(sg: Subgraph) -> None:
+        """Recursively apply direction transforms for *sg* and its children."""
+        # First recurse into children so they get their own transforms
+        for child in sg.subgraphs:
+            _apply_local_transform(child)
+
+        # Only transform when the subgraph has an *explicit* direction
+        # that differs from the diagram's global direction.  When no
+        # explicit direction is set (None), the subgraph inherits the
+        # global direction which is already handled by the main layout
+        # pipeline (horizontal flag + global _apply_direction).
+        if sg.direction is None:
+            return
+
+        norm_sg = _norm(sg.direction)
+        if norm_sg == norm_diag:
+            return  # subgraph direction matches diagram direction
+
+        all_ids = _collect_all_subgraph_node_ids(sg)
+        node_ids_in_pos = [nid for nid in all_ids if nid in positions]
+        if len(node_ids_in_pos) < 2:
+            return
+
+        # Compute local bounding box center
+        xs = [positions[n][0] for n in node_ids_in_pos]
+        ys = [positions[n][1] for n in node_ids_in_pos]
+        cx = (min(xs) + max(xs)) / 2.0
+        cy = (min(ys) + max(ys)) / 2.0
+
+        # Compute pre-transform = inv(global) . subgraph_transform
+        # applied to local coordinates (centred on bbox).
+        transformed: dict[str, tuple[float, float]] = {}
+        for nid in node_ids_in_pos:
+            x, y = positions[nid]
+            lx, ly = x - cx, y - cy
+            # First apply the subgraph's desired transform
+            sx, sy = _dir_transform(norm_sg, lx, ly)
+            # Then undo the global transform
+            rx, ry = _inv_dir_transform(norm_diag, sx, sy)
+            transformed[nid] = (rx, ry)
+
+        # Re-centre so the bbox centre stays at (cx, cy)
+        new_xs = [transformed[n][0] for n in node_ids_in_pos]
+        new_ys = [transformed[n][1] for n in node_ids_in_pos]
+        new_cx = (min(new_xs) + max(new_xs)) / 2.0
+        new_cy = (min(new_ys) + max(new_ys)) / 2.0
+
+        for nid in node_ids_in_pos:
+            tx, ty = transformed[nid]
+            positions[nid] = (tx - new_cx + cx, ty - new_cy + cy)
+
+    for sg in subgraphs:
+        _apply_local_transform(sg)
+
+    return positions
+
+
 def _compute_subgraph_layouts(
     subgraphs: tuple[Subgraph, ...],
     node_layouts: dict[str, NodeLayout],
@@ -1631,6 +1755,14 @@ def layout_diagram(
         for n, (x, y) in positions.items():
             all_positions[n] = (x + x_offset, y + y_offset)
         x_offset += comp_w + config.node_sep
+
+    # Apply per-subgraph direction overrides (e.g. `direction LR` inside
+    # a subgraph of a `flowchart TD` diagram).  This must happen in TB
+    # space before the global direction transform.
+    if diagram.subgraphs:
+        all_positions = _apply_subgraph_directions(
+            all_positions, all_node_sizes, diagram.subgraphs, direction,
+        )
 
     # Separate overlapping subgraph bounding boxes (in TB space, before
     # direction transform) so sibling subgraphs don't overlap.
