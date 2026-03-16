@@ -353,11 +353,38 @@ def render_state_svg(
                 text_el.set("font-family", theme.font_family)
                 text_el.text = state.label
 
-    # Build transition label map for edge rendering
+    # Build transition label map for edge rendering.
+    # The layout may have redirected edges to/from composite states
+    # to internal child nodes, so we also map the redirected endpoints.
+    _composite_entry: dict[str, str] = {}
+    _composite_exit: dict[str, str] = {}
+    for s in diagram.states:
+        if s.children:
+            for child in s.children:
+                if child.state_type == StateType.START:
+                    _composite_entry[s.id] = child.id
+                    break
+            if s.id not in _composite_entry and s.children:
+                _composite_entry[s.id] = s.children[0].id
+            # Exit: last non-start child
+            for child in reversed(s.children):
+                if child.state_type != StateType.START:
+                    _composite_exit[s.id] = child.id
+                    break
+            if s.id not in _composite_exit and s.children:
+                _composite_exit[s.id] = s.children[-1].id
+
     label_map: dict[tuple[str, str], str] = {}
     for t in diagram.transitions:
         if t.label:
-            label_map[(t.source, t.target)] = t.label
+            src = t.source
+            tgt = t.target
+            label_map[(src, tgt)] = t.label
+            # Also map redirected endpoints
+            r_src = _composite_exit.get(src, src)
+            r_tgt = _composite_entry.get(tgt, tgt)
+            if (r_src, r_tgt) != (src, tgt):
+                label_map[(r_src, r_tgt)] = t.label
 
     # Apply perpendicular offsets to bidirectional edges.
     offset_edges = apply_bidi_offsets(layout.edges)

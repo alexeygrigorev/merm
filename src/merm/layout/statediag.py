@@ -43,51 +43,103 @@ def _state_to_node_shape(state_type: StateType) -> NodeShape:
         case _:
             return NodeShape.rounded
 
-def state_diagram_to_flowchart(diagram: StateDiagram) -> Diagram:
+def state_diagram_to_flowchart(
+    diagram: StateDiagram,
+) -> tuple[Diagram, dict[str, str], dict[str, str]]:
     """Convert a StateDiagram into a flowchart Diagram for layout.
 
     States become Nodes, transitions become Edges, and composite
     states with children become Subgraphs.
+
+    Edges to/from composite states are redirected to internal child
+    nodes so the layout engine keeps everything connected within the
+    subgraph region.
+
+    Returns a tuple of (Diagram, composite_entry, composite_exit) where
+    the maps are {composite_id: child_id} for edge redirection.
     """
     nodes: list[Node] = []
     edges: list[Edge] = []
     subgraphs: list[Subgraph] = []
 
+    # Track composite states for edge redirection
+    composite_ids: set[str] = set()
+    # Maps composite id -> entry node id (for incoming edges)
+    composite_entry: dict[str, str] = {}
+    # Maps composite id -> exit node id (for outgoing edges)
+    composite_exit: dict[str, str] = {}
+
     def _add_state(state: State) -> None:
-        shape = _state_to_node_shape(state.state_type)
-        nodes.append(Node(
-            id=state.id,
-            label=state.label,
-            shape=shape,
-        ))
         if state.children:
+            composite_ids.add(state.id)
             child_ids: list[str] = []
+
+            # Find an internal start pseudo-state for entry
+            entry_id: str | None = None
+            for child in state.children:
+                if child.state_type == StateType.START:
+                    entry_id = child.id
+                    break
+            if entry_id is None and state.children:
+                entry_id = state.children[0].id
+
+            if entry_id is not None:
+                composite_entry[state.id] = entry_id
+
+            # Find a suitable exit node: last non-start child
+            exit_id: str | None = None
+            for child in reversed(state.children):
+                if child.state_type != StateType.START:
+                    exit_id = child.id
+                    break
+            if exit_id is None and state.children:
+                exit_id = state.children[-1].id
+
+            if exit_id is not None:
+                composite_exit[state.id] = exit_id
+
             for child in state.children:
                 _add_state(child)
                 child_ids.append(child.id)
+
             subgraphs.append(Subgraph(
                 id=state.id,
                 title=state.label,
                 node_ids=tuple(child_ids),
             ))
+        else:
+            shape = _state_to_node_shape(state.state_type)
+            nodes.append(Node(
+                id=state.id,
+                label=state.label,
+                shape=shape,
+            ))
 
     for state in diagram.states:
         _add_state(state)
 
+    # Redirect edges to/from composite states to internal children
     for trans in diagram.transitions:
+        source = trans.source
+        target = trans.target
+        if target in composite_ids and target in composite_entry:
+            target = composite_entry[target]
+        if source in composite_ids and source in composite_exit:
+            source = composite_exit[source]
         edges.append(Edge(
-            source=trans.source,
-            target=trans.target,
+            source=source,
+            target=target,
             label=trans.label or None,
         ))
 
-    return Diagram(
+    result = Diagram(
         type=DiagramType.state,
         direction=Direction.TB,
         nodes=tuple(nodes),
         edges=tuple(edges),
         subgraphs=tuple(subgraphs),
     )
+    return result, composite_entry, composite_exit
 
 def _circle_boundary_point(cx: float, cy: float, radius: float,
                            ref_x: float, ref_y: float) -> Point:
@@ -193,7 +245,7 @@ def layout_state_diagram(
     adjusts sizes for pseudo-states (start/end circles, fork/join bars)
     and re-routes edge endpoints to the new boundaries.
     """
-    flowchart = state_diagram_to_flowchart(diagram)
+    flowchart, composite_entry, composite_exit = state_diagram_to_flowchart(diagram)
 
     # Build a custom measure function that returns fixed sizes for
     # pseudo-states
@@ -257,6 +309,66 @@ def layout_state_diagram(
     adjusted_edges = _reroute_edges(
         result.edges, adjusted_nodes, resized_node_ids, state_types,
     )
+
+    # Reroute edges that cross subgraph boundaries for composite states.
+    # Edges redirected to internal children need their endpoints moved
+    # to the subgraph boundary so arrows connect to the composite box.
+    # composite_entry and composite_exit are from state_diagram_to_flowchart
+    sg_layouts = result.subgraphs or {}
+
+    if composite_entry or composite_exit:
+        # Build reverse maps: child_id -> composite_id
+        entry_to_composite = {v: k for k, v in composite_entry.items()}
+        exit_to_composite = {v: k for k, v in composite_exit.items()}
+
+        # Build set of all child IDs per composite for internal edge detection
+        composite_children: dict[str, set[str]] = {}
+        for s in diagram.states:
+            if s.children:
+                composite_children[s.id] = {c.id for c in s.children}
+
+        rerouted_edges: list[EdgeLayout] = []
+        for el in adjusted_edges:
+            points = list(el.points)
+
+            # If edge target was redirected into a composite (incoming edge),
+            # clip the last point to the subgraph boundary -- but only if
+            # the source is OUTSIDE the composite.
+            if el.target in entry_to_composite:
+                comp_id = entry_to_composite[el.target]
+                children = composite_children.get(comp_id, set())
+                if el.source not in children:
+                    sgl = sg_layouts.get(comp_id)
+                    if sgl and len(points) >= 2:
+                        target_nl = NodeLayout(
+                            x=sgl.x, y=sgl.y,
+                            width=sgl.width, height=sgl.height,
+                        )
+                        ref = points[0]  # source point
+                        bp = _rect_boundary_point(target_nl, ref.x, ref.y)
+                        points[-1] = bp
+
+            # If edge source was redirected from a composite (outgoing edge),
+            # clip the first point to the subgraph boundary -- but only if
+            # the target is OUTSIDE the composite.
+            if el.source in exit_to_composite:
+                comp_id = exit_to_composite[el.source]
+                children = composite_children.get(comp_id, set())
+                if el.target not in children:
+                    sgl = sg_layouts.get(comp_id)
+                    if sgl and len(points) >= 2:
+                        source_nl = NodeLayout(
+                            x=sgl.x, y=sgl.y,
+                            width=sgl.width, height=sgl.height,
+                        )
+                        ref = points[-1]  # target point
+                        bp = _rect_boundary_point(source_nl, ref.x, ref.y)
+                        points[0] = bp
+
+            rerouted_edges.append(EdgeLayout(
+                points=points, source=el.source, target=el.target,
+            ))
+        adjusted_edges = rerouted_edges
 
     return LayoutResult(
         nodes=adjusted_nodes,

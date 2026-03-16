@@ -261,7 +261,7 @@ class TestLayoutConversion:
                 Transition(source="s1", target="s2"),
             ),
         )
-        diagram = state_diagram_to_flowchart(sd)
+        diagram, _, _ = state_diagram_to_flowchart(sd)
         assert len(diagram.nodes) == 2
         assert len(diagram.edges) == 1
 
@@ -273,9 +273,9 @@ class TestLayoutConversion:
             children=(child1, child2),
         )
         sd = StateDiagram(states=(parent,))
-        diagram = state_diagram_to_flowchart(sd)
-        # Parent + 2 children = 3 nodes
-        assert len(diagram.nodes) == 3
+        diagram, _, _ = state_diagram_to_flowchart(sd)
+        # Children only (no parent node) = 2 nodes
+        assert len(diagram.nodes) == 2
         assert len(diagram.subgraphs) == 1
         assert diagram.subgraphs[0].id == "parent"
 

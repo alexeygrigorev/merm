@@ -137,6 +137,68 @@ def _get_current_transitions(pstate: _ParserState) -> list[Transition]:
         return pstate.composite_stack[-1].transitions
     return pstate.transitions
 
+def _merge_parallel_pseudo_states(builder: _CompositeBuilder) -> None:
+    """Merge multiple start/end pseudo-states into fork/join bars.
+
+    When a composite state has multiple ``[*] --> X`` transitions (parallel
+    entries), the separate start pseudo-states are replaced by a single fork
+    bar. Similarly, multiple ``X --> [*]`` transitions are replaced by a
+    single join bar.
+    """
+    states = builder.states
+    transitions = builder.transitions
+
+    # Collect start and end pseudo-state IDs
+    start_ids = [
+        sid for sid, si in states.items() if si.state_type == StateType.START
+    ]
+    end_ids = [
+        sid for sid, si in states.items() if si.state_type == StateType.END
+    ]
+
+    # Merge multiple starts into a fork
+    if len(start_ids) >= 2:
+        fork_id = f"__fork_{builder.id}"
+        states[fork_id] = _StateInfo(
+            id=fork_id, label="", state_type=StateType.FORK,
+        )
+        new_transitions: list[Transition] = []
+        for t in transitions:
+            if t.source in start_ids:
+                # Replace start->target with fork->target
+                new_transitions.append(
+                    Transition(source=fork_id, target=t.target, label=t.label)
+                )
+            else:
+                new_transitions.append(t)
+        # Remove old start states
+        for sid in start_ids:
+            del states[sid]
+        transitions.clear()
+        transitions.extend(new_transitions)
+
+    # Merge multiple ends into a join
+    if len(end_ids) >= 2:
+        join_id = f"__join_{builder.id}"
+        states[join_id] = _StateInfo(
+            id=join_id, label="", state_type=StateType.JOIN,
+        )
+        new_transitions2: list[Transition] = []
+        for t in transitions:
+            if t.target in end_ids:
+                # Replace source->end with source->join
+                new_transitions2.append(
+                    Transition(source=t.source, target=join_id, label=t.label)
+                )
+            else:
+                new_transitions2.append(t)
+        # Remove old end states
+        for eid in end_ids:
+            del states[eid]
+        transitions.clear()
+        transitions.extend(new_transitions2)
+
+
 def _parse_line(
     line: str, lineno: int, pstate: _ParserState,
 ) -> None:
@@ -149,6 +211,11 @@ def _parse_line(
         if not pstate.composite_stack:
             raise ParseError("Unexpected '}'", lineno)
         builder = pstate.composite_stack.pop()
+
+        # Merge multiple start pseudo-states into a single fork bar,
+        # and multiple end pseudo-states into a single join bar.
+        _merge_parallel_pseudo_states(builder)
+
         # Build child states
         children = tuple(
             State(
