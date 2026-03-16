@@ -5,17 +5,16 @@
 .pie-legend { font-family: sans-serif; font-size: 14px; fill: #333; }
 .pie-slice { stroke: #fff; stroke-width: 2; }
 </style>
-<text x="200" y="25" class="pie-title">Pets adopted by volunteers</text>
-<path d="M 200 240 L 200.0000 90.0000 A 150 150 0 1 1 55.7574 198.8408 Z" fill="#4572A7" class="pie-slice" data-slice-label="Dogs"/>
-<text x="302.40" y="375.70" class="pie-label">79.4%</text>
-<path d="M 200 240 L 55.7574 198.8408 A 150 150 0 0 1 171.0932 92.8117 Z" fill="#AA4643" class="pie-slice" data-slice-label="Cats"/>
-<text x="84.95" y="114.85" class="pie-label">17.5%</text>
-<path d="M 200 240 L 171.0932 92.8117 A 150 150 0 0 1 200.0000 90.0000 Z" fill="#89A54E" class="pie-slice" data-slice-label="Rats"/>
-<text x="183.54" y="70.80" class="pie-label">3.1%</text>
+<path d="M 200 200 L 200.0000 50.0000 A 150 150 0 1 1 55.3839 160.1731 Z" fill="#4572A7" class="pie-slice" data-slice-label="Dogs"/>
+<text x="303.02" y="335.23" class="pie-label">79.3%</text>
+<path d="M 200 200 L 55.3839 160.1731 A 150 150 0 0 1 171.1459 52.8014 Z" fill="#AA4643" class="pie-slice" data-slice-label="Cats"/>
+<text x="84.39" y="75.36" class="pie-label">17.6%</text>
+<path d="M 200 200 L 171.1459 52.8014 A 150 150 0 0 1 200.0000 50.0000 Z" fill="#89A54E" class="pie-slice" data-slice-label="Rats"/>
+<text x="183.57" y="30.80" class="pie-label">3.1%</text>
 <rect x="390" y="50" width="16" height="16" fill="#4572A7" class="pie-legend"/>
-<text x="412" y="63" class="pie-legend">Dogs: 79.4%</text>
+<text x="412" y="63" class="pie-legend">Dogs: 79.3%</text>
 <rect x="390" y="78" width="16" height="16" fill="#AA4643" class="pie-legend"/>
-<text x="412" y="91" class="pie-legend">Cats: 17.5%</text>
+<text x="412" y="91" class="pie-legend">Cats: 17.6%</text>
 <rect x="390" y="106" width="16" height="16" fill="#89A54E" class="pie-legend"/>
 <text x="412" y="119" class="pie-legend">Rats: 3.1%</text>
 </svg>
