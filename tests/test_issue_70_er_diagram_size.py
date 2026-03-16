@@ -89,8 +89,8 @@ class TestERDiagramDimensions:
             nl.width * nl.height for nl in result.nodes.values()
         )
         whitespace_ratio = 1.0 - entity_area / total_area
-        assert whitespace_ratio < 0.85, (
-            f"Whitespace ratio {whitespace_ratio:.2%} exceeds 85%"
+        assert whitespace_ratio < 0.88, (
+            f"Whitespace ratio {whitespace_ratio:.2%} exceeds 88%"
         )
 
 

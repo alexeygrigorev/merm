@@ -73,10 +73,29 @@ def layout_er_diagram(
         return measure_fn(text, font_size)
 
     if config is None:
+        # Compute minimum node_sep so relationship labels don't overlap.
+        # Each label is centered on its edge; adjacent labels need enough
+        # horizontal space so their background rects don't collide.
+        _LABEL_CHAR_WIDTH = 7.0  # matches char_w in render/erdiag.py
+        _LABEL_PADDING = 4.0     # matches padding in render/erdiag.py
+        _LABEL_GAP = 12.0        # minimum gap between adjacent labels
+
+        max_label_width = 0.0
+        for rel in diagram.relationships:
+            if rel.label:
+                lw = len(rel.label) * _LABEL_CHAR_WIDTH + _LABEL_PADDING * 2
+                if lw > max_label_width:
+                    max_label_width = lw
+
+        # node_sep must be at least max_label_width + gap so that labels
+        # centered on adjacent vertical edges don't overlap.
+        # Also ensure a reasonable minimum.
+        min_node_sep = max(50.0, max_label_width + _LABEL_GAP)
+
         config = LayoutConfig(
             direction=Direction.TB,
             rank_sep=40.0,
-            node_sep=50.0,
+            node_sep=min_node_sep,
         )
 
     result = layout_diagram(flowchart, measure_fn=_entity_measure, config=config)

@@ -184,18 +184,24 @@ class CylinderRenderer:
         # Top-left of body
         tx, ty = x, y + ry
         bh = h - 2 * ry  # body height between caps
-        # Path: top ellipse, right side, bottom ellipse (full), left side, close
-        d = (
+
+        # Body: top arc (upward), right side, bottom arc (downward), left side
+        body_d = (
             f"M {tx},{ty} "
             f"A {rx},{ry} 0 0 1 {tx + w},{ty} "
             f"L {tx + w},{ty + bh} "
             f"A {rx},{ry} 0 0 1 {tx},{ty + bh} "
-            f"L {tx},{ty} "
+            f"Z"
+        )
+        # Top ellipse: full ellipse drawn as two arcs
+        top_d = (
             f"M {tx},{ty} "
-            f"A {rx},{ry} 0 0 0 {tx + w},{ty}"
+            f"A {rx},{ry} 0 0 1 {tx + w},{ty} "
+            f"A {rx},{ry} 0 0 1 {tx},{ty}"
         )
         return [
-            f'<path d="{d}"{_style_attr(style)} />',
+            f'<path d="{body_d}"{_style_attr(style)} />',
+            f'<path d="{top_d}"{_style_attr(style)} />',
         ]
 
     def connection_point(

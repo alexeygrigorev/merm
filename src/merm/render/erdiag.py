@@ -421,9 +421,39 @@ def render_er_diagram(
     if theme is None:
         theme = DEFAULT_THEME
 
-    vb_x = -_PADDING
+    # Compute extra width needed for relationship labels that extend
+    # beyond the layout bounding box (e.g. labels on the leftmost/rightmost edges).
+    _label_char_w = 7.0
+    _label_pad = 4.0
+    extra_left = 0.0
+    extra_right = 0.0
+
+    edge_layout_tmp: dict[tuple[str, str], EdgeLayout] = {}
+    for el in layout.edges:
+        key = (el.source, el.target)
+        if key not in edge_layout_tmp:
+            edge_layout_tmp[key] = el
+
+    for rel in diagram.relationships:
+        if not rel.label:
+            continue
+        el = edge_layout_tmp.get((rel.source, rel.target))
+        if el is None:
+            el = edge_layout_tmp.get((rel.target, rel.source))
+        if el is None:
+            continue
+        mid = _midpoint(el.points)
+        half_w = (len(rel.label) * _label_char_w + _label_pad * 2) / 2
+        overhang_left = half_w - mid.x
+        overhang_right = (mid.x + half_w) - layout.width
+        if overhang_left > extra_left:
+            extra_left = overhang_left
+        if overhang_right > extra_right:
+            extra_right = overhang_right
+
+    vb_x = -_PADDING - extra_left
     vb_y = -_PADDING
-    vb_w = max(layout.width + 2 * _PADDING, 1.0)
+    vb_w = max(layout.width + 2 * _PADDING + extra_left + extra_right, 1.0)
     vb_h = max(layout.height + 2 * _PADDING, 1.0)
 
     svg = ET.Element("svg")
