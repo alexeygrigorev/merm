@@ -92,17 +92,50 @@ def _build_style_lookup(diagram: Diagram) -> dict[str, dict[str, str]]:
 def _build_classdef_css(diagram: Diagram) -> str:
     """Build CSS rules from diagram.classes (classDef definitions).
 
-    Returns a CSS string with one rule per class name.  The special class
-    name ``"default"`` is emitted as ``.node { ... }`` so that it applies
-    to all nodes without an explicit class.
+    Returns CSS rules that correctly target shape elements (rect, polygon,
+    circle, path, line) for visual properties like fill/stroke, and text
+    elements for the ``color`` property.
+
+    The special class name ``"default"`` uses ``.node`` as the base selector
+    so that it applies to all nodes without an explicit class.
+
+    The ``color`` property from classDef is mapped to ``fill`` on text
+    elements (SVG text uses ``fill``, not ``color``).
     """
+    # Properties that affect node shape elements (not text).
+    _SHAPE_PROPS = {"fill", "stroke", "stroke-width", "stroke-dasharray", "opacity"}
+    _SHAPE_CHILDREN = "rect, polygon, circle, > path, line"
+
     rules: list[str] = []
     for cls_name, props in diagram.classes.items():
-        css_body = ";".join(f"{k}:{v}" for k, v in props.items())
-        if cls_name == "default":
-            rules.append(f".node {{ {css_body}; }}")
-        else:
-            rules.append(f".{cls_name} {{ {css_body}; }}")
+        base = ".node" if cls_name == "default" else f".{cls_name}"
+
+        # Partition properties into shape vs text.
+        shape_parts: list[str] = []
+        text_parts: list[str] = []
+        for k, v in props.items():
+            if k in _SHAPE_PROPS:
+                shape_parts.append(f"{k}:{v}")
+            elif k == "color":
+                # In mermaid classDef, 'color' means text color.
+                # SVG text uses 'fill' for text color.
+                text_parts.append(f"fill:{v}")
+            else:
+                # Unknown properties: apply to the group (safe fallback).
+                shape_parts.append(f"{k}:{v}")
+
+        if shape_parts:
+            shape_css = ";".join(shape_parts)
+            # Build selectors for each shape child element.
+            selectors = ", ".join(
+                f"{base} {child}" for child in _SHAPE_CHILDREN.split(", ")
+            )
+            rules.append(f"{selectors} {{ {shape_css}; }}")
+
+        if text_parts:
+            text_css = ";".join(text_parts)
+            rules.append(f"{base} text {{ {text_css}; }}")
+
     return "\n".join(rules)
 
 def _make_defs(svg: ET.Element, theme: Theme) -> None:

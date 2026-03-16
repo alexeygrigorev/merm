@@ -231,8 +231,8 @@ class TestClassDef:
         )
         lr = _layout_for("A")
         svg = render_svg(d, lr)
-        # The default class should be emitted as .node { ... }
-        assert ".node {" in svg
+        # The default class targets shape elements, not the group.
+        assert ".node rect" in svg
         assert "fill:#aaa" in svg
 
 # ===================================================================
@@ -312,8 +312,8 @@ class TestIntegrationRoundTrip:
         lr = layout_diagram(d, measure_text)
         svg = render_svg(d, lr)
 
-        # Check CSS rule in style block
-        assert ".red {" in svg
+        # Check CSS rule in style block targets shape elements
+        assert ".red rect" in svg
         assert "fill:#f00" in svg
 
         # Check node class attribute
@@ -343,3 +343,104 @@ class TestIntegrationRoundTrip:
         style_attr = polygon.get("style", "")
         assert "fill:#0f0" in style_attr
         assert "stroke-width:3px" in style_attr
+
+
+# ===================================================================
+# Part D: classDef text contrast (issue 87)
+# ===================================================================
+
+class TestClassDefTextContrast:
+    """Verify that classDef color goes to fill/border, not text."""
+
+    def test_classdef_fill_targets_shapes_not_text(self):
+        """classDef fill should appear in shape-targeting CSS selectors."""
+        d = Diagram(
+            nodes=(Node(id="A", label="A", css_classes=("myclass",)),),
+            classes={"myclass": {"fill": "#ff0", "stroke": "#000"}},
+        )
+        lr = _layout_for("A")
+        svg = render_svg(d, lr)
+        # Shape selectors should contain fill
+        assert ".myclass rect" in svg
+        assert "fill:#ff0" in svg
+        assert "stroke:#000" in svg
+        # The classDef should NOT emit a bare .myclass { fill:... }
+        # that would cascade to text via SVG inheritance.
+        import re
+        # Ensure there's no rule like ".myclass { fill:..." (bare group selector)
+        bare_rule = re.search(r"\.myclass\s*\{", svg)
+        assert bare_rule is None, (
+            "classDef should not target the group directly"
+        )
+
+    def test_default_text_color_preserved(self):
+        """Text fill should remain #333333 when classDef has no color property."""
+        d = Diagram(
+            nodes=(Node(id="A", label="A"),),
+            classes={"default": {"fill": "#ffd", "stroke": "#aa0"}},
+        )
+        lr = _layout_for("A")
+        svg = render_svg(d, lr)
+        # Text rule should still have the default text color
+        assert ".node text { fill: #333333;" in svg
+        # classDef fill should NOT appear in a text rule
+        text_lines = [
+            ln for ln in svg.split("\n")
+            if ".node text" in ln and "fill:#ffd" in ln
+        ]
+        assert len(text_lines) == 0
+
+    def test_explicit_color_becomes_text_fill(self):
+        """classDef 'color' property should map to text fill in SVG."""
+        d = Diagram(
+            nodes=(Node(id="A", label="A", css_classes=("styled",)),),
+            classes={"styled": {"fill": "#ff0", "color": "#fff"}},
+        )
+        lr = _layout_for("A")
+        svg = render_svg(d, lr)
+        # Shape elements get fill:#ff0
+        assert ".styled rect" in svg
+        assert "fill:#ff0" in svg
+        # Text elements get fill:#fff (mapped from color)
+        assert ".styled text" in svg
+        assert "fill:#fff" in svg
+
+    def test_color_only_class_targets_text(self):
+        """classDef with only 'color' should only emit text rule."""
+        d = Diagram(
+            nodes=(Node(id="A", label="A", css_classes=("textonly",)),),
+            classes={"textonly": {"color": "#f00"}},
+        )
+        lr = _layout_for("A")
+        svg = render_svg(d, lr)
+        # Only text rule, no shape rule
+        assert ".textonly text" in svg
+        assert "fill:#f00" in svg
+        # No shape targeting for this class (no fill/stroke defined)
+        assert ".textonly rect" not in svg
+
+    def test_default_class_with_color(self):
+        """Default classDef with color targets .node text."""
+        d = Diagram(
+            nodes=(Node(id="A", label="A"),),
+            classes={"default": {"fill": "#ffd", "stroke": "#aa0", "color": "#000"}},
+        )
+        lr = _layout_for("A")
+        svg = render_svg(d, lr)
+        # Shape elements
+        assert ".node rect" in svg
+        assert "fill:#ffd" in svg
+        # Text gets explicit color
+        assert ".node text { fill:#000; }" in svg
+
+    def test_stroke_dasharray_targets_shapes(self):
+        """stroke-dasharray should go to shape elements, not text."""
+        d = Diagram(
+            nodes=(Node(id="A", label="A", css_classes=("dashed",)),),
+            classes={"dashed": {"stroke-dasharray": "5,5", "stroke": "#f00"}},
+        )
+        lr = _layout_for("A")
+        svg = render_svg(d, lr)
+        assert ".dashed rect" in svg
+        assert "stroke-dasharray:5,5" in svg
+        assert ".dashed text" not in svg
