@@ -1,6 +1,5 @@
 """Compact tree layout for mindmap diagrams."""
 
-import math
 from dataclasses import dataclass
 
 from merm.ir.mindmap import MindmapDiagram, MindmapNode
@@ -151,7 +150,6 @@ def layout_mindmap(
     # Balance by subtree weight.
     children = list(root.children)
     weights = [_subtree_weight(c) for c in children]
-    total_w = sum(weights)
 
     # Greedy split: assign children alternately to balance weight
     right_children: list[MindmapNode] = []
@@ -179,8 +177,6 @@ def layout_mindmap(
     left_total_h = sum(
         _subtree_height(c) for c in left_children
     ) + max(0, v_gap * (len(left_children) - 1)) if left_children else 0
-
-    max_side_h = max(right_total_h, left_total_h, rh)
 
     # Place root at (0, 0)
     positions[root.id] = MindmapNodeLayout(x=0, y=0, width=rw, height=rh)
