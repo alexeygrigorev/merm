@@ -3,10 +3,10 @@
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="5.5" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
     <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
@@ -108,7 +108,8 @@
     </text>
   </g>
   <g class="node" data-node-id="CreateUser">
-    <path d="M 86.7,577.2 A 88.8,10.0 0 0 1 264.3,577.2 L 264.3,635.6 A 88.8,10.0 0 0 1 86.7,635.6 L 86.7,577.2 M 86.7,577.2 A 88.8,10.0 0 0 0 264.3,577.2" />
+    <path d="M 86.7,577.2 A 88.8,10.0 0 0 1 264.3,577.2 L 264.3,635.6 A 88.8,10.0 0 0 1 86.7,635.6 Z" />
+    <path d="M 86.7,577.2 A 88.8,10.0 0 0 1 264.3,577.2 A 88.8,10.0 0 0 1 86.7,577.2" />
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="175.5" y="606.4">Save to database</text>
   </g>
   <g class="node" data-node-id="SendEmail">
@@ -120,27 +121,27 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="175.5" y="788.6">Show success message</text>
   </g>
   <g class="edge-label" data-edge-source="ValidateEmail" data-edge-target="EmailError">
-    <rect x="257.08" y="335.02" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="268.08" y="347.02">No</text>
+    <rect x="257.08" y="343.42" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="268.08" y="355.42">No</text>
   </g>
   <g class="edge-label" data-edge-source="ValidateEmail" data-edge-target="CheckExists">
     <rect x="188.38" y="333.47" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="202.88" y="345.47">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="CheckExists" data-edge-target="ExistsError">
-    <rect x="261.87" y="431.06" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="276.37" y="443.06">Yes</text>
+    <rect x="272.05" y="439.96" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="286.55" y="451.96">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="CheckExists" data-edge-target="ValidatePassword">
     <rect x="139.95" y="434.11" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="150.95" y="446.11">No</text>
   </g>
   <g class="edge-label" data-edge-source="ValidatePassword" data-edge-target="PasswordError">
-    <rect x="253.23" y="535.73" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="264.23" y="547.73">No</text>
+    <rect x="269.26" y="544.21" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="280.26" y="556.21">No</text>
   </g>
   <g class="edge-label" data-edge-source="ValidatePassword" data-edge-target="CreateUser">
-    <rect x="156.94" y="535.01" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="171.44" y="547.01">Yes</text>
+    <rect x="157.35" y="541.07" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="171.85" y="553.07">Yes</text>
   </g>
 </svg>

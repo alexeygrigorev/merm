@@ -2,7 +2,7 @@
 <style>
 .pie-title { font-family: sans-serif; font-size: 20px; font-weight: bold; text-anchor: middle; }
 .pie-label { font-family: sans-serif; font-size: 12px; text-anchor: middle; fill: #333; }
-.pie-legend { font-family: sans-serif; font-size: 14px; fill: #333; }
+text.pie-legend { font-family: sans-serif; font-size: 14px; fill: #333; }
 .pie-slice { stroke: #fff; stroke-width: 2; }
 </style>
 <text x="200" y="25" class="pie-title">Full Circle</text>

@@ -29,10 +29,10 @@
     <path d="M63.09,120.4 L29.71,166.79" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Still" data-edge-target="Moving">
-    <path d="M86.96,120.4 L100.56,153.02" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M90.65,118.86 L104.25,151.48" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Moving" data-edge-target="Still">
-    <path d="M103.64,160.4 L90.04,127.78" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M99.95,161.94 L86.35,129.32" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Moving" data-edge-target="Crash">
     <path d="M112.4,202.4 L112.4,234.4" stroke-width="2" marker-end="url(#arrow)" />

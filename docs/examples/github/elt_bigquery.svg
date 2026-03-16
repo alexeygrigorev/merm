@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 1629.6 388" width="1629.6" height="388" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 1629.6 313.6" width="1629.6" height="313.6" style="background-color: white">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="5.5" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
     <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
@@ -19,105 +19,107 @@
 .edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
 .subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
-.yellow { fill:#FFD700;stroke:#000;stroke-width:1px;color:#000; }
-.green { fill:#32CD32;stroke:#000;stroke-width:1px;color:#000; }
+.yellow rect, .yellow polygon, .yellow circle, .yellow &gt; path, .yellow line { fill:#FFD700;stroke:#000;stroke-width:1px; }
+.yellow text { fill:#000; }
+.green rect, .green polygon, .green circle, .green &gt; path, .green line { fill:#32CD32;stroke:#000;stroke-width:1px; }
+.green text { fill:#000; }
 </style>
   <g class="edge" data-edge-source="SetLabel" data-edge-target="Extract">
-    <path d="M120.0,222.2 L152.0,222.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M120.0,147.8 L152.0,147.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Extract" data-edge-target="UploadToGCS">
-    <path d="M333.6,222.2 L365.6,222.2" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M333.6,147.8 L365.6,147.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="UploadToGCS" data-edge-target="BQYellowTripdata">
-    <path d="M513.07,201.2 L641.26,138.71" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M513.07,126.8 L641.26,64.31" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="UploadToGCS" data-edge-target="BQGreenTripdata">
-    <path d="M512.35,243.2 L642.32,307.65" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M512.35,168.8 L642.32,233.25" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQYellowTripdata" data-edge-target="BQYellowTableExt">
-    <path d="M815.2,104.8 L847.2,104.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M815.2,30.4 L847.2,30.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQGreenTripdata" data-edge-target="BQGreenTableExt">
-    <path d="M813.2,341.6 L847.2,341.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M813.2,267.2 L847.2,267.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQYellowTableExt" data-edge-target="BQYellowTableTmp">
-    <path d="M1009.6,104.8 L1041.6,104.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1009.6,30.4 L1041.6,30.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQGreenTableExt" data-edge-target="BQGreenTableTmp">
-    <path d="M1009.6,341.6 L1041.6,341.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1009.6,267.2 L1041.6,267.2" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQYellowTableTmp" data-edge-target="BQYellowMerge">
-    <path d="M1196.8,104.8 L1228.8,104.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1196.8,30.4 L1228.8,30.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQGreenTableTmp" data-edge-target="BQGreenMerge">
-    <path d="M1196.8,341.33 L1228.8,341.21" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1196.8,266.93 L1228.8,266.81" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQYellowMerge" data-edge-target="PurgeFiles">
-    <path d="M1377.68,125.8 L1504.55,197.27" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1377.68,51.4 L1504.55,122.87" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="BQGreenMerge" data-edge-target="PurgeFiles">
-    <path d="M1377.3,319.8 L1504.95,247.16" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M1377.3,245.4 L1504.95,172.76" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="SetLabel">
-    <rect x="0.0" y="201.2" width="120.0" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="60" y="222.2">Set Labels</text>
+    <rect x="0.0" y="126.8" width="120.0" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="60" y="147.8">Set Labels</text>
   </g>
   <g class="node" data-node-id="Extract">
-    <rect x="160.0" y="201.2" width="173.6" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="246.8" y="222.2">Extract CSV Data</text>
+    <rect x="160.0" y="126.8" width="173.6" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="246.8" y="147.8">Extract CSV Data</text>
   </g>
   <g class="node" data-node-id="UploadToGCS">
-    <rect x="373.6" y="201.2" width="192.8" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="470" y="222.2">Upload Data to GCS</text>
+    <rect x="373.6" y="126.8" width="192.8" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="470" y="147.8">Upload Data to GCS</text>
   </g>
   <g class="node yellow" data-node-id="BQYellowTripdata">
-    <rect x="606.4" y="74.4" width="208.8" height="60.8" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="710.8" y="93.6">
-      <tspan x="710.8" y="93.6">Main Yellow Tripdata</tspan>
-      <tspan x="710.8" y="116">Table</tspan>
+    <rect x="606.4" y="0.0" width="208.8" height="60.8" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="710.8" y="19.2">
+      <tspan x="710.8" y="19.2">Main Yellow Tripdata</tspan>
+      <tspan x="710.8" y="41.6">Table</tspan>
     </text>
   </g>
   <g class="node green" data-node-id="BQGreenTripdata">
-    <rect x="608.4" y="311.2" width="204.8" height="60.8" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="710.8" y="330.4">
-      <tspan x="710.8" y="330.4">Main Green Tripdata</tspan>
-      <tspan x="710.8" y="352.8">Table</tspan>
+    <rect x="608.4" y="236.8" width="204.8" height="60.8" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="710.8" y="256">
+      <tspan x="710.8" y="256">Main Green Tripdata</tspan>
+      <tspan x="710.8" y="278.4">Table</tspan>
     </text>
   </g>
   <g class="node yellow" data-node-id="BQYellowTableExt">
-    <rect x="855.2" y="83.8" width="154.4" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="932.4" y="104.8">External Table</text>
+    <rect x="855.2" y="9.4" width="154.4" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="932.4" y="30.4">External Table</text>
   </g>
   <g class="node green" data-node-id="BQGreenTableExt">
-    <rect x="855.2" y="320.6" width="154.4" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="932.4" y="341.6">External Table</text>
+    <rect x="855.2" y="246.2" width="154.4" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="932.4" y="267.2">External Table</text>
   </g>
   <g class="node yellow" data-node-id="BQYellowTableTmp">
-    <rect x="1049.6" y="83.8" width="147.2" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1123.2" y="104.8">Monthly Table</text>
+    <rect x="1049.6" y="9.4" width="147.2" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1123.2" y="30.4">Monthly Table</text>
   </g>
   <g class="node green" data-node-id="BQGreenTableTmp">
-    <rect x="1049.6" y="320.6" width="147.2" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1123.2" y="341.6">Monthly Table</text>
+    <rect x="1049.6" y="246.2" width="147.2" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1123.2" y="267.2">Monthly Table</text>
   </g>
   <g class="node yellow" data-node-id="BQYellowMerge">
-    <rect x="1236.8" y="83.8" width="207.2" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1340.4" y="104.8">Merge to Main Table</text>
+    <rect x="1236.8" y="9.4" width="207.2" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1340.4" y="30.4">Merge to Main Table</text>
   </g>
   <g class="node green" data-node-id="BQGreenMerge">
-    <rect x="1236.8" y="319.8" width="207.2" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1340.4" y="340.8">Merge to Main Table</text>
+    <rect x="1236.8" y="245.4" width="207.2" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1340.4" y="266.4">Merge to Main Table</text>
   </g>
   <g class="node" data-node-id="PurgeFiles">
-    <rect x="1484.0" y="201.2" width="129.6" height="42.0" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1548.8" y="222.2">Purge Files</text>
+    <rect x="1484.0" y="126.8" width="129.6" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1548.8" y="147.8">Purge Files</text>
   </g>
   <g class="edge-label" data-edge-source="UploadToGCS" data-edge-target="BQYellowTripdata">
-    <rect x="538.26" y="156.2" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="580.76" y="168.2">Taxi=Yellow</text>
+    <rect x="538.26" y="81.8" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="580.76" y="93.8">Taxi=Yellow</text>
   </g>
   <g class="edge-label" data-edge-source="UploadToGCS" data-edge-target="BQGreenTripdata">
-    <rect x="541.92" y="265.2" width="78.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="580.92" y="277.2">Taxi=Green</text>
+    <rect x="541.92" y="190.8" width="78.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="580.92" y="202.8">Taxi=Green</text>
   </g>
 </svg>

@@ -27,10 +27,10 @@
     <path d="M177.96,136.83 L131.04,177.56" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="D">
-    <path d="M224.1,138.98 L249.29,176.18" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M227.41,136.74 L252.6,173.93" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="B">
-    <path d="M253.78,182.8 L228.59,145.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M250.47,185.04 L225.27,147.85" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="E">
     <path d="M100.8,224.8 L100.8,256.8" stroke-width="2" marker-end="url(#arrow)" />
@@ -91,8 +91,8 @@
     <text text-anchor="middle" dominant-baseline="central" x="143.53" y="166.71">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="D">
-    <rect x="214.45" y="155.46" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="225.45" y="167.46">No</text>
+    <rect x="214.45" y="153.22" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="225.45" y="165.22">No</text>
   </g>
   <g class="edge-label" data-edge-source="G" data-edge-target="H">
     <rect x="184.69" y="499.76" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />

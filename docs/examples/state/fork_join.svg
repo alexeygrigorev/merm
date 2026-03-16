@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 404 402.8" width="404" height="402.8" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 270 566.8" width="270" height="566.8" style="background-color: white">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
@@ -23,68 +23,60 @@
 .note text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
 </style>
   <g class="composite" data-state-id="Processing">
-    <rect x="134" y="38" width="230" height="262.8" rx="10" ry="10" />
-    <text x="144" y="54" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Processing</text>
+    <rect x="0" y="116.4" width="230" height="270" rx="10" ry="10" />
+    <text x="10" y="132.4" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Processing</text>
   </g>
   <g class="edge" data-edge-source="__start_0" data-edge-target="Ready">
-    <path d="M62.0,29.2 L62.0,70.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M115.0,29.2 L115.0,70.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
-  <g class="edge" data-edge-source="Ready" data-edge-target="Processing">
-    <path d="M62.0,120.4 L62.0,152.4" stroke-width="2" marker-end="url(#arrow)" />
+  <g class="edge" data-edge-source="Ready" data-edge-target="__fork_Processing">
+    <path d="M115.0,120.4 L115.0,116.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
-  <g class="edge" data-edge-source="Processing" data-edge-target="Done">
-    <path d="M62.0,202.4 L62.0,234.4" stroke-width="2" marker-end="url(#arrow)" />
+  <g class="edge" data-edge-source="__fork_Processing" data-edge-target="TaskA">
+    <path d="M112.32,185.4 L78.54,235.76" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="__fork_Processing" data-edge-target="TaskB">
+    <path d="M117.68,185.4 L151.46,235.76" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="TaskA" data-edge-target="__join_Processing">
+    <path d="M74.09,284.4 L107.86,334.76" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="TaskB" data-edge-target="__join_Processing">
+    <path d="M155.91,284.4 L122.14,334.76" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="__join_Processing" data-edge-target="Done">
+    <path d="M115.0,386.4 L115.0,398.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Done" data-edge-target="__end_2">
-    <path d="M62.0,284.4 L62.0,325.6" stroke-width="2" marker-end="url(#arrow)" />
-  </g>
-  <g class="edge" data-edge-source="__start_1" data-edge-target="TaskA">
-    <path d="M194.0,111.2 L194.0,152.4" stroke-width="2" marker-end="url(#arrow)" />
-  </g>
-  <g class="edge" data-edge-source="TaskA" data-edge-target="__end_0">
-    <path d="M194.0,202.4 L194.0,243.6" stroke-width="2" marker-end="url(#arrow)" />
-  </g>
-  <g class="edge" data-edge-source="__start_2" data-edge-target="TaskB">
-    <path d="M304.0,111.2 L304.0,152.4" stroke-width="2" marker-end="url(#arrow)" />
-  </g>
-  <g class="edge" data-edge-source="TaskB" data-edge-target="__end_1">
-    <path d="M304.0,202.4 L304.0,243.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M115.0,448.4 L115.0,489.6" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="state start">
-    <circle cx="62" cy="19.2" r="10" fill="black" stroke="black" />
+    <circle cx="115" cy="19.2" r="10" fill="black" stroke="black" />
   </g>
   <g class="state" data-state-id="Ready">
-    <rect x="22" y="78.4" width="80" height="42" rx="10" ry="10" />
-    <text x="62" y="99.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Ready</text>
-  </g>
-  <g class="state start">
-    <circle cx="194" cy="101.2" r="10" fill="black" stroke="black" />
+    <rect x="75" y="78.4" width="80" height="42" rx="10" ry="10" />
+    <text x="115" y="99.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Ready</text>
   </g>
   <g class="state" data-state-id="TaskA">
-    <rect x="154" y="160.4" width="80" height="42" rx="10" ry="10" />
-    <text x="194" y="181.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">TaskA</text>
-  </g>
-  <g class="state start">
-    <circle cx="304" cy="101.2" r="10" fill="black" stroke="black" />
+    <rect x="20" y="242.4" width="80" height="42" rx="10" ry="10" />
+    <text x="60" y="263.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">TaskA</text>
   </g>
   <g class="state" data-state-id="TaskB">
-    <rect x="264" y="160.4" width="80" height="42" rx="10" ry="10" />
-    <text x="304" y="181.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">TaskB</text>
+    <rect x="130" y="242.4" width="80" height="42" rx="10" ry="10" />
+    <text x="170" y="263.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">TaskB</text>
   </g>
-  <g class="state end">
-    <circle cx="194" cy="261.6" r="10" fill="none" stroke="black" stroke-width="2" />
-    <circle cx="194" cy="261.6" r="6" fill="black" stroke="black" />
+  <g class="state fork-join">
+    <rect x="75" y="177.4" width="80" height="8" rx="3" fill="black" stroke="black" />
   </g>
-  <g class="state end">
-    <circle cx="304" cy="261.6" r="10" fill="none" stroke="black" stroke-width="2" />
-    <circle cx="304" cy="261.6" r="6" fill="black" stroke="black" />
+  <g class="state fork-join">
+    <rect x="75" y="341.4" width="80" height="8" rx="3" fill="black" stroke="black" />
   </g>
   <g class="state" data-state-id="Done">
-    <rect x="26.8" y="242.4" width="70.4" height="42" rx="10" ry="10" />
-    <text x="62" y="263.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Done</text>
+    <rect x="79.8" y="406.4" width="70.4" height="42" rx="10" ry="10" />
+    <text x="115" y="427.4" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;">Done</text>
   </g>
   <g class="state end">
-    <circle cx="62" cy="343.6" r="10" fill="none" stroke="black" stroke-width="2" />
-    <circle cx="62" cy="343.6" r="6" fill="black" stroke="black" />
+    <circle cx="115" cy="507.6" r="10" fill="none" stroke="black" stroke-width="2" />
+    <circle cx="115" cy="507.6" r="6" fill="black" stroke="black" />
   </g>
 </svg>

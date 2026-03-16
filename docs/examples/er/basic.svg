@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -10 94 226" width="94" height="226" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10.0 -10 94 226" width="94" height="226" style="background-color: white">
   <defs>
     <marker id="er-exactly-one" viewBox="0 0 12 12" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
       <line x1="9" y1="2" x2="9" y2="10" stroke="#333333" stroke-width="1.5" />

@@ -108,7 +108,8 @@
     </text>
   </g>
   <g class="node" data-node-id="CreateUser">
-    <path d="M 86.7,577.2 A 88.8,10.0 0 0 1 264.3,577.2 L 264.3,635.6 A 88.8,10.0 0 0 1 86.7,635.6 L 86.7,577.2 M 86.7,577.2 A 88.8,10.0 0 0 0 264.3,577.2" />
+    <path d="M 86.7,577.2 A 88.8,10.0 0 0 1 264.3,577.2 L 264.3,635.6 A 88.8,10.0 0 0 1 86.7,635.6 Z" />
+    <path d="M 86.7,577.2 A 88.8,10.0 0 0 1 264.3,577.2 A 88.8,10.0 0 0 1 86.7,577.2" />
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="175.5" y="606.4">Save to database</text>
   </g>
   <g class="node" data-node-id="SendEmail">

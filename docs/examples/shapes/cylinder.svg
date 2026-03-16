@@ -24,11 +24,13 @@
     <path d="M52.4,78.4 L52.4,110.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
-    <path d="M 2.0,10.0 A 50.4,10.0 0 0 1 102.8,10.0 L 102.8,68.4 A 50.4,10.0 0 0 1 2.0,68.4 L 2.0,10.0 M 2.0,10.0 A 50.4,10.0 0 0 0 102.8,10.0" />
+    <path d="M 2.0,10.0 A 50.4,10.0 0 0 1 102.8,10.0 L 102.8,68.4 A 50.4,10.0 0 0 1 2.0,68.4 Z" />
+    <path d="M 2.0,10.0 A 50.4,10.0 0 0 1 102.8,10.0 A 50.4,10.0 0 0 1 2.0,10.0" />
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="52.4" y="39.2">Cylinder</text>
   </g>
   <g class="node" data-node-id="B">
-    <path d="M 0.0,128.4 A 52.4,10.0 0 0 1 104.8,128.4 L 104.8,186.8 A 52.4,10.0 0 0 1 0.0,186.8 L 0.0,128.4 M 0.0,128.4 A 52.4,10.0 0 0 0 104.8,128.4" />
+    <path d="M 0.0,128.4 A 52.4,10.0 0 0 1 104.8,128.4 L 104.8,186.8 A 52.4,10.0 0 0 1 0.0,186.8 Z" />
+    <path d="M 0.0,128.4 A 52.4,10.0 0 0 1 104.8,128.4 A 52.4,10.0 0 0 1 0.0,128.4" />
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="52.4" y="157.6">Database</text>
   </g>
 </svg>

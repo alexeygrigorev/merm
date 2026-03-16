@@ -2,7 +2,7 @@
 <style>
 .pie-title { font-family: sans-serif; font-size: 20px; font-weight: bold; text-anchor: middle; }
 .pie-label { font-family: sans-serif; font-size: 12px; text-anchor: middle; fill: #333; }
-.pie-legend { font-family: sans-serif; font-size: 14px; fill: #333; }
+text.pie-legend { font-family: sans-serif; font-size: 14px; fill: #333; }
 .pie-slice { stroke: #fff; stroke-width: 2; }
 </style>
 <path d="M 200 200 L 200.0000 50.0000 A 150 150 0 1 1 55.3839 160.1731 Z" fill="#4572A7" class="pie-slice" data-slice-label="Dogs"/>

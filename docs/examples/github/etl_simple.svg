@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 665.6 155.2" width="665.6" height="155.2" style="background-color: white">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 665.6 76.8" width="665.6" height="76.8" style="background-color: white">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="5.5" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
     <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
@@ -21,30 +21,30 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="Extract" data-edge-target="Transform">
-    <path d="M217.6,108.8 L249.6,108.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M217.6,30.4 L249.6,30.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Transform" data-edge-target="Query">
-    <path d="M443.2,108.8 L475.2,108.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M443.2,30.4 L475.2,30.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="Extract">
-    <rect x="0.0" y="78.4" width="217.6" height="60.8" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="108.8" y="97.6">
-      <tspan x="108.8" y="97.6">Extract Data via HTTP</tspan>
-      <tspan x="108.8" y="120">REST API</tspan>
+    <rect x="0.0" y="0.0" width="217.6" height="60.8" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="108.8" y="19.2">
+      <tspan x="108.8" y="19.2">Extract Data via HTTP</tspan>
+      <tspan x="108.8" y="41.6">REST API</tspan>
     </text>
   </g>
   <g class="node" data-node-id="Transform">
-    <rect x="257.6" y="78.4" width="185.6" height="60.8" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="350.4" y="97.6">
-      <tspan x="350.4" y="97.6">Transform Data in</tspan>
-      <tspan x="350.4" y="120">Python</tspan>
+    <rect x="257.6" y="0.0" width="185.6" height="60.8" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="350.4" y="19.2">
+      <tspan x="350.4" y="19.2">Transform Data in</tspan>
+      <tspan x="350.4" y="41.6">Python</tspan>
     </text>
   </g>
   <g class="node" data-node-id="Query">
-    <rect x="483.2" y="78.4" width="166.4" height="60.8" />
-    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="566.4" y="97.6">
-      <tspan x="566.4" y="97.6">Query Data with</tspan>
-      <tspan x="566.4" y="120">DuckDB</tspan>
+    <rect x="483.2" y="0.0" width="166.4" height="60.8" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="566.4" y="19.2">
+      <tspan x="566.4" y="19.2">Query Data with</tspan>
+      <tspan x="566.4" y="41.6">DuckDB</tspan>
     </text>
   </g>
 </svg>
