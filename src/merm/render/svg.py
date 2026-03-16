@@ -13,6 +13,7 @@ from merm.ir.enums import NodeShape
 from merm.layout import EdgeLayout, LayoutResult, NodeLayout, SubgraphLayout
 from merm.render.edges import (
     _label_bbox,
+    apply_bidi_offsets,
     make_edge_defs,
     render_edge,
     render_edge_label_only,
@@ -252,7 +253,7 @@ def _render_text_with_icons(
         if seg.kind == "icon":
             icon_data = get_icon_path(seg.value)
             if icon_data is not None:
-                w = font_size + 2.0  # icon width + gap
+                w = font_size * 1.5 + 5.0  # icon width (1.5x) + 5px gap
             else:
                 # Unknown icon: render name as text
                 w = len(seg.value) * font_size * 0.6
@@ -276,7 +277,7 @@ def _render_text_with_icons(
                 scale = icon_target / vb_h
                 icon_h = icon_target
                 # Center icon vertically around cy
-                icon_x = x_pos + 1.0  # 1px gap
+                icon_x = x_pos  # icon starts at segment left edge
                 icon_y = cy - icon_h / 2.0
                 g = ET.SubElement(parent, "g")
                 g.set("class", "fa-icon")
@@ -487,10 +488,14 @@ def render_svg(
     # Build edge lookup for labels
     edge_lookup = _build_edge_lookup(diagram)
 
+    # Apply perpendicular offsets to bidirectional edges so they render
+    # as parallel paths instead of overlapping on the same line.
+    offset_edges = apply_bidi_offsets(layout.edges)
+
     # Resolve label positions to avoid overlapping labels and back-edge paths.
     labeled_edges: list[tuple[EdgeLayout, Edge]] = []
     obstacle_edges: list[EdgeLayout] = []
-    for el in layout.edges:
+    for el in offset_edges:
         ir_edge = edge_lookup.get((el.source, el.target))
         if ir_edge is not None and ir_edge.label:
             labeled_edges.append((el, ir_edge))
@@ -548,7 +553,7 @@ def render_svg(
         _render_subgraph_recursive(svg, sg, sg_layouts, layout.nodes, theme)
 
     # Pass 1: Render edge paths (without labels)
-    for el in layout.edges:
+    for el in offset_edges:
         ir_edge = edge_lookup.get((el.source, el.target))
         lpos = label_positions.get((el.source, el.target))
         _render_edge_delegate(
@@ -561,7 +566,7 @@ def render_svg(
         _render_node(svg, ir_node, nl, inline_styles, theme)
 
     # Pass 2: Render edge labels (on top of nodes)
-    for el in layout.edges:
+    for el in offset_edges:
         ir_edge = edge_lookup.get((el.source, el.target))
         lpos = label_positions.get((el.source, el.target))
         _render_edge_label_delegate(svg, el, ir_edge, theme, label_pos=lpos)

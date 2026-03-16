@@ -201,6 +201,70 @@ class TestRenderPieSVGStructure:
         assert "(60)" not in svg
         assert "(40)" not in svg
 
+class TestRenderPieLegendColors:
+    """Legend swatch colors must match the corresponding slice colors."""
+
+    def test_legend_rect_fill_matches_slice_color(self):
+        """Each legend rect fill must equal the fill of its corresponding slice."""
+        chart = PieChart(
+            title="Colors",
+            show_data=False,
+            slices=(PieSlice("A", 50), PieSlice("B", 30), PieSlice("C", 20)),
+        )
+        svg = render_pie_svg(chart)
+
+        # Extract fill colors from slice paths
+        slice_fills = re.findall(
+            r'<path[^>]*fill="([^"]+)"[^>]*class="pie-slice"', svg,
+        )
+        assert len(slice_fills) == 3
+
+        # Extract fill colors from legend rects
+        legend_fills = re.findall(
+            r'<rect[^>]*fill="([^"]+)"[^>]*class="pie-legend"',
+            svg,
+        )
+        assert len(legend_fills) == 3
+
+        for i in range(3):
+            assert legend_fills[i] == slice_fills[i]
+
+    def test_legend_rect_not_overridden_by_css(self):
+        """The CSS .pie-legend rule must NOT set fill on rect elements."""
+        chart = PieChart(
+            title="",
+            show_data=False,
+            slices=(PieSlice("X", 1),),
+        )
+        svg = render_pie_svg(chart)
+        # The CSS should use 'text.pie-legend' not '.pie-legend' to avoid
+        # overriding rect fill attributes
+        assert "text.pie-legend" in svg
+        # Should NOT have a bare .pie-legend rule (without text prefix)
+        # that would override rect fills
+        style_block = re.search(r"<style>(.*?)</style>", svg, re.DOTALL)
+        assert style_block is not None
+        # Every pie-legend CSS selector should be text.pie-legend
+        legend_rules = re.findall(r"([^\n{]*pie-legend[^\n{]*)\{", style_block.group(1))
+        for rule in legend_rules:
+            assert "text.pie-legend" in rule
+
+    def test_single_slice_legend_color(self):
+        """Single-slice pie should have legend rect matching the circle color."""
+        chart = PieChart(
+            title="",
+            show_data=False,
+            slices=(PieSlice("Only", 100),),
+        )
+        svg = render_pie_svg(chart)
+
+        legend_fills = re.findall(
+            r'<rect[^>]*fill="([^"]+)"', svg,
+        )
+        assert len(legend_fills) == 1
+        assert legend_fills[0] == "#4572A7"  # first PIE_COLOR
+
+
 class TestRenderPieGeometry:
     def test_equal_slices_have_equal_arcs(self):
         """Two 50/50 slices should each sweep 180 degrees."""

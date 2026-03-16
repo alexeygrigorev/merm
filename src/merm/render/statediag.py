@@ -20,7 +20,12 @@ from merm.layout.types import (
     LayoutResult,
     NodeLayout,
 )
-from merm.render.edges import make_edge_defs, render_edge, resolve_label_positions
+from merm.render.edges import (
+    apply_bidi_offsets,
+    make_edge_defs,
+    render_edge,
+    resolve_label_positions,
+)
 from merm.theme import DEFAULT_THEME, Theme
 
 _PADDING = 20
@@ -354,9 +359,12 @@ def render_state_svg(
         if t.label:
             label_map[(t.source, t.target)] = t.label
 
+    # Apply perpendicular offsets to bidirectional edges.
+    offset_edges = apply_bidi_offsets(layout.edges)
+
     # Resolve label positions to avoid overlapping labels.
     labeled_state_edges: list[tuple[EdgeLayout, Edge]] = []
-    for el in layout.edges:
+    for el in offset_edges:
         label = label_map.get((el.source, el.target))
         if label:
             labeled_state_edges.append((
@@ -366,7 +374,7 @@ def render_state_svg(
     state_label_positions = resolve_label_positions(labeled_state_edges)
 
     # Render edges with labels inline
-    for el in layout.edges:
+    for el in offset_edges:
         label = label_map.get((el.source, el.target))
         # Create a minimal Edge IR to carry the label
         ir_edge = Edge(

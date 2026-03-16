@@ -9,10 +9,24 @@ from merm.layout import EdgeLayout, Point
 # Default edge stroke colour (used as fallback).
 _DEFAULT_EDGE_STROKE = "#333333"
 
-# How far to pull the path endpoint back from the node border.
-# Must match the markerWidth so the path stroke stops at the arrowhead
-# base and only the filled triangle reaches the node boundary.
+# How far to pull the path endpoint back from the node border per marker type.
+# Arrow: markerWidth=8, refX=0 => shorten by 8 (triangle fills the gap)
+# Circle-end: refX=5 => shorten by 5 (circle center at path end)
+# Cross-end: refX=5.5 => shorten by 5.5 (cross center at path end)
+# No marker / none: shorten by 0
+_MARKER_SHORTEN_BY_ARROW: dict[ArrowType, float] = {
+    ArrowType.arrow: 8.0,
+    ArrowType.circle: 5.0,
+    ArrowType.cross: 5.5,
+    ArrowType.none: 0.0,
+}
+
+# Backward-compatible alias: the arrow marker shortening value (8px).
 _MARKER_SHORTEN = 8
+
+def _marker_shorten(arrow: ArrowType) -> float:
+    """Return the path shortening distance for a given arrow marker type."""
+    return _MARKER_SHORTEN_BY_ARROW.get(arrow, 0.0)
 
 # ---------------------------------------------------------------------------
 # Marker definitions
@@ -491,6 +505,7 @@ def render_edge(
 
     # Determine which endpoints have markers so we can shorten the path
     # to prevent the stroke from poking through the filled arrowhead.
+    # Use per-marker-type shortening distances.
     has_end_marker = (
         (edge_type in _ARROW_TYPES and _marker_end_url(target_arrow) is not None)
         or (target_arrow not in (ArrowType.arrow, ArrowType.none)
@@ -510,9 +525,9 @@ def render_edge(
     else:
         pts = list(edge_layout.points)
         if has_end_marker:
-            pts = _shorten_end(pts, _MARKER_SHORTEN)
+            pts = _shorten_end(pts, _marker_shorten(target_arrow))
         if has_start_marker:
-            pts = _shorten_start(pts, _MARKER_SHORTEN)
+            pts = _shorten_start(pts, _marker_shorten(source_arrow))
         path.set("d", points_to_path_d(pts, smooth=smooth))
 
     # Apply line style
@@ -633,8 +648,112 @@ def render_edge_label_only(
     _render_edge_label(g, label, mx, my, edge_label_bg)
 
 
+# ---------------------------------------------------------------------------
+# Bidirectional edge offset
+# ---------------------------------------------------------------------------
+
+_BIDI_OFFSET = 4.0  # px perpendicular offset for each direction
+
+
+def find_bidirectional_pairs(
+    edges: list[EdgeLayout],
+) -> set[tuple[str, str]]:
+    """Return set of (source, target) keys that have a reverse edge.
+
+    For each pair where both (A, B) and (B, A) exist, both keys are
+    included in the returned set.
+    """
+    edge_keys: set[tuple[str, str]] = set()
+    for el in edges:
+        edge_keys.add((el.source, el.target))
+
+    bidi: set[tuple[str, str]] = set()
+    for src, tgt in edge_keys:
+        if (tgt, src) in edge_keys:
+            bidi.add((src, tgt))
+            bidi.add((tgt, src))
+    return bidi
+
+
+def offset_edge_points(
+    points: list[Point],
+    offset: float,
+) -> list[Point]:
+    """Offset all points perpendicular to the overall edge direction.
+
+    The offset is applied perpendicular to the line from the first
+    point to the last point.  Positive offset shifts to the right
+    (when looking from start to end).
+    """
+    if len(points) < 2:
+        return list(points)
+
+    # Overall direction from first to last point.
+    dx = points[-1].x - points[0].x
+    dy = points[-1].y - points[0].y
+    length = math.hypot(dx, dy)
+    if length < 1e-6:
+        return list(points)
+
+    # Unit perpendicular vector (rotated 90 degrees clockwise).
+    perp_x = dy / length
+    perp_y = -dx / length
+
+    return [
+        Point(p.x + perp_x * offset, p.y + perp_y * offset)
+        for p in points
+    ]
+
+
+def apply_bidi_offsets(
+    edges: list[EdgeLayout],
+) -> list[EdgeLayout]:
+    """Return a new list of EdgeLayouts with bidirectional edges offset.
+
+    For each pair of edges connecting the same two nodes in opposite
+    directions, offset their paths by +/- _BIDI_OFFSET perpendicular
+    to the edge direction so they appear as parallel lines.
+
+    Single-direction edges are returned unchanged.
+    """
+    bidi_keys = find_bidirectional_pairs(edges)
+    if not bidi_keys:
+        return edges
+
+    result: list[EdgeLayout] = []
+    for el in edges:
+        key = (el.source, el.target)
+        if key in bidi_keys:
+            # For reversed edges, the perpendicular vector naturally
+            # flips direction.  To get the two edges on opposite sides
+            # we use the SAME sign offset for both: the edge whose
+            # (source, target) is lexicographically smaller gets +offset,
+            # the reversed edge also gets +offset, but because its
+            # perpendicular points the other way, it ends up on the
+            # opposite side.
+            #
+            # However, if both edges share the same perpendicular
+            # direction (e.g. both going the same way due to layout),
+            # we need to ensure they get opposite signs.  The key
+            # insight is: for truly reversed edges (A->B vs B->A),
+            # the perpendicular naturally flips, so same sign = opposite
+            # sides.  We always use +offset for both.
+            shifted = offset_edge_points(el.points, _BIDI_OFFSET)
+            result.append(EdgeLayout(
+                points=shifted,
+                source=el.source,
+                target=el.target,
+            ))
+        else:
+            result.append(el)
+    return result
+
+
 __all__ = [
+    "apply_bidi_offsets",
+    "find_bidirectional_pairs",
     "make_edge_defs",
+    "offset_edge_points",
     "points_to_path_d",
     "render_edge",
     "render_edge_label_only",

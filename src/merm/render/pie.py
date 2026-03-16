@@ -53,7 +53,7 @@ def render_pie_svg(chart: PieChart, theme: Theme | None = None) -> str:
         " fill: #333; }"
     )
     parts.append(
-        ".pie-legend { font-family: sans-serif;"
+        "text.pie-legend { font-family: sans-serif;"
         " font-size: 14px; fill: #333; }"
     )
     parts.append(".pie-slice { stroke: #fff; stroke-width: 2; }")
