@@ -180,12 +180,16 @@ gitGraph
 
 ```
 mindmap
-    root((Central Topic))
-        Branch A
-            Leaf 1
-            Leaf 2
-        Branch B
-            Leaf 3
+  root((Central Topic))
+    Origins
+      Long history
+      Popularized by Tony Buzan
+    Research
+      On effectiveness
+      On features
+    Tools
+      Pen and paper
+      Mermaid
 ```
 
 <img src="docs/examples/mindmap/basic.svg" alt="Mindmap" width="400">
