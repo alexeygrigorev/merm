@@ -24,7 +24,8 @@
 </style>
   <g class="er-relationship" data-edge-source="CUSTOMER" data-edge-target="ORDER">
     <path d="M55.0,70.0 L55.0,110.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-exactly-one)" marker-end="url(#er-zero-or-more)" />
-    <text x="55.0" y="82.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">places</text>
+    <rect x="30.0" y="73.0" width="50.0" height="18.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text x="55.0" y="82.0" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">places</text>
   </g>
   <g class="er-entity" data-entity-id="CUSTOMER">
     <rect x="0.0" y="0.0" width="110.0" height="70.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />

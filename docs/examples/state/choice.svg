@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 240.9 324.4" width="240.9" height="324.4" style="background-color: white">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="5.5" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>
@@ -23,26 +23,26 @@
 .note text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
 </style>
   <g class="edge" data-edge-source="__start_0" data-edge-target="Evaluating">
-    <path d="M100.7,29.2 L100.7,78.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M100.7,29.2 L100.7,70.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Evaluating" data-edge-target="Pass">
-    <path d="M83.93,120.4 L51.97,160.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M83.93,120.4 L56.97,154.15" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="25.45" y="113.4" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="67.95" y="125.4">score &gt;= 70</text>
   </g>
   <g class="edge" data-edge-source="Evaluating" data-edge-target="Fail">
-    <path d="M109.59,120.4 L126.51,160.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M109.59,120.4 L123.4,153.03" stroke-width="2" marker-end="url(#arrow)" />
     <rect x="79.05" y="143.4" width="78.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="118.05" y="155.4">score &lt; 70</text>
   </g>
   <g class="edge" data-edge-source="Pass" data-edge-target="__end_0">
-    <path d="M35.2,202.4 L35.2,253.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M35.2,202.4 L35.2,245.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Fail" data-edge-target="Retry">
-    <path d="M135.27,202.4 L135.03,242.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M135.27,202.4 L135.08,234.4" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="Retry" data-edge-target="Evaluating">
-    <path d="M151.8,242.4 C159.99,232.23 205.14,201.73 200.9,181.4 C196.66,161.07 138.78,130.57 126.36,120.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M151.8,242.4 C159.99,232.23 204.11,200.89 200.9,181.4 C197.69,161.91 143.94,134.79 132.55,125.47" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="state start">
     <circle cx="100.7" cy="19.2" r="10" fill="black" stroke="black" />

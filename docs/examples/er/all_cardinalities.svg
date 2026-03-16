@@ -24,23 +24,28 @@
 </style>
   <g class="er-relationship" data-edge-source="A" data-edge-target="B">
     <path d="M35.0,34.0 L35.0,90.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-exactly-one)" marker-end="url(#er-exactly-one)" />
-    <text x="35.0" y="54.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">one to one</text>
+    <rect x="-4.0" y="45.0" width="78.0" height="18.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text x="35.0" y="54.0" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">one to one</text>
   </g>
   <g class="er-relationship" data-edge-source="C" data-edge-target="D">
     <path d="M155.0,34.0 L155.0,90.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-exactly-one)" marker-end="url(#er-zero-or-more)" />
-    <text x="155.0" y="54.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">one to zero-or-more</text>
+    <rect x="84.5" y="45.0" width="141.0" height="18.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text x="155.0" y="54.0" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">one to zero-or-more</text>
   </g>
   <g class="er-relationship" data-edge-source="E" data-edge-target="F">
     <path d="M275.0,34.0 L275.0,90.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-exactly-one)" marker-end="url(#er-one-or-more)" />
-    <text x="275.0" y="54.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">one to one-or-more</text>
+    <rect x="208.0" y="45.0" width="134.0" height="18.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text x="275.0" y="54.0" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">one to one-or-more</text>
   </g>
   <g class="er-relationship" data-edge-source="G" data-edge-target="H">
     <path d="M395.0,34.0 L395.0,90.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-zero-or-more)" marker-end="url(#er-zero-or-more)" />
-    <text x="395.0" y="54.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">zero-or-more to zero-or-more</text>
+    <rect x="293.0" y="45.0" width="204.0" height="18.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text x="395.0" y="54.0" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">zero-or-more to zero-or-more</text>
   </g>
   <g class="er-relationship" data-edge-source="I" data-edge-target="J">
     <path d="M515.0,34.0 L515.0,90.0" fill="none" stroke="#333333" stroke-width="2" marker-start="url(#er-zero-or-one)" marker-end="url(#er-exactly-one)" />
-    <text x="515.0" y="54.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">zero-or-one to one</text>
+    <rect x="448.0" y="45.0" width="134.0" height="18.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text x="515.0" y="54.0" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">zero-or-one to one</text>
   </g>
   <g class="er-entity" data-entity-id="A">
     <rect x="10.0" y="8.0" width="50.0" height="26.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />

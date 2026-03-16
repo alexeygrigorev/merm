@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 564.4 506" width="564.4" height="506" style="background-color: white">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="5.5" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>
@@ -21,25 +21,25 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M274.2,60.8 L274.2,100.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M274.2,60.8 L274.2,92.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="H">
-    <path d="M240.35,156.17 L135.67,233.4" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M240.35,156.17 L142.1,228.65" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M299.11,157.61 L352.89,214.63" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M299.11,157.61 L347.4,208.81" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="G">
-    <path d="M323.66,284.02 L160.12,356.6" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M323.66,284.02 L167.43,353.35" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="D">
-    <path d="M395.21,305.53 L399.19,347.78" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M395.21,305.53 L398.44,339.82" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="I">
-    <path d="M352.22,397.66 L227.31,448.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M352.22,397.66 L234.73,445.01" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="F">
-    <path d="M402.53,407.89 L403.23,448.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M402.53,407.89 L403.09,440" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <rect x="178.6" y="0.0" width="191.2" height="60.8" rx="5" ry="5" />
@@ -80,27 +80,27 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="403.6" y="469">Send for repair</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="H">
-    <rect x="177.01" y="182.79" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="188.01" y="194.79">No</text>
+    <rect x="161.31" y="194.37" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="172.31" y="206.37">No</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="C">
     <rect x="311.5" y="174.12" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="326" y="186.12">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="G">
-    <rect x="227.39" y="308.31" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="241.89" y="320.31">Yes</text>
+    <rect x="202.86" y="319.2" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="217.36" y="331.2">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="D">
     <rect x="386.2" y="314.66" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="397.2" y="326.66">No</text>
   </g>
   <g class="edge-label" data-edge-source="D" data-edge-target="I">
-    <rect x="275.26" y="410.83" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="289.76" y="422.83">Yes</text>
+    <rect x="256.53" y="418.38" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="271.03" y="430.38">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="D" data-edge-target="F">
-    <rect x="391.88" y="415.94" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="402.88" y="427.94">No</text>
+    <rect x="391.99" y="421.96" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="402.99" y="433.96">No</text>
   </g>
 </svg>

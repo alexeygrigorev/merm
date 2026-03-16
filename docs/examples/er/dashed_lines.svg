@@ -24,15 +24,18 @@
 </style>
   <g class="er-relationship" data-edge-source="PERSON" data-edge-target="CAR">
     <path d="M95.0,34.0 L35.0,90.0" fill="none" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" marker-start="url(#er-exactly-one)" marker-end="url(#er-zero-or-more)" />
-    <text x="65.0" y="54.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">may own</text>
+    <rect x="36.5" y="45.0" width="57.0" height="18.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text x="65.0" y="54.0" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">may own</text>
   </g>
   <g class="er-relationship" data-edge-source="PERSON" data-edge-target="ADDRESS">
     <path d="M95.0,34.0 L155.0,90.0" fill="none" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" marker-start="url(#er-one-or-more)" marker-end="url(#er-one-or-more)" />
-    <text x="125.0" y="54.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">lives at</text>
+    <rect x="93.0" y="45.0" width="64.0" height="18.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text x="125.0" y="54.0" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">lives at</text>
   </g>
   <g class="er-relationship" data-edge-source="COMPANY" data-edge-target="HEADQUARTERS">
     <path d="M286.0,34.0 L286.0,90.0" fill="none" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" marker-start="url(#er-exactly-one)" marker-end="url(#er-exactly-one)" />
-    <text x="286.0" y="54.0" text-anchor="middle" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">occupies</text>
+    <rect x="254.0" y="45.0" width="64.0" height="18.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text x="286.0" y="54.0" text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" font-size="10.0px" fill="#333333">occupies</text>
   </g>
   <g class="er-entity" data-entity-id="PERSON">
     <rect x="67.0" y="8.0" width="56.0" height="26.0" fill="#ECECFF" stroke="#9370DB" stroke-width="1" />

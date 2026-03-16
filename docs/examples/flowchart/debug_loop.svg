@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 297.6 404.8" width="297.6" height="404.8" style="background-color: white">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
-    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <circle cx="5" cy="5" r="5" fill="#333333" />
     </marker>
-    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="5.5" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
     </marker>
-    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
     </marker>
   </defs>
@@ -21,25 +21,25 @@
 .subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
 </style>
   <g class="edge" data-edge-source="A" data-edge-target="B">
-    <path d="M140.8,42.0 L140.8,82.0" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M140.8,42.0 L140.8,74.0" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="C">
-    <path d="M120.7,138.46 L86.5,182.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M120.7,138.46 L91.38,176.47" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="B" data-edge-target="D">
-    <path d="M153.04,140.16 L171.84,182.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M153.04,140.16 L168.61,175.48" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="D" data-edge-target="E">
-    <path d="M181.1,224.8 L181.1,264.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M181.1,224.8 L181.1,256.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="E" data-edge-target="F">
-    <path d="M181.1,306.8 L181.1,346.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M181.1,306.8 L181.1,338.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="F" data-edge-target="B">
-    <path d="M205.3,346.8 C217.02,336.63 267.88,309.63 275.6,285.8 C283.32,261.97 269.2,228.68 251.6,203.8 C234,178.92 183.61,147.71 170.01,136.49" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M205.3,346.8 C217.02,336.63 267.88,309.63 275.6,285.8 C283.32,261.97 268.17,227.84 251.6,203.8 C235.03,179.76 188.75,151.95 176.18,141.58" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="edge" data-edge-source="C" data-edge-target="G">
-    <path d="M70.3,224.8 L70.3,264.8" stroke-width="2" marker-end="url(#arrow)" />
+    <path d="M70.3,224.8 L70.3,256.8" stroke-width="2" marker-end="url(#arrow)" />
   </g>
   <g class="node" data-node-id="A">
     <rect x="104.8" y="0.0" width="72.0" height="42.0" />
@@ -70,11 +70,11 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="70.3" y="285.8">Deploy</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="C">
-    <rect x="89.1" y="148.63" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="103.6" y="160.63">Yes</text>
+    <rect x="83.97" y="155.28" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="98.47" y="167.28">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="D">
-    <rect x="142.01" y="149.48" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="153.01" y="161.48">No</text>
+    <rect x="142.01" y="155.88" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="153.01" y="167.88">No</text>
   </g>
 </svg>

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" width="520" height="140">
 <style>
-.gitgraph-label { font-family: sans-serif; font-size: 12px; fill: #333; }
-.gitgraph-branch-label { font-family: sans-serif; font-size: 14px; font-weight: bold; }
-.gitgraph-tag { font-family: sans-serif; font-size: 11px; fill: #333; }
+.gitgraph-label { font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; fill: #333333; }
+.gitgraph-branch-label { font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 14px; font-weight: bold; }
+.gitgraph-tag { font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 11px; fill: #333333; }
 </style>
 <line x1="120.0" y1="40.0" x2="440.0" y2="40.0" stroke="#47d147" stroke-width="2" class="gitgraph-branch-line"/>
 <line x1="200.0" y1="90.0" x2="280.0" y2="90.0" stroke="#ff6666" stroke-width="2" class="gitgraph-branch-line"/>
