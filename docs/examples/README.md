@@ -7,35 +7,35 @@ All 132 examples rendered by merm.
 
 ### Diamond
 
-<img src="basic/diamond.svg" alt="Diamond" width="600">
+<img src="basic/diamond.svg" alt="Diamond" width="186">
 
 ### Fan In
 
-<img src="basic/fan_in.svg" alt="Fan In" width="600">
+<img src="basic/fan_in.svg" alt="Fan In" width="486">
 
 ### Fan Out
 
-<img src="basic/fan_out.svg" alt="Fan Out" width="600">
+<img src="basic/fan_out.svg" alt="Fan Out" width="486">
 
 ### Linear Chain
 
-<img src="basic/linear_chain.svg" alt="Linear Chain" width="600">
+<img src="basic/linear_chain.svg" alt="Linear Chain" width="86">
 
 ### Parallel Paths
 
-<img src="basic/parallel_paths.svg" alt="Parallel Paths" width="600">
+<img src="basic/parallel_paths.svg" alt="Parallel Paths" width="186">
 
 ### Self Loop
 
-<img src="basic/self_loop.svg" alt="Self Loop" width="600">
+<img src="basic/self_loop.svg" alt="Self Loop" width="86">
 
 ### Single Node
 
-<img src="basic/single_node.svg" alt="Single Node" width="600">
+<img src="basic/single_node.svg" alt="Single Node" width="88">
 
 ### Two Nodes
 
-<img src="basic/two_nodes.svg" alt="Two Nodes" width="600">
+<img src="basic/two_nodes.svg" alt="Two Nodes" width="86">
 
 
 ## Class
@@ -46,35 +46,35 @@ All 132 examples rendered by merm.
 
 ### Annotations
 
-<img src="class/annotations.svg" alt="Annotations" width="600">
+<img src="class/annotations.svg" alt="Annotations" width="518">
 
 ### Basic
 
-<img src="class/basic.svg" alt="Basic" width="600">
+<img src="class/basic.svg" alt="Basic" width="382">
 
 ### Cardinality
 
-<img src="class/cardinality.svg" alt="Cardinality" width="600">
+<img src="class/cardinality.svg" alt="Cardinality" width="334">
 
 ### Complex
 
-<img src="class/complex.svg" alt="Complex" width="600">
+<img src="class/complex.svg" alt="Complex" width="260">
 
 ### Inheritance
 
-<img src="class/inheritance.svg" alt="Inheritance" width="600">
+<img src="class/inheritance.svg" alt="Inheritance" width="560">
 
 ### Interface Realization
 
-<img src="class/interface_realization.svg" alt="Interface Realization" width="600">
+<img src="class/interface_realization.svg" alt="Interface Realization" width="326">
 
 ### Many Members
 
-<img src="class/many_members.svg" alt="Many Members" width="600">
+<img src="class/many_members.svg" alt="Many Members" width="300">
 
 ### Members
 
-<img src="class/members.svg" alt="Members" width="600">
+<img src="class/members.svg" alt="Members" width="308">
 
 ### Mermaid Readme
 
@@ -89,88 +89,88 @@ All 132 examples rendered by merm.
 
 ### Bt
 
-<img src="direction/bt.svg" alt="Bt" width="600">
+<img src="direction/bt.svg" alt="Bt" width="86">
 
 ### Lr
 
-<img src="direction/lr.svg" alt="Lr" width="600">
+<img src="direction/lr.svg" alt="Lr" width="306">
 
 ### Rl
 
-<img src="direction/rl.svg" alt="Rl" width="600">
+<img src="direction/rl.svg" alt="Rl" width="306">
 
 ### Tb
 
-<img src="direction/tb.svg" alt="Tb" width="600">
+<img src="direction/tb.svg" alt="Tb" width="86">
 
 ### Td
 
-<img src="direction/td.svg" alt="Td" width="600">
+<img src="direction/td.svg" alt="Td" width="86">
 
 
 ## Edges
 
 ### Arrow
 
-<img src="edges/arrow.svg" alt="Arrow" width="600">
+<img src="edges/arrow.svg" alt="Arrow" width="86">
 
 ### Circle Endpoint
 
-<img src="edges/circle_endpoint.svg" alt="Circle Endpoint" width="600">
+<img src="edges/circle_endpoint.svg" alt="Circle Endpoint" width="86">
 
 ### Cross Endpoint
 
-<img src="edges/cross_endpoint.svg" alt="Cross Endpoint" width="600">
+<img src="edges/cross_endpoint.svg" alt="Cross Endpoint" width="86">
 
 ### Dotted
 
-<img src="edges/dotted.svg" alt="Dotted" width="600">
+<img src="edges/dotted.svg" alt="Dotted" width="86">
 
 ### Invisible
 
-<img src="edges/invisible.svg" alt="Invisible" width="600">
+<img src="edges/invisible.svg" alt="Invisible" width="86">
 
 ### Labeled Edges
 
-<img src="edges/labeled_edges.svg" alt="Labeled Edges" width="600">
+<img src="edges/labeled_edges.svg" alt="Labeled Edges" width="186">
 
 ### Open Link
 
-<img src="edges/open_link.svg" alt="Open Link" width="600">
+<img src="edges/open_link.svg" alt="Open Link" width="86">
 
 ### Thick
 
-<img src="edges/thick.svg" alt="Thick" width="600">
+<img src="edges/thick.svg" alt="Thick" width="86">
 
 
 ## Er
 
 ### All Cardinalities
 
-<img src="er/all_cardinalities.svg" alt="All Cardinalities" width="600">
+<img src="er/all_cardinalities.svg" alt="All Cardinalities" width="570">
 
 ### Attributes
 
-<img src="er/attributes.svg" alt="Attributes" width="600">
+<img src="er/attributes.svg" alt="Attributes" width="130">
 
 ### Basic
 
-<img src="er/basic.svg" alt="Basic" width="600">
+<img src="er/basic.svg" alt="Basic" width="94">
 
 ### Complex
 
-<img src="er/complex.svg" alt="Complex" width="600">
+<img src="er/complex.svg" alt="Complex" width="290">
 
 ### Dashed Lines
 
-<img src="er/dashed_lines.svg" alt="Dashed Lines" width="600">
+<img src="er/dashed_lines.svg" alt="Dashed Lines" width="352">
 
 
 ## Flowchart
 
 ### Api Request
 
-<img src="flowchart/api_request.svg" alt="Api Request" width="600">
+<img src="flowchart/api_request.svg" alt="Api Request" width="387">
 
 ### Ci Pipeline
 
@@ -178,11 +178,11 @@ All 132 examples rendered by merm.
 
 ### Coffee Machine
 
-<img src="flowchart/coffee_machine.svg" alt="Coffee Machine" width="600">
+<img src="flowchart/coffee_machine.svg" alt="Coffee Machine" width="564">
 
 ### Debug Loop
 
-<img src="flowchart/debug_loop.svg" alt="Debug Loop" width="600">
+<img src="flowchart/debug_loop.svg" alt="Debug Loop" width="297">
 
 ### Elt Bigquery
 
@@ -190,11 +190,11 @@ All 132 examples rendered by merm.
 
 ### Emoji
 
-<img src="flowchart/emoji.svg" alt="Emoji" width="600">
+<img src="flowchart/emoji.svg" alt="Emoji" width="320">
 
 ### Emoji Workflow
 
-<img src="flowchart/emoji_workflow.svg" alt="Emoji Workflow" width="600">
+<img src="flowchart/emoji_workflow.svg" alt="Emoji Workflow" width="389">
 
 ### Etl Postgres
 
@@ -206,11 +206,11 @@ All 132 examples rendered by merm.
 
 ### Icons
 
-<img src="flowchart/icons.svg" alt="Icons" width="600">
+<img src="flowchart/icons.svg" alt="Icons" width="366">
 
 ### Mermaid Readme
 
-<img src="flowchart/mermaid_readme.svg" alt="Mermaid Readme" width="600">
+<img src="flowchart/mermaid_readme.svg" alt="Mermaid Readme" width="556">
 
 ### Registration
 
@@ -244,7 +244,7 @@ All 132 examples rendered by merm.
 
 ### Basic
 
-<img src="gitgraph/basic.svg" alt="Basic" width="600">
+<img src="gitgraph/basic.svg" alt="Basic" width="360">
 
 ### Branching
 
@@ -252,7 +252,7 @@ All 132 examples rendered by merm.
 
 ### Cherry Pick
 
-<img src="gitgraph/cherry_pick.svg" alt="Cherry Pick" width="600">
+<img src="gitgraph/cherry_pick.svg" alt="Cherry Pick" width="520">
 
 ### Complex
 
@@ -267,7 +267,7 @@ All 132 examples rendered by merm.
 
 ### Api Request
 
-<img src="github/api_request.svg" alt="Api Request" width="600">
+<img src="github/api_request.svg" alt="Api Request" width="387">
 
 ### Ci Pipeline
 
@@ -275,11 +275,11 @@ All 132 examples rendered by merm.
 
 ### Coffee Machine
 
-<img src="github/coffee_machine.svg" alt="Coffee Machine" width="600">
+<img src="github/coffee_machine.svg" alt="Coffee Machine" width="564">
 
 ### Debug Loop
 
-<img src="github/debug_loop.svg" alt="Debug Loop" width="600">
+<img src="github/debug_loop.svg" alt="Debug Loop" width="297">
 
 ### Elt Bigquery
 
@@ -287,7 +287,7 @@ All 132 examples rendered by merm.
 
 ### Emoji Workflow
 
-<img src="github/emoji_workflow.svg" alt="Emoji Workflow" width="600">
+<img src="github/emoji_workflow.svg" alt="Emoji Workflow" width="389">
 
 ### Etl Postgres
 
@@ -315,7 +315,7 @@ All 132 examples rendered by merm.
 
 ### Xmas Tree
 
-<img src="github/xmas_tree.svg" alt="Xmas Tree" width="600">
+<img src="github/xmas_tree.svg" alt="Xmas Tree" width="393">
 
 
 ## Mindmap
@@ -334,11 +334,11 @@ All 132 examples rendered by merm.
 
 ### Shapes
 
-<img src="mindmap/shapes.svg" alt="Shapes" width="600">
+<img src="mindmap/shapes.svg" alt="Shapes" width="443">
 
 ### Single Root
 
-<img src="mindmap/single_root.svg" alt="Single Root" width="600">
+<img src="mindmap/single_root.svg" alt="Single Root" width="200">
 
 
 ## Pie
@@ -372,30 +372,30 @@ All 132 examples rendered by merm.
 
 ### Large
 
-<img src="scale/large.svg" alt="Large" width="600">
+<img src="scale/large.svg" alt="Large" width="186">
 
 ### Medium
 
-<img src="scale/medium.svg" alt="Medium" width="600">
+<img src="scale/medium.svg" alt="Medium" width="386">
 
 ### Small
 
-<img src="scale/small.svg" alt="Small" width="600">
+<img src="scale/small.svg" alt="Small" width="86">
 
 
 ## Sequence
 
 ### Activations
 
-<img src="sequence/activations.svg" alt="Activations" width="600">
+<img src="sequence/activations.svg" alt="Activations" width="480">
 
 ### Arrows
 
-<img src="sequence/arrows.svg" alt="Arrows" width="600">
+<img src="sequence/arrows.svg" alt="Arrows" width="385">
 
 ### Basic
 
-<img src="sequence/basic.svg" alt="Basic" width="600">
+<img src="sequence/basic.svg" alt="Basic" width="398">
 
 ### Complex
 
@@ -415,171 +415,171 @@ All 132 examples rendered by merm.
 
 ### Mermaid Readme
 
-<img src="sequence/mermaid_readme.svg" alt="Mermaid Readme" width="600">
+<img src="sequence/mermaid_readme.svg" alt="Mermaid Readme" width="556">
 
 ### Notes
 
-<img src="sequence/notes.svg" alt="Notes" width="600">
+<img src="sequence/notes.svg" alt="Notes" width="330">
 
 
 ## Shapes
 
 ### Asymmetric
 
-<img src="shapes/asymmetric.svg" alt="Asymmetric" width="600">
+<img src="shapes/asymmetric.svg" alt="Asymmetric" width="160">
 
 ### Circle
 
-<img src="shapes/circle.svg" alt="Circle" width="600">
+<img src="shapes/circle.svg" alt="Circle" width="99">
 
 ### Cylinder
 
-<img src="shapes/cylinder.svg" alt="Cylinder" width="600">
+<img src="shapes/cylinder.svg" alt="Cylinder" width="120">
 
 ### Diamond
 
-<img src="shapes/diamond.svg" alt="Diamond" width="600">
+<img src="shapes/diamond.svg" alt="Diamond" width="179">
 
 ### Double Circle
 
-<img src="shapes/double_circle.svg" alt="Double Circle" width="600">
+<img src="shapes/double_circle.svg" alt="Double Circle" width="147">
 
 ### Hexagon
 
-<img src="shapes/hexagon.svg" alt="Hexagon" width="600">
+<img src="shapes/hexagon.svg" alt="Hexagon" width="182">
 
 ### Mixed Shapes
 
-<img src="shapes/mixed_shapes.svg" alt="Mixed Shapes" width="600">
+<img src="shapes/mixed_shapes.svg" alt="Mixed Shapes" width="182">
 
 ### Parallelogram
 
-<img src="shapes/parallelogram.svg" alt="Parallelogram" width="600">
+<img src="shapes/parallelogram.svg" alt="Parallelogram" width="192">
 
 ### Parallelogram Alt
 
-<img src="shapes/parallelogram_alt.svg" alt="Parallelogram Alt" width="600">
+<img src="shapes/parallelogram_alt.svg" alt="Parallelogram Alt" width="218">
 
 ### Rect
 
-<img src="shapes/rect.svg" alt="Rect" width="600">
+<img src="shapes/rect.svg" alt="Rect" width="155">
 
 ### Rounded
 
-<img src="shapes/rounded.svg" alt="Rounded" width="600">
+<img src="shapes/rounded.svg" alt="Rounded" width="115">
 
 ### Stadium
 
-<img src="shapes/stadium.svg" alt="Stadium" width="600">
+<img src="shapes/stadium.svg" alt="Stadium" width="131">
 
 ### Subroutine
 
-<img src="shapes/subroutine.svg" alt="Subroutine" width="600">
+<img src="shapes/subroutine.svg" alt="Subroutine" width="136">
 
 ### Trapezoid
 
-<img src="shapes/trapezoid.svg" alt="Trapezoid" width="600">
+<img src="shapes/trapezoid.svg" alt="Trapezoid" width="151">
 
 ### Trapezoid Alt
 
-<img src="shapes/trapezoid_alt.svg" alt="Trapezoid Alt" width="600">
+<img src="shapes/trapezoid_alt.svg" alt="Trapezoid Alt" width="177">
 
 
 ## State
 
 ### Basic
 
-<img src="state/basic.svg" alt="Basic" width="600">
+<img src="state/basic.svg" alt="Basic" width="121">
 
 ### Choice
 
-<img src="state/choice.svg" alt="Choice" width="600">
+<img src="state/choice.svg" alt="Choice" width="240">
 
 ### Complex
 
-<img src="state/complex.svg" alt="Complex" width="600">
+<img src="state/complex.svg" alt="Complex" width="294">
 
 ### Fork Join
 
-<img src="state/fork_join.svg" alt="Fork Join" width="600">
+<img src="state/fork_join.svg" alt="Fork Join" width="404">
 
 ### Mermaid Readme
 
-<img src="state/mermaid_readme.svg" alt="Mermaid Readme" width="600">
+<img src="state/mermaid_readme.svg" alt="Mermaid Readme" width="196">
 
 ### Nested
 
-<img src="state/nested.svg" alt="Nested" width="600">
+<img src="state/nested.svg" alt="Nested" width="280">
 
 
 ## Styling
 
 ### Classdef Multiple
 
-<img src="styling/classdef_multiple.svg" alt="Classdef Multiple" width="600">
+<img src="styling/classdef_multiple.svg" alt="Classdef Multiple" width="100">
 
 ### Classdef Single
 
-<img src="styling/classdef_single.svg" alt="Classdef Single" width="600">
+<img src="styling/classdef_single.svg" alt="Classdef Single" width="88">
 
 ### Default Class
 
-<img src="styling/default_class.svg" alt="Default Class" width="600">
+<img src="styling/default_class.svg" alt="Default Class" width="86">
 
 ### Inline Style
 
-<img src="styling/inline_style.svg" alt="Inline Style" width="600">
+<img src="styling/inline_style.svg" alt="Inline Style" width="86">
 
 ### Mixed Styled Unstyled
 
-<img src="styling/mixed_styled_unstyled.svg" alt="Mixed Styled Unstyled" width="600">
+<img src="styling/mixed_styled_unstyled.svg" alt="Mixed Styled Unstyled" width="253">
 
 
 ## Subgraphs
 
 ### Cross Boundary Edges
 
-<img src="subgraphs/cross_boundary_edges.svg" alt="Cross Boundary Edges" width="600">
+<img src="subgraphs/cross_boundary_edges.svg" alt="Cross Boundary Edges" width="226">
 
 ### Nested Subgraphs
 
-<img src="subgraphs/nested_subgraphs.svg" alt="Nested Subgraphs" width="600">
+<img src="subgraphs/nested_subgraphs.svg" alt="Nested Subgraphs" width="166">
 
 ### Sibling Subgraphs
 
-<img src="subgraphs/sibling_subgraphs.svg" alt="Sibling Subgraphs" width="600">
+<img src="subgraphs/sibling_subgraphs.svg" alt="Sibling Subgraphs" width="126">
 
 ### Single Subgraph
 
-<img src="subgraphs/single_subgraph.svg" alt="Single Subgraph" width="600">
+<img src="subgraphs/single_subgraph.svg" alt="Single Subgraph" width="126">
 
 ### Subgraph Direction
 
-<img src="subgraphs/subgraph_direction.svg" alt="Subgraph Direction" width="600">
+<img src="subgraphs/subgraph_direction.svg" alt="Subgraph Direction" width="290">
 
 ### Subgraph With Title
 
-<img src="subgraphs/subgraph_with_title.svg" alt="Subgraph With Title" width="600">
+<img src="subgraphs/subgraph_with_title.svg" alt="Subgraph With Title" width="263">
 
 
 ## Text
 
 ### Long Text
 
-<img src="text/long_text.svg" alt="Long Text" width="600">
+<img src="text/long_text.svg" alt="Long Text" width="229">
 
 ### Multiline
 
-<img src="text/multiline.svg" alt="Multiline" width="600">
+<img src="text/multiline.svg" alt="Multiline" width="145">
 
 ### Quoted Labels
 
-<img src="text/quoted_labels.svg" alt="Quoted Labels" width="600">
+<img src="text/quoted_labels.svg" alt="Quoted Labels" width="225">
 
 ### Short Text
 
-<img src="text/short_text.svg" alt="Short Text" width="600">
+<img src="text/short_text.svg" alt="Short Text" width="86">
 
 ### Special Chars
 
-<img src="text/special_chars.svg" alt="Special Chars" width="600">
+<img src="text/special_chars.svg" alt="Special Chars" width="212">
