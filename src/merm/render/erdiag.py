@@ -335,10 +335,29 @@ def _render_er_relationship(
     # Label
     if rel.label:
         mid = _midpoint(edge_layout.points)
+        label_x = round(mid.x, 2)
+        label_y = round(mid.y - 8, 2)
+
+        # Approximate label dimensions for background rect
+        char_w = 7.0  # rough px per char at 10px font
+        padding = 4.0
+        rect_w = len(rel.label) * char_w + padding * 2
+        rect_h = _SMALL_FONT_SIZE + padding * 2
+
+        # Opaque background rect (rendered first so text is on top)
+        rect = ET.SubElement(g, "rect")
+        rect.set("x", str(round(label_x - rect_w / 2, 2)))
+        rect.set("y", str(round(label_y - rect_h / 2, 2)))
+        rect.set("width", str(round(rect_w, 2)))
+        rect.set("height", str(round(rect_h, 2)))
+        rect.set("fill", "rgba(232,232,232,0.8)")
+        rect.set("stroke", "none")
+
         label_el = ET.SubElement(g, "text")
-        label_el.set("x", str(round(mid.x, 2)))
-        label_el.set("y", str(round(mid.y - 8, 2)))
+        label_el.set("x", str(label_x))
+        label_el.set("y", str(label_y))
         label_el.set("text-anchor", "middle")
+        label_el.set("dominant-baseline", "central")
         label_el.set("font-family", theme.font_family)
         label_el.set("font-size", f"{_SMALL_FONT_SIZE}px")
         label_el.set("fill", theme.text_color)
