@@ -4,6 +4,7 @@ from xml.sax.saxutils import escape
 
 from merm.ir.gitgraph import CommitType, GitGraph
 from merm.layout.gitgraph import GitGraphLayout
+from merm.theme import DEFAULT_THEME, Theme
 
 # Branch color palette (follows Mermaid's default gitgraph theme)
 BRANCH_COLORS = [
@@ -24,20 +25,52 @@ _HIGHLIGHT_RADIUS = 12
 # Reverse commit fill
 _REVERSE_FILL = "#ffffff"
 
-def render_gitgraph_svg(graph: GitGraph, layout: GitGraphLayout) -> str:
+
+def _themed_branch_colors(theme: Theme) -> list[str]:
+    """Return branch color palette adjusted for the given theme."""
+    if theme is DEFAULT_THEME:
+        return BRANCH_COLORS
+    # For non-default themes, derive a palette from theme colors.
+    # Use node_stroke as the primary branch color and generate
+    # variants by mixing with the base palette.
+    return [
+        theme.node_stroke,   # primary branch gets theme node_stroke
+        theme.edge_stroke,   # second branch gets edge color
+        theme.subgraph_stroke,  # third branch
+        "#ffcc00",
+        "#cc66ff",
+        "#ff9933",
+        "#33cccc",
+        "#ff6699",
+    ]
+
+
+def render_gitgraph_svg(
+    graph: GitGraph,
+    layout: GitGraphLayout,
+    theme: Theme | None = None,
+) -> str:
     """Render a GitGraph and its layout to an SVG string."""
+    if theme is None:
+        theme = DEFAULT_THEME
+
     parts: list[str] = []
 
     # Build branch -> color map
+    palette = _themed_branch_colors(theme)
     branch_color: dict[str, str] = {}
     for i, branch_name in enumerate(graph.branch_order):
-        branch_color[branch_name] = BRANCH_COLORS[i % len(BRANCH_COLORS)]
+        branch_color[branch_name] = palette[i % len(palette)]
 
     # Build commit lookup
     commit_map = {c.id: c for c in graph.commits}
 
     svg_w = max(layout.width, 200)
     svg_h = max(layout.height, 100)
+
+    bg_color = theme.background_color
+    text_color = theme.text_color
+    font_family = theme.font_family
 
     # SVG header
     parts.append(
@@ -46,19 +79,26 @@ def render_gitgraph_svg(graph: GitGraph, layout: GitGraphLayout) -> str:
         f'width="{svg_w:.0f}" height="{svg_h:.0f}">'
     )
 
+    # Background rect (only when non-white to match themed appearance)
+    if bg_color != "white":
+        parts.append(
+            f'<rect width="100%" height="100%" fill="{bg_color}" '
+            f'class="gitgraph-background"/>'
+        )
+
     # Style
     parts.append("<style>")
     parts.append(
-        ".gitgraph-label { font-family: sans-serif;"
-        " font-size: 12px; fill: #333; }"
+        f".gitgraph-label {{ font-family: {font_family};"
+        f" font-size: 12px; fill: {text_color}; }}"
     )
     parts.append(
-        ".gitgraph-branch-label { font-family: sans-serif;"
-        " font-size: 14px; font-weight: bold; }"
+        f".gitgraph-branch-label {{ font-family: {font_family};"
+        f" font-size: 14px; font-weight: bold; }}"
     )
     parts.append(
-        ".gitgraph-tag { font-family: sans-serif;"
-        " font-size: 11px; fill: #333; }"
+        f".gitgraph-tag {{ font-family: {font_family};"
+        f" font-size: 11px; fill: {text_color}; }}"
     )
     parts.append("</style>")
 
@@ -93,12 +133,13 @@ def render_gitgraph_svg(graph: GitGraph, layout: GitGraphLayout) -> str:
         )
 
     # Merge and cherry-pick lines
+    merge_stroke = theme.edge_stroke if theme is not DEFAULT_THEME else "#999"
     for ml in layout.merge_lines:
         dash = ' stroke-dasharray="6,4"' if ml.is_cherry_pick else ""
         parts.append(
             f'<line x1="{ml.from_x:.1f}" y1="{ml.from_y:.1f}" '
             f'x2="{ml.to_x:.1f}" y2="{ml.to_y:.1f}" '
-            f'stroke="#999" stroke-width="2"{dash} '
+            f'stroke="{merge_stroke}" stroke-width="2"{dash} '
             f'class="gitgraph-merge-line"/>'
         )
 
@@ -153,10 +194,12 @@ def render_gitgraph_svg(graph: GitGraph, layout: GitGraphLayout) -> str:
         # Rounded rect badge + text
         tag_text = escape(commit.tag)
         tw = len(commit.tag) * 7 + 12
+        tag_fill = theme.subgraph_fill if theme is not DEFAULT_THEME else "#ffffcc"
+        tag_stroke = theme.subgraph_stroke if theme is not DEFAULT_THEME else "#999"
         parts.append(
             f'<rect x="{cl.x - tw / 2:.1f}" y="{tag_y - 10:.1f}" '
             f'width="{tw}" height="16" rx="4" ry="4" '
-            f'fill="#ffffcc" stroke="#999" stroke-width="1" '
+            f'fill="{tag_fill}" stroke="{tag_stroke}" stroke-width="1" '
             f'class="gitgraph-tag-badge"/>'
         )
         parts.append(

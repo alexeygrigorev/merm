@@ -87,6 +87,13 @@ def render_diagram(source: str, *, theme: Theme | str | None = None) -> str:
             If None, the theme is auto-detected from a ``%%{init}%%``
             directive in the source, falling back to the default theme.
             An explicit theme argument always overrides the directive.
+
+    Returns:
+        A string containing valid SVG XML.
+
+    Raises:
+        ValueError: If source is empty or whitespace-only.
+        ParseError: If the diagram source contains invalid syntax.
     """
     if not source or not source.strip():
         raise ValueError("Empty diagram source")
@@ -160,8 +167,7 @@ def render_diagram(source: str, *, theme: Theme | str | None = None) -> str:
 
         graph = parse_gitgraph(source)
         layout = layout_gitgraph(graph, measure_fn=measurer.measure)
-        # render_gitgraph_svg does not accept a theme parameter
-        return render_gitgraph_svg(graph, layout)
+        return render_gitgraph_svg(graph, layout, theme=resolved_theme)
 
     # Default: flowchart
     from merm.layout import layout_diagram
@@ -243,7 +249,10 @@ def _svg_to_png(svg: str) -> bytes:
 
 
 __all__ = [
+    "DEFAULT_THEME",
     "ParseError",
+    "Theme",
+    "get_theme",
     "parse_class_diagram",
     "parse_flowchart",
     "parse_sequence",
