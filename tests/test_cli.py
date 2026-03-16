@@ -46,10 +46,11 @@ def run_cli_binary(
 # ---- Argument parsing tests ----
 
 def test_version():
-    """--version prints version string containing '0.1.0' and exits 0."""
+    """--version prints version string and exits 0."""
+    from merm.__version__ import __version__
     result = run_cli(["--version"])
     assert result.returncode == 0
-    assert "0.1.0" in result.stdout
+    assert __version__ in result.stdout
 
 
 def test_help():
@@ -412,7 +413,8 @@ def test_entry_point_script():
         timeout=30,
     )
     assert result.returncode == 0
-    assert "0.1.0" in result.stdout
+    from merm.__version__ import __version__
+    assert __version__ in result.stdout
 
 
 def test_entry_point_help_shows_format():

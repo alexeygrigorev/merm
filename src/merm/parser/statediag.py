@@ -119,8 +119,9 @@ def _resolve_pseudo_state(
 
     if is_source:
         if in_composite:
-            # Inside composite: unique IDs for fork/join merge
-            real_id = f"__start_{pstate.start_count}"
+            # Inside composite: scope ID to avoid collisions with top-level
+            comp_id = pstate.composite_stack[-1].id
+            real_id = f"__start_{comp_id}_{pstate.start_count}"
             pstate.start_count += 1
         else:
             # Top level: single canonical start node
@@ -132,8 +133,9 @@ def _resolve_pseudo_state(
         return real_id
     else:
         if in_composite:
-            # Inside composite: unique IDs for fork/join merge
-            real_id = f"__end_{pstate.end_count}"
+            # Inside composite: scope ID to avoid collisions with top-level
+            comp_id = pstate.composite_stack[-1].id
+            real_id = f"__end_{comp_id}_{pstate.end_count}"
             pstate.end_count += 1
         else:
             # Top level: single canonical end node
