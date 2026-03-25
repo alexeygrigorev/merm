@@ -1,0 +1,8 @@
+flowchart LR
+    subgraph Batch
+        direction TB
+        A1[PM groom #1] --> B1[SWE #1] --> C1[QA #1] --> D1[PM accept #1]
+        A2[PM groom #2] --> B2[SWE #2] --> C2[QA #2] --> D2[PM accept #2]
+    end
+    Batch --> E[Pull next 2]
+    E --> Batch
