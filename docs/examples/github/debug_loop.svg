@@ -70,11 +70,11 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="70.3" y="285.8">Deploy</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="C">
-    <rect x="83.97" y="155.28" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="98.47" y="167.28">Yes</text>
+    <rect x="86.36" y="152.18" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="100.86" y="164.18">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="D">
-    <rect x="138.01" y="155.88" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="149.01" y="167.88">No</text>
+    <rect x="138.01" y="152.89" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="149.01" y="164.89">No</text>
   </g>
 </svg>

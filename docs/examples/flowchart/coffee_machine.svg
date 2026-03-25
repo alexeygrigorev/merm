@@ -80,27 +80,27 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="403.6" y="469">Send for repair</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="H">
-    <rect x="161.31" y="194.37" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="172.31" y="206.37">No</text>
+    <rect x="168.63" y="188.96" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="179.63" y="200.96">No</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="C">
     <rect x="311.5" y="174.12" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="326" y="186.12">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="G">
-    <rect x="202.86" y="319.2" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="217.36" y="331.2">Yes</text>
+    <rect x="214.31" y="314.12" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="228.81" y="326.12">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="D">
     <rect x="386.2" y="314.66" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="397.2" y="326.66">No</text>
   </g>
   <g class="edge-label" data-edge-source="D" data-edge-target="I">
-    <rect x="256.53" y="418.38" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="271.03" y="430.38">Yes</text>
+    <rect x="265.27" y="414.86" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="279.77" y="426.86">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="D" data-edge-target="F">
-    <rect x="391.99" y="421.96" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="402.99" y="433.96">No</text>
+    <rect x="391.94" y="419.15" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="402.94" y="431.15">No</text>
   </g>
 </svg>

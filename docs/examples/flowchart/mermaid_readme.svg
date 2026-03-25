@@ -61,7 +61,7 @@
     <text text-anchor="middle" dominant-baseline="central" x="374.87" y="30">One</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="E">
-    <rect x="396.59" y="109.1" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="411.09" y="121.1">Two</text>
+    <rect x="390.81" y="107.01" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="405.31" y="119.01">Two</text>
   </g>
 </svg>

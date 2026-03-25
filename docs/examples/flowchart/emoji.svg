@@ -56,11 +56,11 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="62.4" y="285.8">🎉 Release</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="C">
-    <rect x="84.09" y="154.96" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="98.59" y="166.96">Yes</text>
+    <rect x="87.2" y="151.8" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="101.7" y="163.8">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="D">
-    <rect x="190.64" y="152.59" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="201.64" y="164.59">No</text>
+    <rect x="187.99" y="149.47" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="198.99" y="161.47">No</text>
   </g>
 </svg>

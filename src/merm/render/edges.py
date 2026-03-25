@@ -411,9 +411,9 @@ def resolve_label_positions(
             label_w = len(ir_edge.label) * 7.0 + 8.0
             cx -= label_w / 2 + 10.0
         elif src_diamond and not tgt_diamond:
-            cx, cy = _point_along_polyline(el.points, 0.65)
+            cx, cy = _point_along_polyline(el.points, 0.58)
         elif tgt_diamond and not src_diamond:
-            cx, cy = _point_along_polyline(el.points, 0.35)
+            cx, cy = _point_along_polyline(el.points, 0.42)
         else:
             cx, cy = _edge_midpoint(el.points)
         entries.append((key, ir_edge.label, cx, cy))
@@ -458,11 +458,12 @@ def resolve_label_positions(
             # Check against obstacle edges (back-edge paths).
             # Skip for back-edge labels since they are already placed to
             # the side of the edge path by the initial positioning.
+            # Cap the shift so labels don't fly too far from their edge.
             if entries[i][0] not in back_edge_keys:
                 for obs_bb in obstacle_bboxes:
                     if _rects_overlap(bbox_i, obs_bb):
-                        label_right = bbox_i[0] + bbox_i[2]
-                        shift = label_right - obs_bb[0] + gap
+                        overlap_x = (bbox_i[0] + bbox_i[2]) - obs_bb[0]
+                        shift = min(overlap_x + gap, bbox_i[2] + gap)
                         positions[i][0] -= shift
                         changed = True
                         bbox_i = _label_bbox(

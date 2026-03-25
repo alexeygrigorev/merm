@@ -84,7 +84,7 @@ class TestPointAlongPolyline:
 
 class TestResolveLabelPositionsDiamond:
     def test_source_diamond_biases_toward_target(self) -> None:
-        """When source is diamond, label shifts from 50% toward 65% of edge."""
+        """When source is diamond, label shifts from 50% toward 58% of edge."""
         el = _make_edge_layout("D", "R", [(100, 0), (100, 200)])
         ir = _make_ir_edge("D", "R", "Yes")
         result = resolve_label_positions(
@@ -92,21 +92,21 @@ class TestResolveLabelPositionsDiamond:
         )
         cx, cy = result[("D", "R")]
         # Without diamond bias: midpoint would be (100, 100).
-        # With bias at 0.65: should be (100, 130).
+        # With bias at 0.58: should be (100, 116).
         assert abs(cx - 100.0) < 0.01
-        assert abs(cy - 130.0) < 0.01
+        assert abs(cy - 116.0) < 0.01
 
     def test_target_diamond_biases_toward_source(self) -> None:
-        """When target is diamond, label shifts from 50% toward 35%."""
+        """When target is diamond, label shifts from 50% toward 42%."""
         el = _make_edge_layout("R", "D", [(100, 0), (100, 200)])
         ir = _make_ir_edge("R", "D", "No")
         result = resolve_label_positions(
             [(el, ir)], diamond_node_ids={"D"},
         )
         cx, cy = result[("R", "D")]
-        # Bias at 0.35: should be (100, 70).
+        # Bias at 0.42: should be (100, 84).
         assert abs(cx - 100.0) < 0.01
-        assert abs(cy - 70.0) < 0.01
+        assert abs(cy - 84.0) < 0.01
 
     def test_both_diamond_uses_midpoint(self) -> None:
         """When both source and target are diamond, use standard midpoint."""

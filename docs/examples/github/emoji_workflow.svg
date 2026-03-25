@@ -87,19 +87,19 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="139.5" y="550.6">😎 Relax</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="C">
-    <rect x="129.03" y="154.71" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="143.53" y="166.71">Yes</text>
+    <rect x="132.74" y="151.49" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="147.24" y="163.49">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="D">
-    <rect x="210.45" y="153.22" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="221.45" y="165.22">No</text>
+    <rect x="210.45" y="150.15" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="221.45" y="162.15">No</text>
   </g>
   <g class="edge-label" data-edge-source="G" data-edge-target="H">
-    <rect x="184.69" y="499.76" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="199.19" y="511.76">Yes</text>
+    <rect x="178.01" y="496.19" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="192.51" y="508.19">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="G" data-edge-target="I">
-    <rect x="113.17" y="502.4" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="124.17" y="514.4">No</text>
+    <rect x="111.88" y="499.35" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="122.88" y="511.35">No</text>
   </g>
 </svg>
