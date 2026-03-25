@@ -390,16 +390,34 @@ def resolve_label_positions(
     back_edge_keys: set[tuple[str, str]] = set()
     for el, ir_edge in labeled_edges:
         key = (el.source, el.target)
+        is_back_edge = (
+            len(el.points) >= 2 and el.points[-1].y < el.points[0].y
+        )
         src_diamond = el.source in diamonds
         tgt_diamond = el.target in diamonds
-        if src_diamond and not tgt_diamond:
+        if is_back_edge and len(el.points) >= 3:
+            # For back-edges routed around nodes, place the label at the
+            # outermost point (apex of the curve) offset to the right so
+            # it doesn't overlap the inter-rank gap where forward labels sit.
+            apex = max(el.points, key=lambda p: p.x)
+            label_w = len(ir_edge.label) * 7.0 + 8.0
+            cx = apex.x + label_w / 2 + 6.0
+            cy = apex.y
+        elif is_back_edge:
+            # Short 2-point back-edge — offset label away from the edge
+            # path.  Place to the left (toward the diagram's left margin)
+            # so it doesn't overlap with wider back-edge arcs to the right.
+            cx, cy = _edge_midpoint(el.points)
+            label_w = len(ir_edge.label) * 7.0 + 8.0
+            cx -= label_w / 2 + 10.0
+        elif src_diamond and not tgt_diamond:
             cx, cy = _point_along_polyline(el.points, 0.65)
         elif tgt_diamond and not src_diamond:
             cx, cy = _point_along_polyline(el.points, 0.35)
         else:
             cx, cy = _edge_midpoint(el.points)
         entries.append((key, ir_edge.label, cx, cy))
-        if len(el.points) >= 2 and el.points[-1].y < el.points[0].y:
+        if is_back_edge:
             back_edge_keys.add(key)
 
     # Sort by y then x for deterministic processing.
@@ -438,15 +456,18 @@ def resolve_label_positions(
             bbox_i = _label_bbox(labels[i], positions[i][0], positions[i][1])
 
             # Check against obstacle edges (back-edge paths).
-            for obs_bb in obstacle_bboxes:
-                if _rects_overlap(bbox_i, obs_bb):
-                    label_right = bbox_i[0] + bbox_i[2]
-                    shift = label_right - obs_bb[0] + gap
-                    positions[i][0] -= shift
-                    changed = True
-                    bbox_i = _label_bbox(
-                        labels[i], positions[i][0], positions[i][1],
-                    )
+            # Skip for back-edge labels since they are already placed to
+            # the side of the edge path by the initial positioning.
+            if entries[i][0] not in back_edge_keys:
+                for obs_bb in obstacle_bboxes:
+                    if _rects_overlap(bbox_i, obs_bb):
+                        label_right = bbox_i[0] + bbox_i[2]
+                        shift = label_right - obs_bb[0] + gap
+                        positions[i][0] -= shift
+                        changed = True
+                        bbox_i = _label_bbox(
+                            labels[i], positions[i][0], positions[i][1],
+                        )
 
             # Check against node bounding boxes -- only for back-edge
             # labels to avoid destabilizing forward-edge labels that
