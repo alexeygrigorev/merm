@@ -720,8 +720,34 @@ def _parse_style_props(text: str) -> dict[str, str]:
             props[k.strip()] = v.strip()
     return props
 
+def _all_subgraph_ids(state: _ParserState) -> set[str]:
+    """Return the set of all known subgraph IDs (open and closed)."""
+    ids: set[str] = set()
+    for sb in state.subgraph_stack:
+        ids.add(sb.id)
+        for child in sb.child_subgraphs:
+            ids |= _collect_subgraph_ids(child)
+    for sg in state.top_level_subgraphs:
+        ids |= _collect_subgraph_ids(sg)
+    return ids
+
+def _collect_subgraph_ids(sg: Subgraph) -> set[str]:
+    """Recursively collect all subgraph IDs from a Subgraph tree."""
+    ids = {sg.id}
+    for child in sg.subgraphs:
+        ids |= _collect_subgraph_ids(child)
+    return ids
+
 def _register_node(ndef: _NodeDef, state: _ParserState) -> None:
-    """Register a node definition, updating if it already exists."""
+    """Register a node definition, updating if it already exists.
+
+    If the node ID matches a known subgraph ID, the node is NOT registered
+    (edges will reference the subgraph ID directly).
+    """
+    # Don't create a node for an ID that belongs to a subgraph
+    if ndef.id in _all_subgraph_ids(state):
+        return
+
     existing = state.nodes.get(ndef.id)
     if existing:
         # Update label and shape if new definition provides them

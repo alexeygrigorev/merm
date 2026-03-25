@@ -505,8 +505,13 @@ def render_svg(
             if el.points[-1].y < el.points[0].y:
                 obstacle_edges.append(el)
     diamond_ids = {n.id for n in diagram.nodes if n.shape == NodeShape.diamond}
+    # Collect node bounding boxes so labels avoid overlapping nodes.
+    node_bboxes: list[tuple[float, float, float, float]] = []
+    for nl in layout.nodes.values():
+        node_bboxes.append((nl.x, nl.y, nl.width, nl.height))
     label_positions = resolve_label_positions(
         labeled_edges, obstacle_edges, diamond_node_ids=diamond_ids,
+        node_bboxes=node_bboxes,
     )
 
     # Compute viewBox with padding, expanding for edge label overflow.
@@ -560,8 +565,18 @@ def render_svg(
             svg, el, ir_edge, theme, label_pos=lpos, skip_label=True,
         )
 
-    # Render nodes (on top of edge paths)
+    # Collect subgraph IDs so we can skip rendering proxy nodes for them
+    _sg_ids: set[str] = set()
+    def _collect_sg_ids(sgs: tuple[Subgraph, ...]) -> None:
+        for sg in sgs:
+            _sg_ids.add(sg.id)
+            _collect_sg_ids(sg.subgraphs)
+    _collect_sg_ids(diagram.subgraphs)
+
+    # Render nodes (on top of edge paths), skipping subgraph proxy nodes
     for node_id, nl in layout.nodes.items():
+        if node_id in _sg_ids:
+            continue  # proxy node for subgraph edge routing; don't render
         ir_node = node_map.get(node_id, Node(id=node_id, label=node_id))
         _render_node(svg, ir_node, nl, inline_styles, theme)
 

@@ -355,10 +355,12 @@ def resolve_label_positions(
     labeled_edges: list[tuple[EdgeLayout, Edge]],
     obstacle_edges: list[EdgeLayout] | None = None,
     diamond_node_ids: set[str] | None = None,
+    node_bboxes: list[tuple[float, float, float, float]] | None = None,
 ) -> dict[tuple[str, str], tuple[float, float]]:
     """Compute adjusted label positions so no two label bounding boxes overlap.
 
-    Also avoids overlapping with obstacle edge paths (e.g. back-edges).
+    Also avoids overlapping with obstacle edge paths (e.g. back-edges)
+    and node bounding boxes.
 
     Args:
         labeled_edges: List of ``(edge_layout, ir_edge)`` pairs for edges
@@ -368,6 +370,8 @@ def resolve_label_positions(
         diamond_node_ids: Optional set of node IDs that are diamond-shaped.
             When an edge's source or target is a diamond, the label is
             biased away from it to avoid overlapping the diagonal border.
+        node_bboxes: Optional list of node bounding boxes ``(x, y, w, h)``
+            that labels should avoid overlapping.
 
     Returns:
         A dict mapping ``(source, target)`` to the adjusted ``(cx, cy)``
@@ -380,22 +384,23 @@ def resolve_label_positions(
 
     # Compute initial positions from edge midpoints, biasing away from
     # diamond-shaped source/target nodes whose diagonal borders extend
-    # further than rectangular borders.
+    # further than rectangular borders.  Also track which edges are
+    # back-edges (going upward) for node obstacle avoidance.
     entries: list[tuple[tuple[str, str], str, float, float]] = []
+    back_edge_keys: set[tuple[str, str]] = set()
     for el, ir_edge in labeled_edges:
         key = (el.source, el.target)
         src_diamond = el.source in diamonds
         tgt_diamond = el.target in diamonds
         if src_diamond and not tgt_diamond:
-            # Bias toward target (away from source diamond).
             cx, cy = _point_along_polyline(el.points, 0.65)
         elif tgt_diamond and not src_diamond:
-            # Bias toward source (away from target diamond).
             cx, cy = _point_along_polyline(el.points, 0.35)
         else:
-            # Both or neither are diamonds -- use standard midpoint.
             cx, cy = _edge_midpoint(el.points)
         entries.append((key, ir_edge.label, cx, cy))
+        if len(el.points) >= 2 and el.points[-1].y < el.points[0].y:
+            back_edge_keys.add(key)
 
     # Sort by y then x for deterministic processing.
     entries.sort(key=lambda e: (e[3], e[2]))
@@ -404,7 +409,7 @@ def resolve_label_positions(
     positions: list[list[float]] = [[e[2], e[3]] for e in entries]
     labels = [e[1] for e in entries]
 
-    # Pre-compute obstacle bounding boxes.
+    # Pre-compute obstacle bounding boxes from edge paths.
     obstacle_bboxes: list[tuple[float, float, float, float]] = []
     if obstacle_edges:
         for oel in obstacle_edges:
@@ -412,9 +417,22 @@ def resolve_label_positions(
             if bbox[2] > 0 or bbox[3] > 0:
                 obstacle_bboxes.append(bbox)
 
-    # Iterative nudging -- run up to 20 passes to resolve overlaps.
-    gap = 6.0
-    for _ in range(20):
+    # Include node bounding boxes as obstacles (with a small margin).
+    # Only applied to back-edge labels which may cross over nodes.
+    node_obstacle_bboxes: list[tuple[float, float, float, float]] = []
+    if node_bboxes:
+        node_margin = 4.0
+        for nx, ny, nw, nh in node_bboxes:
+            node_obstacle_bboxes.append((
+                nx - node_margin,
+                ny - node_margin,
+                nw + 2 * node_margin,
+                nh + 2 * node_margin,
+            ))
+
+    # Iterative nudging -- run up to 30 passes to resolve overlaps.
+    gap = 10.0
+    for _ in range(30):
         changed = False
         for i in range(len(entries)):
             bbox_i = _label_bbox(labels[i], positions[i][0], positions[i][1])
@@ -422,7 +440,6 @@ def resolve_label_positions(
             # Check against obstacle edges (back-edge paths).
             for obs_bb in obstacle_bboxes:
                 if _rects_overlap(bbox_i, obs_bb):
-                    # Push label left so it clears the obstacle.
                     label_right = bbox_i[0] + bbox_i[2]
                     shift = label_right - obs_bb[0] + gap
                     positions[i][0] -= shift
@@ -430,6 +447,37 @@ def resolve_label_positions(
                     bbox_i = _label_bbox(
                         labels[i], positions[i][0], positions[i][1],
                     )
+
+            # Check against node bounding boxes -- only for back-edge
+            # labels to avoid destabilizing forward-edge labels that
+            # naturally sit in the inter-rank gap between nodes.
+            if node_obstacle_bboxes and entries[i][0] in back_edge_keys:
+                for node_bb in node_obstacle_bboxes:
+                    if _rects_overlap(bbox_i, node_bb):
+                        lx, ly, lw, lh = bbox_i
+                        nx, ny, nw, nh = node_bb
+
+                        # Push in direction requiring least movement.
+                        push_right = (nx + nw) - lx + gap
+                        push_left = (lx + lw) - nx + gap
+                        push_down = (ny + nh) - ly + gap
+                        push_up = (ly + lh) - ny + gap
+
+                        min_push = min(push_right, push_left,
+                                       push_down, push_up)
+                        if min_push == push_down:
+                            positions[i][1] += push_down
+                        elif min_push == push_up:
+                            positions[i][1] -= push_up
+                        elif min_push == push_right:
+                            positions[i][0] += push_right
+                        else:
+                            positions[i][0] -= push_left
+
+                        changed = True
+                        bbox_i = _label_bbox(
+                            labels[i], positions[i][0], positions[i][1],
+                        )
 
             for j in range(i + 1, len(entries)):
                 bbox_j = _label_bbox(
@@ -445,18 +493,14 @@ def resolve_label_positions(
                     jx_left = bbox_j[0]
                     x_overlap = ix_right - jx_left + gap
 
-                    # Nudge along the axis with less overlap (cheaper
-                    # to separate).
+                    # Nudge along the axis with less overlap.
                     if y_overlap <= x_overlap:
-                        # Push j down, i up by half each.
                         positions[i][1] -= y_overlap / 2.0
                         positions[j][1] += y_overlap / 2.0
                     else:
-                        # Push i left, j right by half each.
                         positions[i][0] -= x_overlap / 2.0
                         positions[j][0] += x_overlap / 2.0
                     changed = True
-                    # Recompute bbox_i after nudge.
                     bbox_i = _label_bbox(
                         labels[i], positions[i][0], positions[i][1],
                     )

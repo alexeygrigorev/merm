@@ -977,12 +977,102 @@ def _transform_point(
 
 _SUBGRAPH_PADDING = 20.0
 
+
+def _clip_to_rect_boundary(
+    inside_pt: Point,
+    outside_pt: Point,
+    rx: float, ry: float, rw: float, rh: float,
+) -> Point | None:
+    """Find the intersection of the line segment (inside_pt -> outside_pt)
+    with the boundary of the rectangle (rx, ry, rw, rh).
+
+    *inside_pt* is assumed to be inside (or on) the rectangle.
+    *outside_pt* gives the direction of the line.
+
+    Returns the intersection point on the rect boundary, or None if no
+    intersection is found.
+    """
+    # Rectangle edges
+    left = rx
+    right = rx + rw
+    top = ry
+    bottom = ry + rh
+
+    dx = outside_pt.x - inside_pt.x
+    dy = outside_pt.y - inside_pt.y
+
+    if abs(dx) < 1e-9 and abs(dy) < 1e-9:
+        return None
+
+    # Find the intersection with each edge of the rect, pick the one
+    # that is closest to inside_pt in the direction of outside_pt.
+    best_t: float | None = None
+    best_pt: Point | None = None
+
+    edges = [
+        (left, top, left, bottom),      # left edge
+        (right, top, right, bottom),     # right edge
+        (left, top, right, top),         # top edge
+        (left, bottom, right, bottom),   # bottom edge
+    ]
+
+    for x1, y1, x2, y2 in edges:
+        pt = _line_segment_intersect(
+            inside_pt.x, inside_pt.y, outside_pt.x, outside_pt.y,
+            x1, y1, x2, y2,
+        )
+        if pt is not None:
+            ix, iy = pt
+            # Compute parameter t along the direction from inside to outside
+            if abs(dx) > abs(dy):
+                t = (ix - inside_pt.x) / dx
+            else:
+                t = (iy - inside_pt.y) / dy
+            if t >= -0.01:  # allow small tolerance
+                if best_t is None or t < best_t:
+                    best_t = t
+                    best_pt = Point(ix, iy)
+
+    return best_pt
+
+
+def _line_segment_intersect(
+    ax: float, ay: float, bx: float, by: float,
+    cx: float, cy: float, dx_: float, dy_: float,
+) -> tuple[float, float] | None:
+    """Find intersection of line segment AB with line segment CD.
+
+    Returns (x, y) or None if no intersection within both segments.
+    """
+    denom = (bx - ax) * (dy_ - cy) - (by - ay) * (dx_ - cx)
+    if abs(denom) < 1e-12:
+        return None  # parallel
+
+    t = ((cx - ax) * (dy_ - cy) - (cy - ay) * (dx_ - cx)) / denom
+    u = ((cx - ax) * (by - ay) - (cy - ay) * (bx - ax)) / denom
+
+    if 0.0 <= u <= 1.0:  # intersection within CD (the rect edge)
+        ix = ax + t * (bx - ax)
+        iy = ay + t * (by - ay)
+        return (ix, iy)
+
+    return None
+
 def _collect_all_subgraph_node_ids(sg: Subgraph) -> set[str]:
     """Recursively collect all node IDs belonging to a subgraph and its children."""
     result = set(sg.node_ids)
     for child in sg.subgraphs:
         result |= _collect_all_subgraph_node_ids(child)
     return result
+
+def _collect_all_subgraph_ids(subgraphs: tuple[Subgraph, ...]) -> set[str]:
+    """Return the set of all subgraph IDs (recursively) in the diagram."""
+    ids: set[str] = set()
+    for sg in subgraphs:
+        ids.add(sg.id)
+        for child in sg.subgraphs:
+            ids |= _collect_all_subgraph_ids((child,))
+    return ids
 
 def _build_node_to_subgraph_map(
     subgraphs: tuple[Subgraph, ...],
@@ -1560,6 +1650,26 @@ def layout_diagram(
     node_labels = {n.id: n.label for n in diagram.nodes}
     node_shapes = {n.id: n.shape for n in diagram.nodes}
 
+    # Detect edges referencing subgraph IDs and create proxy nodes for them.
+    # After the parser fix, subgraph IDs are no longer in diagram.nodes, but
+    # edges may still reference them.  We add lightweight proxy nodes so the
+    # layout algorithm can route edges to/from subgraphs.
+    # After layout, proxy node positions are overridden to sit on the subgraph
+    # bounding box boundary, and edge endpoints are clipped accordingly.
+    all_sg_ids = _collect_all_subgraph_ids(diagram.subgraphs)
+    node_id_set = set(node_ids)
+    _subgraph_proxy_ids: set[str] = set()
+    for edge in diagram.edges:
+        for endpoint in (edge.source, edge.target):
+            if endpoint not in node_id_set and endpoint in all_sg_ids:
+                if endpoint not in _subgraph_proxy_ids:
+                    _subgraph_proxy_ids.add(endpoint)
+                    node_ids.append(endpoint)
+                    node_id_set.add(endpoint)
+                    # Use subgraph title or id as label; rect shape
+                    node_labels[endpoint] = endpoint
+                    node_shapes[endpoint] = NodeShape.rect
+
     # Maximum text width before wrapping (matches mermaid.js max-width: 200px)
     _MAX_TEXT_WIDTH = 200.0
 
@@ -1808,6 +1918,92 @@ def layout_diagram(
                 for n, (x, y) in all_positions.items()
             }
 
+    # Reposition subgraph proxy nodes to sit just outside the subgraph
+    # bounding box boundary.  The Sugiyama algorithm may have placed the
+    # proxy among the internal nodes; we move it to the appropriate edge.
+    if _subgraph_proxy_ids and diagram.subgraphs:
+        # Compute temporary subgraph bboxes from internal nodes only
+        _temp_node_layouts: dict[str, NodeLayout] = {}
+        for nid in node_ids:
+            if nid in all_positions and nid not in _subgraph_proxy_ids:
+                cx, cy = all_positions[nid]
+                w, h = all_node_sizes.get(nid, (40.0, 30.0))
+                _temp_node_layouts[nid] = NodeLayout(
+                    x=cx - w / 2.0, y=cy - h / 2.0, width=w, height=h,
+                )
+        _temp_sg_layouts = _compute_subgraph_layouts(
+            diagram.subgraphs, _temp_node_layouts,
+        )
+
+        # Determine placement direction based on the outer diagram direction.
+        # LR -> place proxy to the right; RL -> left; TD/TB -> bottom; BT -> top
+        _PROXY_GAP = 10.0  # gap between proxy and subgraph boundary
+
+        for proxy_id in _subgraph_proxy_ids:
+            if proxy_id not in _temp_sg_layouts:
+                continue
+            sgl = _temp_sg_layouts[proxy_id]
+            sg_cx = sgl.x + sgl.width / 2.0
+            sg_cy = sgl.y + sgl.height / 2.0
+            proxy_w, proxy_h = all_node_sizes.get(proxy_id, (40.0, 30.0))
+
+            # Place proxy node outside the subgraph bbox in the flow direction
+            match direction:
+                case Direction.LR:
+                    new_cx = sgl.x + sgl.width + proxy_w / 2.0 + _PROXY_GAP
+                    new_cy = sg_cy
+                case Direction.RL:
+                    new_cx = sgl.x - proxy_w / 2.0 - _PROXY_GAP
+                    new_cy = sg_cy
+                case Direction.BT:
+                    new_cx = sg_cx
+                    new_cy = sgl.y - proxy_h / 2.0 - _PROXY_GAP
+                case _:  # TB, TD
+                    new_cx = sg_cx
+                    new_cy = sgl.y + sgl.height + proxy_h / 2.0 + _PROXY_GAP
+
+            all_positions[proxy_id] = (new_cx, new_cy)
+
+            # Find non-proxy neighbor nodes connected to this proxy
+            neighbors: list[str] = []
+            for e in diagram.edges:
+                if e.source == proxy_id and e.target not in _subgraph_proxy_ids:
+                    neighbors.append(e.target)
+                if e.target == proxy_id and e.source not in _subgraph_proxy_ids:
+                    neighbors.append(e.source)
+
+            # Move any neighbor nodes that overlap the subgraph bbox
+            # to sit next to the proxy outside the subgraph.
+            for nb in neighbors:
+                if nb not in all_positions or nb in _subgraph_proxy_ids:
+                    continue
+                nb_cx, nb_cy = all_positions[nb]
+                nb_w, nb_h = all_node_sizes.get(nb, (40.0, 30.0))
+                # Check if the neighbor overlaps the subgraph bbox
+                nb_overlaps = (
+                    nb_cx - nb_w / 2.0 < sgl.x + sgl.width
+                    and nb_cx + nb_w / 2.0 > sgl.x
+                    and nb_cy - nb_h / 2.0 < sgl.y + sgl.height
+                    and nb_cy + nb_h / 2.0 > sgl.y
+                )
+                if nb_overlaps:
+                    sep = config.node_sep
+                    hw = proxy_w / 2.0 + nb_w / 2.0
+                    hh = proxy_h / 2.0 + nb_h / 2.0
+                    match direction:
+                        case Direction.LR:
+                            nx = new_cx + hw + sep
+                            all_positions[nb] = (nx, new_cy)
+                        case Direction.RL:
+                            nx = new_cx - hw - sep
+                            all_positions[nb] = (nx, new_cy)
+                        case Direction.BT:
+                            ny = new_cy - hh - sep
+                            all_positions[nb] = (new_cx, ny)
+                        case _:  # TB, TD
+                            ny = new_cy + hh + sep
+                            all_positions[nb] = (new_cx, ny)
+
     # Route edges for all components (using final transformed positions)
     all_edge_layouts: list[EdgeLayout] = []
     for data in component_edge_data:
@@ -1842,6 +2038,58 @@ def layout_diagram(
     subgraph_layouts = _compute_subgraph_layouts(
         diagram.subgraphs, node_layouts,
     )
+
+    # For edges involving subgraph proxy nodes, override the proxy node's
+    # layout position to sit on the subgraph bounding box boundary, then
+    # re-route the edge endpoints to connect at the boundary.
+    for i, el in enumerate(all_edge_layouts):
+        src_is_proxy = el.source in _subgraph_proxy_ids
+        tgt_is_proxy = el.target in _subgraph_proxy_ids
+        if not src_is_proxy and not tgt_is_proxy:
+            continue
+
+        new_points = list(el.points)
+
+        # For source proxy: clip the first point to the subgraph boundary
+        if src_is_proxy and el.source in subgraph_layouts:
+            sgl = subgraph_layouts[el.source]
+            if len(new_points) >= 2:
+                # The second point is outside the subgraph (the other node).
+                # We want the first point on the subgraph boundary facing
+                # toward the second point.
+                outside_pt = new_points[1]
+                center = Point(
+                    sgl.x + sgl.width / 2.0,
+                    sgl.y + sgl.height / 2.0,
+                )
+                clipped = _clip_to_rect_boundary(
+                    center, outside_pt,
+                    sgl.x, sgl.y, sgl.width, sgl.height,
+                )
+                if clipped:
+                    new_points[0] = clipped
+
+        # For target proxy: clip the last point to the subgraph boundary
+        if tgt_is_proxy and el.target in subgraph_layouts:
+            sgl = subgraph_layouts[el.target]
+            if len(new_points) >= 2:
+                outside_pt = new_points[-2]
+                center = Point(
+                    sgl.x + sgl.width / 2.0,
+                    sgl.y + sgl.height / 2.0,
+                )
+                clipped = _clip_to_rect_boundary(
+                    center, outside_pt,
+                    sgl.x, sgl.y, sgl.width, sgl.height,
+                )
+                if clipped:
+                    new_points[-1] = clipped
+
+        all_edge_layouts[i] = EdgeLayout(
+            source=el.source,
+            target=el.target,
+            points=new_points,
+        )
 
     # Compute bounding box across all elements (nodes, edges, subgraphs)
     min_x = 0.0

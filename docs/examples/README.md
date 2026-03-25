@@ -222,7 +222,7 @@ All 134 examples rendered by merm.
 
 ### Subgraph Edges
 
-<img src="flowchart/subgraph_edges.svg" alt="Subgraph Edges" width="373">
+<img src="flowchart/subgraph_edges.svg" alt="Subgraph Edges" width="600">
 
 
 ## Gantt

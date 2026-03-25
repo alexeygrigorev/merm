@@ -59,8 +59,8 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="65.3" y="349">Commit</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="D">
-    <rect x="47.3" y="223.75" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="65.3" y="235.75">PASS</text>
+    <rect x="47.3" y="235.0" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="65.3" y="247.0">PASS</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="B">
     <rect x="48.05" y="131.84" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
@@ -71,7 +71,7 @@
     <text text-anchor="middle" dominant-baseline="central" x="65.3" y="308.0">ACCEPT</text>
   </g>
   <g class="edge-label" data-edge-source="D" data-edge-target="B">
-    <rect x="33.19" y="193.75" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="58.19" y="205.75">REJECT</text>
+    <rect x="29.19" y="208.0" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="54.19" y="220.0">REJECT</text>
   </g>
 </svg>
