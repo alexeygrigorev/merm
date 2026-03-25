@@ -1,6 +1,6 @@
 # Rendered Examples Gallery
 
-All 132 examples rendered by merm.
+All 134 examples rendered by merm.
 
 
 ## Basic
@@ -200,6 +200,10 @@ All 132 examples rendered by merm.
 
 <img src="flowchart/etl_postgres.svg" alt="Etl Postgres" width="600">
 
+### Edge Label Overlap
+
+<img src="flowchart/edge_label_overlap.svg" alt="Edge Label Overlap" width="178">
+
 ### Etl Simple
 
 <img src="flowchart/etl_simple.svg" alt="Etl Simple" width="600">
@@ -215,6 +219,10 @@ All 132 examples rendered by merm.
 ### Registration
 
 <img src="flowchart/registration.svg" alt="Registration" width="600">
+
+### Subgraph Edges
+
+<img src="flowchart/subgraph_edges.svg" alt="Subgraph Edges" width="373">
 
 
 ## Gantt

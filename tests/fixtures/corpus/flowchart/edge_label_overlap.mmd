@@ -1,0 +1,7 @@
+flowchart TB
+    A[PM grooms] --> B[SWE implements]
+    B --> C[QA verifies]
+    C -->|PASS| D[PM accepts]
+    C -->|FAIL| B
+    D -->|ACCEPT| E[Commit]
+    D -->|REJECT| B
