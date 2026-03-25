@@ -27,13 +27,13 @@
   </g>
   <g class="edge" data-edge-source="Evaluating" data-edge-target="Pass">
     <path d="M83.93,120.4 L56.97,154.15" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="25.45" y="113.4" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="67.95" y="125.4">score &gt;= 70</text>
+    <rect x="25.45" y="111.4" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="67.95" y="123.4">score &gt;= 70</text>
   </g>
   <g class="edge" data-edge-source="Evaluating" data-edge-target="Fail">
     <path d="M109.59,120.4 L123.4,153.03" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="79.05" y="143.4" width="78.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="118.05" y="155.4">score &lt; 70</text>
+    <rect x="79.05" y="145.4" width="78.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="118.05" y="157.4">score &lt; 70</text>
   </g>
   <g class="edge" data-edge-source="Pass" data-edge-target="__end_0">
     <path d="M35.2,202.4 L35.2,245.4" stroke-width="2" marker-end="url(#arrow)" />

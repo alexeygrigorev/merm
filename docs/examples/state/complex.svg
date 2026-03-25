@@ -27,8 +27,8 @@
   </g>
   <g class="edge" data-edge-source="Placed" data-edge-target="Confirmed">
     <path d="M127.4,120.4 L127.4,152.4" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="91.57" y="128.4" width="57.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="120.07" y="140.4">confirm</text>
+    <rect x="89.57" y="128.4" width="57.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="118.07" y="140.4">confirm</text>
   </g>
   <g class="edge" data-edge-source="Confirmed" data-edge-target="Preparing">
     <path d="M109.42,202.4 L80.38,236.32" stroke-width="2" marker-end="url(#arrow)" />
@@ -55,8 +55,8 @@
   </g>
   <g class="edge" data-edge-source="Placed" data-edge-target="Cancelled">
     <path d="M145.69,120.4 C154.54,130.57 189.86,162.4 198.8,181.4 C207.74,200.4 199.23,225.57 199.32,234.4" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="154.57" y="138.9" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="179.57" y="150.9">cancel</text>
+    <rect x="156.57" y="138.9" width="50.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="181.57" y="150.9">cancel</text>
   </g>
   <g class="edge" data-edge-source="Confirmed" data-edge-target="Cancelled">
     <path d="M145.89,202.4 L175.82,236.4" stroke-width="2" marker-end="url(#arrow)" />

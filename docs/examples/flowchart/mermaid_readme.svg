@@ -57,8 +57,8 @@
     <text text-anchor="middle" dominant-baseline="central" x="90.4" y="86.4">Text</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="D">
-    <rect x="397.66" y="38.21" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="412.16" y="50.21">One</text>
+    <rect x="360.37" y="18" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="374.87" y="30">One</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="E">
     <rect x="396.59" y="109.1" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />

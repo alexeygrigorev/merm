@@ -64,12 +64,12 @@
     <text text-anchor="middle" dominant-baseline="central" x="110.0" y="62.0">no</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="D">
-    <rect x="3.5" y="117.0" width="113.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="60.0" y="129.0">long label text</text>
+    <rect x="3.5" y="115.0" width="113.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="60.0" y="127.0">long label text</text>
   </g>
   <g class="edge-label" data-edge-source="C" data-edge-target="D">
-    <rect x="64.0" y="147.0" width="92.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="110.0" y="159.0">dotted label</text>
+    <rect x="64.0" y="149.0" width="92.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="110.0" y="161.0">dotted label</text>
   </g>
   <g class="edge-label" data-edge-source="D" data-edge-target="E">
     <rect x="42.5" y="214.0" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />

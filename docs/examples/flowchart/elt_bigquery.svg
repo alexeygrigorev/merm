@@ -115,8 +115,8 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1548.8" y="147.8">Purge Files</text>
   </g>
   <g class="edge-label" data-edge-source="UploadToGCS" data-edge-target="BQYellowTripdata">
-    <rect x="538.26" y="81.8" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="580.76" y="93.8">Taxi=Yellow</text>
+    <rect x="485.76" y="81.8" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="528.26" y="93.8">Taxi=Yellow</text>
   </g>
   <g class="edge-label" data-edge-source="UploadToGCS" data-edge-target="BQGreenTripdata">
     <rect x="541.92" y="190.8" width="78.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />

@@ -121,16 +121,16 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="175.5" y="788.6">Show success message</text>
   </g>
   <g class="edge-label" data-edge-source="ValidateEmail" data-edge-target="EmailError">
-    <rect x="257.08" y="343.42" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="268.08" y="355.42">No</text>
+    <rect x="253.08" y="343.42" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="264.08" y="355.42">No</text>
   </g>
   <g class="edge-label" data-edge-source="ValidateEmail" data-edge-target="CheckExists">
     <rect x="188.38" y="333.47" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
     <text text-anchor="middle" dominant-baseline="central" x="202.88" y="345.47">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="CheckExists" data-edge-target="ExistsError">
-    <rect x="272.05" y="439.96" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="286.55" y="451.96">Yes</text>
+    <rect x="268.05" y="439.96" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="282.55" y="451.96">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="CheckExists" data-edge-target="ValidatePassword">
     <rect x="139.95" y="434.11" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />

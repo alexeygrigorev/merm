@@ -91,8 +91,8 @@
     <text text-anchor="middle" dominant-baseline="central" x="143.53" y="166.71">Yes</text>
   </g>
   <g class="edge-label" data-edge-source="B" data-edge-target="D">
-    <rect x="214.45" y="153.22" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="225.45" y="165.22">No</text>
+    <rect x="210.45" y="153.22" width="22.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="221.45" y="165.22">No</text>
   </g>
   <g class="edge-label" data-edge-source="G" data-edge-target="H">
     <rect x="184.69" y="499.76" width="29.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />

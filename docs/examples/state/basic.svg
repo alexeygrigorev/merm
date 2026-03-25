@@ -27,13 +27,13 @@
   </g>
   <g class="edge" data-edge-source="Idle" data-edge-target="Active">
     <path d="M44.8,120.4 L44.8,152.4" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="23.3" y="143.4" width="43.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="44.8" y="155.4">start</text>
+    <rect x="30.05" y="128.4" width="43.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="51.55" y="140.4">start</text>
   </g>
   <g class="edge" data-edge-source="Active" data-edge-target="Idle">
     <path d="M36.8,160.4 L36.8,128.4" stroke-width="2" marker-end="url(#arrow)" />
-    <rect x="18.8" y="113.4" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="36.8" y="125.4">stop</text>
+    <rect x="-15.95" y="128.4" width="36.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="2.05" y="140.4">stop</text>
   </g>
   <g class="edge" data-edge-source="Active" data-edge-target="__end_0">
     <path d="M40.8,202.4 L40.8,243.6" stroke-width="2" marker-end="url(#arrow)" />
