@@ -1,0 +1,6 @@
+graph LR
+    App[Streamlit App] -->|logs & events| Postgres[(Postgres)]
+    Postgres --> Dashboard[Streamlit Dashboard]
+    Postgres --> Grafana[Grafana]
+    Postgres --> Judge[Online Judge]
+    Judge -->|evaluation events| Postgres

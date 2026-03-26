@@ -1,0 +1,5 @@
+graph LR
+    App[Streamlit App] -->|logs & events| SQLite[(SQLite)]
+    SQLite --> Dashboard[Streamlit Dashboard]
+    SQLite --> Judge[Online Judge]
+    Judge -->|evaluation events| SQLite

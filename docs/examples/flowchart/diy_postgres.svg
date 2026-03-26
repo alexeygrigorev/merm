@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -8.0 544.8 383.2" width="544.8" height="383.2" style="background-color: white">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
+    </marker>
+    <marker id="circle-end" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="5" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="5" fill="#333333" />
+    </marker>
+    <marker id="cross-end" viewBox="0 0 11 11" markerWidth="8" markerHeight="8" refX="5.5" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1,1 l 9,9 M 10,1 l -9,9" stroke="#333333" stroke-width="2" />
+    </marker>
+    <marker id="arrow-reverse" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="0" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
+    </marker>
+  </defs>
+  <style>.node rect, .node polygon, .node circle, .node &gt; path, .node line { fill: #ECECFF; stroke: #9370DB; stroke-width: 1; }
+.node text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 16px; }
+.edge path { fill: none; stroke: #333333; }
+.edge text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; }
+.subgraph rect { fill: #ffffde; stroke: #aaaa33; stroke-width: 1; opacity: 0.5; }
+.subgraph text { fill: #333333; font-family: "trebuchet ms", verdana, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla"; font-size: 12px; font-weight: bold; }
+</style>
+  <g class="edge" data-edge-source="App" data-edge-target="Postgres">
+    <path d="M143.2,168.2 L175.2,168.2" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="Postgres" data-edge-target="Dashboard">
+    <path d="M286.94,129.0 L394.54,46.85" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="Postgres" data-edge-target="Grafana">
+    <path d="M288.0,176.57 L372.9,190.13" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="Postgres" data-edge-target="Judge">
+    <path d="M280.77,204.46 L402.49,316.83" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="edge" data-edge-source="Judge" data-edge-target="Postgres">
+    <path d="M402.94,328.14 L281.22,215.77" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  <g class="node" data-node-id="App">
+    <rect x="0.0" y="147.2" width="143.2" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="71.6" y="168.2">Streamlit App</text>
+  </g>
+  <g class="node" data-node-id="Postgres">
+    <path d="M 183.2,139.0 A 52.4,10.0 0 0 1 288.0,139.0 L 288.0,197.4 A 52.4,10.0 0 0 1 183.2,197.4 Z" />
+    <path d="M 183.2,139.0 A 52.4,10.0 0 0 1 288.0,139.0 A 52.4,10.0 0 0 1 183.2,139.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="235.6" y="168.2">Postgres</text>
+  </g>
+  <g class="node" data-node-id="Dashboard">
+    <rect x="328.0" y="0.0" width="200.8" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="428.4" y="21">Streamlit Dashboard</text>
+  </g>
+  <g class="node" data-node-id="Grafana">
+    <rect x="380.8" y="178.0" width="95.2" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="428.4" y="199">Grafana</text>
+  </g>
+  <g class="node" data-node-id="Judge">
+    <rect x="358.8" y="325.2" width="139.2" height="42.0" />
+    <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="428.4" y="346.2">Online Judge</text>
+  </g>
+  <g class="edge-label" data-edge-source="App" data-edge-target="Postgres">
+    <rect x="113.7" y="156.2" width="99.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="163.2" y="168.2">logs &amp; events</text>
+  </g>
+  <g class="edge-label" data-edge-source="Judge" data-edge-target="Postgres">
+    <rect x="275.64" y="257.24" width="127.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="339.14" y="269.24">evaluation events</text>
+  </g>
+</svg>

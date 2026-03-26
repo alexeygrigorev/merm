@@ -1,6 +1,6 @@
 # Rendered Examples Gallery
 
-All 134 examples rendered by merm.
+All 136 examples rendered by merm.
 
 
 ## Basic
@@ -179,6 +179,14 @@ All 134 examples rendered by merm.
 ### Coffee Machine
 
 <img src="flowchart/coffee_machine.svg" alt="Coffee Machine" width="564">
+
+### DIY Postgres
+
+<img src="flowchart/diy_postgres.svg" alt="DIY Postgres" width="545">
+
+### DIY SQLite
+
+<img src="flowchart/diy_sqlite.svg" alt="DIY SQLite" width="522">
 
 ### Debug Loop
 
