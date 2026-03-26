@@ -54,31 +54,26 @@ C -->|One| D[Result 1]
 C -->|Two| E[Result 2]
 """
 
-    def test_one_and_two_labels_within_30px_of_each_other(self) -> None:
-        """One and Two labels should not be nudged too far apart."""
+    def test_one_and_two_labels_near_edges(self) -> None:
+        """One and Two labels should sit on their respective edges.
+
+        They should be close to the 0.58 point along their polyline, not
+        pushed far away by nudging or obstacle avoidance.
+        """
         svg = render_diagram(self.SRC)
         labels = _label_centers(svg)
         assert "One" in labels
         assert "Two" in labels
         one = labels["One"]
         two = labels["Two"]
+        # Both labels should be at roughly the same x (near x=400),
+        # with One above (y~50) and Two below (y~120).
+        assert one[0] > 380, f"One x={one[0]:.1f} too far left"
+        assert two[0] > 380, f"Two x={two[0]:.1f} too far left"
+        assert one[1] < two[1], "One should be above Two"
+        # Distance should be moderate (they're on diverging edges)
         dist = math.hypot(one[0] - two[0], one[1] - two[1])
-        # They are on diverging edges from the same diamond — should be
-        # separated but not excessively.  Max 100px apart.
-        assert dist < 100, f"One and Two are {dist:.1f}px apart, expected < 100"
-
-    def test_one_label_y_within_edge_vertical_range(self) -> None:
-        """One label should be vertically between Decision and Result 1.
-
-        Decision is roughly at y=70-110, Result 1 at y=30-70.
-        The label should be somewhere in that range, not flying above y=10.
-        """
-        svg = render_diagram(self.SRC)
-        labels = _label_centers(svg)
-        one_cy = labels["One"][1]
-        # The label should be above the Decision center but not excessively.
-        # Anything above y=10 is too far.
-        assert one_cy > 10, f"One label y={one_cy:.1f} is too far above"
+        assert dist < 80, f"One and Two are {dist:.1f}px apart, expected < 80"
 
 
 class TestRegistrationLabelDistance:

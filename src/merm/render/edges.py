@@ -390,12 +390,16 @@ def resolve_label_positions(
     back_edge_keys: set[tuple[str, str]] = set()
     for el, ir_edge in labeled_edges:
         key = (el.source, el.target)
+        # A back-edge is one routed with 3+ waypoints going upward —
+        # indicating the layout engine routed it around nodes.  Simple
+        # 2-point edges that happen to go diagonally upward (e.g. in LR
+        # layouts) are NOT back-edges.
         is_back_edge = (
-            len(el.points) >= 2 and el.points[-1].y < el.points[0].y
+            len(el.points) >= 3 and el.points[-1].y < el.points[0].y
         )
         src_diamond = el.source in diamonds
         tgt_diamond = el.target in diamonds
-        if is_back_edge and len(el.points) >= 3:
+        if is_back_edge:
             # For back-edges routed around nodes, place the label at the
             # outermost point (apex of the curve) offset to the right so
             # it doesn't overlap the inter-rank gap where forward labels sit.
@@ -403,13 +407,6 @@ def resolve_label_positions(
             label_w = len(ir_edge.label) * 7.0 + 8.0
             cx = apex.x + label_w / 2 + 6.0
             cy = apex.y
-        elif is_back_edge:
-            # Short 2-point back-edge — offset label away from the edge
-            # path.  Place to the left (toward the diagram's left margin)
-            # so it doesn't overlap with wider back-edge arcs to the right.
-            cx, cy = _edge_midpoint(el.points)
-            label_w = len(ir_edge.label) * 7.0 + 8.0
-            cx -= label_w / 2 + 10.0
         elif src_diamond and not tgt_diamond:
             cx, cy = _point_along_polyline(el.points, 0.58)
         elif tgt_diamond and not src_diamond:
@@ -417,7 +414,7 @@ def resolve_label_positions(
         else:
             cx, cy = _edge_midpoint(el.points)
         entries.append((key, ir_edge.label, cx, cy))
-        if is_back_edge:
+        if is_back_edge:  # 3+ points going upward
             back_edge_keys.add(key)
 
     # Sort by y then x for deterministic processing.

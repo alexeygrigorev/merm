@@ -117,8 +117,8 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="1458" y="255.2">Merge Green Data</text>
   </g>
   <g class="edge-label" data-edge-source="Extract" data-edge-target="YellowFinalTable">
-    <rect x="499.7" y="78.8" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="542.2" y="90.8">Taxi=Yellow</text>
+    <rect x="552.2" y="78.8" width="85.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="594.7" y="90.8">Taxi=Yellow</text>
   </g>
   <g class="edge-label" data-edge-source="Extract" data-edge-target="GreenFinalTable">
     <rect x="555.87" y="181.8" width="78.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
