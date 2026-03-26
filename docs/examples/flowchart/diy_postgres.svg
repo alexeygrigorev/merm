@@ -57,8 +57,8 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="428.4" y="346.2">Online Judge</text>
   </g>
   <g class="edge-label" data-edge-source="App" data-edge-target="Postgres">
-    <rect x="113.7" y="156.2" width="99.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="163.2" y="168.2">logs &amp; events</text>
+    <rect x="157.2" y="91.0" width="99.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="206.7" y="103.0">logs &amp; events</text>
   </g>
   <g class="edge-label" data-edge-source="Judge" data-edge-target="Postgres">
     <rect x="275.64" y="257.24" width="127.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />

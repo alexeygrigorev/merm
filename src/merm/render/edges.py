@@ -422,6 +422,7 @@ def resolve_label_positions(
 
     # Build mutable position list.
     positions: list[list[float]] = [[e[2], e[3]] for e in entries]
+    initial_positions: list[tuple[float, float]] = [(e[2], e[3]) for e in entries]
     labels = [e[1] for e in entries]
 
     # Pre-compute obstacle bounding boxes from edge paths.
@@ -432,9 +433,12 @@ def resolve_label_positions(
             if bbox[2] > 0 or bbox[3] > 0:
                 obstacle_bboxes.append(bbox)
 
-    # Include node bounding boxes as obstacles (with a small margin).
-    # Only applied to back-edge labels which may cross over nodes.
+    # Include node bounding boxes as obstacles.
+    # Back-edge labels use a margin for comfortable spacing;
+    # forward-edge labels use the raw bbox to avoid pushing labels
+    # that sit in the normal inter-rank gap.
     node_obstacle_bboxes: list[tuple[float, float, float, float]] = []
+    node_raw_bboxes: list[tuple[float, float, float, float]] = []
     if node_bboxes:
         node_margin = 4.0
         for nx, ny, nw, nh in node_bboxes:
@@ -444,6 +448,7 @@ def resolve_label_positions(
                 nw + 2 * node_margin,
                 nh + 2 * node_margin,
             ))
+            node_raw_bboxes.append((nx, ny, nw, nh))
 
     # Iterative nudging -- run up to 30 passes to resolve overlaps.
     gap = 10.0
@@ -467,58 +472,160 @@ def resolve_label_positions(
                             labels[i], positions[i][0], positions[i][1],
                         )
 
-            # Check against node bounding boxes -- only for back-edge
-            # labels to avoid destabilizing forward-edge labels that
-            # naturally sit in the inter-rank gap between nodes.
-            if node_obstacle_bboxes and entries[i][0] in back_edge_keys:
-                for node_bb in node_obstacle_bboxes:
-                    if _rects_overlap(bbox_i, node_bb):
-                        lx, ly, lw, lh = bbox_i
-                        nx, ny, nw, nh = node_bb
+            # Check against node bounding boxes.  Back-edge labels use
+            # the margined bboxes and are always pushed on overlap.
+            # Forward-edge labels use the raw (un-margined) bboxes and
+            # are only pushed when the overlap area exceeds 25% of the
+            # label area -- this avoids destabilizing labels that sit
+            # in the normal inter-rank gap (where only a sliver of the
+            # label bbox may touch a node border) while fixing overlaps
+            # in LR layouts where a significant portion of the label
+            # sits on top of a node.
+            if node_obstacle_bboxes:
+                is_back = entries[i][0] in back_edge_keys
+                for idx_nb, node_bb in enumerate(node_obstacle_bboxes):
+                    if is_back:
+                        if not _rects_overlap(bbox_i, node_bb):
+                            continue
+                    else:
+                        raw_bb = node_raw_bboxes[idx_nb]
+                        if not _rects_overlap(bbox_i, raw_bb):
+                            continue
+                        lx2, ly2, lw2, lh2 = bbox_i
+                        rnx, rny, rnw, rnh = raw_bb
+                        ox = max(0.0, min(lx2 + lw2, rnx + rnw) - max(lx2, rnx))
+                        oy = max(0.0, min(ly2 + lh2, rny + rnh) - max(ly2, rny))
+                        label_area = lw2 * lh2
+                        if label_area > 0 and (ox * oy) / label_area < 0.25:
+                            continue
+                    lx, ly, lw, lh = bbox_i
+                    nx, ny, nw, nh = node_bb
 
-                        # Push in direction requiring least movement.
-                        push_right = (nx + nw) - lx + gap
-                        push_left = (lx + lw) - nx + gap
-                        push_down = (ny + nh) - ly + gap
-                        push_up = (ly + lh) - ny + gap
+                    # Push in direction requiring least movement.
+                    push_right = (nx + nw) - lx + gap
+                    push_left = (lx + lw) - nx + gap
+                    push_down = (ny + nh) - ly + gap
+                    push_up = (ly + lh) - ny + gap
 
-                        min_push = min(push_right, push_left,
-                                       push_down, push_up)
-                        if min_push == push_down:
-                            positions[i][1] += push_down
-                        elif min_push == push_up:
-                            positions[i][1] -= push_up
-                        elif min_push == push_right:
-                            positions[i][0] += push_right
-                        else:
-                            positions[i][0] -= push_left
+                    min_push = min(push_right, push_left,
+                                   push_down, push_up)
+                    if min_push == push_down:
+                        positions[i][1] += push_down
+                    elif min_push == push_up:
+                        positions[i][1] -= push_up
+                    elif min_push == push_right:
+                        positions[i][0] += push_right
+                    else:
+                        positions[i][0] -= push_left
 
-                        changed = True
-                        bbox_i = _label_bbox(
-                            labels[i], positions[i][0], positions[i][1],
-                        )
+                    changed = True
+                    bbox_i = _label_bbox(
+                        labels[i], positions[i][0], positions[i][1],
+                    )
 
             for j in range(i + 1, len(entries)):
                 bbox_j = _label_bbox(
                     labels[j], positions[j][0], positions[j][1],
                 )
-                if _rects_overlap(bbox_i, bbox_j):
+                # Use a larger gap between labels when both have been
+                # displaced from their original positions by node-bbox
+                # avoidance, since they tend to converge to the same
+                # area and need more breathing room.
+                i_disp = (
+                    abs(positions[i][0] - initial_positions[i][0])
+                    + abs(positions[i][1] - initial_positions[i][1])
+                )
+                j_disp = (
+                    abs(positions[j][0] - initial_positions[j][0])
+                    + abs(positions[j][1] - initial_positions[j][1])
+                )
+                pair_gap = gap * 2.0 if (i_disp > 1.0 or j_disp > 1.0) else gap
+
+                # Check overlap using the larger gap for displaced
+                # pairs -- expand both bboxes by the extra margin.
+                if pair_gap > gap:
+                    extra = (pair_gap - gap) / 2.0
+                    exp_i = (
+                        bbox_i[0] - extra, bbox_i[1] - extra,
+                        bbox_i[2] + 2 * extra, bbox_i[3] + 2 * extra,
+                    )
+                    exp_j = (
+                        bbox_j[0] - extra, bbox_j[1] - extra,
+                        bbox_j[2] + 2 * extra, bbox_j[3] + 2 * extra,
+                    )
+                    overlap_check = _rects_overlap(exp_i, exp_j)
+                else:
+                    overlap_check = _rects_overlap(bbox_i, bbox_j)
+
+                if overlap_check:
                     # Compute overlap amount on each axis.
                     iy_bottom = bbox_i[1] + bbox_i[3]
                     jy_top = bbox_j[1]
-                    y_overlap = iy_bottom - jy_top + gap
+                    y_overlap = iy_bottom - jy_top + pair_gap
 
                     ix_right = bbox_i[0] + bbox_i[2]
                     jx_left = bbox_j[0]
-                    x_overlap = ix_right - jx_left + gap
+                    x_overlap = ix_right - jx_left + pair_gap
 
                     # Nudge along the axis with less overlap.
                     if y_overlap <= x_overlap:
-                        positions[i][1] -= y_overlap / 2.0
-                        positions[j][1] += y_overlap / 2.0
+                        # Check if moving label i upward would push it
+                        # back into a node bbox.  If so, only push j
+                        # downward by the full amount to avoid an
+                        # oscillation where the node-push and
+                        # label-separation fight each other.
+                        i_would_hit_node = False
+                        if node_obstacle_bboxes:
+                            trial_bb = _label_bbox(
+                                labels[i],
+                                positions[i][0],
+                                positions[i][1] - y_overlap / 2.0,
+                            )
+                            is_back_i = entries[i][0] in back_edge_keys
+                            for idx_nb2, nbb2 in enumerate(
+                                node_obstacle_bboxes
+                            ):
+                                check_bb = (
+                                    nbb2
+                                    if is_back_i
+                                    else node_raw_bboxes[idx_nb2]
+                                )
+                                if _rects_overlap(trial_bb, check_bb):
+                                    i_would_hit_node = True
+                                    break
+                        if i_would_hit_node:
+                            positions[j][1] += y_overlap
+                        else:
+                            positions[i][1] -= y_overlap / 2.0
+                            positions[j][1] += y_overlap / 2.0
                     else:
-                        positions[i][0] -= x_overlap / 2.0
-                        positions[j][0] += x_overlap / 2.0
+                        # Same check for horizontal nudge: if moving
+                        # label i left would push it into a node, push
+                        # only j right by the full amount.
+                        i_would_hit_node = False
+                        if node_obstacle_bboxes:
+                            trial_bb = _label_bbox(
+                                labels[i],
+                                positions[i][0] - x_overlap / 2.0,
+                                positions[i][1],
+                            )
+                            is_back_i = entries[i][0] in back_edge_keys
+                            for idx_nb2, nbb2 in enumerate(
+                                node_obstacle_bboxes
+                            ):
+                                check_bb = (
+                                    nbb2
+                                    if is_back_i
+                                    else node_raw_bboxes[idx_nb2]
+                                )
+                                if _rects_overlap(trial_bb, check_bb):
+                                    i_would_hit_node = True
+                                    break
+                        if i_would_hit_node:
+                            positions[j][0] += x_overlap
+                        else:
+                            positions[i][0] -= x_overlap / 2.0
+                            positions[j][0] += x_overlap / 2.0
                     changed = True
                     bbox_i = _label_bbox(
                         labels[i], positions[i][0], positions[i][1],

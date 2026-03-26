@@ -50,11 +50,11 @@
     <text text-anchor="middle" dominant-baseline="central" font-family="&quot;trebuchet ms&quot;, verdana, arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Noto Color Emoji&quot;, &quot;Twemoji Mozilla&quot;" x="405.2" y="221">Online Judge</text>
   </g>
   <g class="edge-label" data-edge-source="App" data-edge-target="SQLite">
-    <rect x="113.7" y="93.6" width="99.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="163.2" y="105.6">logs &amp; events</text>
+    <rect x="145.53" y="158.8" width="99.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="195.03" y="170.8">logs &amp; events</text>
   </g>
   <g class="edge-label" data-edge-source="Judge" data-edge-target="SQLite">
-    <rect x="252.86" y="157.17" width="127.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
-    <text text-anchor="middle" dominant-baseline="central" x="316.36" y="169.17">evaluation events</text>
+    <rect x="264.53" y="157.17" width="127.0" height="24.0" fill="rgba(232,232,232,0.8)" stroke="none" />
+    <text text-anchor="middle" dominant-baseline="central" x="328.03" y="169.17">evaluation events</text>
   </g>
 </svg>
