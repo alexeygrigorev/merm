@@ -20,7 +20,7 @@ from collections import defaultdict
 from merm.ir import Diagram, Direction, NodeShape, Subgraph
 from merm.measure.text import _line_width, _wrap_line
 
-from .config import LayoutConfig, MeasureFn
+from .config import LayoutConfig, LineWidthFn, MeasureFn
 from .types import EdgeLayout, LayoutResult, NodeLayout, Point, SubgraphLayout
 
 # Default font size used when calling measure_fn
@@ -1512,6 +1512,7 @@ def _compute_subgraph_layouts(
     subgraphs: tuple[Subgraph, ...],
     node_layouts: dict[str, NodeLayout],
     padding: float = _SUBGRAPH_PADDING,
+    line_width_fn: LineWidthFn = _line_width,
 ) -> dict[str, SubgraphLayout]:
     """Compute bounding boxes for all subgraphs, recursively.
 
@@ -1561,7 +1562,7 @@ def _compute_subgraph_layouts(
         # Measure title text width and ensure the rect is wide enough
         title = sg.title or sg.id
         _SUBGRAPH_TITLE_FONT_SIZE = 12.0
-        title_text_width = _line_width(title, _SUBGRAPH_TITLE_FONT_SIZE)
+        title_text_width = line_width_fn(title, _SUBGRAPH_TITLE_FONT_SIZE)
         min_width_for_title = title_text_width + title_margin + title_padding
         if min_width_for_title > rect_width:
             rect_width = min_width_for_title
@@ -1641,6 +1642,17 @@ def layout_diagram(
         config = LayoutConfig(direction=diagram.direction)
 
     direction = config.direction
+    font_size = config.font_size
+    line_width_fn = (
+        config.line_width_fn
+        if config.line_width_fn is not None
+        else _line_width
+    )
+    wrap_line_fn = (
+        config.wrap_line_fn
+        if config.wrap_line_fn is not None
+        else _wrap_line
+    )
 
     # Build subgraph membership map for grouping constraint
     node_to_sg = _build_node_to_subgraph_map(diagram.subgraphs)
@@ -1670,21 +1682,22 @@ def layout_diagram(
                     node_labels[endpoint] = endpoint
                     node_shapes[endpoint] = NodeShape.rect
 
-    # Maximum text width before wrapping (matches mermaid.js max-width: 200px)
-    _MAX_TEXT_WIDTH = 200.0
-
     # Measure nodes (shape-aware sizing, with text wrapping for long labels)
     node_sizes: dict[str, tuple[float, float]] = {}
     for nid, label in node_labels.items():
         # Check if text needs wrapping
-        raw_width = _line_width(label, _DEFAULT_FONT_SIZE)
-        if raw_width > _MAX_TEXT_WIDTH and "<br/>" not in label:
+        raw_width = line_width_fn(label, font_size)
+        if raw_width > config.max_text_width and "<br/>" not in label:
             # Wrap the label and measure the wrapped version
-            wrapped_lines = _wrap_line(label, _DEFAULT_FONT_SIZE, _MAX_TEXT_WIDTH)
-            tw = max(_line_width(line, _DEFAULT_FONT_SIZE) for line in wrapped_lines)
-            th = _DEFAULT_FONT_SIZE * 1.4 * len(wrapped_lines)
+            wrapped_lines = wrap_line_fn(
+                label,
+                font_size,
+                config.max_text_width,
+            )
+            tw = max(line_width_fn(line, font_size) for line in wrapped_lines)
+            th = font_size * 1.4 * len(wrapped_lines)
         else:
-            tw, th = measure_fn(label, _DEFAULT_FONT_SIZE)
+            tw, th = measure_fn(label, font_size)
         shape = node_shapes.get(nid, NodeShape.rect)
 
         if shape in (NodeShape.circle, NodeShape.double_circle):
@@ -1701,52 +1714,70 @@ def layout_diagram(
             # Diamond: the inscribed rectangle of a diamond with half-dims
             # (a, b) has dimensions (a, b).  So to fit text (tw, th) the
             # diamond bounding box must be ~2x the text dimensions.
-            w = 2.0 * tw + _NODE_PADDING_H
-            h = 2.0 * th + _NODE_PADDING_V
-            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+            w = 2.0 * tw + config.node_padding_h
+            h = 2.0 * th + config.node_padding_v
+            node_sizes[nid] = (
+                max(w, config.node_min_width),
+                max(h, config.node_min_height),
+            )
         elif shape == NodeShape.cylinder:
             # Cylinder: extra vertical space for top/bottom ellipse caps
             _CYL_RY = 10.0
-            w = tw + _NODE_PADDING_H
-            h = th + _NODE_PADDING_V + 4 * _CYL_RY  # extra for caps
-            min_h = _NODE_MIN_HEIGHT + 2 * _CYL_RY
-            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, min_h))
+            w = tw + config.node_padding_h
+            h = th + config.node_padding_v + 4 * _CYL_RY  # extra for caps
+            min_h = config.node_min_height + 2 * _CYL_RY
+            node_sizes[nid] = (max(w, config.node_min_width), max(h, min_h))
         elif shape == NodeShape.hexagon:
             # Hexagon: inset = w/4 on each side, so effective text width
             # is w/2.  To fit text width tw we need w = 2*tw + padding.
-            w = 2.0 * tw + _NODE_PADDING_H
-            h = th + _NODE_PADDING_V
-            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+            w = 2.0 * tw + config.node_padding_h
+            h = th + config.node_padding_v
+            node_sizes[nid] = (
+                max(w, config.node_min_width),
+                max(h, config.node_min_height),
+            )
         elif shape in (NodeShape.parallelogram, NodeShape.parallelogram_alt):
             # Parallelogram: 10% skew on each side eats 20% of width.
             # Effective text width = w * 0.8, so w = tw / 0.8 + padding.
-            w = tw / 0.8 + _NODE_PADDING_H
-            h = th + _NODE_PADDING_V
-            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+            w = tw / 0.8 + config.node_padding_h
+            h = th + config.node_padding_v
+            node_sizes[nid] = (
+                max(w, config.node_min_width),
+                max(h, config.node_min_height),
+            )
         elif shape in (NodeShape.trapezoid, NodeShape.trapezoid_alt):
             # Trapezoid: 10% inset on the narrow side eats 20% of width.
             # Effective text width = w * 0.8, so w = tw / 0.8 + padding.
-            w = tw / 0.8 + _NODE_PADDING_H
-            h = th + _NODE_PADDING_V
-            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+            w = tw / 0.8 + config.node_padding_h
+            h = th + config.node_padding_v
+            node_sizes[nid] = (
+                max(w, config.node_min_width),
+                max(h, config.node_min_height),
+            )
         elif shape == NodeShape.asymmetric:
             # Asymmetric: notch of h/4 on left side reduces usable width.
             # Add extra horizontal padding to compensate.
-            w = tw + _NODE_PADDING_H + 20.0
-            h = th + _NODE_PADDING_V
-            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+            w = tw + config.node_padding_h + 20.0
+            h = th + config.node_padding_v
+            node_sizes[nid] = (
+                max(w, config.node_min_width),
+                max(h, config.node_min_height),
+            )
         elif shape == NodeShape.stadium:
             # Stadium: pill shape loses rx = h/2 on each side.
             # Add extra horizontal padding to compensate.
-            w = tw + _NODE_PADDING_H + 20.0
-            h = th + _NODE_PADDING_V
-            node_sizes[nid] = (max(w, _NODE_MIN_WIDTH), max(h, _NODE_MIN_HEIGHT))
+            w = tw + config.node_padding_h + 20.0
+            h = th + config.node_padding_v
+            node_sizes[nid] = (
+                max(w, config.node_min_width),
+                max(h, config.node_min_height),
+            )
         else:
-            w = tw + _NODE_PADDING_H
-            h = th + _NODE_PADDING_V
+            w = tw + config.node_padding_h
+            h = th + config.node_padding_v
             # Minimum dimensions
-            w = max(w, _NODE_MIN_WIDTH)
-            h = max(h, _NODE_MIN_HEIGHT)
+            w = max(w, config.node_min_width)
+            h = max(h, config.node_min_height)
             node_sizes[nid] = (w, h)
 
     # Build edge list as (source, target) tuples
@@ -1932,7 +1963,9 @@ def layout_diagram(
                     x=cx - w / 2.0, y=cy - h / 2.0, width=w, height=h,
                 )
         _temp_sg_layouts = _compute_subgraph_layouts(
-            diagram.subgraphs, _temp_node_layouts,
+            diagram.subgraphs,
+            _temp_node_layouts,
+            line_width_fn=line_width_fn,
         )
 
         # Determine placement direction based on the outer diagram direction.
@@ -2036,7 +2069,9 @@ def layout_diagram(
 
     # Compute subgraph layouts
     subgraph_layouts = _compute_subgraph_layouts(
-        diagram.subgraphs, node_layouts,
+        diagram.subgraphs,
+        node_layouts,
+        line_width_fn=line_width_fn,
     )
 
     # For edges involving subgraph proxy nodes, override the proxy node's
